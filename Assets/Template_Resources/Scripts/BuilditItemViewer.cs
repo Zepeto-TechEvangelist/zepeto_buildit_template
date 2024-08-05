@@ -7,6 +7,7 @@ public class BuilditItemViewer : EditorWindow
     private Dictionary<string, string> folderPaths = new Dictionary<string, string>()
     {
         { "All", null },
+        { "Custom", "Assets/Template_Resources/Prefabs/Custom" },
         { "Cafe", "Assets/Template_Resources/Prefabs/ZepetoAssets_Cafe" },
         { "Cherry", "Assets/Template_Resources/Prefabs/ZepetoAssets_Cherryblossom" },
         { "City", "Assets/Template_Resources/Prefabs/ZepetoAssets_City" },
