@@ -1,19 +1,19 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
 import { Object } from 'UnityEngine'
 import { ZepetoScreenTouchpad } from 'ZEPETO.Character.Controller';
-import UIController from './UIController';
+import GestureLoader from './GestureLoader';
 
 
 export default class UIControllerTracker extends ZepetoScriptBehaviour {
 
-    private _UiController: UIController;
+    private gestureLoader: GestureLoader;
     public screenTouchPad: ZepetoScreenTouchpad;
     
     //This function runs everytime the V-Pad is enabled
     OnEnable()
     {
-        this._UiController = Object.FindObjectOfType<UIController>();
+        this.gestureLoader = Object.FindObjectOfType<GestureLoader>();
         this.screenTouchPad = this.gameObject.GetComponentInChildren<ZepetoScreenTouchpad>()
-        this._UiController.InitScreenTouchPadListener(this.screenTouchPad)  
+        this.gestureLoader.InitScreenTouchPadListener(this.screenTouchPad)  
     }
 }

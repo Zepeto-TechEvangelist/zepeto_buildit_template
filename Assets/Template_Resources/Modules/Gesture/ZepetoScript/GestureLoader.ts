@@ -1,10 +1,9 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
-import { LocalPlayer, CharacterState, ZepetoCharacter, ZepetoPlayers} from 'ZEPETO.Character.Controller';
+import { LocalPlayer, CharacterState, ZepetoCharacter, ZepetoPlayers, ZepetoScreenTouchpad} from 'ZEPETO.Character.Controller';
 import { OfficialContentType, ZepetoWorldContent, Content } from 'ZEPETO.World';
-import { Button } from 'UnityEngine.UI';
+import { Button, Toggle } from 'UnityEngine.UI';
 import { Object, GameObject, Transform, AnimationClip, WaitForSeconds, Coroutine} from 'UnityEngine';
 import Thumbnail from './Thumbnail';
-import UIController from './UIController';
 
 export default class GestureLoader extends ZepetoScriptBehaviour {
 
@@ -17,10 +16,14 @@ export default class GestureLoader extends ZepetoScriptBehaviour {
     @SerializeField() private _contentsParent: Transform;
     @SerializeField() private _prefThumb: GameObject;
 
+    @SerializeField() private _closeButton : Button;
+    @SerializeField() private _typeToggleGroup : Toggle[];
+
     private _myCharacter: ZepetoCharacter;
     private _poseIsRunning: bool;
+
+    private _gestureLoader: GestureLoader;
         
-    // Loop setting
     @Header("Playback Settings")
     @Header("Gesture") 
     @Tooltip("Activate/Deactivate the looping feature") public loopEnabled: boolean;
@@ -33,7 +36,26 @@ export default class GestureLoader extends ZepetoScriptBehaviour {
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             // In order to take a thumbnail with my character, You need to request the content after the character is created.
             this._myCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
-            this.ContentRequest();            
+            this.ContentRequest();
+            
+            // If click the close button, cancel the gesture
+            this._closeButton.onClick.AddListener(() => {
+                this.StopGesture();
+            });
+        });
+
+        // UI Listener
+        this._typeToggleGroup[0].onValueChanged.AddListener(() => {
+            this.SetCategoryUI(OfficialContentType.All);
+        });
+        this._typeToggleGroup[1].onValueChanged.AddListener(() => {
+            this.SetCategoryUI(OfficialContentType.Gesture);
+        });
+        this._typeToggleGroup[2].onValueChanged.AddListener(() => {
+            this.SetCategoryUI(OfficialContentType.Pose);
+        });
+        this._typeToggleGroup[3].onValueChanged.AddListener(() => {
+            this.SetCategoryUI(OfficialContentType.GestureDancing);
         });
     }
     
@@ -158,5 +180,44 @@ export default class GestureLoader extends ZepetoScriptBehaviour {
                 yield null;
             }
         }
+    }
+
+    // Category Toggle UI Set
+    private SetCategoryUI(category: OfficialContentType) {
+        
+        if (category == OfficialContentType.All) {
+            this._gestureLoader.thumbnails.forEach((Obj) => {
+                Obj.SetActive(true);
+            });
+        }   else {
+            for (let i = 0; i < this._gestureLoader.thumbnails.length; i++) {
+                const content = this._gestureLoader.thumbnails[i].GetComponent<Thumbnail>().content;
+                if (content.Keywords.includes(category)) {
+                    this._gestureLoader.thumbnails[i].SetActive(true);
+                } else {
+                    this._gestureLoader.thumbnails[i].SetActive(false);
+                }
+            }
+        }
+    }
+
+    //This function initialize the ZepetoScreenTouchPad event listener
+    public InitScreenTouchPadListener(ScreenTouchpad: ZepetoScreenTouchpad)
+    {
+        ScreenTouchpad.OnPointerDownEvent.AddListener(()=>
+        {
+            this.StopGesture();
+        })
+    }
+      
+    private StopGesture() {
+
+        //If there is a gesture coroutine stop it.
+        if(this._gestureLoader.gestureCoroutine)
+        {
+            this._gestureLoader.StopCoroutine(this._gestureLoader.gestureCoroutine);
+        }        
+        this._myCharacter.ZepetoAnimator.speed = 1;
+        this._myCharacter.CancelGesture();
     }
 }
