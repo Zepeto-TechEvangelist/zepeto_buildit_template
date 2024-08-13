@@ -11,10 +11,12 @@ export default class InteractionIcon extends ZepetoScriptBehaviour {
     @SerializeField() private iconPosition: Transform;
     
     /* Unity Event */    
-    @Header("[Unity Event]")
+    //@Header("[Unity Event]")
+    @HideInInspector()
     public OnClickEvent:UnityEvent;
-    public OnTriggerEnterEvent:UnityEvent;
-    public OnTriggerExitEvent:UnityEvent;
+    
+    private OnTriggerEnterEvent:UnityEvent;
+    private OnTriggerExitEvent:UnityEvent;
 
     private _button: Button;
     private _canvas: Canvas;    
