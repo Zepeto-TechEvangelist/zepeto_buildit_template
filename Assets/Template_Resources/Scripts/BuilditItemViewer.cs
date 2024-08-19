@@ -32,7 +32,7 @@ public class BuilditItemViewer : EditorWindow
     private Dictionary<string, List<GameObject>> folderPrefabs = new Dictionary<string, List<GameObject>>();
     private Dictionary<string, Texture2D> prefabThumbnails = new Dictionary<string, Texture2D>();
     private Vector2 scrollPosition;
-    private string selectedFolder = "All";
+    private string selectedFolder = "Cafe";
     private GameObject selectedPrefab = null;
     private string cachedPopupLanguage;
     private string searchQuery = string.Empty;
@@ -40,6 +40,8 @@ public class BuilditItemViewer : EditorWindow
     private float prefabIconSize = 80f;
 
     private Vector2 leftPanelScrollPosition;
+
+    private GameObject parentObject = null;
 
     private Dictionary<string, string> selectPrefabPopup = new Dictionary<string, string>()
     {
@@ -61,6 +63,7 @@ public class BuilditItemViewer : EditorWindow
     private void OnEnable()
     {
         Debug.Log("OnEnable");
+        SetObjectsParent();
         LoadAllPrefabs();
         LoadAllThumbnails();
         CacheSystemLanguage(); // 언어 캐시
@@ -98,6 +101,14 @@ public class BuilditItemViewer : EditorWindow
             default:
                 cachedPopupLanguage = selectPrefabPopup["en"];
                 break;
+        }
+    }
+
+    private void SetObjectsParent()
+    {
+        if (parentObject == null)
+        {
+            parentObject = GameObject.Find("Objects");
         }
     }
 
@@ -170,36 +181,36 @@ public class BuilditItemViewer : EditorWindow
     }
 
     private void DrawLeftPanel()
-{
-    leftPanelScrollPosition = EditorGUILayout.BeginScrollView(leftPanelScrollPosition, GUILayout.Width(70), GUILayout.Height(position.height - 50));
-    EditorGUILayout.BeginVertical();
-
-    foreach (var folder in folderPaths)
     {
-        string folderKey = folder.Key;
-        string iconKey = folderKey + (selectedFolder == folderKey ? "_f" : "_d");
-        Texture2D icon = prefabThumbnails.ContainsKey(iconKey) ? prefabThumbnails[iconKey] : null;
+        leftPanelScrollPosition = EditorGUILayout.BeginScrollView(leftPanelScrollPosition, GUILayout.Width(70), GUILayout.Height(position.height - 50));
+        EditorGUILayout.BeginVertical();
 
-        if (GUILayout.Button(new GUIContent(icon), GUILayout.Width(50), GUILayout.Height(50)))
+        foreach (var folder in folderPaths)
         {
-            selectedFolder = folder.Key;
-            scrollPosition = Vector2.zero;
-            Repaint();
+            string folderKey = folder.Key;
+            string iconKey = folderKey + (selectedFolder == folderKey ? "_f" : "_d");
+            Texture2D icon = prefabThumbnails.ContainsKey(iconKey) ? prefabThumbnails[iconKey] : null;
+
+            if (GUILayout.Button(new GUIContent(icon), GUILayout.Width(50), GUILayout.Height(50)))
+            {
+                selectedFolder = folder.Key;
+                scrollPosition = Vector2.zero;
+                Repaint();
+            }
+            GUIStyle centeredStyle = new GUIStyle(GUI.skin.label)
+            {
+                alignment = TextAnchor.MiddleCenter,
+                fontStyle = selectedFolder == folderKey ? FontStyle.Bold : FontStyle.Normal
+            };
+            centeredStyle.normal.textColor = selectedFolder == folderKey ? Color.white : new Color(0.75f, 0.75f, 0.75f);
+
+            EditorGUILayout.LabelField(folder.Key, centeredStyle, GUILayout.Width(50));
+            EditorGUILayout.Space();
         }
-        GUIStyle centeredStyle = new GUIStyle(GUI.skin.label)
-        {
-            alignment = TextAnchor.MiddleCenter,
-            fontStyle = selectedFolder == folderKey ? FontStyle.Bold : FontStyle.Normal
-        };
-        centeredStyle.normal.textColor = selectedFolder == folderKey ? Color.white : new Color(0.75f, 0.75f, 0.75f);
 
-        EditorGUILayout.LabelField(folder.Key, centeredStyle, GUILayout.Width(50));
-        EditorGUILayout.Space();
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndScrollView();
     }
-
-    EditorGUILayout.EndVertical();
-    EditorGUILayout.EndScrollView();
-}
 
     private void DrawRightPanel()
     {
@@ -286,7 +297,7 @@ public class BuilditItemViewer : EditorWindow
     {
         if (Event.current.type == EventType.Repaint && selectedPrefab == prefab)
         {
-            DrawSelectButton(iconRect, 4, Color.white );
+            DrawSelectButton(iconRect, 4, Color.white);
         }
 
         if (Event.current.type == EventType.MouseDown && iconRect.Contains(Event.current.mousePosition))
@@ -376,13 +387,18 @@ public class BuilditItemViewer : EditorWindow
             e.Use();
         }
     }
-
+    
     private void CreatePrefabInstance(GameObject prefab, Vector3 position)
     {
         GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
         if (instance != null)
         {
+            if (parentObject == null)
+            {
+                parentObject = GameObject.Find("Objects");
+            }
             instance.transform.position = position;
+            instance.transform.SetParent(parentObject.transform);
             Undo.RegisterCreatedObjectUndo(instance, "Create " + instance.name);
             Selection.activeObject = null;
         }

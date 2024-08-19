@@ -14,7 +14,7 @@ GameObject:
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -25,12 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 363121860711503810}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &363121860711503811
 MonoBehaviour:
@@ -46,6 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   applyRootMotion: 0
   script:
+    script: {fileID: 4458252877524076426, guid: 550cd1213e0b848c3b8067b159daf7ea, type: 3}
+    isExpaned: 0
     keys:
     - zepetoId
     - speechBubbleText
@@ -66,8 +69,6 @@ MonoBehaviour:
     - '{"type":"System.Boolean, mscorlib","value":"True"}'
     unityArrayValues: []
     arrayValues: []
-    script: {fileID: 4458252877524076426, guid: 550cd1213e0b848c3b8067b159daf7ea, type: 3}
-    isExpaned: 0
 --- !u!135 &8767183375340297470
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -76,8 +77,16 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 363121860711503810}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}

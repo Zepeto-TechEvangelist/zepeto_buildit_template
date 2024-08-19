@@ -16,7 +16,7 @@ GameObject:
   m_Layer: 2
   m_Name: BGM
   m_TagString: 
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 335612943
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -27,13 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4870071449893279183}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0.35, y: 0.02, z: 0.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4870071449901217306}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!135 &4870071449893279179
 SphereCollider:
@@ -43,9 +44,17 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4870071449893279183}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Radius: 1.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4870071449893279176
@@ -62,28 +71,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   applyRootMotion: 0
   script:
+    script: {fileID: 4458252877524076426, guid: bfa1abe792711490b9d674e93ee40d09, type: 3}
+    isExpaned: 0
     keys:
     - prefIconCanvas
     - iconPosition
     - OnClickEvent
-    - OnTriggerEnterEvent
-    - OnTriggerExitEvent
     unityValues:
     - {fileID: 1726349219771241084, guid: 993374553c8ac4bff99c654147aab44c, type: 3}
     - {fileID: 4870071449901217306}
-    - {fileID: 0}
-    - {fileID: 0}
     - {fileID: 0}
     values:
     - 
     - 
     - '{"type":"UnityEngine.Events.UnityEvent, UnityEngine.CoreModule","value":"{\"m_PersistentCalls\":{\"m_Calls\":[]}}"}'
-    - '{"type":"UnityEngine.Events.UnityEvent, UnityEngine.CoreModule","value":"{\"m_PersistentCalls\":{\"m_Calls\":[]}}"}'
-    - '{"type":"UnityEngine.Events.UnityEvent, UnityEngine.CoreModule","value":"{\"m_PersistentCalls\":{\"m_Calls\":[]}}"}'
     unityArrayValues: []
     arrayValues: []
-    script: {fileID: 4458252877524076426, guid: bfa1abe792711490b9d674e93ee40d09, type: 3}
-    isExpaned: 0
 --- !u!114 &8386959709473246303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,6 +101,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   applyRootMotion: 0
   script:
+    script: {fileID: 4458252877524076426, guid: 4d66e65a1966143bb9e5240c7276faae, type: 3}
+    isExpaned: 0
     keys:
     - audioClip
     unityValues:
@@ -106,8 +111,6 @@ MonoBehaviour:
     - 
     unityArrayValues: []
     arrayValues: []
-    script: {fileID: 4458252877524076426, guid: 4d66e65a1966143bb9e5240c7276faae, type: 3}
-    isExpaned: 0
 --- !u!82 &295737008083178646
 AudioSource:
   m_ObjectHideFlags: 0
@@ -227,10 +230,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4870071449901217307}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4870071449893279182}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
