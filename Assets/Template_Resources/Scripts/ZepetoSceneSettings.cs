@@ -12,6 +12,9 @@ public class ZepetoSceneSettings : EditorWindow
     private Vector3 upVector;
     private float exp;
 
+    private GameObject defaultLight;
+    private Vector3 defaultRotation;
+
     [MenuItem("ZEPETO/Zepeto Scene Settings")]
     public static void ShowWindow()
     {
@@ -38,8 +41,14 @@ public class ZepetoSceneSettings : EditorWindow
             if (skyboxMaterial.HasProperty("_Exp"))
                 exp = skyboxMaterial.GetFloat("_Exp");
 
-            // 프리뷰 텍스처 생성
             previewTexture = AssetPreview.GetAssetPreview(skyboxMaterial);
+        }
+
+        GameObject lightObject = GameObject.FindWithTag("DefaultLight");
+        if (lightObject != null)
+        {
+            defaultLight = lightObject;
+            defaultRotation = defaultLight.transform.rotation.eulerAngles;
         }
     }
 
@@ -67,7 +76,6 @@ public class ZepetoSceneSettings : EditorWindow
             skyboxMaterial.SetVector("_Up", upVector);
             skyboxMaterial.SetFloat("_Exp", exp);
 
-            // 프리뷰 텍스처 업데이트
             previewTexture = AssetPreview.GetAssetPreview(skyboxMaterial);
             SceneView.RepaintAll();
         }
@@ -76,6 +84,23 @@ public class ZepetoSceneSettings : EditorWindow
         if (previewTexture != null)
         {
             GUILayout.Label(previewTexture, GUILayout.Width(300), GUILayout.Height(100));
+        }
+
+        if (defaultLight != null)
+        {
+            EditorGUI.BeginChangeCheck();
+            defaultRotation = EditorGUILayout.Vector3Field("Default Light Rotation", defaultRotation);
+
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(defaultLight.transform, "Change Light Rotation");
+                defaultLight.transform.rotation = Quaternion.Euler(defaultRotation);
+                EditorUtility.SetDirty(defaultLight);
+            }
+        }
+        else
+        {
+            EditorGUILayout.HelpBox("No object with tag 'DefaultLight' found in the scene.", MessageType.Warning);
         }
     }
 }
