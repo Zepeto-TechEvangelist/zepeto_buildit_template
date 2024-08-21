@@ -58,7 +58,7 @@ export default class NPCManager extends ZepetoScriptBehaviour {
 
     // Check if Player character enter collider
     OnTriggerEnter(collider: Collider) {
-        if (this._zepetoCharacter == null || collider.gameObject != this._zepetoCharacter.gameObject || !this.hasSpeechBubble) {
+        if (this._zepetoCharacter == null || collider.gameObject != this._zepetoCharacter.gameObject || !this.hasSpeechBubble || this._speechBubbleObject == null) {
             return;
         }
         this._speechBubbleObject.SetActive(true);
