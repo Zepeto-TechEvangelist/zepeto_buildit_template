@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public class BuilditItemViewer : EditorWindow
 {
@@ -289,7 +290,12 @@ public class BuilditItemViewer : EditorWindow
             GUI.DrawTexture(iconRect, thumbnail, ScaleMode.ScaleToFit);
             HandleIconEvents(prefab, iconRect);
         }
-        GUILayout.Label(prefab.name, GUILayout.Width(prefabIconSize), GUILayout.Height(20));
+        
+        // 프리팹 이름앞 폴더명 + "_" 제거
+        string pattern = Regex.Escape(selectedFolder);
+        string displayName = Regex.Replace(prefab.name, pattern + "_", "", RegexOptions.IgnoreCase);
+
+        GUILayout.Label(displayName, GUILayout.Width(prefabIconSize), GUILayout.Height(20));
         GUILayout.EndVertical();
     }
 
@@ -387,7 +393,7 @@ public class BuilditItemViewer : EditorWindow
             e.Use();
         }
     }
-    
+
     private void CreatePrefabInstance(GameObject prefab, Vector3 position)
     {
         GameObject instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
