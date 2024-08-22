@@ -1,0 +1,38 @@
+fileFormatVersion: 2
+guid: 9100562f48dd54d03b52e51ab2e2b8f3
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst TeleportArea_1 = require(\"./TeleportArea\");\r\nclass
+    SceneManager extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.deathAreaPosition = -500;\r\n   
+    }\r\n    Start() {\r\n        this.SetTeleportArea();\r\n    }\r\n    SetTeleportArea()
+    {\r\n        const cube = new UnityEngine_1.GameObject;\r\n        cube.transform.position
+    = new UnityEngine_1.Vector3(0, this.deathAreaPosition, 0);\r\n        const col
+    = cube.AddComponent($typeof(UnityEngine_1.BoxCollider));\r\n        col.isTrigger
+    = true;\r\n        col.size = new UnityEngine_1.Vector3(5000, 50, 5000);\r\n       
+    cube.AddComponent($typeof(TeleportArea_1.default));\r\n    }\r\n}\r\nexports.default
+    = SceneManager;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiU2NlbmVNYW5hZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiU2NlbmVNYW5hZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsNkNBQStEO0FBQy9ELGlEQUFxRDtBQUNyRCxpREFBMEM7QUFFMUMsTUFBcUIsWUFBYSxTQUFRLHFDQUFxQjtJQUEvRDs7UUFHVyxzQkFBaUIsR0FBVyxDQUFDLEdBQUcsQ0FBQztJQWU1QyxDQUFDO0lBYkcsS0FBSztRQUNELElBQUksQ0FBQyxlQUFlLEVBQUUsQ0FBQztJQUMzQixDQUFDO0lBRU8sZUFBZTtRQUNuQixNQUFNLElBQUksR0FBRyxJQUFJLHdCQUFVLENBQUM7UUFDNUIsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLEdBQUcsSUFBSSxxQkFBTyxDQUFDLENBQUMsRUFBRSxJQUFJLENBQUMsaUJBQWlCLEVBQUUsQ0FBQyxDQUFDLENBQUM7UUFDcEUsTUFBTSxHQUFHLEdBQUcsSUFBSSxDQUFDLFlBQVksU0FBQyx5QkFBVyxFQUFHLENBQUM7UUFDN0MsR0FBRyxDQUFDLFNBQVMsR0FBRyxJQUFJLENBQUM7UUFDckIsR0FBRyxDQUFDLElBQUksR0FBRyxJQUFJLHFCQUFPLENBQUMsSUFBSSxFQUFFLEVBQUUsRUFBRSxJQUFJLENBQUMsQ0FBQztRQUN2QyxJQUFJLENBQUMsWUFBWSxTQUFDLHNCQUFZLEVBQUcsQ0FBQztJQUN0QyxDQUFDO0NBRUo7QUFsQkQsK0JBa0JDIn0=","assetPath":"Assets/Template_Resources/Modules/Scripts/SceneManager.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"deathAreaPosition","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"SceneManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: d8854f30033c8e9b4d36be94f0bf2721
+  onlyWriteTrigger: 0

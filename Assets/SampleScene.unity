@@ -398,6 +398,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1028248967}
+  - component: {fileID: 1028248968}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -428,6 +429,30 @@ Transform:
   - {fileID: 1726402838}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1028248968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1028248966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyRootMotion: 0
+  script:
+    script: {fileID: 4458252877524076426, guid: 9100562f48dd54d03b52e51ab2e2b8f3, type: 3}
+    isExpaned: 0
+    keys:
+    - deathAreaPosition
+    unityValues:
+    - {fileID: 0}
+    values:
+    - '{"type":"System.Single, mscorlib","value":"-500"}'
+    unityArrayValues: []
+    arrayValues: []
 --- !u!1 &1054584568
 GameObject:
   m_ObjectHideFlags: 0
