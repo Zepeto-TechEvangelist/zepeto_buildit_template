@@ -15,6 +15,8 @@ public class ZepetoSceneSettings : EditorWindow
     private GameObject defaultLight;
     private Vector3 defaultRotation;
 
+    private float lightIntensity = 0.85f;
+
     [MenuItem("ZEPETO/Zepeto Scene Settings")]
     public static void ShowWindow()
     {
@@ -49,6 +51,13 @@ public class ZepetoSceneSettings : EditorWindow
         {
             defaultLight = lightObject;
             defaultRotation = defaultLight.transform.rotation.eulerAngles;
+
+            // Light 컴포넌트에서 초기 강도 값을 가져옴
+            Light lightComponent = defaultLight.GetComponent<Light>();
+            if (lightComponent != null)
+            {
+                lightIntensity = lightComponent.intensity;
+            }
         }
     }
 
@@ -81,6 +90,7 @@ public class ZepetoSceneSettings : EditorWindow
         }
 
         GUILayout.Label("Skybox Preview", EditorStyles.boldLabel);
+
         if (previewTexture != null)
         {
             GUILayout.Label(previewTexture, GUILayout.Width(300), GUILayout.Height(100));
@@ -90,11 +100,21 @@ public class ZepetoSceneSettings : EditorWindow
         {
             EditorGUI.BeginChangeCheck();
             defaultRotation = EditorGUILayout.Vector3Field("Default Light Rotation", defaultRotation);
+            lightIntensity = EditorGUILayout.Slider("Light Intensity", lightIntensity, 0f, 1.5f);
 
             if (EditorGUI.EndChangeCheck())
             {
-                Undo.RecordObject(defaultLight.transform, "Change Light Rotation");
+                Undo.RecordObject(defaultLight.transform, "Change Light Settings");
+
                 defaultLight.transform.rotation = Quaternion.Euler(defaultRotation);
+
+                Light lightComponent = defaultLight.GetComponent<Light>();
+                if (lightComponent != null)
+                {
+                    lightComponent.intensity = lightIntensity;
+                    EditorUtility.SetDirty(lightComponent);
+                }
+
                 EditorUtility.SetDirty(defaultLight);
             }
         }
