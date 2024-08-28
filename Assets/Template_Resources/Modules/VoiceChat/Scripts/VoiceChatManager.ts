@@ -139,47 +139,47 @@ export default class VoiceChatManager extends ZepetoScriptBehaviour {
     private OnSpeechDetected(userId: string, speechDetected: boolean) {
         console.log("[VoiceChat] OnSpeechDetected: " + userId + ", " + speechDetected);
  
-        // Check if the user ID is not in the voice bubble map and create a voice bubble if it is not
-        if (!this._voiceBubbleMap.has(userId)) {
-            this.CreateVoiceBubble(userId);
-        }
+        // // Check if the user ID is not in the voice bubble map and create a voice bubble if it is not
+        // if (!this._voiceBubbleMap.has(userId)) {
+        //     this.CreateVoiceBubble(userId);
+        // }
  
-        this.SetVoiceBubble(userId, speechDetected);
+        // this.SetVoiceBubble(userId, speechDetected);
     }
  
     // Method to set the active state of the voice bubble for a given user ID
-    private SetVoiceBubble(userId: string, speechDetected: boolean) {
-        const chatBubble = this._voiceBubbleMap.get(userId);
-        chatBubble.SetActive(speechDetected);
-    }
+    // private SetVoiceBubble(userId: string, speechDetected: boolean) {
+    //     const chatBubble = this._voiceBubbleMap.get(userId);
+    //     chatBubble.SetActive(speechDetected);
+    // }
  
     // Method to create a voice bubble for a given user ID
-    private CreateVoiceBubble(userId: string) {
+    // private CreateVoiceBubble(userId: string) {
  
-        // Get the head socket of the user's character
-        const headSocket = ZepetoPlayers.instance.GetPlayerWithUserId(userId).character.GetSocket(KnowSockets.HEAD_UPPER);
+    //     // Get the head socket of the user's character
+    //     const headSocket = ZepetoPlayers.instance.GetPlayerWithUserId(userId).character.GetSocket(KnowSockets.HEAD_UPPER);
  
-        // Instantiate the voice chat bubble prefab at the head socket position
-        const instanceBubble = Object.Instantiate(this.voiceChatPrefab, headSocket) as GameObject;
+    //     // Instantiate the voice chat bubble prefab at the head socket position
+    //     const instanceBubble = Object.Instantiate(this.voiceChatPrefab, headSocket) as GameObject;
  
-        // Add the instantiated bubble to the voice bubble map
-        this._voiceBubbleMap.set(userId, instanceBubble);
-        instanceBubble.SetActive(false);
-    }
+    //     // Add the instantiated bubble to the voice bubble map
+    //     this._voiceBubbleMap.set(userId, instanceBubble);
+    //     instanceBubble.SetActive(false);
+    // }
  
-    LateUpdate() {
+    // LateUpdate() {
 
-        // Check if the voice bubble map is empty and return if it is
-        if (this._voiceBubbleMap.size === 0) {
-            return;
-        }
+    //     // Check if the voice bubble map is empty and return if it is
+    //     if (this._voiceBubbleMap.size === 0) {
+    //         return;
+    //     }
 
-        // Iterate through the voice bubble map and update the rotation of each bubble GameObject
-        this._voiceBubbleMap.forEach((bubbleObject: GameObject) => {
-            // Set the rotation of the bubble object to match the camera's parent transform rotation
-            bubbleObject.transform.rotation = ZepetoPlayers.instance.ZepetoCamera.cameraParent.transform.rotation;
-        });
+    //     // Iterate through the voice bubble map and update the rotation of each bubble GameObject
+    //     this._voiceBubbleMap.forEach((bubbleObject: GameObject) => {
+    //         // Set the rotation of the bubble object to match the camera's parent transform rotation
+    //         bubbleObject.transform.rotation = ZepetoPlayers.instance.ZepetoCamera.cameraParent.transform.rotation;
+    //     });
 
-    }
+    // }
 
 }
