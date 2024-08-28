@@ -17,6 +17,8 @@ public class ZepetoSceneSettings : EditorWindow
 
     private float lightIntensity = 0.85f;
 
+    private Color ambientColor; // Ambient Color
+
     [MenuItem("ZEPETO/Zepeto Scene Settings")]
     public static void ShowWindow()
     {
@@ -52,13 +54,15 @@ public class ZepetoSceneSettings : EditorWindow
             defaultLight = lightObject;
             defaultRotation = defaultLight.transform.rotation.eulerAngles;
 
-            // Light 컴포넌트에서 초기 강도 값을 가져옴
             Light lightComponent = defaultLight.GetComponent<Light>();
             if (lightComponent != null)
             {
                 lightIntensity = lightComponent.intensity;
             }
         }
+
+        // 현재 Ambient Color를 가져옴
+        ambientColor = RenderSettings.ambientLight;
     }
 
     private void OnGUI()
@@ -77,6 +81,8 @@ public class ZepetoSceneSettings : EditorWindow
         upVector = EditorGUILayout.Vector3Field("Up Vector", upVector);
         exp = EditorGUILayout.Slider("Exp", exp, 0f, 1f);
 
+        ambientColor = EditorGUILayout.ColorField("Ambient Color", ambientColor); // Ambient Color 추가
+
         if (EditorGUI.EndChangeCheck())
         {
             skyboxMaterial.SetColor("_TopColor", topColor);
@@ -84,6 +90,9 @@ public class ZepetoSceneSettings : EditorWindow
             skyboxMaterial.SetColor("_BottomColor", bottomColor);
             skyboxMaterial.SetVector("_Up", upVector);
             skyboxMaterial.SetFloat("_Exp", exp);
+
+            // Ambient Color 설정
+            RenderSettings.ambientLight = ambientColor;
 
             previewTexture = AssetPreview.GetAssetPreview(skyboxMaterial);
             SceneView.RepaintAll();
