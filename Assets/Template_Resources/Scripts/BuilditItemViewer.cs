@@ -290,7 +290,7 @@ public class BuilditItemViewer : EditorWindow
             GUI.DrawTexture(iconRect, thumbnail, ScaleMode.ScaleToFit);
             HandleIconEvents(prefab, iconRect);
         }
-        
+
         // 프리팹 이름앞 폴더명 + "_" 제거
         string pattern = Regex.Escape(selectedFolder);
         string displayName = Regex.Replace(prefab.name, pattern + "_", "", RegexOptions.IgnoreCase);
