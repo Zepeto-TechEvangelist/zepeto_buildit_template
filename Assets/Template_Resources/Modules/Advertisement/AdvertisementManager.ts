@@ -2,14 +2,12 @@ import { GameObject, Quaternion, Transform, Vector3 } from 'UnityEngine';
 import { Button } from 'UnityEngine.UI';
 import { AdShowResult, WorldAdvertisement } from 'ZEPETO.Advertisement.General';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
-import AdvertisementController from './AdvertisementController';
 import { ZepetoPlayers } from 'ZEPETO.Character.Controller';
 
 const AD_KEY: string = "Monetize_Template";
 
 export default class AdvertisementManager extends ZepetoScriptBehaviour {
 
-    private adControllers: AdvertisementController[];
     @HideInInspector() destinationPosiiton: Vector3;
     @HideInInspector() destinationRotation: Quaternion;
 
@@ -33,21 +31,6 @@ export default class AdvertisementManager extends ZepetoScriptBehaviour {
     rewardTeleport() {
         ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.Teleport(this.destinationPosiiton, this.destinationRotation);
     }
-
-    // Unity's Start method, which is called on the script's initialization
-    // Start() {
-
-    //     ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-    //         this.adControllers = GameObject.FindObjectsOfType<AdvertisementController>();
-
-    //         this.adControllers.forEach(e => {
-    //             e.OnClickEvent.AddListener(() => {
-    //                 this.ShowAd(this.rewardTeleport);
-    //             });
-
-    //         });
-    //     });
-    // }
 
     // Method to show an advertisement and specify a reward function to call upon ad completion
     ShowAd(rewardFunction: () => void) {

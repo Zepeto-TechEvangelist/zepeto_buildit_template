@@ -10,7 +10,7 @@ export default class ProductModule extends IModule {
     storageMap: Map<string, DataStorage> = new Map<string, DataStorage>();
 
     async OnCreate() {
-        this.server.onMessage("onCredit", (client, message:CurrencyMessage) => {
+        this.server.onMessage("onCredit", (client: SandboxPlayer, message:CurrencyMessage) => {
 
             console.log(`[onCredit]`);
             const currencyId = message.currencyId;
@@ -19,7 +19,7 @@ export default class ProductModule extends IModule {
             this.AddCredit(client, currencyId, quantity);
         });
 
-        this.server.onMessage("onDebit", (client, message:CurrencyMessage) => {
+        this.server.onMessage("onDebit", (client: SandboxPlayer, message:CurrencyMessage) => {
 
             console.log(`[onDebit]`);
             const currencyId = message.currencyId;
@@ -29,7 +29,7 @@ export default class ProductModule extends IModule {
         });
 
 
-        this.server.onMessage("onAddInventory", (client, message:InventoryMessage) => {
+        this.server.onMessage("onAddInventory", (client: SandboxPlayer, message:InventoryMessage) => {
 
             console.log(`[onAddInventory]`);
             const productId = message.productId;
@@ -39,7 +39,7 @@ export default class ProductModule extends IModule {
         });
 
 
-        this.server.onMessage("onUseInventory", (client, message:InventoryMessage) => {
+        this.server.onMessage("onUseInventory", (client: SandboxPlayer, message:InventoryMessage) => {
 
             console.log(`[onUseInventory]`);
             const productId = message.productId;
@@ -48,7 +48,7 @@ export default class ProductModule extends IModule {
             this.UseInventory(client, productId, quantity);
         });
 
-        this.server.onMessage("onRemoveInventory", (client, message:InventoryMessage) => {
+        this.server.onMessage("onRemoveInventory", (client: SandboxPlayer, message:InventoryMessage) => {
 
             console.log(`[onRemoveInventory]`);
             const productId = message.productId;
@@ -58,7 +58,7 @@ export default class ProductModule extends IModule {
 
 
         // DataStorage
-        this.server.onMessage("onSetStorage", (client, message:StorageMessage) => {
+        this.server.onMessage("onSetStorage", (client: SandboxPlayer, message:StorageMessage) => {
 
             console.log(`[onSetStorage]`);
             const key = message.key;
@@ -66,7 +66,7 @@ export default class ProductModule extends IModule {
             this.SetStorage(client, key, value);
         });
 
-        this.server.onMessage("onGetStorage", (client, message:StorageMessage) => {
+        this.server.onMessage("onGetStorage", (client: SandboxPlayer, message:StorageMessage) => {
 
             const key = message.key;
             console.log(`[onGetStorage] ${key}`);
