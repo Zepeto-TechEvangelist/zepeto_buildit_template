@@ -20,7 +20,7 @@ public class LoadZepetoLayout
         }
 
         // "ZEPETO_Buildit" 레이아웃 파일의 경로를 설정합니다.
-        string layoutPath = "Assets/Template_Resources/Scripts/ZEPETO_Buildit.wlt";
+        string layoutPath = "Assets/Template_Resources/Interface/Scripts/ZEPETO_Buildit.wlt";
 
         // 레이아웃 파일이 존재하는지 확인합니다.
         if (System.IO.File.Exists(layoutPath))
