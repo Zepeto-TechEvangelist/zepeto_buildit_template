@@ -1,9 +1,9 @@
-import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
-import {RoomBase, RoomData} from 'ZEPETO.Multiplay';
-import {ZepetoWorldMultiplay} from "ZEPETO.World";
-import {CharacterJumpState, CharacterMoveState, CharacterState, ZepetoPlayer} from 'ZEPETO.Character.Controller';
-import { RuntimeAnimatorController, Object, Animator, AnimatorClipInfo, Resources,CharacterController, AnimationClip, WaitForSeconds, AnimatorOverrideController, Mathf, WaitForEndOfFrame} from 'UnityEngine';
-import {Player} from 'ZEPETO.Multiplay.Schema';
+import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+import { RoomBase, RoomData } from 'ZEPETO.Multiplay';
+import { ZepetoWorldMultiplay } from "ZEPETO.World";
+import { CharacterJumpState, CharacterMoveState, CharacterState, ZepetoPlayer } from 'ZEPETO.Character.Controller';
+import { RuntimeAnimatorController, Object, Animator, AnimatorClipInfo, Resources, CharacterController, AnimationClip, WaitForSeconds, AnimatorOverrideController, Mathf, WaitForEndOfFrame, Collider } from 'UnityEngine';
+import { Player } from 'ZEPETO.Multiplay.Schema';
 import MultiplayManager from '../Common/MultiplayManager';
 import TransformSyncHelper from '../Transform/TransformSyncHelper';
 // import ZepetoPlayersManager from './ZepetoPlayersManager';
@@ -15,7 +15,7 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
     @HideInInspector() public zepetoPlayer: ZepetoPlayer;
     @HideInInspector() public tfHelper: TransformSyncHelper;
     @HideInInspector() public isUseInjectSpeed: boolean = false;
-    @HideInInspector() public GetAnimationClipFromResources : boolean = true;
+    @HideInInspector() public GetAnimationClipFromResources: boolean = true;
     @HideInInspector() public UseZepetoGestureAPI: boolean = false;
 
     private readonly _tick: number = 0.04;
@@ -29,12 +29,12 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
         this._room = this._multiplay.Room;
         if (this.isLocal) {
             this.StartCoroutine(this.SendLocalPlayer(this._tick));
-        } else{
+        } else {
             this.player.OnChange += (ChangeValue) => this.OnChangedPlayer();
 
             //If this is not a local character, do not use State Machine.
             this.zepetoPlayer.character.StateMachine.Stop();
-        } 
+        }
     }
 
     // !isLocal(other player)
@@ -52,10 +52,10 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
         animator.SetFloat('MoveProgress', animationParam.MoveProgress);
 
         //sync gesture
-        if (animationParam.State == CharacterState.Gesture && ( this.UseZepetoGestureAPI || this.GetAnimationClipFromResources )) { 
+        if (animationParam.State == CharacterState.Gesture && (this.UseZepetoGestureAPI || this.GetAnimationClipFromResources)) {
             const clipInfo: AnimatorClipInfo[] = this._animator.GetCurrentAnimatorClipInfo(0);
             const gestureName = this.player.gestureName;
-            
+
             if (!gestureName || clipInfo[0].clip.name === gestureName) return;
             let animClip: AnimationClip | null = null;
             if (this.UseZepetoGestureAPI && ToolClassGather.Instance.ZPMGestureAPIContents.has(gestureName)) {
@@ -65,24 +65,28 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
                     content.DownloadAnimation(() => {
                         // play animation clip
                         this.zepetoPlayer.character.SetGesture(content.AnimationClip);
-                    });                       
+                    });
                     return;
                 } else {
                     animClip = content.AnimationClip;
                 }
-            } else if(this.GetAnimationClipFromResources)// Resources animation.
+            } else if (this.GetAnimationClipFromResources)// Resources animation.
                 animClip = Resources.Load<AnimationClip>(gestureName);
-            
-            if (null == animClip) { 
+
+            if (null == animClip) {
                 // When the animation is not in the /Asset/Resources file pass
                 console.warn(`${gestureName} is null, Add animation in the Resources folder.`);
             } else {
                 this.zepetoPlayer.character.SetGesture(animClip);
             }
         }
-        
-        if(animationParam.State === CharacterState.Teleport){
+
+        if (animationParam.State === CharacterState.Teleport) {
             this.StartCoroutine(this.WaitTeleportFrame(5));
+        }
+
+        if (animationParam.State == 17) {
+            animator.SetInteger('State', 17);
         }
 
         const playerAdditionalValue = this.player.playerAdditionalValue;
@@ -91,10 +95,10 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
         this.zepetoPlayer.character.additionalJumpPower = playerAdditionalValue.additionalJumpPower;
 
         //sync interpolation speed
-        if(this.isUseInjectSpeed){
+        if (this.isUseInjectSpeed) {
             const ySpeed = Mathf.Abs(animationParam.FallSpeed);
-            let xzSpeed : number = 0;
-            if(animationParam.State == CharacterState.Jump && animationParam.JumpState == CharacterJumpState.JumpIdle){
+            let xzSpeed: number = 0;
+            if (animationParam.State == CharacterState.Jump && animationParam.JumpState == CharacterJumpState.JumpIdle) {
                 xzSpeed = 0;
             } else if (animationParam.MoveState == CharacterMoveState.MoveRun) {
                 //1.5 : Run Weight between actual Zepeto character and Unity.
@@ -104,27 +108,27 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
                 xzSpeed = this.zepetoPlayer.character.WalkSpeed * 1.25 * animationParam.Acceleration;
             } else
                 return;
-            
+
             this.tfHelper.moveSpeed = xzSpeed + ySpeed;
         }
     }
-    
+
     //The character's animation synchronization and location synchronization do not occur at the same time, so teleport is executed after a certain frame.
-    private * WaitTeleportFrame(waitFrame:number){
-        for(let i=0; i<waitFrame; i++)
+    private * WaitTeleportFrame(waitFrame: number) {
+        for (let i = 0; i < waitFrame; i++)
             yield new WaitForEndOfFrame();
         this.tfHelper.ForceTarget();
     }
 
     //isLocal(When it's my character)
-    private* SendLocalPlayer(tick: number) {
-        const pastIdleCountMax:number = 10;
-        let pastIdleCount:number = 0;
-        
+    private * SendLocalPlayer(tick: number) {
+        const pastIdleCountMax: number = 10;
+        let pastIdleCount: number = 0;
+
         while (true) {
             const state = this._animator.GetInteger("State");
             // Idle status is sent only once.
-            if(state != CharacterState.Idle || pastIdleCount < pastIdleCountMax) {
+            if (state != CharacterState.Idle || pastIdleCount < pastIdleCountMax) {
                 const data = new RoomData();
                 const animationParam = new RoomData();
                 animationParam.Add("State", state);
@@ -138,7 +142,7 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
                 data.Add("animationParam", animationParam.GetObject());
 
                 data.Add("gestureName", this._animator.runtimeAnimatorController.animationClips[1].name ?? null);
-                
+
                 const playerAdditionalValue = new RoomData();
                 playerAdditionalValue.Add("additionalWalkSpeed", this.zepetoPlayer.character.additionalWalkSpeed);
                 playerAdditionalValue.Add("additionalRunSpeed", this.zepetoPlayer.character.additionalRunSpeed);
@@ -147,12 +151,13 @@ export default class PlayerSync extends ZepetoScriptBehaviour {
 
                 this._room?.Send("SyncPlayer", data.GetObject());
             }
-            if(state == CharacterState.Idle)             //Send 10 more frames even if stopped
+            if (state == CharacterState.Idle)             //Send 10 more frames even if stopped
                 pastIdleCount++;
             else
                 pastIdleCount = 0;
-            
+
             yield new WaitForSeconds(tick);
         }
     }
+
 }
