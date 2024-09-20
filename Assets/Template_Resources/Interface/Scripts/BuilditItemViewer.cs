@@ -55,10 +55,10 @@ public class BuilditItemViewer : EditorWindow
         { "fr", "Un prefab est sélectionné. L'objet sera créé à l'emplacement cliqué. \n Pour annuler, cliquez avec le bouton droit ou appuyez sur ESC." }
     };
 
-    [MenuItem("ZEPETO/Build it Item Viewer")]
+    [MenuItem("ZEPETO/Build It Asset Browser")]
     public static void ShowWindow()
     {
-        GetWindow<BuilditItemViewer>("Build it Item Viewer");
+        GetWindow<BuilditItemViewer>("Build It Asset Browser");
     }
 
     private void OnEnable()
@@ -417,5 +417,5 @@ public class BuilditItemViewer : EditorWindow
             Undo.RegisterCreatedObjectUndo(instance, "Create " + instance.name);
             Selection.activeObject = null;
         }
-    }
+    }        
 }
