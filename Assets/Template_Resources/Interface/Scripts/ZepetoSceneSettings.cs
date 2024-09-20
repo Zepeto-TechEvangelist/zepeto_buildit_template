@@ -131,5 +131,48 @@ public class ZepetoSceneSettings : EditorWindow
         {
             EditorGUILayout.HelpBox("No object with tag 'DefaultLight' found in the scene.", MessageType.Warning);
         }
+
+        // Reset 버튼 추가
+        if (GUILayout.Button("Reset"))
+        {
+            // Skybox 설정을 기본값으로 리셋
+            topColor = new Color(0x00 / 255f, 0x77 / 255f, 0xFF / 255f);
+            centerColor = new Color(0xCC / 255f, 0xFC / 255f, 0xFF / 255f);
+            bottomColor = new Color(0xFF / 255f, 0xFE / 255f, 0xB8 / 255f);
+            upVector = new Vector3(0, 1, 0);
+            exp = 1f;
+
+            skyboxMaterial.SetColor("_TopColor", topColor);
+            skyboxMaterial.SetColor("_CenterColor", centerColor);
+            skyboxMaterial.SetColor("_BottomColor", bottomColor);
+            skyboxMaterial.SetVector("_Up", upVector);
+            skyboxMaterial.SetFloat("_Exp", exp);
+
+            // Ambient Color 리셋
+            ambientColor = new Color(0xC1 / 255f, 0xD5 / 255f, 0xE5 / 255f);
+            RenderSettings.ambientLight = ambientColor;
+
+            // Light 설정 리셋
+            if (defaultLight != null)
+            {
+                defaultRotation = new Vector3(29.357f, 203.564f, 290.789f);
+                defaultLight.transform.rotation = Quaternion.Euler(defaultRotation);
+
+                lightIntensity = 0.85f;
+                Light lightComponent = defaultLight.GetComponent<Light>();
+                if (lightComponent != null)
+                {
+                    lightComponent.intensity = lightIntensity;
+                    EditorUtility.SetDirty(lightComponent);
+                }
+
+                EditorUtility.SetDirty(defaultLight);
+            }
+
+            // UI 갱신을 위해 Repaint 호출
+            Repaint();
+
+            SceneView.RepaintAll();
+        }
     }
 }
