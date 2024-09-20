@@ -8,7 +8,7 @@ public class BuilditItemViewer : EditorWindow
     private Dictionary<string, string> folderPaths = new Dictionary<string, string>()
     {
         { "All", null },
-        { "Custom", "Assets/Template_Resources/Prefabs/Custom" },
+        { "Utility", "Assets/Template_Resources/Prefabs/Utility" },
         { "Cafe", "Assets/Template_Resources/Prefabs/ZepetoAssets_Cafe" },
         { "Cherry", "Assets/Template_Resources/Prefabs/ZepetoAssets_Cherryblossom" },
         { "City", "Assets/Template_Resources/Prefabs/ZepetoAssets_City" },
@@ -188,8 +188,6 @@ public class BuilditItemViewer : EditorWindow
 
         EditorGUILayout.EndHorizontal();
     }
-
-
     private void DrawLeftPanel()
     {
         leftPanelScrollPosition = EditorGUILayout.BeginScrollView(leftPanelScrollPosition, GUILayout.Width(70), GUILayout.Height(position.height - 50));
@@ -417,5 +415,5 @@ public class BuilditItemViewer : EditorWindow
             Undo.RegisterCreatedObjectUndo(instance, "Create " + instance.name);
             Selection.activeObject = null;
         }
-    }        
+    }
 }
