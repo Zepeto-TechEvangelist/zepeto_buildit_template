@@ -63,6 +63,25 @@ public class ZepetoSceneSettings : EditorWindow
 
         // 현재 Ambient Color를 가져옴
         ambientColor = RenderSettings.ambientLight;
+
+        // 주기적으로 미리보기 갱신
+        EditorApplication.update += UpdatePreview;
+    }
+
+    private void OnDisable()
+    {
+        // 창이 닫히면 주기적인 업데이트 중지
+        EditorApplication.update -= UpdatePreview;
+    }
+
+    private void UpdatePreview()
+    {
+        // previewTexture가 없으면 갱신 시도
+        if (previewTexture == null && skyboxMaterial != null)
+        {
+            previewTexture = AssetPreview.GetAssetPreview(skyboxMaterial);
+            Repaint(); // UI 강제 갱신
+        }
     }
 
     private void OnGUI()
@@ -103,6 +122,10 @@ public class ZepetoSceneSettings : EditorWindow
         if (previewTexture != null)
         {
             GUILayout.Label(previewTexture, GUILayout.Width(300), GUILayout.Height(100));
+        }
+        else
+        {
+            GUILayout.Label("Generating preview...");
         }
 
         if (defaultLight != null)
@@ -169,10 +192,13 @@ public class ZepetoSceneSettings : EditorWindow
                 EditorUtility.SetDirty(defaultLight);
             }
 
+            // Preview Texture 갱신
+            previewTexture = AssetPreview.GetAssetPreview(skyboxMaterial);
+
             // UI 갱신을 위해 Repaint 호출
             Repaint();
-
             SceneView.RepaintAll();
         }
+
     }
 }
