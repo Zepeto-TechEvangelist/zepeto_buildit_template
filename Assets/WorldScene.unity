@@ -406,6 +406,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 968808589}
+  - {fileID: 1002903076}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &812918570
@@ -561,6 +562,117 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0bd09c216b9234b2b85a95f6b80c3d5a, type: 3}
   m_PrefabInstance: {fileID: 1644862407}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1002903075
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 463199889}
+    m_Modifications:
+    - target: {fileID: 3372008154483034895, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_Name
+      value: Popup
+      objectReference: {fileID: 0}
+    - target: {fileID: 4036791100711532252, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4914821950033262229, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 67b1da385ed834be28a3d6a0b9cd9c58, type: 3}
+    - target: {fileID: 5175797370725987431, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: script.values.Array.data[0]
+      value: '{"type":"System.String, mscorlib","value":"Please write the message
+        that will appear in the pop-up here"}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175797370725987431, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: script.values.Array.data[1]
+      value: '{"type":"System.String, mscorlib","value":"Close"}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5175797370725987431, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: script.unityValues.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: 9af3dfbce260d4a7881a8ab0e5f8cb4b, type: 3}
+    - target: {fileID: 7536414993874143961, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_Text
+      value: Close
+      objectReference: {fileID: 0}
+    - target: {fileID: 8061775453551917418, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9af3dfbce260d4a7881a8ab0e5f8cb4b, type: 3}
+    - target: {fileID: 8648404280683035752, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648404280683035752, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648404280683035752, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648404280683035752, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648404280683035752, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648404280683035752, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648404280683035752, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648404280683035752, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648404280683035752, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648404280683035752, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8988900129675767155, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_Text
+      value: Please write the message that will appear in the pop-up here
+      objectReference: {fileID: 0}
+    - target: {fileID: 8988900129675767155, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8988900129675767155, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8988900129675767155, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8988900129675767155, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 30
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+--- !u!4 &1002903076 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8648404280683035752, guid: b8ebd4f317173437e89186352f000bd9, type: 3}
+  m_PrefabInstance: {fileID: 1002903075}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1028248966
 GameObject:

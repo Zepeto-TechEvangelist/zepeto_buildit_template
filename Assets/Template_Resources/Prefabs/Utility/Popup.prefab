@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 9af3dfbce260d4a7881a8ab0e5f8cb4b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -109,7 +109,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 9}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &4709909231779136367
@@ -153,7 +153,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '[Enter]'
+  m_Text: Close
   customFont: {fileID: 0}
   m_HorizontalFit: 0
   m_VerticalFit: 0
@@ -220,12 +220,13 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 3287515247404276732}
     - {fileID: 4082065814138774678}
-    - {fileID: 0}
+    - {fileID: 21300000, guid: 9af3dfbce260d4a7881a8ab0e5f8cb4b, type: 3}
     - {fileID: 8988900129675767155}
     - {fileID: 8061775453551917418}
     values:
-    - '{"type":"System.String, mscorlib","value":"[Message]"}'
-    - '{"type":"System.String, mscorlib","value":"[Enter]"}'
+    - '{"type":"System.String, mscorlib","value":"Please write the message that will
+      appear in the pop-up here"}'
+    - '{"type":"System.String, mscorlib","value":"Close"}'
     - 
     - 
     - 
@@ -291,7 +292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -300,7 +301,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 49413a9296aae41659ea405096177dc1, type: 3}
-    m_FontSize: 22
+    m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -311,7 +312,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '[Message]'
+  m_Text: Please write the message that will appear in the pop-up here
   customFont: {fileID: 0}
   m_HorizontalFit: 0
   m_VerticalFit: 0
@@ -383,7 +384,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 261b01b78acfd4c70abe40764e4ff6c3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 67b1da385ed834be28a3d6a0b9cd9c58, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
