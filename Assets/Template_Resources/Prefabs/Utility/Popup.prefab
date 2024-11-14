@@ -167,7 +167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8648404280683035752}
-  - component: {fileID: 5175797370725987431}
+  - component: {fileID: 4695710505233482337}
   m_Layer: 5
   m_Name: Popup
   m_TagString: Untagged
@@ -191,7 +191,7 @@ Transform:
   - {fileID: 7013304706142392240}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5175797370725987431
+--- !u!114 &4695710505233482337
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3372008154483034895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
+  m_Script: {fileID: 11500000, guid: 8dc73fdc692846aea1dbf57e9ea4ef58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   applyRootMotion: 0
@@ -208,36 +208,36 @@ MonoBehaviour:
     script: {fileID: 4458252877524076426, guid: 5c5100582b5e04fb69d72ab7488ee262, type: 3}
     isExpaned: 0
     keys:
+    - backgroundImage
     - message
+    - messageColor
+    - messageShadow
     - buttonTitle
     - _canvas
-    - _button
-    - backgroundImage
-    - _text
     - _background
-    - messageShadow
-    - messageColor
+    - _button
+    - _text
     unityValues:
+    - {fileID: 21300000, guid: d940368b82f654224b7e89cddbd6fa70, type: 3}
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 3287515247404276732}
-    - {fileID: 4082065814138774678}
-    - {fileID: 21300000, guid: d940368b82f654224b7e89cddbd6fa70, type: 3}
-    - {fileID: 8988900129675767155}
     - {fileID: 8061775453551917418}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 4082065814138774678}
+    - {fileID: 8988900129675767155}
     values:
+    - 
     - '{"type":"System.String, mscorlib","value":"Please write the message that will
       appear in the pop-up here"}'
+    - '{"type":"UnityEngine.Color, UnityEngine.CoreModule","value":"{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0}"}'
+    - '{"type":"System.Boolean, mscorlib","value":"True"}'
     - '{"type":"System.String, mscorlib","value":"Close"}'
     - 
     - 
     - 
     - 
-    - 
-    - '{"type":"System.Boolean, mscorlib","value":"True"}'
-    - '{"type":"UnityEngine.Color, UnityEngine.CoreModule","value":"{\"r\":1.0,\"g\":1.0,\"b\":1.0,\"a\":1.0}"}'
     unityArrayValues: []
     arrayValues: []
 --- !u!1 &4143361157934190528

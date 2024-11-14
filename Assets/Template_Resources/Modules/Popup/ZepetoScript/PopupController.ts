@@ -41,4 +41,36 @@ export default class PopupController extends ZepetoScriptBehaviour {
         });
     }
 
+
+    OnBeforeSerialize() {
+        console.log("On Before Serialize");
+        // this.messageShadow = false;
+    }
+
+    OnAfterDeserialize() {
+        console.log("On After Deserialize");
+
+        this._background.sprite = this.backgroundImage;
+
+        this._text.text = this.message;
+        this._text.color = this.messageColor;
+        this._text.GetComponent<Shadow>().enabled = this.messageShadow;
+
+        this._button.gameObject.GetComponentInChildren<ZepetoText>().text = this.buttonTitle;
+    }
+    
+    Validate() {
+        console.log("Validate");
+    }
+    
+    OnEnable() {
+        console.log("On Enable");
+    }
+
+    Update() {
+        console.log("Update");
+    }
+    
+    //enum Events { None = 0, Awake = 1, OnEnable = 2, Start = 4, FixedUpdate = 8, Update = 16, LateUpdate = 32, OnDisable = 64, OnDestroy = 128, OnCollisionEnter = 256, OnCollisionExit = 257, OnCollisionStay = 258, OnCollisionEnter2D = 272, OnCollisionExit2D = 273, OnCollisionStay2D = 274, OnTriggerEnter = 512, OnTriggerExit = 513, OnTriggerStay = 514, OnTriggerEnter2D = 528, OnTriggerExit2D = 529, OnTriggerStay2D = 530, OnControllerColliderHit = 768, OnGUI = 65536, OnMouseDown = 196608, OnMouseDrag = 196609, OnMouseUp = 196610, OnMouseEnter = 196611, OnMouseExit = 196612, OnMouseOver = 196613, OnMouseUpAsButton = 196614, OnApplicationFocus = 131072, OnApplicationPause = 262144, OnApplicationQuit = 524288, OnPreRender = 1048576, OnPostRender = 1048577, OnRenderImage = 1048578, OnRenderObject = 1048579, OnWillRenderObject = 1048580, OnPreCull = 1048581, OnAnimatorIK = 2097152, OnAnimatorMove = 2097153, OnDrawGizmos = 3145728, OnOpenedHome = 16777216, OnClosedHome = 33554432 }
+    //     
 }

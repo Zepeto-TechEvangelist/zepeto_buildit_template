@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using UnityEditor.Experimental.GraphView;
 
 public class BuilditItemViewer : EditorWindow
 {
@@ -55,6 +56,18 @@ public class BuilditItemViewer : EditorWindow
         { "fr", "Un prefab est sélectionné. L'objet sera créé à l'emplacement cliqué. \n Pour annuler, cliquez avec le bouton droit ou appuyez sur ESC." }
     };
 
+    private Dictionary<string, string> selectPopup = new Dictionary<string, string>()
+    {
+        { "en", "A UI prefab is selected. The object can be found in the Game View. \n To cancel, right-click or press ESC." },
+        { "kr", "" },
+        { "ch", "" },
+        { "jp", "" },
+        { "in", "" },
+        { "th", "" },
+        { "fr", "" }
+    };
+    
+    
     [MenuItem("ZEPETO/Build It Asset Browser")]
     public static void ShowWindow()
     {
@@ -272,6 +285,10 @@ public class BuilditItemViewer : EditorWindow
     {
         List<GameObject> filteredPrefabs = FilterPrefabs(prefabs, searchQuery);
         int iconsPerRow = Mathf.FloorToInt((position.width - 140) / prefabIconSize);
+
+        // Grid hidden, no room for items
+        if (iconsPerRow == 0) return;
+        
         int row = 0;
 
         for (int i = 0; i < filteredPrefabs.Count; i++)
@@ -355,7 +372,15 @@ public class BuilditItemViewer : EditorWindow
         Color originalColor = GUI.backgroundColor;
         GUI.backgroundColor = new Color(0, 0, 0, 0.75f);
 
+        
         string message = cachedPopupLanguage;
+        // Message definition
+        if (selectedPrefab.layer == LayerMask.NameToLayer("UI"))  // UI
+        {
+            message = selectPopup["en"];
+        }
+        
+
         GUILayout.BeginArea(new Rect((sceneView.position.width - 400) / 2, 10, 400, 100), message, style);
         GUILayout.EndArea();
 
