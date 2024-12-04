@@ -4,9 +4,9 @@ import { ErrorCode } from 'ZEPETO.Module';
 import { GiftBackgroundType, ItemGiftResponse, ShopService } from 'ZEPETO.Module.Shop';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import { Users, WorldService, ZepetoWorldHelper } from 'ZEPETO.World';
-import PlayerSync from '../../Zepeto Multiplay Component/ZepetoScript/Player/PlayerSync';
 import * as UnityEngine from 'UnityEngine';
-import InteractionIcon from '../Modules/Interaction/ZepetoScript/InteractionIcon';
+import InteractionIcon from '../Interaction/ZepetoScript/InteractionIcon';
+import PlayerSync from '../../../Zepeto Multiplay Component/ZepetoScript/Player/PlayerSync';
 
 export default class GiftManager extends ZepetoScriptBehaviour {
 
