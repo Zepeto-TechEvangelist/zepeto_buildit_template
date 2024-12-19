@@ -1,6 +1,7 @@
 import { BoxCollider, GameObject, Object, Vector3 } from 'UnityEngine';
 import { CharacterState, ZepetoCharacter, ZepetoPlayer, ZepetoPlayers, ZepetoScreenButton } from 'ZEPETO.Character.Controller';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+import {UnityEvent} from "UnityEngine.Events";
 import TeleportArea from './TeleportArea';
 
 export default class SceneManager extends ZepetoScriptBehaviour {
@@ -32,6 +33,35 @@ export default class SceneManager extends ZepetoScriptBehaviour {
     private zepetoCharacter: ZepetoCharacter;
 
 
+    public OnSceneInitialized: UnityEvent;
+    
+
+    /* Singleton */
+    private static m_instance: SceneManager = null;
+    public static get instance(): SceneManager {
+        if (this.m_instance === null) {
+            this.m_instance = GameObject.FindObjectOfType<SceneManager>();
+            if (this.m_instance === null) {
+                this.m_instance = new GameObject(SceneManager.name).AddComponent<SceneManager>();
+            }
+        }
+        return this.m_instance;
+    }
+    private Awake() {
+        if (SceneManager.m_instance !== null && SceneManager.m_instance !== this) {
+            GameObject.Destroy(this.gameObject);
+        } else {
+            SceneManager.m_instance = this;
+            GameObject.DontDestroyOnLoad(this.gameObject);
+        }
+    }
+
+    private Destroy() {
+        if (SceneManager.m_instance == this)
+            SceneManager.m_instance = null;
+    }
+    
+    
     Start() {
         this.SetTeleportArea();
 
@@ -39,8 +69,12 @@ export default class SceneManager extends ZepetoScriptBehaviour {
             this.zepetoCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
             this.SetCharacterSettings();
             this.SetDoubleJump();
+            
+            this.OnSceneInitialized?.Invoke();
         });
     }
+    
+    
 
     private SetTeleportArea() {
         const cube = new GameObject;

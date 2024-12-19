@@ -38,6 +38,8 @@ export default class VoiceChatManager extends ZepetoScriptBehaviour {
             this.setupVoiceButtons();
         });
 
+        console.log("[VoiceChatController] " + VoiceChatController);
+        
         // Method called when the Voice Chat system is initialized
         VoiceChatController.OnInitializedEvent.AddListener(
             init => {
@@ -116,13 +118,13 @@ export default class VoiceChatManager extends ZepetoScriptBehaviour {
     // Method about voiechat bubble.
     // Method called when the Voice Chat system is initialized
     private OnInitialized(initialized: boolean) {
-        console.log("[VoiceChat] OnInitialized: ");
+        console.log("[VoiceChat] OnInitialized: " + initialized);
         this.EnterVoiceChatRoom(1);
     }
  
     // Method called when the Voice Chat room is connected
     private OnRoomConnected(connected: boolean) {
-        console.log("[VoiceChat] OnRoomConnected: ");
+        console.log("[VoiceChat] OnRoomConnected: " + connected);
     }
  
     // Method to enter a Voice Chat room based on the given team index

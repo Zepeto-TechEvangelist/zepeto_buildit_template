@@ -1,0 +1,42 @@
+fileFormatVersion: 2
+guid: 1f2e0173a2342431da0fb656c6e6a5c4
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst DigitalDisplay_1 = require(\"./DigitalDisplay\");\r\nclass
+    TimeDisplay extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this._segments = [];\r\n    }\r\n   
+    Start() {\r\n        this._value = this.value;\r\n        for (var i = 0; i <
+    4; i++)\r\n            this._segments[i] = this.segments[i].GetComponent($typeof(DigitalDisplay_1.default));\r\n       
+    this._value = -1;\r\n    }\r\n    Update() {\r\n        if (this.value != this._value)\r\n           
+    this.SetValue(this.value); // is dirty\r\n    }\r\n    SetValue(value) {\r\n       
+    this._value = value;\r\n        this.value = value; // to support Editor\r\n       
+    // min / seconds\r\n        let min = Math.trunc(value / 60);\r\n        let
+    sec = value % 60;\r\n        console.log(`Will set time ${min}:${sec}`);\r\n       
+    this._segments[0].SetValue(Math.trunc(min / 10));\r\n        this._segments[1].SetValue(min
+    % 10);\r\n        this._segments[2].SetValue(Math.trunc(sec / 10));\r\n       
+    this._segments[3].SetValue(sec % 10);\r\n    }\r\n}\r\nexports.default = TimeDisplay;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVGltZURpc3BsYXkuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJUaW1lRGlzcGxheS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUF5QztBQUN6QyxpREFBcUQ7QUFDckQscURBQThDO0FBRTlDLE1BQXFCLFdBQVksU0FBUSxxQ0FBcUI7SUFBOUQ7O1FBR1ksY0FBUyxHQUFxQixFQUFFLENBQUM7SUFtQzdDLENBQUM7SUE5QkcsS0FBSztRQUNELElBQUksQ0FBQyxNQUFNLEdBQUcsSUFBSSxDQUFDLEtBQUssQ0FBQztRQUV6QixLQUFLLElBQUksQ0FBQyxHQUFHLENBQUMsRUFBRSxDQUFDLEdBQUcsQ0FBQyxFQUFFLENBQUMsRUFBRTtZQUN0QixJQUFJLENBQUMsU0FBUyxDQUFDLENBQUMsQ0FBQyxHQUFHLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQyxDQUFDLENBQUMsWUFBWSxTQUFDLHdCQUFjLEVBQUcsQ0FBQztRQUV4RSxJQUFJLENBQUMsTUFBTSxHQUFHLENBQUMsQ0FBQyxDQUFDO0lBQ3JCLENBQUM7SUFFRCxNQUFNO1FBQ0YsSUFBSSxJQUFJLENBQUMsS0FBSyxJQUFJLElBQUksQ0FBQyxNQUFNO1lBQ3pCLElBQUksQ0FBQyxRQUFRLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxDQUFDLENBQUUsV0FBVztJQUMvQyxDQUFDO0lBRU0sUUFBUSxDQUFDLEtBQVU7UUFDdEIsSUFBSSxDQUFDLE1BQU0sR0FBRyxLQUFLLENBQUM7UUFDcEIsSUFBSSxDQUFDLEtBQUssR0FBRyxLQUFLLENBQUMsQ0FBQyxvQkFBb0I7UUFFeEMsZ0JBQWdCO1FBQ2hCLElBQUksR0FBRyxHQUFHLElBQUksQ0FBQyxLQUFLLENBQUMsS0FBSyxHQUFHLEVBQUUsQ0FBQyxDQUFDO1FBQ2pDLElBQUksR0FBRyxHQUFHLEtBQUssR0FBRyxFQUFFLENBQUM7UUFFckIsT0FBTyxDQUFDLEdBQUcsQ0FBQyxpQkFBaUIsR0FBRyxJQUFJLEdBQUcsRUFBRSxDQUFDLENBQUM7UUFFM0MsSUFBSSxDQUFDLFNBQVMsQ0FBQyxDQUFDLENBQUMsQ0FBQyxRQUFRLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxHQUFHLEdBQUcsRUFBRSxDQUFDLENBQUMsQ0FBQztRQUNqRCxJQUFJLENBQUMsU0FBUyxDQUFDLENBQUMsQ0FBQyxDQUFDLFFBQVEsQ0FBQyxHQUFHLEdBQUcsRUFBRSxDQUFDLENBQUM7UUFDckMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxDQUFDLENBQUMsQ0FBQyxRQUFRLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxHQUFHLEdBQUcsRUFBRSxDQUFDLENBQUMsQ0FBQztRQUNqRCxJQUFJLENBQUMsU0FBUyxDQUFDLENBQUMsQ0FBQyxDQUFDLFFBQVEsQ0FBQyxHQUFHLEdBQUcsRUFBRSxDQUFDLENBQUM7SUFDekMsQ0FBQztDQUVKO0FBdENELDhCQXNDQyJ9","assetPath":"Assets/Template_Resources/Scripts/Time_display/TimeDisplay.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"segments","type":"UnityEngine.GameObject[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"value","type":"System.Int32","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"TimeDisplay","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: c9a4c7f8872080caeee1aa95fef1b1d8
+  onlyWriteTrigger: 0

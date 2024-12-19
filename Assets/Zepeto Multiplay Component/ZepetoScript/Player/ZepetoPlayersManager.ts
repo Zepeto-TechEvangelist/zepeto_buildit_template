@@ -35,6 +35,7 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
     private _room: Room;
     private _currentPlayers: Map<string, Player> = new Map<string, Player>();
 
+    public get currentPlayers(): Map<string, Player> { return this._currentPlayers; }
 
     /* Singleton */
     private static m_instance: ZepetoPlayersManager = null;

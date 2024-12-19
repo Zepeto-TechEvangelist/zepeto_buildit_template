@@ -1,0 +1,51 @@
+fileFormatVersion: 2
+guid: 9bfb884a2dc3d44fd8670df09e06066f
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nclass RandomTimeoutScheduler extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n        super(...arguments);\r\n       
+    // Public\r\n        this.paused = true;\r\n        this.repeatCount = -1;\r\n       
+    this.interval = 1;\r\n        this.min = 2.5;\r\n        this.max = 5;\r\n       
+    this._repeat = 0;\r\n        this._deltaTime = 0;\r\n    }\r\n    Reset() {\r\n       
+    this._deltaTime = 0;\r\n        this._repeat = 0;\r\n        this.paused = true;\r\n   
+    }\r\n    Schedule(time) {\r\n        this.Reset();\r\n        this.interval =
+    time;\r\n        this._deltaTime = this.interval;\r\n        this.repeatCount
+    = 0;\r\n        this.paused = false;\r\n    }\r\n    ScheduleRandom() {\r\n       
+    const random = this.min + Math.random() % (this.max - this.min);\r\n        this.Schedule(random);\r\n   
+    }\r\n    /// Implementation\r\n    Update() {\r\n        if (this.paused)\r\n           
+    return;\r\n        this._deltaTime -= UnityEngine_1.Time.deltaTime;\r\n       
+    if (this._deltaTime <= 0) {\r\n            // this.interval = this.min + Math.random()
+    * (this.max - this.min);\r\n            this._deltaTime += this.interval;\r\n           
+    this.StartCoroutine(this.Step());\r\n        }\r\n    }\r\n    *Step() {\r\n       
+    this.OnTimer?.Invoke();\r\n        this._repeat++;\r\n        if (this.repeatCount
+    > -1 && this._repeat >= this.repeatCount) {\r\n            // this.enabled =
+    false;\r\n            this.OnFinished?.Invoke();\r\n        }\r\n    }\r\n   
+    Resume() {\r\n        if (this._deltaTime <= 0) {\r\n            // this.interval
+    = this.min + Math.random() % (this.max - this.min);\r\n            this._deltaTime
+    += this.interval;\r\n        }\r\n        this.paused = false;\r\n    }\r\n   
+    Pause() {\r\n        this.paused = true;\r\n    }\r\n}\r\nexports.default = RandomTimeoutScheduler;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUmFuZG9tVGltZW91dFNjaGVkdWxlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlJhbmRvbVRpbWVvdXRTY2hlZHVsZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBcUQ7QUFFckQsNkNBQWlDO0FBRWpDLE1BQXFCLHNCQUF1QixTQUFRLHFDQUFxQjtJQUF6RTs7UUFFSSxTQUFTO1FBQ0YsV0FBTSxHQUFZLElBQUksQ0FBQztRQUV2QixnQkFBVyxHQUFRLENBQUMsQ0FBQyxDQUFDO1FBQ3RCLGFBQVEsR0FBVyxDQUFDLENBQUM7UUFDckIsUUFBRyxHQUFXLEdBQUcsQ0FBQztRQUNsQixRQUFHLEdBQVcsQ0FBQyxDQUFDO1FBS2YsWUFBTyxHQUFRLENBQUMsQ0FBQztRQUNqQixlQUFVLEdBQVEsQ0FBQyxDQUFDO0lBZ0VoQyxDQUFDO0lBN0RXLEtBQUs7UUFFVCxJQUFJLENBQUMsVUFBVSxHQUFHLENBQUMsQ0FBQztRQUNwQixJQUFJLENBQUMsT0FBTyxHQUFHLENBQUMsQ0FBQztRQUNqQixJQUFJLENBQUMsTUFBTSxHQUFHLElBQUksQ0FBQztJQUN2QixDQUFDO0lBRU0sUUFBUSxDQUFDLElBQVc7UUFFdkIsSUFBSSxDQUFDLEtBQUssRUFBRSxDQUFDO1FBRWIsSUFBSSxDQUFDLFFBQVEsR0FBRyxJQUFJLENBQUM7UUFDckIsSUFBSSxDQUFDLFVBQVUsR0FBRyxJQUFJLENBQUMsUUFBUSxDQUFDO1FBQ2hDLElBQUksQ0FBQyxXQUFXLEdBQUcsQ0FBQyxDQUFDO1FBRXJCLElBQUksQ0FBQyxNQUFNLEdBQUcsS0FBSyxDQUFDO0lBQ3hCLENBQUM7SUFFTSxjQUFjO1FBQ2pCLE1BQU0sTUFBTSxHQUFHLElBQUksQ0FBQyxHQUFHLEdBQUcsSUFBSSxDQUFDLE1BQU0sRUFBRSxHQUFHLENBQUMsSUFBSSxDQUFDLEdBQUcsR0FBRyxJQUFJLENBQUMsR0FBRyxDQUFDLENBQUM7UUFDaEUsSUFBSSxDQUFDLFFBQVEsQ0FBQyxNQUFNLENBQUMsQ0FBQztJQUMxQixDQUFDO0lBRUQsa0JBQWtCO0lBRWxCLE1BQU07UUFDRixJQUFJLElBQUksQ0FBQyxNQUFNO1lBQUUsT0FBTztRQUV4QixJQUFJLENBQUMsVUFBVSxJQUFJLGtCQUFJLENBQUMsU0FBUyxDQUFDO1FBRWxDLElBQUksSUFBSSxDQUFDLFVBQVUsSUFBSSxDQUFDLEVBQUU7WUFDdEIsb0VBQW9FO1lBQ3BFLElBQUksQ0FBQyxVQUFVLElBQUksSUFBSSxDQUFDLFFBQVEsQ0FBQztZQUVqQyxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxJQUFJLEVBQUUsQ0FBQyxDQUFDO1NBQ3BDO0lBQ0wsQ0FBQztJQUVPLENBQUMsSUFBSTtRQUNULElBQUksQ0FBQyxPQUFPLEVBQUUsTUFBTSxFQUFFLENBQUM7UUFDdkIsSUFBSSxDQUFDLE9BQU8sRUFBRSxDQUFDO1FBRWYsSUFBSSxJQUFJLENBQUMsV0FBVyxHQUFHLENBQUMsQ0FBQyxJQUFJLElBQUksQ0FBQyxPQUFPLElBQUksSUFBSSxDQUFDLFdBQVcsRUFBRTtZQUMzRCx3QkFBd0I7WUFDeEIsSUFBSSxDQUFDLFVBQVUsRUFBRSxNQUFNLEVBQUUsQ0FBQztTQUM3QjtJQUNMLENBQUM7SUFHRCxNQUFNO1FBQ0YsSUFBSSxJQUFJLENBQUMsVUFBVSxJQUFJLENBQUMsRUFBRTtZQUN0QixvRUFBb0U7WUFDcEUsSUFBSSxDQUFDLFVBQVUsSUFBSSxJQUFJLENBQUMsUUFBUSxDQUFDO1NBQ3BDO1FBRUQsSUFBSSxDQUFDLE1BQU0sR0FBRyxLQUFLLENBQUM7SUFDeEIsQ0FBQztJQUVELEtBQUs7UUFDRCxJQUFJLENBQUMsTUFBTSxHQUFHLElBQUksQ0FBQztJQUN2QixDQUFDO0NBQ0o7QUE5RUQseUNBOEVDIn0=","assetPath":"Assets/Template_Resources/Scripts/Doll/RandomTimeoutScheduler.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"paused","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"repeatCount","type":"System.Int32","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"interval","type":"System.Single","isArray":false,"initValue":["1"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"min","type":"System.Single","isArray":false,"initValue":["2.5"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"max","type":"System.Single","isArray":false,"initValue":["5"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"OnFinished","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"OnTimer","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"RandomTimeoutScheduler","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: d8fea02699eae8e1d2ef920272885307
+  onlyWriteTrigger: 0
