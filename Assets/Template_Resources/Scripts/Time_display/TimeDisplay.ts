@@ -1,6 +1,7 @@
 import { GameObject } from 'UnityEngine';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import DigitalDisplay from './DigitalDisplay';
+import { TextMeshPro } from 'TMPro';
 
 export default class TimeDisplay extends ZepetoScriptBehaviour {
 
@@ -9,6 +10,8 @@ export default class TimeDisplay extends ZepetoScriptBehaviour {
         
     private _value: int;
     public value: int;
+    
+    @SerializeField() private _display: TextMeshPro;
     
     Start() {  
         this._value = this.value;
@@ -34,17 +37,21 @@ export default class TimeDisplay extends ZepetoScriptBehaviour {
         
         console.log(`Will set time ${min}:${sec}`);
         
-        this._segments[0].SetValue(Math.trunc(min / 10));
-        this._segments[1].SetValue(min % 10);
-        this._segments[2].SetValue(Math.trunc(sec / 10));
-        this._segments[3].SetValue(sec % 10);
+        // this._segments[0].SetValue(Math.trunc(min / 10));
+        // this._segments[1].SetValue(min % 10);
+        // this._segments[2].SetValue(Math.trunc(sec / 10));
+        // this._segments[3].SetValue(sec % 10);
+
+        this._display.text = Math.trunc(min / 10) + "" + (min % 10) + ":" + Math.trunc(sec / 10) + "" + (sec % 10);
     }
     
     public SetSegments(lval: int, rval: int) {
-        this._segments[0].SetValue(Math.trunc(lval / 10));
-        this._segments[1].SetValue(lval % 10);
+        // this._segments[0].SetValue(Math.trunc(lval / 10));
+        // this._segments[1].SetValue(lval % 10);
+        //
+        // this._segments[2].SetValue(Math.trunc(rval / 10));
+        // this._segments[3].SetValue(rval % 10);
 
-        this._segments[2].SetValue(Math.trunc(rval / 10));
-        this._segments[3].SetValue(rval % 10);
+        this._display.text = lval + ":" + rval;
     }
 }
