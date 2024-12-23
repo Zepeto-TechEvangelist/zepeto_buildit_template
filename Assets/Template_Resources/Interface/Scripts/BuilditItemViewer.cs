@@ -27,6 +27,7 @@ public class BuilditItemViewer : EditorWindow
         { "Snow", "Assets/Template_Resources/Prefabs/ZepetoAssets_Snow_Village" },
         { "Subway", "Assets/Template_Resources/Prefabs/ZepetoAssets_Subway" },
         { "Sugar", "Assets/Template_Resources/Prefabs/ZepetoAssets_Sugarland" },
+        { "Squid", "Assets/Template_Resources/Prefabs/ZepetoAssets_Squid_Game" },
         { "Text", "Assets/Template_Resources/Prefabs/ZepetoAssets_Text" },
         { "Theme", "Assets/Template_Resources/Prefabs/ZepetoAssets_Themepark" },
         { "Wedding", "Assets/Template_Resources/Prefabs/ZepetoAssets_Wedding" }
