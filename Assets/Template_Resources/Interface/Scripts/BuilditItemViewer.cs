@@ -10,6 +10,7 @@ public class BuilditItemViewer : EditorWindow
     {
         { "All", null },
         { "Utility", "Assets/Template_Resources/Prefabs/Utility" },
+        { "Squid", "Assets/Template_Resources/Prefabs/ZepetoAssets_Squid_Game" },
         { "Cafe", "Assets/Template_Resources/Prefabs/ZepetoAssets_Cafe" },
         { "Cherry", "Assets/Template_Resources/Prefabs/ZepetoAssets_Cherryblossom" },
         { "City", "Assets/Template_Resources/Prefabs/ZepetoAssets_City" },
@@ -27,7 +28,6 @@ public class BuilditItemViewer : EditorWindow
         { "Snow", "Assets/Template_Resources/Prefabs/ZepetoAssets_Snow_Village" },
         { "Subway", "Assets/Template_Resources/Prefabs/ZepetoAssets_Subway" },
         { "Sugar", "Assets/Template_Resources/Prefabs/ZepetoAssets_Sugarland" },
-        { "Squid", "Assets/Template_Resources/Prefabs/ZepetoAssets_Squid_Game" },
         { "Text", "Assets/Template_Resources/Prefabs/ZepetoAssets_Text" },
         { "Theme", "Assets/Template_Resources/Prefabs/ZepetoAssets_Themepark" },
         { "Wedding", "Assets/Template_Resources/Prefabs/ZepetoAssets_Wedding" }
