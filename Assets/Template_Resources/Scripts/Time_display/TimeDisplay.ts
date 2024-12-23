@@ -40,4 +40,11 @@ export default class TimeDisplay extends ZepetoScriptBehaviour {
         this._segments[3].SetValue(sec % 10);
     }
     
+    public SetSegments(lval: int, rval: int) {
+        this._segments[0].SetValue(Math.trunc(lval / 10));
+        this._segments[1].SetValue(lval % 10);
+
+        this._segments[2].SetValue(Math.trunc(rval / 10));
+        this._segments[3].SetValue(rval % 10);
+    }
 }

@@ -5,9 +5,10 @@ import RandomTimeoutScheduler from './RandomTimeoutScheduler';
 import SceneManager from './../../Modules/Scripts/SceneManager';
 import {Player} from "ZEPETO.Multiplay.Schema";
 
-import {CharacterState, KnowSockets, ZepetoPlayers} from 'ZEPETO.Character.Controller';
+import {CharacterState, KnowSockets, ZepetoCharacter, ZepetoPlayers} from 'ZEPETO.Character.Controller';
 import ZepetoPlayersManager from '../../../Zepeto Multiplay Component/ZepetoScript/Player/ZepetoPlayersManager';
 import TransformInterpolation from './TransformInterpolation';
+import PlayerTriggerArea from './PlayerTriggerArea';
 
 
 enum DollState {
@@ -47,7 +48,7 @@ export default class DollController extends ZepetoScriptBehaviour {
     private _currentPlayers: string[] = [];
     private _deadPlayers: string[];
     private _playerControls: GameObject = null;
-    
+    private _finishArea: PlayerTriggerArea;
     
     Start() {    
 
@@ -55,6 +56,10 @@ export default class DollController extends ZepetoScriptBehaviour {
         this._timer = this.GetComponent<RandomTimeoutScheduler>();
         this._timer.min = this.minCountingTime;
         this._timer.max = this.maxCountingTime;
+        
+        this._finishArea = this.GetComponentInChildren<PlayerTriggerArea>();
+        if (!this._finishArea) console.log("Can't locate finish area");
+        this._finishArea.OnEnter = (character: ZepetoCharacter) => { this._currentPlayers.pop(); this.CheckGameEnd(); console.log('On Enter ' ) };
         
         this._playerControls = GameObject.Find("UIZepetoPlayerControl");
 
@@ -123,6 +128,8 @@ export default class DollController extends ZepetoScriptBehaviour {
                 break;
 
             case DollState.Finished:
+                this.animator.enabled = false;
+                this.audio.Stop();
                 this._timer.Pause();
                 break;
         }
@@ -152,7 +159,6 @@ export default class DollController extends ZepetoScriptBehaviour {
                     
                     this._deadPlayers.push(playerId);
                     zepetoPlayer.character.SetGesture(this.deathAnimation);
-                    // zepetoPlayer.character.characterController.enabled = false;
                     
                     // Died self
                     if (zepetoPlayer.isLocalPlayer)
@@ -192,9 +198,10 @@ export default class DollController extends ZepetoScriptBehaviour {
     }
     
     private CheckGameEnd() {
-        if (this._currentPlayers.length == this._deadPlayers.length) {
+        if (this._currentPlayers.length == 0) {
             this._state = DollState.Finished;
         }
+        this.UpdateState();
     }
 
     

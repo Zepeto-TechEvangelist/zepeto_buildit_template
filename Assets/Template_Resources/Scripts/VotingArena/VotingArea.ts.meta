@@ -1,0 +1,38 @@
+fileFormatVersion: 2
+guid: 55b3da9db46d4fa894c16c3f92d069d6
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass
+    VotingArea extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.votes = 0;\r\n        this._entered
+    = [];\r\n    }\r\n    OnTriggerEnter(collider) {\r\n        if (this._entered.findIndex(x
+    => x === collider) !== -1)\r\n            return;\r\n        // Increase player
+    count\r\n        this.votes++;\r\n        this._entered.push(collider);\r\n       
+    this.manager.OnUpdateVotingAreaValue(this);\r\n    }\r\n    OnTriggerExit(collider)
+    {\r\n        let index = this._entered.findIndex(x => x === collider);\r\n       
+    if (index === -1)\r\n            return;\r\n        // Decrease player count\r\n       
+    this.votes--;\r\n        this._entered.splice(index, 1);\r\n        this.manager.OnUpdateVotingAreaValue(this);\r\n   
+    }\r\n}\r\nexports.default = VotingArea;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVm90aW5nQXJlYS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlZvdGluZ0FyZWEudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBbUQ7QUFhbkQsTUFBcUIsVUFBVyxTQUFRLHFDQUFxQjtJQUE3RDs7UUFFVyxVQUFLLEdBQVEsQ0FBQyxDQUFDO1FBQ2YsYUFBUSxHQUFlLEVBQUUsQ0FBQztJQTJCckMsQ0FBQztJQXZCVyxjQUFjLENBQUMsUUFBa0I7UUFFckMsSUFBSSxJQUFJLENBQUMsUUFBUSxDQUFDLFNBQVMsQ0FBQyxDQUFDLENBQUMsRUFBRSxDQUFDLENBQUMsS0FBSyxRQUFRLENBQUMsS0FBSyxDQUFDLENBQUM7WUFDbkQsT0FBTztRQUNYLHdCQUF3QjtRQUN4QixJQUFJLENBQUMsS0FBSyxFQUFFLENBQUM7UUFDYixJQUFJLENBQUMsUUFBUSxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQztRQUU3QixJQUFJLENBQUMsT0FBTyxDQUFDLHVCQUF1QixDQUFDLElBQUksQ0FBQyxDQUFDO0lBQy9DLENBQUM7SUFFTyxhQUFhLENBQUMsUUFBa0I7UUFFcEMsSUFBSSxLQUFLLEdBQUcsSUFBSSxDQUFDLFFBQVEsQ0FBQyxTQUFTLENBQUMsQ0FBQyxDQUFDLEVBQUUsQ0FBQyxDQUFDLEtBQUssUUFBUSxDQUFDLENBQUM7UUFDekQsSUFBSSxLQUFLLEtBQUssQ0FBQyxDQUFDO1lBQ1osT0FBTztRQUVYLHdCQUF3QjtRQUN4QixJQUFJLENBQUMsS0FBSyxFQUFFLENBQUM7UUFDYixJQUFJLENBQUMsUUFBUSxDQUFDLE1BQU0sQ0FBQyxLQUFLLEVBQUUsQ0FBQyxDQUFDLENBQUM7UUFFL0IsSUFBSSxDQUFDLE9BQU8sQ0FBQyx1QkFBdUIsQ0FBQyxJQUFJLENBQUMsQ0FBQztJQUMvQyxDQUFDO0NBQ0o7QUE5QkQsNkJBOEJDIn0=","assetPath":"Assets/Template_Resources/Scripts/VotingArena/VotingArea.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"votes","type":"System.Int32","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.PhysicsModule","name":"_entered","type":"UnityEngine.Collider[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"","name":"manager","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/Template_Resources/Scripts/VotingArena/VotingManager.default","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"VotingArea","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 0e8efeeeb1f7b77ea0836bc57438f454
+  onlyWriteTrigger: 0
