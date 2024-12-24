@@ -105,11 +105,17 @@ export default class DollController extends ZepetoScriptBehaviour {
                 break;
 
             case DollState.Counting:
-                
-                // let pitch = (this.audio.clip.length / this._timer.interval);
-                // this.audio.pitch = pitch;
-                this.audio.PlayDelayed(0.0);   // Delay to match the animation transition
+
+
                 this._timer.ScheduleRandom();
+                
+                // audio length
+                let audio_length = 4.385;
+                
+                let pitch = (/*this.audio.clip.length*/ audio_length / this._timer.interval);
+                this.audio.pitch = pitch;
+                this.audio.PlayDelayed(0.0);   // Delay to match the animation transition
+                
                 break;
 
             case DollState.Turning:
