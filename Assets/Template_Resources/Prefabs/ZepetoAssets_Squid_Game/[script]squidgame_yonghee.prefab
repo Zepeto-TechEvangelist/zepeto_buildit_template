@@ -34,6 +34,7 @@ Transform:
   m_Children:
   - {fileID: 4235557635841426712}
   - {fileID: 811602433466412906}
+  - {fileID: 6857916698532626686}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9050633407670827840
@@ -72,7 +73,7 @@ MonoBehaviour:
     - 
     - 
     - 
-    - '{"type":"System.Single, mscorlib","value":"3"}'
+    - '{"type":"System.Single, mscorlib","value":"2.5"}'
     - '{"type":"System.Single, mscorlib","value":"5"}'
     - '{"type":"System.Int32, mscorlib","value":"0"}'
     - 
@@ -115,7 +116,7 @@ MonoBehaviour:
     - '{"type":"UnityEngine.Events.UnityEvent, UnityEngine.CoreModule","value":"{\"m_PersistentCalls\":{\"m_Calls\":[]}}"}'
     - '{"type":"System.Int32, mscorlib","value":"-1"}'
     - '{"type":"System.Single, mscorlib","value":"3"}'
-    - '{"type":"System.Single, mscorlib","value":"3"}'
+    - '{"type":"System.Single, mscorlib","value":"2.5"}'
     - '{"type":"System.Single, mscorlib","value":"5"}'
     - '{"type":"System.Boolean, mscorlib","value":"True"}'
     unityArrayValues: []
@@ -606,6 +607,103 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!1 &9023643584028358104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6857916698532626686}
+  - component: {fileID: 2717306397645684318}
+  - component: {fileID: 3437576397193202365}
+  - component: {fileID: 2393632146000202359}
+  m_Layer: 0
+  m_Name: FinishArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6857916698532626686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9023643584028358104}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.1399994}
+  m_LocalScale: {x: 2.836972, y: 1, z: 0.5336225}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1761056741544297944}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &2717306397645684318
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9023643584028358104}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &3437576397193202365
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9023643584028358104}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 2, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2393632146000202359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9023643584028358104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyRootMotion: 0
+  script:
+    script: {fileID: 4458252877524076426, guid: 3732163d511e4caba2e2a81145810813, type: 3}
+    isExpaned: 0
+    keys:
+    - playerCount
+    - _entered
+    - OnEnter
+    - OnExit
+    unityValues:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    values:
+    - '{"type":"System.Int32, mscorlib","value":"0"}'
+    - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":0,\"type\":\"UnityEngine.Object,
+      UnityEngine.CoreModule\",\"isUnity\":true}"}'
+    - 
+    - 
+    unityArrayValues: []
+    arrayValues: []
 --- !u!1001 &4417187118367433459
 PrefabInstance:
   m_ObjectHideFlags: 0
