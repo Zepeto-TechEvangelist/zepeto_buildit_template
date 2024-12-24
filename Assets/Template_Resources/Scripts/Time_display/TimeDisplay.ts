@@ -16,8 +16,8 @@ export default class TimeDisplay extends ZepetoScriptBehaviour {
     Start() {  
         this._value = this.value;
         
-        for (var i = 0; i < 4; i++)
-            this._segments[i] = this.segments[i].GetComponent<DigitalDisplay>();
+        // for (var i = 0; i < 4; i++)
+        //     this._segments[i] = this.segments[i].GetComponent<DigitalDisplay>();
     
         this._value = -1;
     }
