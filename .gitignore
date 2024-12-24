@@ -26,6 +26,11 @@
 # Visual Studio cache directory
 .vs/
 
+# rider cache directory
+.idea/
+Assets/Plugins/Editor/JetBrains.meta
+Assets/Plugins/Editor/JetBrains/
+
 # Gradle cache directory
 .gradle/
 
@@ -63,6 +68,14 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+
+# OSX
+.DS_Store
+Assets/.DS_Store
+**/.DS_Store
+
+# Node
+node_modules/*
 
 # Packed Addressables
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
