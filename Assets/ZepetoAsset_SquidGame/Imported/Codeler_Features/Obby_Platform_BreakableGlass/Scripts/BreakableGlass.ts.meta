@@ -1,0 +1,81 @@
+fileFormatVersion: 2
+guid: 5973a74c0baacf741ab40c708e1bb68f
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst __UnityEngine__ = require(\"UnityEngine\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass
+    BreakableGlass extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this._isBreakable = true;\r\n       
+    this._breakForce = 10.0;\r\n        this._resetOnEnable = true;\r\n        this._hasAutoReset
+    = false;\r\n        this._autoResetDelay = 3.0;\r\n    }\r\n    get IsBreakable()
+    { return this._isBreakable; }\r\n    get HasBeenBroken() { return this._hasBeenBroken;
+    }\r\n    get Collider() {\r\n        if (this._collider == null) {\r\n           
+    this._collider = this.gameObject.GetComponent($typeof(UnityEngine_1.Collider));\r\n           
+    if (!this._collider) {\r\n                UnityEngine_1.Debug.LogError(this.gameObject.name
+    + \" (BreakableGlass.ts) = does not have any Collider component!\", this.gameObject);\r\n           
+    }\r\n        }\r\n        return this._collider;\r\n    }\r\n    get MeshRenderer()
+    {\r\n        if (this._meshRenderer == null) {\r\n            this._meshRenderer
+    = this.gameObject.GetComponent($typeof(UnityEngine_1.MeshRenderer));\r\n           
+    if (!this._meshRenderer) {\r\n                UnityEngine_1.Debug.LogError(this.gameObject.name
+    + \" (BreakableGlass.ts) = does not have MeshRenderer component!\", this.gameObject);\r\n           
+    }\r\n        }\r\n        return this._meshRenderer;\r\n    }\r\n    //Unity
+    Methods /////////////\r\n    Start() {\r\n        this.Initialize();\r\n    }\r\n   
+    OnEnable() {\r\n        if (this._resetOnEnable) {\r\n            this.Reset();\r\n       
+    }\r\n    }\r\n    OnTriggerEnter(collider) {\r\n        if (this._isBreakable)
+    { //should apply for everything? sadly players in the build it template do not
+    have any Player tag or Player layer to have an easy check\r\n            this.BreakGlass();\r\n       
+    }\r\n    }\r\n    //////////\r\n    Initialize() {\r\n        this._hasBeenBroken
+    = false;\r\n        if (this._isBreakable) {\r\n            this.Collider.isTrigger
+    = true; //If breakable, make the trigger interaction possible, otherwise it is
+    just a simple platform!\r\n        }\r\n    }\r\n    //In case of want to control
+    from another script\r\n    SetBreakable() {\r\n        this._isBreakable = true;\r\n       
+    this.Initialize();\r\n    }\r\n    BreakGlass() {\r\n        if (this._hasBeenBroken)\r\n           
+    return; //Dont break twice\r\n        this.GenerateBrokenGlass();\r\n       
+    if (this._hasAutoReset)\r\n            this.StartCoroutine(this.AutoReset());\r\n       
+    this._hasBeenBroken = true;\r\n    }\r\n    GenerateBrokenGlass() {\r\n       
+    if (__UnityEngine__.Object.op_Inequality(this._brokenGlassPrefab, null)) {\r\n           
+    let brokenGlass = UnityEngine_1.GameObject.Instantiate(this._brokenGlassPrefab,
+    this.transform.position, this.transform.rotation);\r\n            // Add a downward
+    force to each rigidbody piece in the broken glass\r\n            let rigidbodies
+    = brokenGlass.GetComponentsInChildren($typeof(UnityEngine_1.Rigidbody));\r\n           
+    for (let i = 0; i < rigidbodies.length; i++) {\r\n                let rb = rigidbodies[i];\r\n               
+    let randomInitVelocity = UnityEngine_1.Random.Range(this._breakForce * 0.65,
+    this._breakForce); //random between 65% and 100% or _breakForce\r\n               
+    rb.velocity = new UnityEngine_1.Vector3(0, -randomInitVelocity, 0);\r\n               
+    // Add random spin\r\n                rb.AddTorque(UnityEngine_1.Vector3.op_Multiply(UnityEngine_1.Random.insideUnitSphere,
+    this._breakForce), UnityEngine_1.ForceMode.Impulse);\r\n            }\r\n           
+    this._brokenGlassObject = brokenGlass;\r\n            this.MeshRenderer.enabled
+    = false; //Make the original not broken glass invisible\r\n        }\r\n       
+    else {\r\n            console.error(this.gameObject.name + \" (BreakableGlass.ts)
+    = _brokenGlassPrefab is not assigned!\");\r\n        }\r\n    }\r\n    *AutoReset()
+    {\r\n        yield new UnityEngine_1.WaitForSeconds(this._autoResetDelay);\r\n       
+    this.Reset();\r\n    }\r\n    Reset() {\r\n        //No need reset if the glass
+    has not broke\r\n        if (!this._hasBeenBroken)\r\n            return;\r\n       
+    //Reset variables\r\n        this.Initialize();\r\n        //Reactive the original
+    not broken glass mesh\r\n        this.MeshRenderer.enabled = true;\r\n       
+    //Remove the broken pieces\r\n        if (__UnityEngine__.Object.op_Inequality(this._brokenGlassObject,
+    null)) {\r\n            UnityEngine_1.GameObject.Destroy(this._brokenGlassObject);\r\n       
+    }\r\n    }\r\n}\r\nexports.default = BreakableGlass;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQnJlYWthYmxlR2xhc3MuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJCcmVha2FibGVHbGFzcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFDQSw2Q0FBK0g7QUFDL0gsaURBQXFEO0FBRXJELE1BQXFCLGNBQWUsU0FBUSxxQ0FBcUI7SUFBakU7O1FBSVksaUJBQVksR0FBUyxJQUFJLENBQUM7UUFXMUIsZ0JBQVcsR0FBVyxJQUFJLENBQUM7UUFHM0IsbUJBQWMsR0FBUyxJQUFJLENBQUM7UUFHNUIsa0JBQWEsR0FBUyxLQUFLLENBQUM7UUFFNUIsb0JBQWUsR0FBVyxHQUFHLENBQUM7SUFxSDFDLENBQUM7SUF2SUcsSUFBVyxXQUFXLEtBQVcsT0FBTyxJQUFJLENBQUMsWUFBWSxDQUFDLENBQUMsQ0FBQztJQUc1RCxJQUFXLGFBQWEsS0FBVyxPQUFPLElBQUksQ0FBQyxjQUFjLENBQUMsQ0FBQyxDQUFDO0lBbUJoRSxJQUFXLFFBQVE7UUFDZixJQUFJLElBQUksQ0FBQyxTQUFTLElBQUksSUFBSSxFQUFFO1lBQ3hCLElBQUksQ0FBQyxTQUFTLEdBQUcsSUFBSSxDQUFDLFVBQVUsQ0FBQyxZQUFZLFNBQUMsc0JBQVEsRUFBRyxDQUFDO1lBQzFELElBQUksQ0FBQyxJQUFJLENBQUMsU0FBUyxFQUFFO2dCQUNqQixtQkFBSyxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLElBQUksR0FBRyw4REFBOEQsRUFBRSxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUM7YUFDMUg7U0FDSjtRQUNELE9BQU8sSUFBSSxDQUFDLFNBQVMsQ0FBQztJQUMxQixDQUFDO0lBR0QsSUFBVyxZQUFZO1FBQ25CLElBQUksSUFBSSxDQUFDLGFBQWEsSUFBSSxJQUFJLEVBQUU7WUFDNUIsSUFBSSxDQUFDLGFBQWEsR0FBRyxJQUFJLENBQUMsVUFBVSxDQUFDLFlBQVksU0FBQywwQkFBWSxFQUFHLENBQUM7WUFDbEUsSUFBSSxDQUFDLElBQUksQ0FBQyxh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","assetPath":"Assets/Codeler_Features/Obby_Platform_BreakableGlass/Scripts/BreakableGlass.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"_isBreakable","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_brokenGlassPrefab","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"_breakForce","type":"System.Single","isArray":false,"initValue":["10"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"_resetOnEnable","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"_hasAutoReset","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"_autoResetDelay","type":"System.Single","isArray":false,"initValue":["3"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"BreakableGlass","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 19026a816c87954a3ce210d6dda27e48
+  onlyWriteTrigger: 0

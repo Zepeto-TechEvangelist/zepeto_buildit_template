@@ -1,0 +1,41 @@
+fileFormatVersion: 2
+guid: ca3412df47f1b2a4d9cff03ebfd72764
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass EventOnTrigger extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    OnTriggerEnter(collider) {\r\n       
+    //note to zepeto : should really have an easier way to check if collider is local
+    player.\r\n        if (collider != ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent($typeof(UnityEngine_1.Collider)))
+    {\r\n            return;\r\n        }\r\n        if (this.Event != null)\r\n           
+    this.Event.Invoke();\r\n    }\r\n    //Utils method\r\n    static BindEvent(object,
+    event) {\r\n        let eventOnTrigger = object.GetComponent($typeof(EventOnTrigger));\r\n       
+    if (ZEPETO_Script_1.ZepetoScriptBehaviour.op_Inequality(eventOnTrigger, null))
+    {\r\n            eventOnTrigger.Event.AddListener(() => event());\r\n       
+    }\r\n        else {\r\n            UnityEngine_1.Debug.LogError(object.name +
+    \" (EventOnTrigger.ts) = object does not have EventOnTrigger component!\", object);\r\n       
+    }\r\n    }\r\n}\r\nexports.default = EventOnTrigger;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRXZlbnRPblRyaWdnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJFdmVudE9uVHJpZ2dlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUEwRDtBQUUxRCw2RUFBNEQ7QUFDNUQsaURBQXFEO0FBRXJELE1BQXFCLGNBQWUsU0FBUSxxQ0FBcUI7SUFNdEQsY0FBYyxDQUFDLFFBQWtCO1FBQ3BDLHlGQUF5RjtRQUN6RixJQUFJLFFBQVEsSUFBSSwyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxXQUFXLEVBQUUsWUFBWSxFQUFFLFNBQVMsQ0FBQyxZQUFZLFNBQUMsc0JBQVEsRUFBRyxFQUFFO1lBQ2xHLE9BQU87U0FDVjtRQUVELElBQUksSUFBSSxDQUFDLEtBQUssSUFBSSxJQUFJO1lBQUUsSUFBSSxDQUFDLEtBQUssQ0FBQyxNQUFNLEVBQUUsQ0FBQztJQUNoRCxDQUFDO0lBRUQsY0FBYztJQUNQLE1BQU0sQ0FBQyxTQUFTLENBQUMsTUFBa0IsRUFBRSxLQUFpQjtRQUN6RCxJQUFJLGNBQWMsR0FBRyxNQUFNLENBQUMsWUFBWSxTQUFDLGNBQWMsRUFBRyxDQUFDO1FBQzNELElBcEJDLHFDQUFxQixDQTRCaTZMLGFBQWMsQ0FSajhMLGNBQWMsRUFBSSxJQUFJLEdBQUU7WUFDeEIsY0FBYyxDQUFDLEtBQUssQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFLENBQUMsS0FBSyxFQUFFLENBQUMsQ0FBQztTQUNuRDthQUNJO1lBQ0QsbUJBQUssQ0FBQyxRQUFRLENBQUMsTUFBTSxDQUFDLElBQUksR0FBRyx1RUFBdUUsRUFBRSxNQUFNLENBQUMsQ0FBQztTQUNqSDtJQUNMLENBQUM7Q0FFSjtBQTFCRCxpQ0EwQkMifQ==","assetPath":"Assets/Codeler_Features/Common_RaceTimer/Scripts/EventOnTrigger.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"Event","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"EventOnTrigger","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: db95dd9e9c67010dd7182c6114c2a28b
+  onlyWriteTrigger: 0

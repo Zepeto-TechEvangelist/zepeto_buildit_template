@@ -1,0 +1,97 @@
+fileFormatVersion: 2
+guid: 4b371d9cce63e68448b2311e460d0a90
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    EventOnTrigger_1 = require(\"./EventOnTrigger\");\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    UnityEngine_Events_1 = require(\"UnityEngine.Events\");\r\nconst UnityEngine_UI_1
+    = require(\"UnityEngine.UI\");\r\nclass RaceTimer extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this._usePrefab
+    = false;\r\n        this._prefabAutoDestroyOnRaceEnd = true;\r\n        this._prefabDestroyDelay
+    = 5.0;\r\n        this._useCustom = false;\r\n    }\r\n    get CurrentTextUGUI()
+    {\r\n        if (this._usePrefab) {\r\n            return this._currentTimerText;\r\n       
+    }\r\n        else if (this._useCustom) {\r\n            return this._customTextGUI;\r\n       
+    }\r\n        return null;\r\n    }\r\n    //Unity Methods /////////////\r\n   
+    Awake() {\r\n        this.Initialize();\r\n    }\r\n    Update() {\r\n       
+    if (!this._isRacing)\r\n            return;\r\n        this.UpdateRace();\r\n   
+    }\r\n    //////////\r\n    Initialize() {\r\n        this._isRacing = false;\r\n       
+    this.OnRaceTimerChanged = new ($generic(UnityEngine_Events_1.UnityEvent$1, $typeof(\"float\")))();\r\n       
+    this.OnRaceTimerChangedDigit = new ($generic(UnityEngine_Events_1.UnityEvent$1,
+    $typeof(\"float\")))();\r\n        this.OnRaceEndWithTimerData = new ($generic(UnityEngine_Events_1.UnityEvent$1,
+    $typeof(\"float\")))();\r\n        this.BindEvents();\r\n    }\r\n    //Lazy
+    bind on component\r\n    BindEvents() {\r\n        EventOnTrigger_1.default.BindEvent(this._raceStartEventTrigger,
+    () => this.StartRace());\r\n        EventOnTrigger_1.default.BindEvent(this._raceEndEventTrigger,
+    () => this.EndRace());\r\n    }\r\n    GenerateCustomTimer() {\r\n        //Check
+    if prefab is assigned\r\n        if (this._prefabTextUGUI == null) {\r\n           
+    UnityEngine_1.Debug.LogError(this.gameObject.name + \" (RaceTimer.ts) = _prefabTextUGUI
+    is not assigned\", this.gameObject);\r\n            return;\r\n        }\r\n       
+    //if previous timer is still alive, stop auto destroy coroutines and destroy
+    object\r\n        if (this._currentTimerText != null) {\r\n            UnityEngine_1.GameObject.Destroy(this._currentTimerText.transform.root.gameObject);\r\n           
+    if (this._prefabAutoDestroyOnRaceEnd)\r\n                this.StopAllCoroutines();\r\n       
+    }\r\n        let go = UnityEngine_1.GameObject.Instantiate(this._prefabTextUGUI);\r\n       
+    this._currentTimerText = go.GetComponentInChildren($typeof(UnityEngine_UI_1.Text));\r\n       
+    //Check if it finds UGUI\r\n        if (this._currentTimerText == null) {\r\n           
+    UnityEngine_1.Debug.LogError(go + \" (RaceTimer.ts) = _currentTimerText does
+    not have TextMeshProUGUI component in its children!\", go);\r\n        }\r\n   
+    }\r\n    //Generate the UGUI if prefab based\r\n    SetUpGUI() {\r\n        if
+    (this._usePrefab) {\r\n            this.GenerateCustomTimer();\r\n           
+    //Auto destroy prefab on race end callback\r\n            if (this._prefabAutoDestroyOnRaceEnd)
+    {\r\n                this.OnRaceEnd.AddListener(() => {\r\n                   
+    this.StartCoroutine(this.PrefabAutoDestroy());\r\n                });\r\n           
+    }\r\n        }\r\n        else if (this._useCustom) {\r\n            if (this._customTextGUI
+    == null) {\r\n                UnityEngine_1.Debug.LogError(this.gameObject.name
+    + \" (RaceTimer.ts) = _customTextGUI is not assigned\", this.gameObject);\r\n           
+    }\r\n        }\r\n        //Bind local event to the current used text ugui if
+    there is\r\n        if (this.CurrentTextUGUI != null) {\r\n            this.OnRaceTimerChangedDigit.AddListener((timer)
+    => {\r\n                this.CurrentTextUGUI.text = RaceTimer.ConvertTimeToMinutesAndSeconds(timer);\r\n           
+    });\r\n        }\r\n    }\r\n    StartRace() {\r\n        if (this._isRacing)\r\n           
+    return;\r\n        this._timer = 0.0;\r\n        this._lastFlooredTimer = 0.0;\r\n       
+    this._isRacing = true;\r\n        this.SetUpGUI();\r\n        console.log(this.OnRaceStart.GetPersistentEventCount());\r\n       
+    this.OnRaceStart.Invoke();\r\n    }\r\n    UpdateRace() {\r\n        //Update
+    timer\r\n        this._timer += UnityEngine_1.Time.deltaTime;\r\n        this.OnRaceTimerChanged.Invoke(this._timer);\r\n       
+    //Update timer on digit changed\r\n        //Usually used for updating the timer
+    on the UI, as we usually display it as seconds, for optimization issues, it is
+    better to use this\r\n        let timerFloored = Math.floor(this._timer);\r\n       
+    if (this._lastFlooredTimer != timerFloored) {\r\n            this._lastFlooredTimer
+    = timerFloored;\r\n            this.OnRaceTimerChangedDigit.Invoke(this._lastFlooredTimer);\r\n       
+    }\r\n    }\r\n    PauseRace() {\r\n        this._isRacing = false;\r\n    }\r\n   
+    ResumeRace() {\r\n        this._isRacing = true;\r\n    }\r\n    EndRace() {\r\n       
+    if (!this._isRacing)\r\n            return;\r\n        this._isRacing = false;\r\n       
+    console.log(this.OnRaceEnd.GetPersistentEventCount());\r\n        this.OnRaceEnd.Invoke();\r\n       
+    this.OnRaceEndWithTimerData.Invoke(this._timer);\r\n    }\r\n    //Auto destroy
+    coroutine of timer prefab, if used\r\n    *PrefabAutoDestroy() {\r\n        if
+    (this._currentTimerText != null) {\r\n            yield new UnityEngine_1.WaitForSeconds(this._prefabDestroyDelay);\r\n           
+    let disappearAnimLength = 0.35;\r\n            let animator = this._currentTimerText.transform.root.gameObject.GetComponent($typeof(UnityEngine_1.Animator));
+    //if based on the original prefab\r\n            if (animator != null) {\r\n               
+    animator.SetTrigger(\"Disappear\");\r\n            }\r\n            else {\r\n               
+    disappearAnimLength = 0.0;\r\n            }\r\n            UnityEngine_1.GameObject.Destroy(this._currentTimerText.transform.root.gameObject,
+    this._prefabDestroyDelay + disappearAnimLength);\r\n        }\r\n    }\r\n   
+    static ConvertTimeToMinutesAndSeconds(seconds) {\r\n        let minutes = Math.floor(seconds
+    / 60);\r\n        let remainingSeconds = Math.floor(seconds % 60);\r\n       
+    //Simple formatting\r\n        let minutesStr = minutes < 10 ? \"0\" + minutes
+    : minutes.toString();\r\n        let secondsStr = remainingSeconds < 10 ? \"0\"
+    + remainingSeconds : remainingSeconds.toString();\r\n        return minutesStr
+    + \":\" + secondsStr;\r\n    }\r\n}\r\nexports.default = RaceTimer;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUmFjZVRpbWVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiUmFjZVRpbWVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBQ3JELHFEQUE2QztBQUM3Qyw2Q0FBZ0Y7QUFDaEYsMkRBQThEO0FBQzlELG1EQUFzQztBQUV0QyxNQUFxQixTQUFVLFNBQVEscUNBQXFCO0lBQTVEOztRQTJCWSxlQUFVLEdBQVMsS0FBSyxDQUFDO1FBSXpCLGdDQUEyQixHQUFTLElBQUksQ0FBQztRQUV6Qyx3QkFBbUIsR0FBVSxHQUFHLENBQUM7UUFJakMsZUFBVSxHQUFTLEtBQUssQ0FBQztJQXdLckMsQ0FBQztJQXBLRyxJQUFXLGVBQWU7UUFDdEIsSUFBSSxJQUFJLENBQUMsVUFBVSxFQUFFO1lBQ2pCLE9BQU8sSUFBSSxDQUFDLGlCQUFpQixDQUFDO1NBQ2pDO2FBQ0ksSUFBSSxJQUFJLENBQUMsVUFBVSxFQUFFO1lBQ3RCLE9BQU8sSUFBSSxDQUFDLGNBQWMsQ0FBQztTQUM5QjtRQUNELE9BQU8sSUFBSSxDQUFDO0lBQ2hCLENBQUM7SUFFRCw2QkFBNkI7SUFFN0IsS0FBSztRQUNELElBQUksQ0FBQyxVQUFVLEVBQUUsQ0FBQztJQUN0QixDQUFDO0lBR0QsTUFBTTtRQUNGLElBQUksQ0FBQyxJQUFJLENBQUMsU0FBUztZQUFFLE9BQU87UUFFNUIsSUFBSSxDQUFDLFVBQVUsRUFBRSxDQUFDO0lBQ3RCLENBQUM7SUFFRCxVQUFVO0lBRUYsVUFBVTtRQUNkLElBQUksQ0FBQyxTQUFTLEdBQUcsS0FBSyxDQUFDO1FBQ3ZCLElBQUksQ0FBQyxrQkFBa0IsaUJBQU8saUNBQVksc0JBQVMsQ0FBQztRQUNwRCxJQUFJLENBQUMsdUJBQXVCLGlCQUFPLGlDQUFZLHNCQUFTLENBQUM7UUFDekQsSUFBSSxDQUFDLHNCQUFzQixpQkFBTyxpQ0FBWSxzQkFBUyxDQUFDO1FBQ3hELElBQUksQ0FBQyxVQUFVLEVBQUUsQ0FBQztJQUN0QixDQUFDO0lB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","assetPath":"Assets/Codeler_Features/Common_RaceTimer/Scripts/RaceTimer.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"_raceStartEventTrigger","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_raceEndEventTrigger","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"","name":"OnRaceTimerChangedDigit","type":"UnityEngine.Events.UnityEvent$1","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"","name":"OnRaceTimerChanged","type":"UnityEngine.Events.UnityEvent$1","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"OnRaceStart","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"OnRaceEnd","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"","name":"OnRaceEndWithTimerData","type":"UnityEngine.Events.UnityEvent$1","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"_usePrefab","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_prefabTextUGUI","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"_prefabAutoDestroyOnRaceEnd","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"_prefabDestroyDelay","type":"System.Single","isArray":false,"initValue":["5"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"_useCustom","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_customTextGUI","type":"UnityEngine.UI.Text","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"RaceTimer","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 895b7cfa9babf3bbdc3a80f744036086
+  onlyWriteTrigger: 0
