@@ -40,7 +40,9 @@ export default class Countdown extends ZepetoScriptBehaviour {
         
         if (this.value <= this.minValue) {
             this.value = this.minValue;
-            this.gameObject.active = false;
+
+            
+            this.OnFinished?.Invoke();
         }
 
         this.display.SetValue(this.value);
