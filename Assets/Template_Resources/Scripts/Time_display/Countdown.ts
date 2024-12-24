@@ -8,16 +8,14 @@ export default class Countdown extends ZepetoScriptBehaviour {
     public maxValue: int;
     public minValue: int = 0;
     public value: int;
-
-    private display: TimeDisplay;
     
     public interval: int = 1;  // ms
-    private timeout: int = 0;
+    public timeout: int = 0;
 
-    // @HideInInspector()
     public OnFinished: UnityEvent;
-    
     public OnTimer: UnityEvent;
+    
+    private display: TimeDisplay;
     
     Start() {    
         this.display = this.GetComponent<TimeDisplay>();

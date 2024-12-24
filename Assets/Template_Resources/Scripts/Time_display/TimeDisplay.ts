@@ -35,8 +35,7 @@ export default class TimeDisplay extends ZepetoScriptBehaviour {
         let min = Math.trunc(value / 60);
         let sec = value % 60;
         
-        console.log(`Will set time ${min}:${sec}`);
-        
+        // console.log(`Will set time ${min}:${sec}`);
         // this._segments[0].SetValue(Math.trunc(min / 10));
         // this._segments[1].SetValue(min % 10);
         // this._segments[2].SetValue(Math.trunc(sec / 10));
