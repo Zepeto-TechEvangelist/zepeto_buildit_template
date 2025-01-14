@@ -1,0 +1,106 @@
+fileFormatVersion: 2
+guid: 750c1bd53e33d429d97f16ef087e8ba8
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst RandomTimeoutScheduler_1 =
+    require(\"./RandomTimeoutScheduler\");\r\nconst SceneManager_1 = require(\"../../../../Modules/Scripts/SceneManager\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ZepetoPlayersManager_1 = require(\"../../../../../Zepeto Multiplay Component/ZepetoScript/Player/ZepetoPlayersManager\");\r\nconst
+    TransformInterpolation_1 = require(\"./TransformInterpolation\");\r\nconst PlayerTriggerArea_1
+    = require(\"./PlayerTriggerArea\");\r\nvar DollState;\r\n(function (DollState)
+    {\r\n    DollState[DollState[\"Idle\"] = -1] = \"Idle\";\r\n    DollState[DollState[\"Counting\"]
+    = 0] = \"Counting\";\r\n    DollState[DollState[\"Turning\"] = 1] = \"Turning\";\r\n   
+    DollState[DollState[\"Looking\"] = 2] = \"Looking\";\r\n    DollState[DollState[\"Returning\"]
+    = 3] = \"Returning\";\r\n    DollState[DollState[\"Finished\"] = 4] = \"Finished\";\r\n})(DollState
+    || (DollState = {}));\r\nclass DollController extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this._state
+    = DollState.Idle;\r\n        this._currentPlayers = [];\r\n        this._playerControls
+    = null;\r\n        // maybe interface for all players state / game state\r\n   
+    }\r\n    Start() {\r\n        // References\r\n        this._timer = this.GetComponent($typeof(RandomTimeoutScheduler_1.default));\r\n       
+    this._timer.min = this.minCountingTime;\r\n        this._timer.max = this.maxCountingTime;\r\n       
+    this._finishArea = this.GetComponentInChildren($typeof(PlayerTriggerArea_1.default));\r\n       
+    if (!this._finishArea)\r\n            console.log(\"Can''t locate finish area\");\r\n       
+    this._finishArea.OnEnter = (character) => {\r\n            ZepetoPlayersManager_1.default.instance.currentPlayers.forEach((player)
+    => {\r\n                let zepetoPlayer = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.GetPlayer(player.sessionId);\r\n               
+    if (zepetoPlayer.character === character) {\r\n                    this._currentPlayers.splice(this._currentPlayers.indexOf(player.sessionId,
+    1));\r\n                }\r\n            });\r\n            this.CheckGameEnd();\r\n       
+    };\r\n        this._playerControls = UnityEngine_1.GameObject.Find(\"UIZepetoPlayerControl\");\r\n       
+    // Callbacks\r\n        this._timer.OnFinished.AddListener(() => {\r\n       
+    });\r\n        this._timer.OnTimer.AddListener(() => {\r\n            this.NextState();\r\n       
+    });\r\n        // Synchronizer\r\n        SceneManager_1.default.instance.OnSceneInitialized?.AddListener(()
+    => {\r\n            this._playerControls = UnityEngine_1.GameObject.Find(\"UIZepetoPlayerControl\");\r\n           
+    this.UpdateState();\r\n            // this._timer.Schedule(1.0);\r\n        });\r\n   
+    }\r\n    Initialize() {\r\n    }\r\n    NextState() {\r\n        this._state
+    = (this._state + 1) % (DollState.Finished);\r\n        this.state = this._state;\r\n       
+    this.UpdateState();\r\n    }\r\n    UpdateState() {\r\n        this.animator.SetInteger(''state'',
+    this._state);\r\n        switch (this._state) {\r\n            case DollState.Idle:\r\n               
+    this.ResetPlayerState();\r\n                this._timer.Schedule(1.18);\r\n               
+    break;\r\n            case DollState.Counting:\r\n                this._timer.ScheduleRandom();\r\n               
+    // audio length\r\n                let audio_length = 4.385;\r\n               
+    let pitch = ( /*this.audio.clip.length*/audio_length / this._timer.interval);\r\n               
+    this.audio.pitch = pitch;\r\n                this.audio.PlayDelayed(0.0); //
+    Delay to match the animation transition\r\n                break;\r\n           
+    case DollState.Turning:\r\n                // this.audio.Stop();\r\n               
+    this._timer.Schedule(0.6);\r\n                break;\r\n            case DollState.Looking:\r\n               
+    this.audio.Stop();\r\n                this.SavePlayersState();\r\n               
+    this._timer.ScheduleRandom();\r\n                break;\r\n            case DollState.Returning:\r\n               
+    this._timer.Schedule(0.3);\r\n                break;\r\n            case DollState.Finished:\r\n               
+    this.animator.enabled = false;\r\n                this.audio.Stop();\r\n               
+    this._timer.Pause();\r\n                break;\r\n        }\r\n    }\r\n    Update()
+    {\r\n        if (this._state != DollState.Looking)\r\n            return;\r\n       
+    this._currentPlayers.forEach((playerId, index) => {\r\n            if (!this._deadPlayers.find(id
+    => id === playerId) && ZEPETO_Character_Controller_1.ZepetoPlayers.instance.HasPlayer(playerId))
+    {\r\n                let zepetoPlayer = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.GetPlayer(playerId);\r\n               
+    if (zepetoPlayer.character.CurrentState != ZEPETO_Character_Controller_1.CharacterState.Idle)
+    {\r\n                    let playerLocation = zepetoPlayer.character.transform.position;\r\n                   
+    let position = this.laserPrefab.transform.position;\r\n                    let
+    laserRotation = UnityEngine_1.Quaternion.LookRotation(playerLocation);\r\n                   
+    // Shoot laser\r\n                    var laser = UnityEngine_1.GameObject.Instantiate(this.laserPrefab,
+    position, laserRotation);\r\n                    let moveTo = laser.GetComponent($typeof(TransformInterpolation_1.default));\r\n                   
+    moveTo.target = zepetoPlayer.character.GetSocket(ZEPETO_Character_Controller_1.KnowSockets.HEAD_UPPER).transform;\r\n                   
+    laser.SetActive(true);\r\n                    this._deadPlayers.push(playerId);\r\n                   
+    zepetoPlayer.character.SetGesture(this.deathAnimation);\r\n                   
+    // Died self\r\n                    // if (zepetoPlayer.isLocalPlayer)\r\n                   
+    //     this._playerControls?.SetActive(false);\r\n                }\r\n           
+    }\r\n        });\r\n    }\r\n    ResetPlayerState() {\r\n        this._deadPlayers
+    = [];\r\n        this._currentPlayers = [];\r\n        // this._playerControls?.SetActive(true);\r\n       
+    // this._currentPlayers.forEach((playerId: string, index) => {\r\n        //\r\n       
+    //     if (ZepetoPlayers.instance.HasPlayer(playerId)) {\r\n        //\r\n       
+    //         let zepetoPlayer = ZepetoPlayers.instance.GetPlayer(playerId);\r\n       
+    //         zepetoPlayer.character.characterController.enabled = true;\r\n       
+    //     }\r\n        // });\r\n    }\r\n    SavePlayersState() {\r\n        this._deadPlayers
+    = [];\r\n        this._currentPlayers = [];\r\n        ZepetoPlayersManager_1.default.instance.currentPlayers.forEach((player)
+    => {\r\n            this._currentPlayers.push(player.sessionId);\r\n        });\r\n   
+    }\r\n    CheckGameEnd() {\r\n        if (this._currentPlayers.length == 0) {\r\n           
+    this._state = DollState.Finished;\r\n        }\r\n        this.UpdateState();\r\n   
+    }\r\n}\r\nexports.default = DollController;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRG9sbENvbnRyb2xsZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJEb2xsQ29udHJvbGxlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLGlEQUFtRDtBQUNuRCw2Q0FBeUY7QUFFekYscUVBQThEO0FBQzlELDJFQUFvRTtBQUdwRSw2RUFBd0c7QUFDeEcsNkhBQXNIO0FBQ3RILHFFQUE4RDtBQUM5RCwyREFBb0Q7QUFHcEQsSUFBSyxTQU9KO0FBUEQsV0FBSyxTQUFTO0lBQ1YsMENBQVMsQ0FBQTtJQUNULGlEQUFRLENBQUE7SUFDUiwrQ0FBTyxDQUFBO0lBQ1AsK0NBQU8sQ0FBQTtJQUNQLG1EQUFTLENBQUE7SUFDVCxpREFBUSxDQUFBO0FBQ1osQ0FBQyxFQVBJLFNBQVMsS0FBVCxTQUFTLFFBT2I7QUFFRCxNQUFxQixjQUFlLFNBQVEscUNBQXFCO0lBQWpFOztRQXVCWSxXQUFNLEdBQWMsU0FBUyxDQUFDLElBQUksQ0FBQztRQUVuQyxvQkFBZSxHQUFhLEVBQUUsQ0FBQztRQUUvQixvQkFBZSxHQUFlLElBQUksQ0FBQztRQStLM0MscURBQXFEO0lBQ3pELENBQUM7SUE3S0csS0FBSztRQUVELGFBQWE7UUFDYixJQUFJLENBQUMsTUFBTSxHQUFHLElBQUksQ0FBQyxZQUFZLFNBQUMsZ0NBQXNCLEVBQUcsQ0FBQztRQUMxRCxJQUFJLENBQUMsTUFBTSxDQUFDLEdBQUcsR0FBRyxJQUFJLENBQUMsZUFBZSxDQUFDO1FBQ3ZDLElBQUksQ0FBQyxNQUFNLENBQUMsR0FBRyxHQUFHLElBQUksQ0FBQyxlQUFlLENBQUM7UUFFdkMsSUFBSSxDQUFDLFdBQVcsR0FBRyxJQUFJLENBQUMsc0JBQXNCLFNBQUMsMkJBQWlCLEVBQUcsQ0FBQztRQUVwRSxJQUFJLENBQUMsSUFBSSxDQUFDLFdBQVc7WUFDakIsT0FBTyxDQUFDLEdBQUcsQ0FBQywwQkFBMEIsQ0FBQyxDQUFDO1FBRTVDLElBQUksQ0FBQyxXQUFXLENBQUMsT0FBTyxHQUFHLENB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","assetPath":"Assets/BuilditTemplate/Themes/ZepetoAsset_SquidGame/Scripts/Doll/DollController.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"minCountingTime","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Configuration\""]},{"name":"Tooltip","args":["\"The
+    minimum round counting time\""]}]},{"assembly":"mscorlib","name":"maxCountingTime","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Maximum
+    counting round counting time\""]}]},{"assembly":"UnityEngine.AnimationModule","name":"deathAnimation","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Connected
+    components\""]},{"name":"Tooltip","args":["\"Animation played when a player is
+    killed\""]}]},{"assembly":"UnityEngine.CoreModule","name":"laserPrefab","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Laser\""]}]},{"assembly":"UnityEngine.AnimationModule","name":"animator","type":"UnityEngine.Animator","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Main
+    animator component\""]}]},{"assembly":"UnityEngine.AudioModule","name":"audio","type":"UnityEngine.AudioSource","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Main
+    audio source\""]}]},{"assembly":"mscorlib","name":"state","type":"System.Int32","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"DollController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 601985ee7880b0fc59abfed628729f76
+  onlyWriteTrigger: 0

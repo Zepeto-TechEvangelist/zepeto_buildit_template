@@ -1,0 +1,44 @@
+fileFormatVersion: 2
+guid: 9c5b9e0512d81439ab11967fe7463733
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nclass DigitalDisplay extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this._value
+    = -1;\r\n        // public set value(value: int) {\r\n        //     this.SetValue(value);\r\n       
+    // };\r\n        // public get value() { return this._value };\r\n        this.digit_conf
+    = [\r\n            [1, 1, 1, 0, 1, 1, 1],\r\n            [0, 0, 1, 0, 0, 1, 0],\r\n           
+    [1, 0, 1, 1, 1, 0, 1],\r\n            [1, 0, 1, 1, 0, 1, 1],\r\n            [0,
+    1, 1, 1, 0, 1, 0],\r\n            [1, 1, 0, 1, 0, 1, 1],\r\n            [1, 1,
+    0, 1, 1, 1, 1],\r\n            [1, 0, 1, 0, 0, 1, 0],\r\n            [1, 1, 1,
+    1, 1, 1, 1],\r\n            [1, 1, 1, 1, 0, 1, 0], // 9\r\n        ];\r\n   
+    }\r\n    Start() {\r\n        // Requires 7 segments\r\n        if (this.segments.length
+    == 0) {\r\n            console.error(\"Invalid configuration\");\r\n        }\r\n   
+    }\r\n    Update() {\r\n        if (this.value != this._value)\r\n           
+    this.SetValue(this.value); // is dirty\r\n    }\r\n    SetValue(value) {\r\n       
+    this._value = value;\r\n        this.value = value;\r\n        for (var i = 0;
+    i < 7; i++)\r\n            this.segments[i].active = this.digit_conf[value][i]
+    == 1;\r\n    }\r\n}\r\nexports.default = DigitalDisplay;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRGlnaXRhbERpc3BsYXkuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJEaWdpdGFsRGlzcGxheS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLGlEQUFxRDtBQUNyRCw2Q0FBeUM7QUFFekMsTUFBcUIsY0FBZSxTQUFRLHFDQUFxQjtJQUFqRTs7UUFJWSxXQUFNLEdBQVEsQ0FBQyxDQUFDLENBQUM7UUFHekIsaUNBQWlDO1FBQ2pDLDRCQUE0QjtRQUM1QixLQUFLO1FBQ0wsNkNBQTZDO1FBRXJDLGVBQVUsR0FBRztZQUNqQixDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQztZQUNyQixDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQztZQUNyQixDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQztZQUNyQixDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQztZQUNyQixDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQztZQUNyQixDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQztZQUNyQixDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQztZQUNyQixDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQztZQUNyQixDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQztZQUNyQixDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQyxFQUFHLElBQUk7U0FDL0IsQ0FBQztJQXdCTixDQUFDO0lBdEJHLEtBQUs7UUFDRCxzQkFBc0I7UUFDdEIsSUFBSSxJQUFJLENBQUMsUUFBUSxDQUFDLE1BQU0sSUFBSSxDQUFDLEVBQzdCO1lBQ0ksT0FBTyxDQUFDLEtBQUssQ0FBQyx1QkFBdUIsQ0FBQyxDQUFBO1NBQ3pDO0lBRUwsQ0FBQztJQUVELE1BQU07UUFDRixJQUFJLElBQUksQ0FBQyxLQUFLLElBQUksSUFBSSxDQUFDLE1BQU07WUFDekIsSUFBSSxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDLENBQUMsQ0FBRSxXQUFXO0lBQy9DLENBQUM7SUFFTSxRQUFRLENBQUMsS0FBVTtRQUN0QixJQUFJLENBQUMsTUFBTSxHQUFHLEtBQUssQ0FBQztRQUNwQixJQUFJLENBQUMsS0FBSyxHQUFHLEtBQUssQ0FBQztRQUVuQixLQUFLLElBQUksQ0FBQyxHQUFHLENBQUMsRUFBRSxDQUFDLEdBQUcsQ0FBQyxFQUFFLENBQUMsRUFBRTtZQUN0QixJQUFJLENBQUMsUUFBUSxDQUFDLENBQUMsQ0FBQyxDQUFDLE1BQU0sR0FBRyxJQUFJLENBQUMsVUFBVSxDQUFDLEtBQUssQ0FBQyxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUMsQ0FBQztJQUNqRSxDQUFDO0NBRUo7QUEvQ0QsaUNBK0NDIn0=","assetPath":"Assets/BuilditTemplate/Themes/ZepetoAsset_SquidGame/Scripts/Time_display/DigitalDisplay.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"segments","type":"UnityEngine.GameObject[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"value","type":"System.Int32","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"DigitalDisplay","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 45a6ba0a43e1f9fb4e13da3f3f6b74b2
+  onlyWriteTrigger: 0

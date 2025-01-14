@@ -1,0 +1,49 @@
+fileFormatVersion: 2
+guid: 587b45bf52384966909a98d5f7ec1f09
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    InteractionIcon_1 = require(\"./../Interaction/ZepetoScript/InteractionIcon\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_Module_Event_1 = require(\"ZEPETO.Module.Event\");\r\nclass
+    CollectableManager extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this._isCollected = false;\r\n   
+    }\r\n    Start() {\r\n        this.button = this.GetComponent($typeof(InteractionIcon_1.default));\r\n       
+    this.collectable = this.GetComponent($typeof(ZEPETO_Module_Event_1.CurrencyEventCollectableObject));\r\n       
+    this.button.OnClickEvent.AddListener(() => {\r\n            this.Collect();\r\n       
+    });\r\n    }\r\n    Collect() {\r\n        if (CollectableManager._isCollecting
+    || this._isCollected)\r\n            return;\r\n        CollectableManager._isCollecting
+    = true;\r\n        this.button.HideIcon();\r\n        this.button.enabled = false;\r\n       
+    ZEPETO_Module_Event_1.EventAPI.TryCollect((eventName, currencyType, amount) =>
+    {\r\n            console.log(eventName, currencyType, amount);\r\n           
+    this._isCollected = true;\r\n            CollectableManager._isCollecting = false;\r\n           
+    this.StartCoroutine(this.OnEventSuccess());\r\n        }, (errorCode, errorMsg)
+    => {\r\n            console.log(errorCode, errorMsg);\r\n            this._isCollected
+    = false;\r\n            CollectableManager._isCollecting = false;\r\n           
+    this.button.enabled = true;\r\n        });\r\n    }\r\n    *OnEventSuccess()
+    {\r\n        yield new UnityEngine_1.WaitForEndOfFrame();\r\n        yield new
+    UnityEngine_1.WaitForSeconds(1);\r\n        this.sparkle.SetActive(false);\r\n   
+    }\r\n}\r\nexports.default = CollectableManager;\r\nCollectableManager._isCollecting
+    = false;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29sbGVjdGFibGVNYW5hZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQ29sbGVjdGFibGVNYW5hZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBQ3JELG1GQUE0RTtBQUM1RSw2Q0FBcUY7QUFFckYsNkRBQTZGO0FBRTdGLE1BQXFCLGtCQUFtQixTQUFRLHFDQUFxQjtJQUFyRTs7UUFNWSxpQkFBWSxHQUFZLEtBQUssQ0FBQztJQW1EMUMsQ0FBQztJQTdDVyxLQUFLO1FBRVQsSUFBSSxDQUFDLE1BQU0sR0FBRyxJQUFJLENBQUMsWUFBWSxTQUFDLHlCQUFlLEVBQUcsQ0FBQztRQUNuRCxJQUFJLENBQUMsV0FBVyxHQUFHLElBQUksQ0FBQyxZQUFZLFNBQUMsb0RBQThCLEVBQUcsQ0FBQztRQUV2RSxJQUFJLENBQUMsTUFBTSxDQUFDLFlBQVksQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQ3RDLElBQUksQ0FBQyxPQUFPLEVBQUUsQ0FBQztRQUNuQixDQUFDLENBQUMsQ0FBQztJQUVQLENBQUM7SUFFTyxPQUFPO1FBQ1gsSUFBSSxrQkFBa0IsQ0FBQyxhQUFhLElBQUksSUFBSSxDQUFDLFlBQVk7WUFBRSxPQUFPO1FBRWxFLGtCQUFrQixDQUFDLGFBQWEsR0FBRyxJQUFJLENBQUM7UUFDeEMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxRQUFRLEVBQUUsQ0FBQztRQUN2QixJQUFJLENBQUMsTUFBTSxDQUFDLE9BQU8sR0FBRyxLQUFLLENBQUM7UUFFNUIsOEJBQVEsQ0FBQyxVQUFVLENBQUMsQ0FBQyxTQUFpQixFQUFFLFlBQTBCLEVBQUUsTUFBYyxFQUFFLEVBQUU7WUFFOUUsT0FBTyxDQUFDLEdBQUcsQ0FBQyxTQUFTLEVBQUUsWUFBWSxFQUFFLE1BQU0sQ0FBQyxDQUFDO1lBRTdDLElBQUksQ0FBQyxZQUFZLEdBQUcsSUFBSSxDQUFDO1lBQ3pCLGtCQUFrQixDQUFDLGFBQWEsR0FBRyxLQUFLLENBQUM7WUFFekMsSUFBSSxDQUFDLGNBQWMsQ0FBQyxJQUFJLENBQUMsY0FBYyxFQUFFLENBQUMsQ0FBQztRQUMvQyxDQUFDLEVBQUUsQ0FBQyxTQUFTLEVBQUUsUUFBUSxFQUFFLEVBQUU7WUFDdkIsT0FBTyxDQUFDLEdBQUcsQ0FBQyxTQUFTLEVBQUUsUUFBUSxDQUFDLENBQUM7WUFFakMsSUFBSSxDQUFDLFlBQVksR0FBRyxLQUFLLENBQUM7WUFDMUIsa0JBQWtCLENBQUMsYUFBYSxHQUFHLEtBQUssQ0FBQztZQUV6QyxJQUFJLENBQUMsTUFBTSxDQUFDLE9BQU8sR0FBRyxJQUFJLENBQUM7UUFDL0IsQ0FBQyxDQUNKLENBQUM7SUFDTixDQUFDO0lBRU8sQ0FBRSxjQUFjO1FBQ3BCLE1BQU0sSUFBSSwrQkFBaUIsRUFBRSxDQUFDO1FBRTlCLE1BQU0sSUFBSSw0QkFBYyxDQUFDLENBQUMsQ0FBQyxDQUFDO1FBRTVCLElBQUksQ0FBQyxPQUFPLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxDQUFDO0lBQ2xDLENBQUM7O0FBdkRMLHFDQXlEQztBQXBEa0IsZ0NBQWEsR0FBWSxLQUFLLENBQUMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Scripts/CollectableManager.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"sparkle","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"CollectableManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 10f51cb69db26985018268235dcea3bb
+  onlyWriteTrigger: 0

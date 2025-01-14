@@ -1,0 +1,41 @@
+fileFormatVersion: 2
+guid: 1285bd48b76b14a958a11bccd2580ab8
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst TimeDisplay_1 = require(\"./TimeDisplay\");\r\nclass
+    Countdown extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.minValue = 0;\r\n        this.interval
+    = 1; // ms\r\n        this.timeout = 0;\r\n    }\r\n    Start() {\r\n       
+    this.display = this.GetComponent($typeof(TimeDisplay_1.default));\r\n       
+    this.value = this.maxValue;\r\n        this.timeout = this.interval;\r\n    }\r\n   
+    LateUpdate() {\r\n        this.timeout -= UnityEngine_1.Time.deltaTime;\r\n       
+    if (this.timeout <= 0) {\r\n            this.timeout += this.interval;\r\n           
+    this.Step();\r\n        }\r\n    }\r\n    Step() {\r\n        this.value = this.value
+    - 1;\r\n        if (this.value <= this.minValue) {\r\n            this.value
+    = this.minValue;\r\n            this.OnFinished?.Invoke();\r\n        }\r\n       
+    this.display.SetValue(this.value);\r\n    }\r\n}\r\nexports.default = Countdown;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ291bnRkb3duLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQ291bnRkb3duLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsNkNBQW1DO0FBQ25DLGlEQUFxRDtBQUVyRCwrQ0FBd0M7QUFFeEMsTUFBcUIsU0FBVSxTQUFRLHFDQUFxQjtJQUE1RDs7UUFHVyxhQUFRLEdBQVEsQ0FBQyxDQUFDO1FBR2xCLGFBQVEsR0FBUSxDQUFDLENBQUMsQ0FBRSxLQUFLO1FBQ3pCLFlBQU8sR0FBUSxDQUFDLENBQUM7SUFvQzVCLENBQUM7SUE3QkcsS0FBSztRQUNELElBQUksQ0FBQyxPQUFPLEdBQUcsSUFBSSxDQUFDLFlBQVksU0FBQyxxQkFBVyxFQUFHLENBQUM7UUFDaEQsSUFBSSxDQUFDLEtBQUssR0FBRyxJQUFJLENBQUMsUUFBUSxDQUFDO1FBQzNCLElBQUksQ0FBQyxPQUFPLEdBQUcsSUFBSSxDQUFDLFFBQVEsQ0FBQztJQUNqQyxDQUFDO0lBRUQsVUFBVTtRQUNOLElBQUksQ0FBQyxPQUFPLElBQUksa0JBQUksQ0FBQyxTQUFTLENBQUM7UUFFL0IsSUFBSSxJQUFJLENBQUMsT0FBTyxJQUFJLENBQUMsRUFBRTtZQUNuQixJQUFJLENBQUMsT0FBTyxJQUFJLElBQUksQ0FBQyxRQUFRLENBQUM7WUFFOUIsSUFBSSxDQUFDLElBQUksRUFBRSxDQUFDO1NBQ2Y7SUFDTCxDQUFDO0lBRU8sSUFBSTtRQUNSLElBQUksQ0FBQyxLQUFLLEdBQUcsSUFBSSxDQUFDLEtBQUssR0FBRyxDQUFDLENBQUM7UUFFNUIsSUFBSSxJQUFJLENBQUMsS0FBSyxJQUFJLElBQUksQ0FBQyxRQUFRLEVBQUU7WUFDN0IsSUFBSSxDQUFDLEtBQUssR0FBRyxJQUFJLENBQUMsUUFBUSxDQUFDO1lBRzNCLElBQUksQ0FBQyxVQUFVLEVBQUUsTUFBTSxFQUFFLENBQUM7U0FDN0I7UUFFRCxJQUFJLENBQUMsT0FBTyxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDLENBQUM7SUFDdEMsQ0FBQztDQUVKO0FBM0NELDRCQTJDQyJ9","assetPath":"Assets/BuilditTemplate/Themes/ZepetoAsset_SquidGame/Scripts/Time_display/Countdown.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"maxValue","type":"System.Int32","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"minValue","type":"System.Int32","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"value","type":"System.Int32","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"interval","type":"System.Int32","isArray":false,"initValue":["1"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"timeout","type":"System.Int32","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"OnFinished","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"OnTimer","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"Countdown","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: f944ec77c7267dcbb1845d0b7f8407d3
+  onlyWriteTrigger: 0
