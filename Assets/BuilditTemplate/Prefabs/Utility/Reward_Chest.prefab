@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6600982819698443832}
+  - component: {fileID: 314236068570523599}
+  - component: {fileID: 232954007039577073}
+  - component: {fileID: 72707528033778796}
   m_Layer: 0
   m_Name: Reward_Chest
   m_TagString: Untagged
@@ -34,6 +37,63 @@ Transform:
   - {fileID: 1873108035492283808}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &314236068570523599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5912957207633702248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2001682705, guid: d8b9d8edd71b4da9b0bbb4468e3beacf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &232954007039577073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5912957207633702248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyRootMotion: 0
+  script:
+    script: {fileID: 4458252877524076426, guid: b3ba00be5106431580ba8e5d2e5042a8, type: 3}
+    isExpaned: 0
+    keys:
+    - groupId
+    unityValues:
+    - {fileID: 0}
+    values:
+    - '{"type":"System.String, mscorlib","value":"chest"}'
+    unityArrayValues: []
+    arrayValues: []
+--- !u!114 &72707528033778796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5912957207633702248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyRootMotion: 0
+  script:
+    script: {fileID: 4458252877524076426, guid: 2f2d573791224367b65bb1bf198d33b0, type: 3}
+    isExpaned: 0
+    keys: []
+    unityValues: []
+    values: []
+    unityArrayValues: []
+    arrayValues: []
 --- !u!1 &6821853510480978114
 GameObject:
   m_ObjectHideFlags: 0
@@ -46,7 +106,6 @@ GameObject:
   - component: {fileID: 3989182111656506279}
   - component: {fileID: 6403486398415831501}
   - component: {fileID: 1281416047542887758}
-  - component: {fileID: 1561591891215456668}
   m_Layer: 2
   m_Name: InteractionPoint
   m_TagString: 
@@ -151,18 +210,6 @@ MonoBehaviour:
     - 
     unityArrayValues: []
     arrayValues: []
---- !u!114 &1561591891215456668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6821853510480978114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 2001682705, guid: d8b9d8edd71b4da9b0bbb4468e3beacf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &9012412996699808295
 GameObject:
   m_ObjectHideFlags: 0

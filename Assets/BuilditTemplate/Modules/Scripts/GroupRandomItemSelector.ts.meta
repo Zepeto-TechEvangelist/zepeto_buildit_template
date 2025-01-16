@@ -1,0 +1,37 @@
+fileFormatVersion: 2
+guid: 2f2d573791224367b65bb1bf198d33b0
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    ObjectGroup_1 = require(\"./ObjectGroup\");\r\nclass GroupRandomItemSelector
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Awake() {\r\n        this._group
+    = this.GetComponent($typeof(ObjectGroup_1.default));\r\n    }\r\n    Start()
+    {\r\n        if (GroupRandomItemSelector._selectedIndex == -1)\r\n           
+    GroupRandomItemSelector._selectedIndex = Math.round((Math.random() * this._group.members.length));\r\n       
+    console.log(GroupRandomItemSelector._selectedIndex);\r\n        console.log(this._group.members.length);\r\n       
+    this.gameObject.SetActive(ZEPETO_Script_1.ZepetoScriptBehaviour.op_Equality(this._group.members[GroupRandomItemSelector._selectedIndex],
+    this._group));\r\n    }\r\n}\r\nexports.default = GroupRandomItemSelector;\r\nGroupRandomItemSelector._selectedIndex
+    = -1;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR3JvdXBSYW5kb21JdGVtU2VsZWN0b3IuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJHcm91cFJhbmRvbUl0ZW1TZWxlY3Rvci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUNBLGlEQUFxRDtBQUNyRCwrQ0FBd0M7QUFFeEMsTUFBcUIsdUJBQXdCLFNBQVEscUNBQXFCO0lBSXRFLEtBQUs7UUFDRCxJQUFJLENBQUMsTUFBTSxHQUFHLElBQUksQ0FBQyxZQUFZLFNBQUMscUJBQVcsRUFBRyxDQUFDO0lBQ25ELENBQUM7SUFFRCxLQUFLO1FBQ0QsSUFBSSx1QkFBdUIsQ0FBQyxjQUFjLElBQUksQ0FBQyxDQUFDO1lBQzVDLHVCQUF1QixDQUFDLGNBQWMsR0FBRyxJQUFJLENBQUMsS0FBSyxDQUFDLENBQUMsSUFBSSxDQUFDLE1BQU0sRUFBRSxHQUFHLElBQUksQ0FBQyxNQUFNLENBQUMsT0FBTyxDQUFDLE1BQU0sQ0FBQyxDQUFDLENBQUM7UUFFdEcsT0FBTyxDQUFDLEdBQUcsQ0FBQyx1QkFBdUIsQ0FBQyxjQUFjLENBQUMsQ0FBQTtRQUNuRCxPQUFPLENBQUMsR0FBRyxDQUFDLElBQUksQ0FBQyxNQUFNLENBQUMsT0FBTyxDQUFDLE1BQU0sQ0FBQyxDQUFBO1FBRXZDLElBQUksQ0FBQyxVQUFVLENBQUMsU0FBUyxDQWxCeEIscUNBQXFCLENBb0I4bUQsV0FBWSxDQUZ0bkQsSUFBSSxDQUFDLE1BQU0sQ0FBQyxPQUFPLENBQUMsdUJBQXVCLENBQUMsY0FBYyxDQUFDLEVBQUksSUFBSSxDQUFDLE1BQU0sRUFBQyxDQUFDO0lBQzFHLENBQUM7O0FBaEJMLDBDQWlCQztBQWZrQixzQ0FBYyxHQUFRLENBQUMsQ0FBQyxDQUFDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/GroupRandomItemSelector.ts","manifest":{"properties":[],"name":"GroupRandomItemSelector","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 163c6a9dd7fa04ab18d51de9a676fce9
+  onlyWriteTrigger: 0

@@ -1,0 +1,35 @@
+fileFormatVersion: 2
+guid: b3ba00be5106431580ba8e5d2e5042a8
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass
+    ObjectGroup extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    get members()
+    {\r\n        return ObjectGroup.groups[this.groupId];\r\n    }\r\n    ;\r\n   
+    Awake() {\r\n        if (ObjectGroup.groups[this.groupId] === undefined)\r\n           
+    ObjectGroup.groups[this.groupId] = [];\r\n        ObjectGroup.groups[this.groupId].push(this);\r\n   
+    }\r\n}\r\nexports.default = ObjectGroup;\r\nObjectGroup.groups = new Map();\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiT2JqZWN0R3JvdXAuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJPYmplY3RHcm91cC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUNBLGlEQUFxRDtBQUVyRCxNQUFxQixXQUFZLFNBQVEscUNBQXFCO0lBTTFELElBQVcsT0FBTztRQUNkLE9BQU8sV0FBVyxDQUFDLE1BQU0sQ0FBQyxJQUFJLENBQUMsT0FBTyxDQUFDLENBQUM7SUFDNUMsQ0FBQztJQUFBLENBQUM7SUFFRixLQUFLO1FBRUQsSUFBSSxXQUFXLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxPQUFPLENBQUMsS0FBSyxTQUFTO1lBQzlDLFdBQVcsQ0FBQyxNQUFNLENBQUMsSUFBSSxDQUFDLE9BQU8sQ0FBQyxHQUFHLEVBQUUsQ0FBQztRQUUxQyxXQUFXLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxPQUFPLENBQUMsQ0FBQyxJQUFJLENBQUMsSUFBSSxDQUFDLENBQUM7SUFDaEQsQ0FBQzs7QUFoQkwsOEJBa0JDO0FBYm9DLGtCQUFNLEdBQStCLElBQUksR0FBRyxFQUF5QixDQUFDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/ObjectGroup.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"groupId","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"The
+    id of the group. Not editable after game start\""]}]}],"name":"ObjectGroup","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 6a0a2df77b8992656ebfc5fef1382992
+  onlyWriteTrigger: 0
