@@ -1,0 +1,37 @@
+fileFormatVersion: 2
+guid: ef9b6ebdd855483c80972a2de2f3e7f3
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass Chest extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.openSpeed
+    = 5;\r\n        this.isOpen = true;\r\n    }\r\n    Update() {\r\n        if
+    (this.isOpen) {\r\n            this.SetRotation(this.openRef.rotation);\r\n       
+    }\r\n        else {\r\n            this.SetRotation(this.closeRef.rotation);\r\n       
+    }\r\n    }\r\n    SetRotation(toRot) {\r\n        if (this.lid.rotation != toRot)
+    {\r\n            this.lid.rotation = UnityEngine_1.Quaternion.Lerp(this.lid.rotation,
+    toRot, UnityEngine_1.Time.deltaTime * this.openSpeed);\r\n        }\r\n    }\r\n}\r\nexports.default
+    = Chest;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ2hlc3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJDaGVzdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUF1RDtBQUN2RCxpREFBcUQ7QUFFckQsTUFBcUIsS0FBTSxTQUFRLHFDQUFxQjtJQUF4RDs7UUFNVyxjQUFTLEdBQVcsQ0FBQyxDQUFDO1FBRXRCLFdBQU0sR0FBWSxJQUFJLENBQUM7SUFpQmxDLENBQUM7SUFmRyxNQUFNO1FBQ0YsSUFBRyxJQUFJLENBQUMsTUFBTSxFQUFDO1lBQ1gsSUFBSSxDQUFDLFdBQVcsQ0FBQyxJQUFJLENBQUMsT0FBTyxDQUFDLFFBQVEsQ0FBQyxDQUFDO1NBQzNDO2FBQ0c7WUFDQSxJQUFJLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUMsUUFBUSxDQUFDLENBQUM7U0FDNUM7SUFDTCxDQUFDO0lBRU8sV0FBVyxDQUFDLEtBQWlCO1FBQ2pDLElBQUksSUFBSSxDQUFDLEdBQUcsQ0FBQyxRQUFRLElBQUksS0FBSyxFQUFFO1lBQzVCLElBQUksQ0FBQyxHQUFHLENBQUMsUUFBUSxHQUFHLHdCQUFVLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxHQUFHLENBQUMsUUFBUSxFQUFFLEtBQUssRUFBRSxrQkFBSSxDQUFDLFNBQVMsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDLENBQUM7U0FDbEc7SUFDTCxDQUFDO0NBRUo7QUF6QkQsd0JBeUJDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/Chest.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"lid","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"gold","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"openRef","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"closeRef","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"openSpeed","type":"System.Single","isArray":false,"initValue":["5"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"isOpen","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"Chest","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: abe95b096379733f25a2bffcac75737d
+  onlyWriteTrigger: 0

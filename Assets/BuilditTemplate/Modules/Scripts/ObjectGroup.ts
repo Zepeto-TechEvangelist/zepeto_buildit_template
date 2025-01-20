@@ -3,10 +3,11 @@ import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 
 export default class ObjectGroup extends ZepetoScriptBehaviour {
     
-    @Tooltip("The id of the group. Not editable after game start")
+    @Tooltip("The id of the group")
     public groupId: string;
     
     @HideInInspector() public static groups: Map<string, ObjectGroup[]> = new Map<string, ObjectGroup[]>();
+    
     public get members(): [ObjectGroup] { 
         return ObjectGroup.groups[this.groupId];
     };
