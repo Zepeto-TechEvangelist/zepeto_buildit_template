@@ -15,7 +15,7 @@ export default class CollectableManager extends ZepetoScriptBehaviour {
     private button: InteractionIcon;
     private static _isCollecting: boolean = false;
     private _isCollected: boolean = false;
-    private activator: Chest;
+    private _chest: Chest;
     
     private collectable: CurrencyEventCollectableObject;
     
@@ -27,7 +27,7 @@ export default class CollectableManager extends ZepetoScriptBehaviour {
         
         this.button = this.GetComponent<InteractionIcon>();
         this.collectable = this.GetComponent<CurrencyEventCollectableObject>();
-        this.activator = this.chest.GetComponent<Chest>();
+        this._chest = this.chest.GetComponent<Chest>();
         
         this.button.OnClickEvent.AddListener(() => {
             this.Collect();
@@ -52,7 +52,7 @@ export default class CollectableManager extends ZepetoScriptBehaviour {
             
                 if (errorCode == 0) {
                     // Set disabled
-                    this.activator.isOpen = true;
+                    this._chest.Open(true);
                     this.sparkle.SetActive(false);
                     this.chest.GetComponent<Chest>()?.gold.gameObject.SetActive(false);
                     
@@ -70,7 +70,7 @@ export default class CollectableManager extends ZepetoScriptBehaviour {
     private * OnEventSuccess() {
         yield new WaitForEndOfFrame();
 
-        this.activator.isOpen = true;
+        this._chest.Open(true);
         
         yield new WaitForSeconds(1);
         
