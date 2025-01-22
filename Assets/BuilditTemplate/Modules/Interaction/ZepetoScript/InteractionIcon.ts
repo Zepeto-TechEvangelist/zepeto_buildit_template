@@ -11,10 +11,12 @@ export default class InteractionIcon extends ZepetoScriptBehaviour {
     @SerializeField() private iconPosition: Transform;
     
     /* Unity Event */    
-    @Header("[Unity Event]")
+    //@Header("[Unity Event]")
+    @HideInInspector()
     public OnClickEvent:UnityEvent;
-    public OnTriggerEnterEvent:UnityEvent;
-    public OnTriggerExitEvent:UnityEvent;
+    
+    private OnTriggerEnterEvent:UnityEvent;
+    private OnTriggerExitEvent:UnityEvent;
 
     private _button: Button;
     private _canvas: Canvas;    
@@ -29,7 +31,6 @@ export default class InteractionIcon extends ZepetoScriptBehaviour {
     }
     
     private OnTriggerEnter(coll: Collider) {
-        if (this.enabled == false) return;
         if(coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()){
             return;
         }
@@ -39,7 +40,6 @@ export default class InteractionIcon extends ZepetoScriptBehaviour {
     }
 
     private OnTriggerExit(coll: Collider) {
-        if (this.enabled == false) return;
         if(coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()){
             return;
         }

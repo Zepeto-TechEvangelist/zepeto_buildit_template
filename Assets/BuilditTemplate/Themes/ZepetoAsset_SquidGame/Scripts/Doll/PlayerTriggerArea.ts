@@ -3,7 +3,7 @@ import {AnimationClip, Animator, AudioSource, Collider, GameObject, Quaternion} 
 import {Player} from "ZEPETO.Multiplay.Schema";
 
 import {ZepetoCharacter, CharacterState, KnowSockets, ZepetoPlayers} from 'ZEPETO.Character.Controller';
-import ZepetoPlayersManager from '../../../Zepeto Multiplay Component/ZepetoScript/Player/ZepetoPlayersManager';
+// import ZepetoPlayersManager from '../../../Zepeto Multiplay Component/ZepetoScript/Player/ZepetoPlayersManager';
 import { UnityEvent } from 'UnityEngine.Events';
 import { Action$1 } from "System";
 

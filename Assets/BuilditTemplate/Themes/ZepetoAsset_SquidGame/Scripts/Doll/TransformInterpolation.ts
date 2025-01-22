@@ -1,13 +1,8 @@
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
 import {LineRenderer, GameObject, Time, Quaternion, Animator, Transform, AudioSource, Vector3, AnimationClip, Color} from 'UnityEngine';
-
-import RandomTimeoutScheduler from './RandomTimeoutScheduler';
-import DOTWeenSyncHelper from "../../../Zepeto Multiplay Component/ZepetoScript/DOTween/DOTWeenSyncHelper";
 import {Player} from "ZEPETO.Multiplay.Schema";
-
 import {CharacterState, ZepetoPlayers} from 'ZEPETO.Character.Controller';
-import ZepetoPlayersManager from '../../../Zepeto Multiplay Component/ZepetoScript/Player/ZepetoPlayersManager';
-
+import RandomTimeoutScheduler from './RandomTimeoutScheduler';
 
 
 export default class TransformInterpolation extends ZepetoScriptBehaviour {
