@@ -13,7 +13,7 @@ export default class GroupRandomItemSelector extends ZepetoScriptBehaviour {
     
     Start() {
         if (GroupRandomItemSelector._selectedIndex == -1)
-            GroupRandomItemSelector._selectedIndex = Math.round((Math.random() * this._group.members.length));
+            GroupRandomItemSelector._selectedIndex = Math.round((Math.random() * this._group.members.length - 0.5));
         
         this.gameObject.SetActive(this._group.members[GroupRandomItemSelector._selectedIndex] == this._group);
     }
