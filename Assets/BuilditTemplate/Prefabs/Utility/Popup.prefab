@@ -167,7 +167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8648404280683035752}
-  - component: {fileID: 4695710505233482337}
+  - component: {fileID: 8650125287177031109}
   m_Layer: 5
   m_Name: Popup
   m_TagString: Untagged
@@ -191,7 +191,7 @@ Transform:
   - {fileID: 7013304706142392240}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4695710505233482337
+--- !u!114 &8650125287177031109
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3372008154483034895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dc73fdc692846aea1dbf57e9ea4ef58, type: 3}
+  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   applyRootMotion: 0
@@ -459,7 +459,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4914821950033262229}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5464891050060558508}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5464891050060558508
 GameObject:
   m_ObjectHideFlags: 0

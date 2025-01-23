@@ -10,10 +10,10 @@ namespace ZEPETO.Script
 {
     public class PopupController : ZepetoScriptBehaviourComponent
     {
+        
+#if UNITY_EDITOR
         public void SerializeProperties()
         {
-#if UNITY_EDITOR
-            
             var isDirty = EditorUtility.IsDirty(this);
             if (!isDirty) return;
             
@@ -36,8 +36,7 @@ namespace ZEPETO.Script
             script.TryGetValue("backgroundImage", out var backgroundImage);
             script.TryGetValue("_background", out var _background);
             ((Image)_background).sprite = (Sprite)backgroundImage;
-            
-#endif
         }
+#endif
     }
 }
