@@ -23,19 +23,10 @@ ScriptedImporter:
   WrapperFilters: []
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
-    ObjectGroup_1 = require(\"./ObjectGroup\");\r\nclass GroupRandomItemSelector
-    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Awake() {\r\n        this._group
-    = this.GetComponent($typeof(ObjectGroup_1.default));\r\n    }\r\n    Start()
-    {\r\n        if (GroupRandomItemSelector._selectedIndex == -1)\r\n           
-    GroupRandomItemSelector._selectedIndex = Math.round((Math.random() * this._group.members.length
-    - 0.5));\r\n        this.gameObject.SetActive(ZEPETO_Script_1.ZepetoScriptBehaviour.op_Equality(this._group.members[GroupRandomItemSelector._selectedIndex],
-    this._group));\r\n        console.log(GroupRandomItemSelector._selectedIndex);\r\n       
-    console.log(this._group.members.length);\r\n        for (var len = 3; len < 10;
-    len++)\r\n            for (var i = 0; i < 10000; i++) {\r\n                let
-    x = Math.round((Math.random() * len - 0.5));\r\n                if (x < 0 ||
-    x > len - 1)\r\n                    console.log(\"Boundry case \" + x + \" \"
-    + len);\r\n            }\r\n    }\r\n}\r\nexports.default = GroupRandomItemSelector;\r\nGroupRandomItemSelector._selectedIndex
-    = -1;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR3JvdXBSYW5kb21JdGVtU2VsZWN0b3IuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJHcm91cFJhbmRvbUl0ZW1TZWxlY3Rvci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUNBLGlEQUFxRDtBQUNyRCwrQ0FBd0M7QUFFeEMsTUFBcUIsdUJBQXdCLFNBQVEscUNBQXFCO0lBS3RFLEtBQUs7UUFDRCxJQUFJLENBQUMsTUFBTSxHQUFHLElBQUksQ0FBQyxZQUFZLFNBQUMscUJBQVcsRUFBRyxDQUFDO0lBQ25ELENBQUM7SUFFRCxLQUFLO1FBQ0QsSUFBSSx1QkFBdUIsQ0FBQyxjQUFjLElBQUksQ0FBQyxDQUFDO1lBQzVDLHVCQUF1QixDQUFDLGNBQWMsR0FBRyxJQUFJLENBQUMsS0FBSyxDQUFDLENBQUMsSUFBSSxDQUFDLE1BQU0sRUFBRSxHQUFHLElBQUksQ0FBQyxNQUFNLENBQUMsT0FBTyxDQUFDLE1BQU0sR0FBRyxHQUFHLENBQUMsQ0FBQyxDQUFDO1FBRTVHLElBQUksQ0FBQyxVQUFVLENBQUMsU0FBUyxDQWhCeEIscUNBQXFCLENBc0N1MUMsV0FBWSxDQXRCLzFDLElBQUksQ0FBQyxNQUFNLENBQUMsT0FBTyxDQUFDLHVCQUF1QixDQUFDLGNBQWMsQ0FBQyxFQUFJLElBQUksQ0FBQyxNQUFNLEVBQUMsQ0FBQztRQUV0RyxPQUFPLENBQUMsR0FBRyxDQUFDLHVCQUF1QixDQUFDLGNBQWMsQ0FBQyxDQUFBO1FBQ25ELE9BQU8sQ0FBQyxHQUFHLENBQUMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxPQUFPLENBQUMsTUFBTSxDQUFDLENBQUE7UUFLdkMsS0FBSyxJQUFJLEdBQUcsR0FBRyxDQUFDLEVBQUUsR0FBRyxHQUFHLEVBQUUsRUFBRSxHQUFHLEVBQUc7WUFDbEMsS0FBSyxJQUFJLENBQUMsR0FBRyxDQUFDLEVBQUUsQ0FBQyxHQUFHLEtBQUssRUFBRSxDQUFDLEVBQUUsRUFBRTtnQkFFNUIsSUFBSSxDQUFDLEdBQUcsSUFBSSxDQUFDLEtBQUssQ0FBQyxDQUFDLElBQUksQ0FBQyxNQUFNLEVBQUUsR0FBRyxHQUFHLEdBQUcsR0FBRyxDQUFDLENBQUMsQ0FBQztnQkFDaEQsSUFBSSxDQUFDLEdBQUcsQ0FBQyxJQUFJLENBQUMsR0FBRyxHQUFHLEdBQUcsQ0FBQztvQkFDcEIsT0FBTyxDQUFDLEdBQUcsQ0FBQyxlQUFlLEdBQUcsQ0FBQyxHQUFHLEdBQUcsR0FBRyxHQUFHLENBQUMsQ0FBQzthQUNwRDtJQU9MLENBQUM7O0FBbENMLDBDQW1DQztBQWhDa0Isc0NBQWMsR0FBUSxDQUFDLENBQUMsQ0FBQyJ9","assetPath":"Assets/BuilditTemplate/Modules/Scripts/GroupRandomItemSelector.ts","manifest":{"properties":[],"name":"GroupRandomItemSelector","description":"","hasAnimatorMove":false},"isCompiled":true}'
-  typescriptHash: a9444eb4088e638d03c8d3342fb642e8
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst ObjectGroup_1 = require(\"./ObjectGroup\");\r\nclass
+    GroupRandomItemSelector extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n   
+    Awake() {\r\n        this._group = this.GetComponent($typeof(ObjectGroup_1.default));\r\n   
+    }\r\n}\r\nexports.default = GroupRandomItemSelector;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR3JvdXBSYW5kb21JdGVtU2VsZWN0b3IuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJHcm91cFJhbmRvbUl0ZW1TZWxlY3Rvci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUF3QztBQUN4QyxpREFBcUQ7QUFDckQsK0NBQXdDO0FBRXhDLE1BQXFCLHVCQUF3QixTQUFRLHFDQUFxQjtJQUl0RSxLQUFLO1FBQ0QsSUFBSSxDQUFDLE1BQU0sR0FBRyxJQUFJLENBQUMsWUFBWSxTQUFDLHFCQUFXLEVBQUcsQ0FBQztJQUNuRCxDQUFDO0NBSUo7QUFWRCwwQ0FVQyJ9","assetPath":"Assets/BuilditTemplate/Modules/Scripts/GroupRandomItemSelector.ts","manifest":{"properties":[],"name":"GroupRandomItemSelector","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 4a9e22f1623440deca7153034142e81d
   onlyWriteTrigger: 0

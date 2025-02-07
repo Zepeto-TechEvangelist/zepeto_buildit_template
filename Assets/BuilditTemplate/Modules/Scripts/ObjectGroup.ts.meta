@@ -23,13 +23,12 @@ ScriptedImporter:
   WrapperFilters: []
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst GroupManager_1 = require(\"./GroupManager\");\r\nclass
     ObjectGroup extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    get members()
-    {\r\n        return ObjectGroup.groups[this.groupId];\r\n    }\r\n    ;\r\n   
-    Awake() {\r\n        if (ObjectGroup.groups[this.groupId] === undefined)\r\n           
-    ObjectGroup.groups[this.groupId] = [];\r\n        ObjectGroup.groups[this.groupId].push(this);\r\n   
-    }\r\n}\r\nexports.default = ObjectGroup;\r\nObjectGroup.groups = new Map();\r\n//#
-    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiT2JqZWN0R3JvdXAuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJPYmplY3RHcm91cC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUNBLGlEQUFxRDtBQUVyRCxNQUFxQixXQUFZLFNBQVEscUNBQXFCO0lBTzFELElBQVcsT0FBTztRQUNkLE9BQU8sV0FBVyxDQUFDLE1BQU0sQ0FBQyxJQUFJLENBQUMsT0FBTyxDQUFDLENBQUM7SUFDNUMsQ0FBQztJQUFBLENBQUM7SUFFRixLQUFLO1FBRUQsSUFBSSxXQUFXLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxPQUFPLENBQUMsS0FBSyxTQUFTO1lBQzlDLFdBQVcsQ0FBQyxNQUFNLENBQUMsSUFBSSxDQUFDLE9BQU8sQ0FBQyxHQUFHLEVBQUUsQ0FBQztRQUUxQyxXQUFXLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxPQUFPLENBQUMsQ0FBQyxJQUFJLENBQUMsSUFBSSxDQUFDLENBQUM7SUFDaEQsQ0FBQzs7QUFqQkwsOEJBbUJDO0FBZG9DLGtCQUFNLEdBQStCLElBQUksR0FBRyxFQUF5QixDQUFDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/ObjectGroup.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"groupId","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"The
+    {\r\n        return GroupManager_1.default.instance.GetMembers(this.groupId);\r\n   
+    }\r\n    ;\r\n    Awake() {\r\n        GroupManager_1.default.instance.AddGroup(this);\r\n   
+    }\r\n}\r\nexports.default = ObjectGroup;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiT2JqZWN0R3JvdXAuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJPYmplY3RHcm91cC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUF3QztBQUN4QyxpREFBcUQ7QUFDckQsaURBQTBDO0FBRTFDLE1BQXFCLFdBQVksU0FBUSxxQ0FBcUI7SUFLMUQsSUFBVyxPQUFPO1FBQ2QsT0FBTyxzQkFBWSxDQUFDLFFBQVEsQ0FBQyxVQUFVLENBQUMsSUFBSSxDQUFDLE9BQU8sQ0FBQyxDQUFDO0lBQzFELENBQUM7SUFBQSxDQUFDO0lBRUYsS0FBSztRQUVELHNCQUFZLENBQUMsUUFBUSxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsQ0FBQztJQUN6QyxDQUFDO0NBRUo7QUFkRCw4QkFjQyJ9","assetPath":"Assets/BuilditTemplate/Modules/Scripts/ObjectGroup.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"groupId","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"The
     id of the group\""]}]}],"name":"ObjectGroup","description":"","hasAnimatorMove":false},"isCompiled":true}'
-  typescriptHash: 125cf1699151d2471907c413520708e1
+  typescriptHash: 920ac1b7198a49f77fb30727f686d4ce
   onlyWriteTrigger: 0

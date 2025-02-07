@@ -49,16 +49,19 @@ export default class CollectableManager extends ZepetoScriptBehaviour {
                 
                 this.StartCoroutine(this.OnEventSuccess());
             }, (errorCode, errorMsg) => {
+
+                CollectableManager._isCollecting = false;
             
-                if (errorCode == 0) {
-                    // Set disabled
+                // if (errorCode == 0) {
+                //     // Set disabled
                     this._chest.Open(true);
                     this.sparkle.SetActive(false);
                     this.chest.GetComponent<Chest>()?.gold.gameObject.SetActive(false);
-                    
-                    this.StartCoroutine(this.RemovePopup());
                     return;
-                }
+                //    
+                //     this.StartCoroutine(this.RemovePopup());
+                //     return;
+                // }
                 
                 this._isCollected = false;
                 CollectableManager._isCollecting = false;

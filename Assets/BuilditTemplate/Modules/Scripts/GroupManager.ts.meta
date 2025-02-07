@@ -1,0 +1,50 @@
+fileFormatVersion: 2
+guid: 6160491a551f4bfb9ffe7a93c1565967
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst ObjectGroup_1 = require(\"./ObjectGroup\");\r\nclass
+    GroupManager extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.groups = new Map();\r\n   
+    }\r\n    GetMembers(id) {\r\n        return this.groups[id];\r\n    }\r\n   
+    ;\r\n    static get instance() {\r\n        if (this.m_instance === null) {\r\n           
+    this.m_instance = UnityEngine_1.GameObject.FindObjectOfType($typeof(GroupManager));\r\n           
+    if (this.m_instance === null) {\r\n                this.m_instance = new UnityEngine_1.GameObject(GroupManager.name).AddComponent($typeof(GroupManager));\r\n           
+    }\r\n        }\r\n        return this.m_instance;\r\n    }\r\n    Awake() {\r\n       
+    if (GroupManager.m_instance !== null && GroupManager.m_instance !== this) {\r\n           
+    UnityEngine_1.GameObject.Destroy(this.gameObject);\r\n        }\r\n        else
+    {\r\n            GroupManager.m_instance = this;\r\n            UnityEngine_1.GameObject.DontDestroyOnLoad(this.gameObject);\r\n       
+    }\r\n    }\r\n    Start() {\r\n        console.log(\"Will make random selections
+    \" + this.groups.size);\r\n        this.groups.forEach((members, groupId) =>
+    {\r\n            console.log(`>> ${groupId} count ${members.length}`);\r\n           
+    this.MakeGroupSelection(groupId, members);\r\n        });\r\n    }\r\n    AddGroup(group)
+    {\r\n        console.log(`Add Group ${group.groupId}`);\r\n        if (this.groups.has(group.groupId)
+    == false)\r\n            this.groups.set(group.groupId, []);\r\n        this.groups.get(group.groupId).push(group);\r\n   
+    }\r\n    MakeGroupSelection(groupId, members) {\r\n        let index = Math.round((Math.random()
+    * members.length - 0.5));\r\n        console.log(`GroupSelection ${groupId} index 
+    ${index}`);\r\n        members.forEach((x, i) => x.gameObject.SetActive(i ===
+    index));\r\n    }\r\n}\r\nexports.default = GroupManager;\r\n/* Singleton */\r\nGroupManager.m_instance
+    = null;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR3JvdXBNYW5hZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiR3JvdXBNYW5hZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsNkNBQXdDO0FBQ3hDLGlEQUFxRDtBQUNyRCwrQ0FBd0M7QUFFeEMsTUFBcUIsWUFBYSxTQUFRLHFDQUFxQjtJQUEvRDs7UUFHVyxXQUFNLEdBQStCLElBQUksR0FBRyxFQUF5QixDQUFDO0lBdURqRixDQUFDO0lBckRVLFVBQVUsQ0FBQyxFQUFVO1FBQ3hCLE9BQU8sSUFBSSxDQUFDLE1BQU0sQ0FBQyxFQUFFLENBQUMsQ0FBQztJQUMzQixDQUFDO0lBQUEsQ0FBQztJQUtLLE1BQU0sS0FBSyxRQUFRO1FBQ3RCLElBQUksSUFBSSxDQUFDLFVBQVUsS0FBSyxJQUFJLEVBQUU7WUFDMUIsSUFBSSxDQUFDLFVBQVUsR0FBRyx3QkFBVSxDQUFDLGdCQUFnQixTQUFDLFlBQVksRUFBRyxDQUFDO1lBQzlELElBQUksSUFBSSxDQUFDLFVBQVUsS0FBSyxJQUFJLEVBQUU7Z0JBQzFCLElBQUksQ0FBQyxVQUFVLEdBQUcsSUFBSSx3QkFBVSxDQUFDLFlBQVksQ0FBQyxJQUFJLENBQUMsQ0FBQyxZQUFZLFNBQUMsWUFBWSxFQUFHLENBQUM7YUFDcEY7U0FDSjtRQUNELE9BQU8sSUFBSSxDQUFDLFVBQVUsQ0FBQztJQUMzQixDQUFDO0lBQ08sS0FBSztRQUNULElBQUksWUFBWSxDQUFDLFVBQVUsS0FBSyxJQUFJLElBQUksWUFBWSxDQUFDLFVBQVUsS0FBSyxJQUFJLEVBQUU7WUFDdEUsd0JBQVUsQ0FBQyxPQUFPLENBQUMsSUFBSSxDQUFDLFVBQVUsQ0FBQyxDQUFDO1NBQ3ZDO2FBQU07WUFDSCxZQUFZLENBQUMsVUFBVSxHQUFHLElBQUksQ0FBQztZQUMvQix3QkFBVSxDQUFDLGlCQUFpQixDQUFDLElBQUksQ0FBQyxVQUFVLENBQUMsQ0FBQztTQUNqRDtJQUNMLENBQUM7SUFFTSxLQUFLO1FBRVIsT0FBTyxDQUFDLEdBQUcsQ0FBQyw4QkFBOEIsR0FBRyxJQUFJLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxDQUFDO1FBRS9ELElBQUksQ0FBQyxNQUFNLENBQUMsT0FBTyxDQUFDLENBQUMsT0FBTyxFQUFFLE9BQU8sRUFBRSxFQUFFO1lBQ3JDLE9BQU8sQ0FBQyxHQUFHLENBQUMsTUFBTSxPQUFPLFVBQVUsT0FBTyxDQUFDLE1BQU0sRUFBRSxDQUFDLENBQUM7WUFDckQsSUFBSSxDQUFDLGtCQUFrQixDQUFDLE9BQU8sRUFBRSxPQUFPLENBQUMsQ0FBQztRQUM5QyxDQUFDLENBQUMsQ0FBQztJQUVQLENBQUM7SUFFTSxRQUFRLENBQUMsS0FBa0I7UUFFOUIsT0FBTyxDQUFDLEdBQUcsQ0FBQyxhQUFhLEtBQUssQ0FBQyxPQUFPLEVBQUUsQ0FBQyxDQUFDO1FBRTFDLElBQUksSUFBSSxDQUFDLE1BQU0sQ0FBQyxHQUFHLENBQUMsS0FBSyxDQUFDLE9BQU8sQ0FBQyxJQUFJLEtBQUs7WUFDdkMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxHQUFHLENBQUMsS0FBSyxDQUFDLE9BQU8sRUFBRSxFQUFFLENBQUMsQ0FBQztRQUV2QyxJQUFJLENBQUMsTUFBTSxDQUFDLEdBQUcsQ0FBQyxLQUFLLENBQUMsT0FBTyxDQUFDLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxDQUFDO0lBQy9DLENBQUM7SUFFTSxrQkFBa0IsQ0FBQyxPQUFlLEVBQUUsT0FBc0I7UUFFN0QsSUFBSSxLQUFLLEdBQUcsSUFBSSxDQUFDLEtBQUssQ0FBQyxDQUFDLElBQUksQ0FBQyxNQUFNLEVBQUUsR0FBRyxPQUFPLENBQUMsTUFBTSxHQUFHLEdBQUcsQ0FBQyxDQUFDLENBQUM7UUFDL0QsT0FBTyxDQUFDLEdBQUcsQ0FBQyxrQkFBa0IsT0FBTyxXQUFXLEtBQUssRUFBRSxDQUFDLENBQUM7UUFDekQsT0FBTyxDQUFDLE9BQU8sQ0FBQyxDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsRUFBRSxDQUFDLENBQUMsQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLENBQUMsS0FBSyxLQUFLLENBQUMsQ0FBQyxDQUFBO0lBQ2xFLENBQUM7O0FBeERMLCtCQTBEQztBQWhERyxlQUFlO0FBQ0EsdUJBQVUsR0FBaUIsSUFBSSxDQUFDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/GroupManager.ts","manifest":{"properties":[],"name":"GroupManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: e2b55a9e81e527acca75612f76bfe41d
+  onlyWriteTrigger: 0
