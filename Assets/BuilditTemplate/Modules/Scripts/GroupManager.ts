@@ -34,8 +34,6 @@ export default class GroupManager extends ZepetoScriptBehaviour {
     
     public Start() {
         
-        console.log("Will make random selections " + this.groups.size);
-        
         this.groups.forEach((members, groupId) => {
             console.log(`>> ${groupId} count ${members.length}`);
             this.MakeGroupSelection(groupId, members);
@@ -44,8 +42,6 @@ export default class GroupManager extends ZepetoScriptBehaviour {
     }
     
     public AddGroup(group: ObjectGroup) {
-
-        console.log(`Add Group ${group.groupId}`);
         
         if (this.groups.has(group.groupId) == false)
             this.groups.set(group.groupId, []);
@@ -57,7 +53,10 @@ export default class GroupManager extends ZepetoScriptBehaviour {
     {
         let index = Math.round((Math.random() * members.length - 0.5));
         console.log(`GroupSelection ${groupId} index  ${index}`);
-        members.forEach((x, i) => x.gameObject.SetActive(i === index))
+        members.forEach((x, i) => {
+            if (i != index)
+                GameObject.Destroy(x.gameObject);   
+        })
     }
 
 }
