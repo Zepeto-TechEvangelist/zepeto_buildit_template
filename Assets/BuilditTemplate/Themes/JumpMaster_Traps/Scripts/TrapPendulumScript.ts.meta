@@ -1,0 +1,56 @@
+fileFormatVersion: 2
+guid: ef28b55319a0d4841ace468af1f93983
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst TrapManager_1 = require(\"./TrapManager\");\r\nclass
+    TrapPendulumScript extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        // Pendulum''s amplitude.\r\n       
+    this.amplitude = 30;\r\n        // Pendulum''s moving speed.\r\n        this.speed
+    = 2;\r\n        // Whether the character will teleport to the current checkpoint
+    when it collides with the pendulum.\r\n        this.enableKill = true;\r\n   
+    }\r\n    Awake() {\r\n        // Initialize initialRotation with the pendulum''s
+    current localRotation.\r\n        this.initialRotation = this.transform.localRotation;\r\n   
+    }\r\n    Start() {\r\n        // Initialize zepetoCharacter.\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            this.zepetoCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n       
+    });\r\n        // Initialize trapManagerInstance.\r\n        this.trapManagerInstance
+    = TrapManager_1.default.instance;\r\n    }\r\n    Update() {\r\n        // Get
+    the current time.\r\n        const t = UnityEngine_1.Time.time;\r\n        //
+    Calculate the swinging angle of the pendulum.\r\n        const angle = this.amplitude
+    * UnityEngine_1.Mathf.Sin(this.speed * t);\r\n        // Multiply initialiRotation
+    with the swinging angle to get the pendulum''s new rotation relative to its original
+    rotation.\r\n        // Assign the calculated rotation to the pendulum''s local
+    rotation.\r\n        this.transform.localRotation = UnityEngine_1.Quaternion.op_Multiply(this.initialRotation,
+    UnityEngine_1.Quaternion.Euler(angle, 0, 0));\r\n    }\r\n    OnTriggerEnter(collider)
+    {\r\n        // If enableKill is disabled, return.\r\n        if (!this.enableKill)
+    {\r\n            return;\r\n        }\r\n        // If zepetoCharacter is null
+    or the collider collided with an object other than zepetoCharacter, return.\r\n       
+    if (this.zepetoCharacter === null || (this.zepetoCharacter && collider.gameObject
+    !== this.zepetoCharacter.gameObject)) {\r\n            return;\r\n        }\r\n       
+    // If the character collided with the pendulum, teleport it to the current checkpoint.\r\n       
+    if (this.trapManagerInstance) {\r\n            this.trapManagerInstance.TeleportCharacter();\r\n       
+    }\r\n    }\r\n}\r\nexports.default = TrapPendulumScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHJhcFBlbmR1bHVtU2NyaXB0LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiVHJhcFBlbmR1bHVtU2NyaXB0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsNkNBQWdFO0FBQ2hFLDZFQUE2RTtBQUM3RSxpREFBc0Q7QUFDdEQsK0NBQXdDO0FBRXhDLE1BQXFCLGtCQUFtQixTQUFRLHFDQUFxQjtJQUFyRTs7UUFFSSx3QkFBd0I7UUFDRSxjQUFTLEdBQVcsRUFBRSxDQUFDO1FBQ2pELDJCQUEyQjtRQUNELFVBQUssR0FBVyxDQUFDLENBQUM7UUFDNUMsb0dBQW9HO1FBQzFFLGVBQVUsR0FBUyxJQUFJLENBQUM7SUFrRHRELENBQUM7SUExQ0csS0FBSztRQUNELHdFQUF3RTtRQUN4RSxJQUFJLENBQUMsZUFBZSxHQUFHLElBQUksQ0FBQyxTQUFTLENBQUMsYUFBYSxDQUFDO0lBQ3hELENBQUM7SUFFRCxLQUFLO1FBQ0QsOEJBQThCO1FBQzlCLDJDQUFhLENBQUMsUUFBUSxDQUFDLGtCQUFrQixDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7WUFDdkQsSUFBSSxDQUFDLGVBQWUsR0FBRywyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxXQUFXLENBQUMsWUFBWSxDQUFDLFNBQVMsQ0FBQztRQUNyRixDQUFDLENBQUMsQ0FBQztRQUVILGtDQUFrQztRQUNsQyxJQUFJLENBQUMsbUJBQW1CLEdBQUcscUJBQVcsQ0FBQyxRQUFRLENBQUM7SUFDcEQsQ0FBQztJQUVELE1BQU07UUFDRix3QkFBd0I7UUFDeEIsTUFBTSxDQUFDLEdBQUcsa0JBQUksQ0FBQyxJQUFJLENBQUM7UUFDcEIsZ0RBQWdEO1FBQ2hELE1BQU0sS0FBSyxHQUFHLElBQUksQ0FBQyxTQUFTLEdBQUcsbUJBQUssQ0FBQyxHQUFHLENBQUMsSUFBSSxDQUFDLEtBQUssR0FBRyxDQUFDLENBQUMsQ0FBQztRQUN6RCwwSEFBMEg7UUFDMUgsbUVBQW1FO1FBQ25FLElBQUksQ0FBQyxTQUFTLENBQUMsYUFBYSxHQUFHLHdCQUFVLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxlQUFlLEVBQUUsd0JBQVUsQ0FBQyxLQUFLLENBQUMsS0FBSyxFQUFFLENBQUMsRUFBRSxDQUFDLENBQUMsQ0FBQyxDQUFDO0lBQy9HLENBQUM7SUFFRCxjQUFjLENBQUMsUUFBa0I7UUFDN0IscUNBQXFDO1FBQ3JDLElBQUksQ0FBQyxJQUFJLENBQUMsVUFBVSxFQUFFO1lBQ2xCLE9BQU87U0FDVjtRQUVELHlHQUF5RztRQUN6RyxJQUFJLElBQUksQ0FBQyxlQUFlLEtBQUssSUFBSSxJQUFJLENBQUMsSUFBSSxDQUFDLGVBQWUsSUFBSSxRQUFRLENBQUMsVUFBVSxLQUFLLElBQUksQ0FBQyxlQUFlLENBQUMsVUFBVSxDQUFDLEVBQUU7WUFDcEgsT0FBTztTQUNWO1FBRUQsc0ZBQXNGO1FBQ3RGLElBQUksSUFBSSxDQUFDLG1CQUFtQixFQUFFO1lBQzFCLElBQUksQ0FBQyxtQkFBbUIsQ0FBQyxpQkFBaUIsRUFBRSxDQUFDO1NBQ2hEO0lBQ0wsQ0FBQztDQUVKO0FBekRELHFDQXlEQyJ9","assetPath":"Assets/CreatedPrefabs/Scripts/TrapPendulumScript.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"amplitude","type":"System.Single","isArray":false,"initValue":["30"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"speed","type":"System.Single","isArray":false,"initValue":["2"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"enableKill","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"TrapPendulumScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: aed33f081f64b2d75998f1b946d9f419
+  onlyWriteTrigger: 0

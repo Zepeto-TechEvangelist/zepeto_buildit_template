@@ -1,0 +1,94 @@
+fileFormatVersion: 2
+guid: 8cbd3c60019df4c049909290f0f50d71
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\nconst UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst
+    ZEPETO_Character_Controller_1 = require(\\\"ZEPETO.Character.Controller\\\");\\r\\nconst
+    ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nclass RotatingPlatformScript
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    constructor() {\\r\\n       
+    super(...arguments);\\r\\n        // Speed of the platform in the x direction.\\r\\n       
+    this.xSpeed = 0;\\r\\n        // Speed of the platform in the y direction.\\r\\n       
+    this.ySpeed = 150;\\r\\n        // Speed of the platform in the z direction.\\r\\n       
+    this.zSpeed = 0;\\r\\n    }\\r\\n    Awake() {\\r\\n        // Get the platform's
+    Rigidbody component and initialize objRigidbody.\\r\\n        this.objRigidbody
+    = this.GetComponent($typeof(UnityEngine_1.Rigidbody));\\r\\n    }\\r\\n    Start()
+    {\\r\\n        // Initialize zepetoCharacter.\\r\\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\\r\\n            this.zepetoCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\\r\\n       
+    });\\r\\n    }\\r\\n    FixedUpdate() {\\r\\n        // If zepetoCharacter is
+    null, return.\\r\\n        if (this.zepetoCharacter === null) {\\r\\n           
+    return;\\r\\n        }\\r\\n        // Amount of rotation to apply this frame.\\r\\n       
+    const deltaRotation = UnityEngine_1.Quaternion.Euler(this.xSpeed * UnityEngine_1.Time.fixedDeltaTime,
+    this.ySpeed * UnityEngine_1.Time.fixedDeltaTime, this.zSpeed * UnityEngine_1.Time.fixedDeltaTime);\\r\\n       
+    // Combine the platform's current rotation with deltaRotation.\\r\\n        const
+    newPlatformRotation = UnityEngine_1.Quaternion.op_Multiply(this.objRigidbody.rotation,
+    deltaRotation);\\r\\n        // Apply the new rotation to the platform.\\r\\n       
+    this.objRigidbody.MoveRotation(newPlatformRotation);\\r\\n        // If the character
+    jumped or moved while on the platform, set jumpedOrMoved to true.\\r\\n       
+    if (this.zepetoCharacter && (this.zepetoCharacter.motionState.currentJumpState
+    !== -1 || this.zepetoCharacter.motionState.currentMoveState !== -1)) {\\r\\n           
+    this.jumpedOrMoved = true;\\r\\n        }\\r\\n        // Recalculate offsets
+    if the character moved or jumped while on the platform.\\r\\n        if (this.isOnPlatform
+    && this.zepetoCharacter && this.jumpedOrMoved) {\\r\\n            this.CalculateOffsets();\\r\\n           
+    this.jumpedOrMoved = false;\\r\\n        }\\r\\n        // Fix the character's
+    position and rotation if the character is not moving or jumping.\\r\\n       
+    if (this.isOnPlatform\\r\\n            && this.zepetoCharacter\\r\\n           
+    && this.zepetoCharacter.motionState.currentJumpState === -1\\r\\n           
+    && this.zepetoCharacter.motionState.currentMoveState === -1) {\\r\\n           
+    // Convert local offset back into world position to get the character's world
+    position given the platform's current position.\\r\\n            const newPosition
+    = this.transform.TransformPoint(this.localOffset);\\r\\n            // Update
+    character's position.\\r\\n            this.zepetoCharacter.transform.position
+    = newPosition;\\r\\n            // Multiply the platform's current rotation by
+    localRotationOffset to make the character's orientation follow the platform\u2019s
+    rotation.\\r\\n            const newRotation = UnityEngine_1.Quaternion.op_Multiply(this.transform.rotation,
+    this.localRotationOffset);\\r\\n            // Update character's rotation.\\r\\n           
+    this.zepetoCharacter.transform.rotation = newRotation;\\r\\n        }\\r\\n   
+    }\\r\\n    OnTriggerEnter(collider) {\\r\\n        // If zepetoCharacter is null
+    or the collider collided with an object other than zepetoCharacter, return.\\r\\n       
+    if (this.zepetoCharacter === null || (this.zepetoCharacter && collider.gameObject
+    !== this.zepetoCharacter.gameObject)) {\\r\\n            return;\\r\\n       
+    }\\r\\n        // If zepetoCharacter collided with the platform, calculate the
+    position and rotation offsets and set isOnPlatform to true.\\r\\n        if (this.zepetoCharacter)
+    {\\r\\n            this.CalculateOffsets();\\r\\n        }\\r\\n        else
+    {\\r\\n            return;\\r\\n        }\\r\\n        this.isOnPlatform = true;\\r\\n   
+    }\\r\\n    OnTriggerExit(collider) {\\r\\n        // If zepetoCharacter is null
+    or the collider collided with an object other than zepetoCharacter, return.\\r\\n       
+    if (this.zepetoCharacter === null || (this.zepetoCharacter && collider.gameObject
+    !== this.zepetoCharacter.gameObject)) {\\r\\n            return;\\r\\n       
+    }\\r\\n        // Set isOnPlatform to false, since the character left the platform.\\r\\n       
+    this.isOnPlatform = false;\\r\\n    }\\r\\n    CalculateOffsets() {\\r\\n       
+    // If the character is not null, calculate offsets.\\r\\n        if (this.zepetoCharacter
+    !== null) {\\r\\n            // this.transform.InverseTransformPoint() converts
+    a world position into local coordinates relative to the platform's position.\\r\\n           
+    this.localOffset = this.transform.InverseTransformPoint(this.zepetoCharacter.transform.position);\\r\\n           
+    // Calculate the difference between the platform\u2019s current rotation and
+    the character\u2019s rotation.\\r\\n            // Inverse of the platform\u2019s
+    rotation removes the platform\u2019s rotation from the character\u2019s world
+    rotation, which gives the character\u2019s orientation relative to the platform.\\r\\n           
+    // Multiply character's rotation with inveresed platform's rotation to combine
+    them.\\r\\n            this.localRotationOffset = UnityEngine_1.Quaternion.op_Multiply(UnityEngine_1.Quaternion.Inverse(this.transform.rotation),
+    this.zepetoCharacter.transform.rotation);\\r\\n        }\\r\\n    }\\r\\n}\\r\\nexports.default
+    = RotatingPlatformScript;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUm90YXRpbmdQbGF0Zm9ybVNjcmlwdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlJvdGF0aW5nUGxhdGZvcm1TY3JpcHQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSw2Q0FBNkU7QUFDN0UsNkVBQTZFO0FBQzdFLGlEQUFzRDtBQUV0RCxNQUFxQixzQkFBdUIsU0FBUSxxQ0FBcUI7SUFBekU7O1FBRUksNENBQTRDO1FBQ2xCLFdBQU0sR0FBVyxDQUFDLENBQUM7UUFDN0MsNENBQTRDO1FBQ2xCLFdBQU0sR0FBVyxHQUFHLENBQUM7UUFDL0MsNENBQTRDO1FBQ2xCLFdBQU0sR0FBVyxDQUFDLENBQUM7SUF3R2pELENBQUM7SUExRkcsS0FBSztRQUNELHNFQUFzRTtRQUN0RSxJQUFJLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQyxZQUFZLFNBQUMsdUJBQVMsRUFBRyxDQUFDO0lBQ3ZELENBQUM7SUFFRCxLQUFLO1FBQ0QsOEJBQThCO1FBQzlCLDJDQUFhLENBQUMsUUFBUSxDQUFDLGtCQUFrQixDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7WUFDdkQsSUFBSSxDQUFDLGVBQWUsR0FBRywyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxXQUFXLENBQUMsWUFBWSxDQUFDLFNBQVMsQ0FBQztRQUNyRixDQUFDLENBQUMsQ0FBQztJQUNQLENBQUM7SUFFRCxXQUFXO1FBQ1Asc0NBQXNDO1FBQ3RDLElBQUksSUFBSSxDQUFDLGVBQWUsS0FBSyxJQUFJLEVBQUU7WUFDL0IsT0FBTztTQUNWO1FBRUQsMENBQTBDO1FBQzFDLE1BQU0sYUFBYSxHQUFHLHdCQUFVLENBQUMsS0FBSyxDQUFDLElBQUksQ0FBQyxNQUFNLEdBQUcsa0JBQUksQ0FBQyxjQUFjLEVBQUUsSUFBSSxDQUFDLE1BQU0sR0FBRyxrQkFBSSxDQUFDLGNBQWMsRUFBRSxJQUFJLENBQUMsTUFBTSxHQUFHLGtCQUFJLENBQUMsY0FBYyxDQUFDLENBQUM7UUFDaEosOERBQThEO1FBQzlELE1B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\",\"assetPath\":\"Assets/CreatedPrefabs/Scripts/RotatingPlatformScript.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"mscorlib\",\"name\":\"xSpeed\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"0\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[{\"name\":\"SerializeField\",\"args\":[]}]},{\"assembly\":\"mscorlib\",\"name\":\"ySpeed\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"150\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[{\"name\":\"SerializeField\",\"args\":[]}]},{\"assembly\":\"mscorlib\",\"name\":\"zSpeed\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"0\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[{\"name\":\"SerializeField\",\"args\":[]}]}],\"name\":\"RotatingPlatformScript\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: 3f392da2d5f10e30f3254820ce29a260
+  onlyWriteTrigger: 0

@@ -1,0 +1,51 @@
+fileFormatVersion: 2
+guid: 166f082ddb303460ba729f19710c5856
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst TrapManager_1 = require(\"./TrapManager\");\r\nclass
+    TrapRotatingVerticalScript extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n   
+    constructor() {\r\n        super(...arguments);\r\n        // Speed of rotation
+    of the trap.\r\n        this.rotationSpeed = 100;\r\n    }\r\n    Awake() {\r\n       
+    // Find the Rigidbody of the trap and initialize objRigidbody.\r\n        this.objRigidbody
+    = this.GetComponent($typeof(UnityEngine_1.Rigidbody));\r\n    }\r\n    Start()
+    {\r\n        // Initialize zepetoCharacter. \r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            this.zepetoCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n       
+    });\r\n        // Initialize trapManagerInstance.\r\n        this.trapManagerInstance
+    = TrapManager_1.default.instance;\r\n    }\r\n    FixedUpdate() {\r\n       
+    // Amount of rotation to apply this frame.\r\n        const deltaRotation = UnityEngine_1.Quaternion.Euler(0,
+    this.rotationSpeed * UnityEngine_1.Time.fixedDeltaTime, 0);\r\n        // Combine
+    the trap''s current rotation with deltaRotation.\r\n        const newPlatformRotation
+    = UnityEngine_1.Quaternion.op_Multiply(this.objRigidbody.rotation, deltaRotation);\r\n       
+    // Apply the new rotation to the trap.\r\n        this.objRigidbody.MoveRotation(newPlatformRotation);\r\n   
+    }\r\n    OnTriggerEnter(collider) {\r\n        // If zepetoCharacter is null
+    or the collider collided with an object other than zepetoCharacter, return.\r\n       
+    if (this.zepetoCharacter === null || (this.zepetoCharacter && collider.gameObject
+    !== this.zepetoCharacter.gameObject)) {\r\n            return;\r\n        }\r\n       
+    // If zepetoCharacter collided with the trap, teleport it to the most recent
+    checkpoint.\r\n        if (this.trapManagerInstance) {\r\n            this.trapManagerInstance.TeleportCharacter();\r\n       
+    }\r\n    }\r\n}\r\nexports.default = TrapRotatingVerticalScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHJhcFJvdGF0aW5nVmVydGljYWxTY3JpcHQuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJUcmFwUm90YXRpbmdWZXJ0aWNhbFNjcmlwdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUFvRTtBQUNwRSw2RUFBNkU7QUFDN0UsaURBQXNEO0FBQ3RELCtDQUF3QztBQUV4QyxNQUFxQiwwQkFBMkIsU0FBUSxxQ0FBcUI7SUFBN0U7O1FBRUksaUNBQWlDO1FBQ1Asa0JBQWEsR0FBVyxHQUFHLENBQUM7SUE0QzFELENBQUM7SUFwQ0csS0FBSztRQUNELDhEQUE4RDtRQUM5RCxJQUFJLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQyxZQUFZLFNBQUMsdUJBQVMsRUFBRyxDQUFDO0lBQ3ZELENBQUM7SUFFRCxLQUFLO1FBQ0QsK0JBQStCO1FBQy9CLDJDQUFhLENBQUMsUUFBUSxDQUFDLGtCQUFrQixDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7WUFDdkQsSUFBSSxDQUFDLGVBQWUsR0FBRywyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxXQUFXLENBQUMsWUFBWSxDQUFDLFNBQVMsQ0FBQztRQUNyRixDQUFDLENBQUMsQ0FBQztRQUVILGtDQUFrQztRQUNsQyxJQUFJLENBQUMsbUJBQW1CLEdBQUcscUJBQVcsQ0FBQyxRQUFRLENBQUM7SUFDcEQsQ0FBQztJQUVELFdBQVc7UUFDUCwwQ0FBMEM7UUFDMUMsTUFBTSxhQUFhLEdBQUcsd0JBQVUsQ0FBQyxLQUFLLENBQUMsQ0FBQyxFQUFFLElBQUksQ0FBQyxhQUFhLEdBQUcsa0JBQUksQ0FBQyxjQUFjLEVBQUUsQ0FBQyxDQUFDLENBQUM7UUFDdkYsMERBQTBEO1FBQzFELE1BQU0sbUJBQW1CLEdBQUcsd0JBQVUsQ0FBQyxXQUFXLENBQUMsSUFBSSxDQUFDLFlBQVksQ0FBQyxRQUFRLEVBQUUsYUFBYSxDQUFDLENBQUM7UUFDOUYsc0NBQXNDO1FBQ3RDLElBQUksQ0FBQyxZQUFZLENBQUMsWUFBWSxDQUFDLG1CQUFtQixDQUFDLENBQUM7SUFDeEQsQ0FBQztJQUVELGNBQWMsQ0FBQyxRQUFrQjtRQUM3Qix5R0FBeUc7UUFDekcsSUFBSSxJQUFJLENBQUMsZUFBZSxLQUFLLElBQUksSUFBSSxDQUFDLElBQUksQ0FBQyxlQUFlLElBQUksUUFBUSxDQUFDLFVBQVUsS0FBSyxJQUFJLENBQUMsZUFBZSxDQUFDLFVBQVUsQ0FBQyxFQUFFO1lBQ3BILE9BQU87U0FDVjtRQUVELHdGQUF3RjtRQUN4RixJQUFJLElBQUksQ0FBQyxtQkFBbUIsRUFBRTtZQUMxQixJQUFJLENBQUMsbUJBQW1CLENBQUMsaUJBQWlCLEVBQUUsQ0FBQztTQUNoRDtJQUNMLENBQUM7Q0FFSjtBQS9DRCw2Q0ErQ0MifQ==","assetPath":"Assets/CreatedPrefabs/Scripts/TrapRotatingVerticalScript.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"rotationSpeed","type":"System.Single","isArray":false,"initValue":["100"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"TrapRotatingVerticalScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 5949b584ffe20065a41d2d6cffc8319f
+  onlyWriteTrigger: 0

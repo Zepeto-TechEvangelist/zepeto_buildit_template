@@ -1,0 +1,53 @@
+fileFormatVersion: 2
+guid: 1078e6a223d6c435e9dead4fd168c6b1
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass TrapManager extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    Awake() {\r\n        // If there''s no instance created, initialize
+    it with the current instance.\r\n        if (ZEPETO_Script_1.ZepetoScriptBehaviour.op_Equality(TrapManager.instance,
+    null)) {\r\n            TrapManager.instance = this;\r\n        }\r\n       
+    else {\r\n            // Otherwise, destroy the current instance.\r\n           
+    UnityEngine_1.GameObject.Destroy(this);\r\n        }\r\n        // Set the initial
+    checkpoint to (0, 0, 0).\r\n        this.currentCheckpoint = new UnityEngine_1.Vector3(0,
+    0, 0);\r\n    }\r\n    Start() {\r\n        // Initialize zepetoCharacter.\r\n       
+    ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            this.zepetoCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n       
+    });\r\n    }\r\n    Update() {\r\n        // If zepetoCharacter''s y position
+    goes below -20, teleport it to the most recent checkpoint.\r\n        if (this.zepetoCharacter
+    !== null) {\r\n            if (this.zepetoCharacter && this.zepetoCharacter.transform.position.y
+    < -20) {\r\n                this.TeleportCharacter();\r\n            }\r\n       
+    }\r\n    }\r\n    // Method to update the most recent checkpoint.\r\n    UpdateCheckpoint(newCheckpoint)
+    {\r\n        this.currentCheckpoint = newCheckpoint;\r\n    }\r\n    // Method
+    to teleport the character to the most recent checkpoint.\r\n    TeleportCharacter()
+    {\r\n        if (this.zepetoCharacter) {\r\n            // Change zepetoCharacter''s
+    position to the most recent checkpoint.\r\n            this.zepetoCharacter.transform.position
+    = this.currentCheckpoint;\r\n            // Teleport the character to the most
+    recent checkpoint.\r\n            this.zepetoCharacter.Teleport(this.currentCheckpoint,
+    new UnityEngine_1.Quaternion(0, 0, 0, 0));\r\n        }\r\n    }\r\n}\r\nexports.default
+    = TrapManager;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHJhcE1hbmFnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJUcmFwTWFuYWdlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUE4RDtBQUM5RCw2RUFBNkU7QUFDN0UsaURBQXNEO0FBRXRELE1BQXFCLFdBQVksU0FBUSxxQ0FBcUI7SUFXMUQsS0FBSztRQUNELDJFQUEyRTtRQUMzRSxJQWZDLHFDQUFxQixDQXlEd3BKLFdBQVksQ0ExQ3RySixXQUFXLENBQUMsUUFBUSxFQUFJLElBQUksR0FBRTtZQUM5QixXQUFXLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQztTQUMvQjthQUFNO1lBQ0gsMkNBQTJDO1lBQzNDLHdCQUFVLENBQUMsT0FBTyxDQUFDLElBQUksQ0FBQyxDQUFDO1NBQzVCO1FBRUQsMkNBQTJDO1FBQzNDLElBQUksQ0FBQyxpQkFBaUIsR0FBRyxJQUFJLHFCQUFPLENBQUMsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLENBQUMsQ0FBQztJQUNsRCxDQUFDO0lBRUQsS0FBSztRQUNELDhCQUE4QjtRQUM5QiwyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxrQkFBa0IsQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQ3ZELElBQUksQ0FBQyxlQUFlLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxTQUFTLENBQUM7UUFDckYsQ0FBQyxDQUFDLENBQUM7SUFDUCxDQUFDO0lBRUQsTUFBTTtRQUNGLDZGQUE2RjtRQUM3RixJQUFJLElBQUksQ0FBQyxlQUFlLEtBQUssSUFBSSxFQUFFO1lBQy9CLElBQUksSUFBSSxDQUFDLGVBQWUsSUFBSSxJQUFJLENBQUMsZUFBZSxDQUFDLFNBQVMsQ0FBQyxRQUFRLENBQUMsQ0FBQyxHQUFHLENBQUMsRUFBRSxFQUFFO2dCQUN6RSxJQUFJLENBQUMsaUJBQWlCLEVBQUUsQ0FBQzthQUM1QjtTQUNKO0lBQ0wsQ0FBQztJQUVELCtDQUErQztJQUMvQyxnQkFBZ0IsQ0FBQyxhQUFzQjtRQUNuQyxJQUFJLENBQUMsaUJBQWlCLEdBQUcsYUFBYSxDQUFDO0lBQzNDLENBQUM7SUFFRCxrRUFBa0U7SUFDbEUsaUJBQWlCO1FBQ2IsSUFBSSxJQUFJLENBQUMsZUFBZSxFQUFFO1lBQ3RCLG1FQUFtRTtZQUNuRSxJQUFJLENBQUMsZUFBZSxDQUFDLFNBQVMsQ0FBQyxRQUFRLEdBQUcsSUFBSSxDQUFDLGlCQUFpQixDQUFDO1lBQ2pFLHdEQUF3RDtZQUN4RCxJQUFJLENBQUMsZUFBZSxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsaUJBQWlCLEVBQUUsSUFBSSx3QkFBVSxDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsQ0FBQyxDQUFDLENBQUM7U0FDckY7SUFDTCxDQUFDO0NBRUo7QUF2REQsOEJBdURDIn0=","assetPath":"Assets/CreatedPrefabs/Scripts/TrapManager.ts","manifest":{"properties":[{"assembly":"","name":"note","type":"String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"TrapManager
+    must be placed in the World in order to use Checkpoint and Trap objects.\""]},{"name":"SerializeField","args":[]}]}],"name":"TrapManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 1f4b06bec55cbf7c4bdc5cc198e09705
+  onlyWriteTrigger: 0

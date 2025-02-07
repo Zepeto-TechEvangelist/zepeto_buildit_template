@@ -1,0 +1,75 @@
+fileFormatVersion: 2
+guid: 93e2e574e688b4fddaa7d1e4fe7f4069
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst TrapManager_1 = require(\"./TrapManager\");\r\nclass
+    TrapMovingCubeScript extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        // Moving speed of the cube.\r\n       
+    this.speed = 2;\r\n        // Whether the cube is moving from start point to
+    end point.\r\n        this.startToEnd = true;\r\n    }\r\n    Awake() {\r\n       
+    // Find the child object ''startPoint'' and initialize startObj.\r\n        const
+    startObj = this.transform.Find(\"startPoint\");\r\n        if (startObj) {\r\n           
+    // Initialize startPosition with startObj''s position.\r\n            this.startPosition
+    = startObj.position;\r\n        }\r\n        // Find the child object ''endPoint''
+    and initialize endObj.\r\n        const endObj = this.transform.Find(\"endPoint\");\r\n       
+    if (endObj) {\r\n            // Initialize endPosition with endObj''s position.\r\n           
+    this.endPosition = endObj.position;\r\n        }\r\n    }\r\n    Start() {\r\n       
+    // Initialize zepetoCharacter.\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            this.zepetoCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n       
+    });\r\n        // Move the cube''s position to startPosition.\r\n        if (this.startPosition)
+    {\r\n            this.transform.position = this.startPosition;\r\n        }\r\n       
+    // Set endPosition as the target position.\r\n        if (this.endPosition) {\r\n           
+    this.targetPosition = this.endPosition;\r\n        }\r\n        // Initialize
+    trapManagerInstance.\r\n        this.trapManagerInstance = TrapManager_1.default.instance;\r\n   
+    }\r\n    Update() {\r\n        // If startPosition or endPosition is null, return.\r\n       
+    if (this.startPosition === null || this.endPosition === null) {\r\n           
+    return;\r\n        }\r\n        // If the cube is currently moving from startPoint
+    to endPoint, change its position to make it move towards endPosition.\r\n       
+    if (this.startToEnd) {\r\n            this.transform.position = UnityEngine_1.Vector3.MoveTowards(this.transform.position,
+    this.endPosition, this.speed * UnityEngine_1.Time.deltaTime);\r\n        }\r\n       
+    else {\r\n            // Otherwise, change its position to make it move towards
+    startPosition.\r\n            this.transform.position = UnityEngine_1.Vector3.MoveTowards(this.transform.position,
+    this.startPosition, this.speed * UnityEngine_1.Time.deltaTime);\r\n        }\r\n       
+    // Calculate the distance between the cube''s current position and the target
+    position.\r\n        const distance = UnityEngine_1.Vector3.Distance(this.transform.position,
+    this.targetPosition);\r\n        if (distance < 0.001) {\r\n            // If
+    the cube reached the target position and was moving from startPoint to endPoint,
+    change its target position to startPoint.\r\n            if (this.startToEnd)
+    {\r\n                this.targetPosition = this.startPosition;\r\n           
+    }\r\n            else {\r\n                // If the cube reached the target
+    position and was moving from endPoint to startPoint, change its target position
+    to endPoint.\r\n                this.targetPosition = this.endPosition;\r\n           
+    }\r\n            // Negate startToEnd to change the cube''s moving direction.\r\n           
+    this.startToEnd = !this.startToEnd;\r\n        }\r\n    }\r\n    OnTriggerEnter(collider)
+    {\r\n        // If zepetoCharacter is null or the collider collided with an object
+    other than zepetoCharacter, return.\r\n        if (this.zepetoCharacter === null
+    || (this.zepetoCharacter && collider.gameObject !== this.zepetoCharacter.gameObject))
+    {\r\n            return;\r\n        }\r\n        // If the character collided
+    with the cube, teleport it to the most recent checkpoint.\r\n        if (this.trapManagerInstance)
+    {\r\n            this.trapManagerInstance.TeleportCharacter();\r\n        }\r\n   
+    }\r\n}\r\nexports.default = TrapMovingCubeScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHJhcE1vdmluZ0N1YmVTY3JpcHQuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJUcmFwTW92aW5nQ3ViZVNjcmlwdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUFzRDtBQUN0RCw2RUFBNkU7QUFDN0UsaURBQXNEO0FBQ3RELCtDQUF3QztBQUV4QyxNQUFxQixvQkFBcUIsU0FBUSxxQ0FBcUI7SUFBdkU7O1FBRUksNEJBQTRCO1FBQ0YsVUFBSyxHQUFXLENBQUMsQ0FBQztRQVc1Qyw0REFBNEQ7UUFDcEQsZUFBVSxHQUFTLElBQUksQ0FBQztJQStFcEMsQ0FBQztJQTdFRyxLQUFLO1FBQ0QsOERBQThEO1FBQzlELE1BQU0sUUFBUSxHQUFHLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLFlBQVksQ0FBQyxDQUFDO1FBQ25ELElBQUksUUFBUSxFQUFFO1lBQ1YscURBQXFEO1lBQ3JELElBQUksQ0FBQyxhQUFhLEdBQUcsUUFBUSxDQUFDLFFBQVEsQ0FBQztTQUMxQztRQUVELDBEQUEwRDtRQUMxRCxNQUFNLE1BQU0sR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxVQUFVLENBQUMsQ0FBQztRQUMvQyxJQUFJLE1BQU0sRUFBRTtZQUNSLGlEQUFpRDtZQUNqRCxJQUFJLENBQUMsV0FBVyxHQUFHLE1BQU0sQ0FBQyxRQUFRLENBQUM7U0FDdEM7SUFDTCxDQUFDO0lBRUQsS0FBSztRQUNELDhCQUE4QjtRQUM5QiwyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxrQkFBa0IsQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQ3ZELElBQUksQ0FBQyxlQUFlLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxTQUFTLENBQUM7UUFDckYsQ0FBQyxDQUFDLENBQUM7UUFFSCw2Q0FBNkM7UUFDN0MsSUFBSSxJQUFJLENBQUMsYUFBYSxFQUFFO1lBQ3BCLElBQUksQ0FBQyxTQUFTLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQyxhQUFhLENBQUM7U0FDaEQ7UUFFRCwwQ0FBMEM7UUFDMUMsSUFBSSxJQUFJLENBQUMsV0FBVyxFQUFFO1lBQ2xCLElBQUksQ0FBQyxjQUFjLEdBQUcsSUFBSSxDQUFDLFdBQVcsQ0FBQztTQUMxQztRQUVELGtDQUFrQztRQUNsQyxJQUFJLENBQUMsbUJBQW1CLEdBQUcscUJBQVcsQ0FBQyxRQUFRLENBQUM7SUFDcEQsQ0FBQztJQUVELE1BQU07UUFDRixtREFBbUQ7UUFDbkQsSUFBSSxJQUFJLENBQUMsYUFBYSxLQUFLLElBQUksSUFBSSxJQUFJLENBQUMsV0FBVyxLQUFLLElBQUksRUFBRTtZQUMxRCxPQUFPO1NBQ1Y7UUFFRCx3SEFBd0g7UUFDeEgsSUFBSSxJQUFJLENBQUMsVUFBVSxFQUFFO1lBQ2pCLElBQUksQ0FBQyxTQUFTLENBQUMsUUFBUSxHQUFHLHFCQUFPLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsUUFBUSxFQUFFLElBQUksQ0FBQyxXQUFXLEVBQUUsSUFBSSxDQUFDLEtBQUssR0FBRyxrQkFBSSxDQUFDLFNBQVMsQ0FBQyxDQUFDO1NBQ3pIO2FBQU07WUFDSCx3RUFBd0U7WUFDeEUsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLEdBQUcscUJBQU8sQ0FBQyxXQUFXLENBQUMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLEVBQUUsSUFBSSxDQUFDLGFBQWEsRUFBRSxJQUFJLENBQUMsS0FBSyxHQUFHLGtCQUFJLENBQUMsU0FBUyxDQUFDLENBQUM7U0FDM0g7UUFFRCxzRkFBc0Y7UUFDdEYsTUFBTSxRQUFRLEdBQUcscUJBQU8sQ0FBQyxRQUFRLENBQUMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLEVBQUUsSUFBSSxDQUFDLGNBQWMsQ0FBQyxDQUFDO1FBQ2hGLElBQUksUUFBUSxHQUFHLEtBQUssRUFBRTtZQUNsQixnSUFBZ0k7WUFDaEksSUFBSSxJQUFJLENBQUMsVUFBVSxFQUFFO2dCQUNqQixJQUFJLENBQUMsY0FBYyxHQUFHLElBQUksQ0FBQyxhQUFhLENBQUM7YUFDNUM7aUJBQU07Z0JBQ0gsOEhBQThIO2dCQUM5SCxJQUFJLENBQUMsY0FBYyxHQUFHLElBQUksQ0FBQyxXQUFXLENBQUM7YUFDMUM7WUFDRCwyREFBMkQ7WUFDM0QsSUFBSSxDQUFDLFVBQVUsR0FBRyxDQUFDLElBQUksQ0FBQyxVQUFVLENBQUM7U0FDdEM7SUFDTCxDQUFDO0lBRUQsY0FBYyxDQUFDLFFBQWtCO1FBQzdCLHlHQUF5RztRQUN6RyxJQUFJLElBQUksQ0FBQyxlQUFlLEtBQUssSUFBSSxJQUFJLENBQUMsSUFBSSxDQUFDLGVBQWUsSUFBSSxRQUFRLENBQUMsVUFBVSxLQUFLLElBQUksQ0FBQyxlQUFlLENBQUMsVUFBVSxDQUFDLEVBQUU7WUFDcEgsT0FBTztTQUNWO1FBRUQsc0ZBQXNGO1FBQ3RGLElBQUksSUFBSSxDQUFDLG1CQUFtQixFQUFFO1lBQzFCLElBQUksQ0FBQyxtQkFBbUIsQ0FBQyxpQkFBaUIsRUFBRSxDQUFDO1NBQ2hEO0lBQ0wsQ0FBQztDQUVKO0FBOUZELHVDQThGQyJ9","assetPath":"Assets/CreatedPrefabs/Scripts/TrapMovingCubeScript.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"speed","type":"System.Single","isArray":false,"initValue":["2"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"TrapMovingCubeScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 5a7f5c5118c71006c040cbcf1dda8295
+  onlyWriteTrigger: 0

@@ -1,0 +1,49 @@
+fileFormatVersion: 2
+guid: 1c8fd0d8f70174db799821693c48ddb3
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass BlinkingPlatformScript
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n       
+    super(...arguments);\r\n        // Number of seconds the platform stays fully
+    visible.\r\n        this.visibleTime = 2;\r\n        // Number of seconds the
+    platform stays fully invisible.\r\n        this.invisibleTime = 2;\r\n    }\r\n   
+    Start() {\r\n        // Find all colliders of BlinkingPlatformScript and initialize
+    objCollider.\r\n        this.objColliders = this.GetComponentsInChildren($typeof(UnityEngine_1.Collider));\r\n       
+    // Find the renderer of BlinkingPlatformScript and initialize objRenderer.\r\n       
+    this.objRenderer = this.GetComponentInChildren($typeof(UnityEngine_1.Renderer));\r\n       
+    // Start blinking the platform.\r\n        this.StartCoroutine(this.Blink());\r\n   
+    }\r\n    // Coroutine for blinking the platform.\r\n    *Blink() {\r\n       
+    while (true) {\r\n            if (this.objColliders) {\r\n                //
+    1. Platform invisible, colliders disabled.\r\n                for (const collider
+    of this.objColliders) {\r\n                    collider.enabled = false;\r\n               
+    }\r\n                this.objRenderer.enabled = false;\r\n                yield
+    new UnityEngine_1.WaitForSeconds(this.invisibleTime);\r\n                // 2.
+    Platform visible, colliders enabled.\r\n                for (const collider of
+    this.objColliders) {\r\n                    collider.enabled = true;\r\n               
+    }\r\n                this.objRenderer.enabled = true;\r\n                yield
+    new UnityEngine_1.WaitForSeconds(this.visibleTime);\r\n            }\r\n       
+    }\r\n    }\r\n}\r\nexports.default = BlinkingPlatformScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQmxpbmtpbmdQbGF0Zm9ybVNjcmlwdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIkJsaW5raW5nUGxhdGZvcm1TY3JpcHQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSw2Q0FBaUU7QUFDakUsaURBQXNEO0FBRXRELE1BQXFCLHNCQUF1QixTQUFRLHFDQUFxQjtJQUF6RTs7UUFFSSxzREFBc0Q7UUFDcEMsZ0JBQVcsR0FBVyxDQUFDLENBQUM7UUFDMUMsd0RBQXdEO1FBQ3RDLGtCQUFhLEdBQVcsQ0FBQyxDQUFDO0lBbUNoRCxDQUFDO0lBN0JHLEtBQUs7UUFDRCwyRUFBMkU7UUFDM0UsSUFBSSxDQUFDLFlBQVksR0FBRyxJQUFJLENBQUMsdUJBQXVCLFNBQUMsc0JBQVEsRUFBRyxDQUFDO1FBQzdELDBFQUEwRTtRQUMxRSxJQUFJLENBQUMsV0FBVyxHQUFHLElBQUksQ0FBQyxzQkFBc0IsU0FBQyxzQkFBUSxFQUFHLENBQUM7UUFDM0QsK0JBQStCO1FBQy9CLElBQUksQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLEtBQUssRUFBRSxDQUFDLENBQUM7SUFDdEMsQ0FBQztJQUVELHVDQUF1QztJQUN2QyxDQUFDLEtBQUs7UUFDRixPQUFPLElBQUksRUFBRTtZQUNULElBQUksSUFBSSxDQUFDLFlBQVksRUFBRTtnQkFDbkIsNkNBQTZDO2dCQUM3QyxLQUFLLE1BQU0sUUFBUSxJQUFJLElBQUksQ0FBQyxZQUFZLEVBQUU7b0JBQ3RDLFFBQVEsQ0FBQyxPQUFPLEdBQUcsS0FBSyxDQUFDO2lCQUM1QjtnQkFDRCxJQUFJLENBQUMsV0FBVyxDQUFDLE9BQU8sR0FBRyxLQUFLLENBQUM7Z0JBQ2pDLE1BQU0sSUFBSSw0QkFBYyxDQUFDLElBQUksQ0FBQyxhQUFhLENBQUMsQ0FBQztnQkFDN0MsMENBQTBDO2dCQUMxQyxLQUFLLE1BQU0sUUFBUSxJQUFJLElBQUksQ0FBQyxZQUFZLEVBQUU7b0JBQ3RDLFFBQVEsQ0FBQyxPQUFPLEdBQUcsSUFBSSxDQUFDO2lCQUMzQjtnQkFDRCxJQUFJLENBQUMsV0FBVyxDQUFDLE9BQU8sR0FBRyxJQUFJLENBQUM7Z0JBQ2hDLE1BQU0sSUFBSSw0QkFBYyxDQUFDLElBQUksQ0FBQyxXQUFXLENBQUMsQ0FBQzthQUM5QztTQUNKO0lBQ0wsQ0FBQztDQUVKO0FBeENELHlDQXdDQyJ9","assetPath":"Assets/CreatedPrefabs/Scripts/BlinkingPlatformScript.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"visibleTime","type":"System.Single","isArray":false,"initValue":["2"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"invisibleTime","type":"System.Single","isArray":false,"initValue":["2"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"BlinkingPlatformScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: bdb4cffa67adf4d357e605d10903262c
+  onlyWriteTrigger: 0

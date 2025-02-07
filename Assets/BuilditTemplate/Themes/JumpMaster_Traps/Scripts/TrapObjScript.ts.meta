@@ -1,0 +1,41 @@
+fileFormatVersion: 2
+guid: aa7f0c6acfb0f45088a5b5f04b1544c1
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst TrapManager_1 = require(\"./TrapManager\");\r\nclass
+    TrapObjScript extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Start()
+    {\r\n        // Initialize zepetoCharacter.\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            this.zepetoCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n       
+    });\r\n        // Initialize trapManagerInstance.\r\n        this.trapManagerInstance
+    = TrapManager_1.default.instance;\r\n    }\r\n    OnTriggerEnter(collider) {\r\n       
+    // If zepetoCharacter is null or the collider collided with an object other than
+    zepetoCharacter, return.\r\n        if (this.zepetoCharacter === null || (this.zepetoCharacter
+    && collider.gameObject !== this.zepetoCharacter.gameObject)) {\r\n           
+    return;\r\n        }\r\n        // If zepetoCharacter collided with the trap,
+    teleport it to the most recent checkpoint.\r\n        if (this.trapManagerInstance)
+    {\r\n            this.trapManagerInstance.TeleportCharacter();\r\n        }\r\n   
+    }\r\n}\r\nexports.default = TrapObjScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHJhcE9ialNjcmlwdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlRyYXBPYmpTY3JpcHQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFDQSw2RUFBNkU7QUFDN0UsaURBQXNEO0FBQ3RELCtDQUF3QztBQUV4QyxNQUFxQixhQUFjLFNBQVEscUNBQXFCO0lBTzVELEtBQUs7UUFDRCw4QkFBOEI7UUFDOUIsMkNBQWEsQ0FBQyxRQUFRLENBQUMsa0JBQWtCLENBQUMsV0FBVyxDQUFDLEdBQUcsRUFBRTtZQUN2RCxJQUFJLENBQUMsZUFBZSxHQUFHLDJDQUFhLENBQUMsUUFBUSxDQUFDLFdBQVcsQ0FBQyxZQUFZLENBQUMsU0FBUyxDQUFDO1FBQ3JGLENBQUMsQ0FBQyxDQUFDO1FBRUgsa0NBQWtDO1FBQ2xDLElBQUksQ0FBQyxtQkFBbUIsR0FBRyxxQkFBVyxDQUFDLFFBQVEsQ0FBQztJQUNwRCxDQUFDO0lBRUQsY0FBYyxDQUFDLFFBQWtCO1FBQzdCLHlHQUF5RztRQUN6RyxJQUFJLElBQUksQ0FBQyxlQUFlLEtBQUssSUFBSSxJQUFJLENBQUMsSUFBSSxDQUFDLGVBQWUsSUFBSSxRQUFRLENBQUMsVUFBVSxLQUFLLElBQUksQ0FBQyxlQUFlLENBQUMsVUFBVSxDQUFDLEVBQUU7WUFDcEgsT0FBTztTQUNWO1FBRUQsd0ZBQXdGO1FBQ3hGLElBQUksSUFBSSxDQUFDLG1CQUFtQixFQUFFO1lBQzFCLElBQUksQ0FBQyxtQkFBbUIsQ0FBQyxpQkFBaUIsRUFBRSxDQUFDO1NBQ2hEO0lBQ0wsQ0FBQztDQUVKO0FBN0JELGdDQTZCQyJ9","assetPath":"Assets/CreatedPrefabs/Scripts/TrapObjScript.ts","manifest":{"properties":[],"name":"TrapObjScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 63d1e18cfeadd2211917cb8cec9e62bb
+  onlyWriteTrigger: 0

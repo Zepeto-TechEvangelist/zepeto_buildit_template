@@ -1,0 +1,42 @@
+fileFormatVersion: 2
+guid: 78487611d59304f4ab999b24cea0af10
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    UnityEngine_2 = require(\"UnityEngine\");\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass
+    RotatorScript extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        // Speed of rotator in x direction.\r\n       
+    this.xSpeed = 0;\r\n        // Speed of rotator in y direction.\r\n        this.ySpeed
+    = 150;\r\n        // Speed of rotator in z direction.\r\n        this.zSpeed
+    = 0;\r\n    }\r\n    Awake() {\r\n        // Get rotator''s Rigidbody component
+    and initialize objRigidbody.\r\n        this.objRigidbody = this.GetComponent($typeof(UnityEngine_1.Rigidbody));\r\n   
+    }\r\n    FixedUpdate() {\r\n        // Amount of rotation to apply this frame.\r\n       
+    const deltaRotation = UnityEngine_2.Quaternion.Euler(this.xSpeed * UnityEngine_2.Time.fixedDeltaTime,
+    this.ySpeed * UnityEngine_2.Time.fixedDeltaTime, this.zSpeed * UnityEngine_2.Time.fixedDeltaTime);\r\n       
+    // Combine the platform''s current rotation with deltaRotation.\r\n        const
+    newPlatformRotation = UnityEngine_2.Quaternion.op_Multiply(this.objRigidbody.rotation,
+    deltaRotation);\r\n        // Apply the new rotation to rotator.\r\n        this.objRigidbody.MoveRotation(newPlatformRotation);\r\n   
+    }\r\n}\r\nexports.default = RotatorScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUm90YXRvclNjcmlwdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlJvdGF0b3JTY3JpcHQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSw2Q0FBd0M7QUFDeEMsNkNBQStDO0FBQy9DLGlEQUFzRDtBQUV0RCxNQUFxQixhQUFjLFNBQVEscUNBQXFCO0lBQWhFOztRQUVJLG1DQUFtQztRQUNULFdBQU0sR0FBVyxDQUFDLENBQUM7UUFDN0MsbUNBQW1DO1FBQ1QsV0FBTSxHQUFXLEdBQUcsQ0FBQztRQUMvQyxtQ0FBbUM7UUFDVCxXQUFNLEdBQVcsQ0FBQyxDQUFDO0lBa0JqRCxDQUFDO0lBZEcsS0FBSztRQUNELGlFQUFpRTtRQUNqRSxJQUFJLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQyxZQUFZLFNBQUMsdUJBQVMsRUFBRyxDQUFDO0lBQ3ZELENBQUM7SUFFRCxXQUFXO1FBQ1AsMENBQTBDO1FBQzFDLE1BQU0sYUFBYSxHQUFHLHdCQUFVLENBQUMsS0FBSyxDQUFDLElBQUksQ0FBQyxNQUFNLEdBQUcsa0JBQUksQ0FBQyxjQUFjLEVBQUUsSUFBSSxDQUFDLE1BQU0sR0FBRyxrQkFBSSxDQUFDLGNBQWMsRUFBRSxJQUFJLENBQUMsTUFBTSxHQUFHLGtCQUFJLENBQUMsY0FBYyxDQUFDLENBQUM7UUFDaEosOERBQThEO1FBQzlELE1BQU0sbUJBQW1CLEdBQUcsd0JBQVUsQ0FBQyxXQUFXLENBQUMsSUFBSSxDQUFDLFlBQVksQ0FBQyxRQUFRLEVBQUUsYUFBYSxDQUFDLENBQUM7UUFDL0YscUNBQXFDO1FBQ3BDLElBQUksQ0FBQyxZQUFZLENBQUMsWUFBWSxDQUFDLG1CQUFtQixDQUFDLENBQUM7SUFDeEQsQ0FBQztDQUVKO0FBekJELGdDQXlCQyJ9","assetPath":"Assets/CreatedPrefabs/Scripts/RotatorScript.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"xSpeed","type":"System.Single","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"ySpeed","type":"System.Single","isArray":false,"initValue":["150"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"zSpeed","type":"System.Single","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"RotatorScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 55493ad4830a84953a054b46bacfb1d4
+  onlyWriteTrigger: 0
