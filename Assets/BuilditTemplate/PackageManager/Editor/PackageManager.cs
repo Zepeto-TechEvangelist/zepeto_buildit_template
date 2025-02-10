@@ -7,12 +7,14 @@ using Unity.EditorCoroutines.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace BuilditTemplate
+namespace BuilditTemplate.Editor
 {
     public class PackageManager : EditorWindow
     {
         private Content selectedData;
         private ContentList contentList;
+        private ContentList themeList;
+        
         private string lastUpdateTime = "";
 
         private Language selectedLanguage = Language.English;
@@ -21,12 +23,10 @@ namespace BuilditTemplate
         private static EditorWindow _window;
 
         
-        [MenuItem("ZEPETO/Buildit Template Package Manager")]
+        [MenuItem("ZEPETO/BuildIt Plugin Package Manager")]
         public static void ShowWindow()
         {
-            var windowRect = new Rect(0, 0, Constants.RECT_WIDTH, Constants.RECT_HEIGHT);
-            _window = EditorWindow.GetWindowWithRect(typeof(BuilditTemplate.PackageManager), windowRect, true,
-                "Buildit Template Package Manager");
+            _window = GetWindow<PackageManager>("Build It Plugin Package Manager");
         }
 
         private void OnGUI()
@@ -41,6 +41,7 @@ namespace BuilditTemplate
                 selectedLanguage =
                     Application.systemLanguage == SystemLanguage.Korean ? Language.Korean : Language.English;
                 DoTopBarGUI();
+                
                 EditorCoroutineUtility.StartCoroutine(LoadDataAsync(), this);
 
                 GUILayout.BeginArea(new Rect(position.width * 0.5f, position.height * 0.5f, 400, 100));
@@ -92,14 +93,15 @@ namespace BuilditTemplate
                 fontSize = 24
             };
 
-            GUILayout.Label("Buildit Template Package Manager", labelStyle);
+            GUILayout.Label("Build It Plugin Package Manager", labelStyle);
             GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(3));
 
             GUILayout.FlexibleSpace();
+            
             selectedLanguage =
                 (Language)EditorGUILayout.Popup((int)selectedLanguage, languages, GUILayout.Width(150),
                     GUILayout.Height(30));
-
+            
             GUILayout.EndHorizontal();
             GUILayout.Label(" Easily add frequently used modules.", EditorStyles.label);
 
@@ -128,7 +130,7 @@ namespace BuilditTemplate
                     guiRect.height);
 
                 GUI.Label(titleRect, data.Title);
-                var version = PackageUtilities.VersionCheck(GetRemoveSpace(data.Title) + "Version");
+                var version = PackageUtility.VersionCheck(GetRemoveSpace(data.Title) + "Version");
                 if (version != "UNKNOWN")
                 {
                     var labelStyle = new GUIStyle(GUI.skin.label);
@@ -140,7 +142,41 @@ namespace BuilditTemplate
                 }
             }
 
-            DoUpdateButtonGUI();
+            
+            
+            // Themes
+            GUILayout.Space(20);
+            GUILayout.Label(" Themes", EditorStyles.label);
+            
+            foreach (var data in contentList.Themes)
+            {
+                if (GUILayout.Button("", GUILayout.Width(buttonWidth), GUILayout.Height(30)))
+                {
+                    selectedData = data;
+                }
+
+                var guiRect = GUILayoutUtility.GetLastRect();
+                var statusRect = new Rect(guiRect.x + (guiRect.width * 0.02f), guiRect.y, guiRect.width,
+                    guiRect.height);
+                var titleRect = new Rect(guiRect.x + (guiRect.width * 0.12f), guiRect.y, guiRect.width,
+                    guiRect.height);
+                var versionRect = new Rect(guiRect.x + (guiRect.width * 0.82f), guiRect.y, guiRect.width,
+                    guiRect.height);
+
+                GUI.Label(titleRect, data.Title);
+                var version = PackageUtility.VersionCheck(GetRemoveSpace(data.Title) + "Version");
+                if (version != "UNKNOWN")
+                {
+                    var labelStyle = new GUIStyle(GUI.skin.label);
+                    GUI.Label(versionRect, version, EditorStyles.miniLabel);
+                    var statusTexture = version == data.LatestVersion
+                        ? EditorGUIUtility.FindTexture("d_winbtn_mac_max")
+                        : EditorGUIUtility.FindTexture("d_winbtn_mac_min");
+                    GUI.Label(statusRect, statusTexture);
+                }
+            }
+            
+            
             DoContibuteButtonGUI();
             GUILayout.EndVertical();
             GUILayout.Box("", GUILayout.ExpandHeight(true), GUILayout.Width(3));
@@ -205,7 +241,7 @@ namespace BuilditTemplate
             {
                 string title = GetRemoveSpace(selectedData.Title);
                 string version = "v" + selectedData.LatestVersion;
-                EditorCoroutineUtility.StartCoroutine(PackageUtilities.ImportPackage(title, version), this);
+                EditorCoroutineUtility.StartCoroutine(PackageUtility.ImportPackage(title, version), this);
             }
 
             GUILayout.EndHorizontal();
@@ -216,7 +252,7 @@ namespace BuilditTemplate
         private void DoVersionInfoGUI()
         {
             var className = GetRemoveSpace(selectedData.Title) + "Version";
-            var downloadedVersion = PackageUtilities.VersionCheck(className);
+            var downloadedVersion = PackageUtility.VersionCheck(className);
 
             GUILayout.Label($"Version : {downloadedVersion}", EditorStyles.boldLabel);
 
@@ -301,9 +337,23 @@ namespace BuilditTemplate
 
         private IEnumerator LoadDataAsync()
         {
-            yield return NetworkingUtilities.GetDataAsync((data) =>
+            if (false)
+            {
+                var data = File.ReadAllText("Assets/BuilditTemplate/PackageManager/Version/moduleInfo.json");
+                contentList = JsonUtility.FromJson<ContentList>(data);
+                lastUpdateTime = DateTime.Now.ToString("HH:mm");
+                for (var i = 0; i < contentList.Items.Count; i++)
+                {
+                    EditorCoroutineUtility.StartCoroutine(LoadImageAsync(i), this);
+                }
+                yield break;
+            }
+            
+            yield return NetworkingUtility.GetDataAsync((data) =>
             {
                 if (contentList != null || data == null) return;
+                
+                // Debug
                 
                 contentList = JsonUtility.FromJson<ContentList>(data);
                 lastUpdateTime = DateTime.Now.ToString("HH:mm");
@@ -321,7 +371,7 @@ namespace BuilditTemplate
                 GetRemoveSpace(contentList.Items[i].Title),
                 "Preview.png");
             
-            yield return NetworkingUtilities.GetTextureAsync(url, (texture) =>
+            yield return NetworkingUtility.GetTextureAsync(url, (texture) =>
             {
                 if (texture != null)
                     contentList.Items[i].previewImage = texture;
@@ -368,6 +418,7 @@ namespace BuilditTemplate
         public class ContentList
         {
             public List<Content> Items;
+            public List<Content> Themes;
         }
 
         public enum Language

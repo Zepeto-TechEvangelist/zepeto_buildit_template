@@ -2,26 +2,16 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace BuilditTemplate
+namespace BuilditTemplate.Editor
 {
-    public static class NetworkingUtilities
+    public static class NetworkingUtility
     {
-        
         public static IEnumerator GetDataAsync(System.Action<string> onDataLoaded)
         {
-            var www = UnityWebRequest.Get(ConstantManager.CONTENT_DATA_PATH);
+            var www = UnityWebRequest.Get(Constants.CONTENT_DATA_PATH);
             yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
-            {
-                Debug.LogError(www.error);
-
-                onDataLoaded(null);
-            }
-            else
-            {
-                onDataLoaded(www.downloadHandler.text);
-            }
+            
+            onDataLoaded(www.result == UnityWebRequest.Result.Success ? www.downloadHandler.text : null);
         }
 
         public static IEnumerator GetTextureAsync(string url, System.Action<Texture2D> onTextureLoaded)
@@ -31,25 +21,22 @@ namespace BuilditTemplate
 
             if (www.result == UnityWebRequest.Result.Success)
             {
-
                 var texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-                var max_width = Constants.PREVIEW_MAX_WIDTH;
-                var max_height = Constants.PREVIEW_MAX_HEIGHT;
-
+                const int maxWidth = Constants.PREVIEW_MAX_WIDTH;
+                const int maxHeight = Constants.PREVIEW_MAX_HEIGHT;
                 var width = texture.width;
                 var height = texture.height;
+                var aspect_ratio = (float)width / height;
 
-                var aspect_ratio = (float)width / (float)height;
-
-                if (width >= max_width)
+                if (width >= maxWidth)
                 {
-                    width = max_width;
-                    height = (int)((float)width / aspect_ratio);
+                    width = maxWidth;
+                    height = (int)(width / aspect_ratio);
                 }
-                else if (height >= max_height)
+                else if (height >= maxHeight)
                 {
-                    height = max_height;
-                    width = (int)((float)height * aspect_ratio);
+                    height = maxHeight;
+                    width = (int)(height * aspect_ratio);
                 }
 
                 texture = ScaleTexture(texture, width, height);
@@ -58,8 +45,6 @@ namespace BuilditTemplate
             }
             else
             {
-                Debug.Log("Failed to download image. Error: " + www.error);
-
                 onTextureLoaded(null);
             }
         }

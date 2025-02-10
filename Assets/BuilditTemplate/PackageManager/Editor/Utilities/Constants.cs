@@ -1,18 +1,18 @@
-namespace BuilditTemplate
+namespace BuilditTemplate.Editor
 {
     public static class Constants
     {
-        public const string DOWNLOAD_PATH = "https://github.com/JasperGame/zepeto-modules/raw/main/Release/";
-        public const string REPO_PATH = "https://github.com/JasperGame/zepeto-modules/blob/main/Release/";
+        public const string DOWNLOAD_PATH = "https://github.com/Zepeto-TechEvangelist/zepeto_buildit_template/raw/main/Release/";
+        public const string REPO_PATH = "https://github.com/Zepeto-TechEvangelist/zepeto_buildit_template/blob/main/Release/";
 
         public const string CONTENT_DATA_PATH =
-            "https://raw.githubusercontent.com/JasperGame/zepeto-modules/main/Release/moduleInfo.json";
+            "https://raw.githubusercontent.com/Zepeto-TechEvangelist/zepeto_buildit_template/main/Release/moduleInfo.json";
 
         public const string CONTRIBUTE_PATH =
-            "https://github.com/JasperGame/zepeto-modules/blob/main/docs/HowToContribute.md";
+            "";
 
         public const string ISSUE_REPORT_PATH =
-            "https://github.com/JasperGame/zepeto-modules/issues/new/choose";
+            "";
 
         public const string EXTENSION_UNITYPACKAGE = ".unitypackage";
 
