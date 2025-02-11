@@ -11,26 +11,15 @@ export default class TrapPendulumScript extends ZepetoScriptBehaviour {
     @SerializeField() private speed: number = 2;
     // Whether the character will teleport to the current checkpoint when it collides with the pendulum.
     @SerializeField() private enableKill: bool = true;
-    // Current player's ZepetoCharacter.
-    private zepetoCharacter: ZepetoCharacter;
     // Pendulum's initial rotation.
     private initialRotation: Quaternion;
-    // Instance of TrapManager.
-    private trapManagerInstance: TrapManager;
+   
 
     Awake() {
+        TrapManager.instance;
+        
         // Initialize initialRotation with the pendulum's current localRotation.
         this.initialRotation = this.transform.localRotation;
-    }
-
-    Start() {
-        // Initialize zepetoCharacter.
-        ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-            this.zepetoCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
-        });
-
-        // Initialize trapManagerInstance.
-        this.trapManagerInstance = TrapManager.instance;
     }
 
     Update() {
@@ -48,16 +37,14 @@ export default class TrapPendulumScript extends ZepetoScriptBehaviour {
         if (!this.enableKill) {
             return;
         }
-
+        
         // If zepetoCharacter is null or the collider collided with an object other than zepetoCharacter, return.
-        if (this.zepetoCharacter === null || (this.zepetoCharacter && collider.gameObject !== this.zepetoCharacter.gameObject)) {
+        let zepetoCharacter = TrapManager.instance.zepetoCharacter;
+        if (zepetoCharacter === null || (zepetoCharacter && collider.gameObject !== zepetoCharacter.gameObject)) {
             return;
         }
-
-        // If the character collided with the pendulum, teleport it to the current checkpoint.
-        if (this.trapManagerInstance) {
-            this.trapManagerInstance.TeleportCharacter();
-        }
+        
+        TrapManager.instance?.TeleportCharacter();
     }
 
 }

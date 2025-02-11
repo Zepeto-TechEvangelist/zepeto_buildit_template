@@ -3,29 +3,40 @@ import { ZepetoCharacter, ZepetoPlayers } from 'ZEPETO.Character.Controller';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
 
 export default class TrapManager extends ZepetoScriptBehaviour {
-
-    @Header("TrapManager must be placed in the World in order to use Checkpoint and Trap objects.")
-    @SerializeField() private note: String; // Dummy variable for adding a note.
-    // Singleton instance of TrapManager.
-    public static instance: TrapManager;
+    
     // Most recent checkpoint.
-    private currentCheckpoint: Vector3;
+    private currentCheckpoint: Vector3 = new Vector3(0, 0, 0);
+    
     // Current player's ZepetoCharacter.
-    private zepetoCharacter: ZepetoCharacter;
+    @HideInInspector() public zepetoCharacter: ZepetoCharacter;
 
-    Awake() {
-        // If there's no instance created, initialize it with the current instance.
-        if (TrapManager.instance == null) {
-            TrapManager.instance = this;
-        } else {
-            // Otherwise, destroy the current instance.
-            GameObject.Destroy(this);
+    
+    /* Singleton */
+    private static m_instance: TrapManager = null;
+    public static get instance(): TrapManager {
+        if (this.m_instance === null) {
+            this.m_instance = GameObject.FindObjectOfType<TrapManager>();
+            if (this.m_instance === null) {
+                this.m_instance = new GameObject(TrapManager.name).AddComponent<TrapManager>();
+            }
         }
-
-        // Set the initial checkpoint to (0, 0, 0).
-        this.currentCheckpoint = new Vector3(0, 0, 0);
+        return this.m_instance;
+    }
+    private Awake() {
+        if (TrapManager.m_instance !== null && TrapManager.m_instance !== this) {
+            GameObject.Destroy(this.gameObject);
+        } else {
+            TrapManager.m_instance = this;
+            GameObject.DontDestroyOnLoad(this.gameObject);
+        }
     }
 
+    private Destroy() {
+        if (TrapManager.m_instance == this)
+            TrapManager.m_instance = null;
+    }
+    
+    
     Start() {    
         // Initialize zepetoCharacter.
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {

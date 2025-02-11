@@ -9,26 +9,15 @@ export default class TrapRotatingHorizontalScript extends ZepetoScriptBehaviour 
     @SerializeField() private rotationSpeed: number = 100;
     // Trap's Rigidbody.
     private objRigidbody: Rigidbody;
-    // Current player's ZepetoCharacter.
-    private zepetoCharacter: ZepetoCharacter;
-    // Instance of TrapManager.
-    private trapManagerInstance: TrapManager;
-
+    
     Awake() {
+        TrapManager.instance;
+        
         // Find the Rigidbody of the trap and initialize objRigidbody.
         this.objRigidbody = this.GetComponent<Rigidbody>();
     }
 
-    Start() {    
-        // Initialize zepetoCharacter.
-        ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-            this.zepetoCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
-        });
-
-        // Initialize trapManagerInstance.
-        this.trapManagerInstance = TrapManager.instance;
-    }
-
+    
     FixedUpdate() {
         // Amount of rotation to apply this frame.
         const deltaRotation = Quaternion.Euler(0, this.rotationSpeed * Time.fixedDeltaTime, 0);
@@ -40,14 +29,11 @@ export default class TrapRotatingHorizontalScript extends ZepetoScriptBehaviour 
 
     OnTriggerEnter(collider: Collider) {
         // If zepetoCharacter is null or the collider collided with an object other than zepetoCharacter, return.
-        if (this.zepetoCharacter === null || (this.zepetoCharacter && collider.gameObject !== this.zepetoCharacter.gameObject)) {
+        let zepetoCharacter = TrapManager.instance.zepetoCharacter;
+        if (zepetoCharacter === null || (zepetoCharacter && collider.gameObject !== zepetoCharacter.gameObject)) {
             return;
         }
 
-        // If zepetoCharacter collided with the trap, teleport it to the most recent checkpoint.
-        if (this.trapManagerInstance) {
-            this.trapManagerInstance.TeleportCharacter();
-        }
+        TrapManager.instance?.TeleportCharacter();
     }
-
 }

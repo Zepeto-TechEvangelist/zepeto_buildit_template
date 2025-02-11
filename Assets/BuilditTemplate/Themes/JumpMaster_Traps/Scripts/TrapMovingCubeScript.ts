@@ -7,10 +7,6 @@ export default class TrapMovingCubeScript extends ZepetoScriptBehaviour {
 
     // Moving speed of the cube.
     @SerializeField() private speed: number = 2;
-    // Current player's ZepetoCharacter.
-    private zepetoCharacter: ZepetoCharacter;
-    // Instance of TrapManager.
-    private trapManagerInstance: TrapManager;
     // Cube's starting position.
     private startPosition: Vector3;
     // Cube's ending position.
@@ -21,6 +17,8 @@ export default class TrapMovingCubeScript extends ZepetoScriptBehaviour {
     private startToEnd: bool = true;
 
     Awake() {
+        TrapManager.instance;
+        
         // Find the child object 'startPoint' and initialize startObj.
         const startObj = this.transform.Find("startPoint");
         if (startObj) {
@@ -37,11 +35,7 @@ export default class TrapMovingCubeScript extends ZepetoScriptBehaviour {
     }
 
     Start() {    
-        // Initialize zepetoCharacter.
-        ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-            this.zepetoCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
-        });
-
+        
         // Move the cube's position to startPosition.
         if (this.startPosition) {
             this.transform.position = this.startPosition;
@@ -51,9 +45,6 @@ export default class TrapMovingCubeScript extends ZepetoScriptBehaviour {
         if (this.endPosition) {
             this.targetPosition = this.endPosition;
         }
-
-        // Initialize trapManagerInstance.
-        this.trapManagerInstance = TrapManager.instance;
     }
 
     Update() {
@@ -87,14 +78,12 @@ export default class TrapMovingCubeScript extends ZepetoScriptBehaviour {
 
     OnTriggerEnter(collider: Collider) {
         // If zepetoCharacter is null or the collider collided with an object other than zepetoCharacter, return.
-        if (this.zepetoCharacter === null || (this.zepetoCharacter && collider.gameObject !== this.zepetoCharacter.gameObject)) {
+        if (TrapManager.instance.zepetoCharacter === null || (TrapManager.instance.zepetoCharacter && collider.gameObject !== TrapManager.instance.zepetoCharacter.gameObject)) {
             return;
         }
 
         // If the character collided with the cube, teleport it to the most recent checkpoint.
-        if (this.trapManagerInstance) {
-            this.trapManagerInstance.TeleportCharacter();
-        }
+        TrapManager.instance?.TeleportCharacter();
     }
 
 }
