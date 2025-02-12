@@ -234,8 +234,8 @@ namespace BuilditTemplate.Editor
 
             if (GUILayout.Button("View Import Guide", GUILayout.Height(20), GUILayout.ExpandWidth(false)))
             {
-                var url = Path.Combine(Constants.REPO_PATH, GetRemoveSpace(selectedData.Title),
-                    Constants.README_PATH);
+                var url = selectedData.DocsUrl;//Path.Combine(Constants.REPO_PATH, GetRemoveSpace(selectedData.Title),
+                    //Constants.README_PATH);
                 OpenLocalizeURL(url);
             }
 
