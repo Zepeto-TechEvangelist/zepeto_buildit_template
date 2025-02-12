@@ -35,7 +35,6 @@ export default class GroupManager extends ZepetoScriptBehaviour {
     public Start() {
         
         this.groups.forEach((members, groupId) => {
-            console.log(`>> ${groupId} count ${members.length}`);
             this.MakeGroupSelection(groupId, members);
         });
         
@@ -52,7 +51,7 @@ export default class GroupManager extends ZepetoScriptBehaviour {
     public MakeGroupSelection(groupId: string, members :ObjectGroup[])
     {
         let index = Math.round((Math.random() * members.length - 0.5));
-        console.log(`GroupSelection ${groupId} index  ${index}`);
+
         members.forEach((x, i) => {
             if (i != index)
                 GameObject.Destroy(x.gameObject);   
