@@ -98,12 +98,12 @@ namespace BuilditTemplate.Editor
 
             GUILayout.FlexibleSpace();
             
-            selectedLanguage =
-                (Language)EditorGUILayout.Popup((int)selectedLanguage, languages, GUILayout.Width(150),
-                    GUILayout.Height(30));
+            // selectedLanguage =
+                // (Language)EditorGUILayout.Popup((int)selectedLanguage, languages, GUILayout.Width(150),
+                    // GUILayout.Height(30));
             
             GUILayout.EndHorizontal();
-            GUILayout.Label(" Easily add frequently used modules.", EditorStyles.label);
+            // GUILayout.Label(" Easily add frequently used modules.", EditorStyles.label);
 
             GUILayout.Box("", GUILayout.Height(3), GUILayout.ExpandWidth(true));
         }
@@ -130,7 +130,10 @@ namespace BuilditTemplate.Editor
                     guiRect.height);
 
                 GUI.Label(titleRect, data.Title);
-                var version = PackageUtility.VersionCheck(GetRemoveSpace(data.Title) + "Version");
+                
+
+                
+                var version = PackageUtility.VersionCheck("BuilditUnityPluginVersion");
                 if (version != "UNKNOWN")
                 {
                     var labelStyle = new GUIStyle(GUI.skin.label);
@@ -164,8 +167,8 @@ namespace BuilditTemplate.Editor
                     guiRect.height);
 
                 GUI.Label(titleRect, data.Title);
-                var version = PackageUtility.VersionCheck(GetRemoveSpace(data.Title) + "Version");
-                if (version != "UNKNOWN")
+                var version = PackageUtility.VersionCheck(data.Title);
+                if (version != "")
                 {
                     var labelStyle = new GUIStyle(GUI.skin.label);
                     GUI.Label(versionRect, version, EditorStyles.miniLabel);
@@ -177,7 +180,7 @@ namespace BuilditTemplate.Editor
             }
             
             
-            DoContibuteButtonGUI();
+            // DoContibuteButtonGUI();
             GUILayout.EndVertical();
             GUILayout.Box("", GUILayout.ExpandHeight(true), GUILayout.Width(3));
         }
