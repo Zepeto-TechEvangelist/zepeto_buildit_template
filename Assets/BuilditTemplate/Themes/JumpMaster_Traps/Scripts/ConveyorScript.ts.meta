@@ -1,0 +1,72 @@
+fileFormatVersion: 2
+guid: 9e2b2a5dfafa44de6ac6d5344fbb2155
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass ConveyorScript extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n        super(...arguments);\r\n       
+    // Speed of the conveyor.\r\n        this.conveyorSpeed = 3;\r\n        // Whether
+    the player is on the conveyor or not.\r\n        this.isOnConveyor = false;\r\n   
+    }\r\n    Start() {\r\n        // Initialize zepetoCharacter.\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            this.zepetoCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n       
+    });\r\n        // Find the child object \"Direction\".\r\n        this.conveyorDirectionObj
+    = this.transform.Find(\"Direction\");\r\n    }\r\n    OnTriggerEnter(collider)
+    {\r\n        // If zepetoCharacter is null or the conveyor collided with a game
+    object other than zepetoCharacter, return.\r\n        if (!this.zepetoCharacter
+    || (this.zepetoCharacter && collider.gameObject !== this.zepetoCharacter.gameObject))
+    {\r\n            return;\r\n        }\r\n        // The character is in contact
+    with the conveyor, so set isOnconveyor to true.\r\n        this.isOnConveyor
+    = true;\r\n    }\r\n    OnTriggerExit(collider) {\r\n        // If zepetoCharacter
+    is null or the conveyor collided with a game object other than zepetoCharacter,
+    return.\r\n        if (!this.zepetoCharacter || (this.zepetoCharacter && collider.gameObject
+    !== this.zepetoCharacter.gameObject)) {\r\n            return;\r\n        }\r\n       
+    // The character is no longer in contact with the conveyor, so set isOnconveyor
+    to false and reset additionalWalkSpeed and additionalRunSpeed.\r\n        this.isOnConveyor
+    = false;\r\n        this.zepetoCharacter.additionalWalkSpeed = 0;\r\n       
+    this.zepetoCharacter.additionalRunSpeed = 0;\r\n    }\r\n    FixedUpdate() {\r\n       
+    if (this.isOnConveyor && this.zepetoCharacter) {\r\n            // Move the character
+    if it is on the conveyor and idle.\r\n            if (this.zepetoCharacter.motionState.currentMoveState
+    === -1) {\r\n                const dir = this.conveyorDirectionObj.forward;\r\n               
+    const moveDistance = this.conveyorSpeed * UnityEngine_1.Time.fixedDeltaTime;\r\n               
+    const offset = UnityEngine_1.Vector3.op_Multiply(dir, moveDistance);\r\n               
+    const currPos = this.zepetoCharacter.transform.position;\r\n                const
+    newPos = UnityEngine_1.Vector3.op_Addition(currPos, offset);\r\n               
+    this.zepetoCharacter.transform.position = newPos;\r\n            }\r\n           
+    // If the character is on the conveyor and is either walking or running, calculate
+    whether it''s moving in the same direction as the conveyor or not.\r\n           
+    // Find the unit vector of the character and the conveyor.\r\n            const
+    charcterDir = this.zepetoCharacter.transform.forward.normalized;\r\n           
+    const conveyorDir = this.conveyorDirectionObj.forward.normalized;\r\n           
+    const dot = UnityEngine_1.Vector3.Dot(charcterDir, conveyorDir);\r\n           
+    if (dot > 0) {\r\n                // If the character is moving in the same direction
+    as the conveyor, increase its walking and running speed.\r\n                this.zepetoCharacter.additionalWalkSpeed
+    = this.conveyorSpeed;\r\n                this.zepetoCharacter.additionalRunSpeed
+    = this.conveyorSpeed;\r\n            }\r\n            else {\r\n               
+    // Otherwise, decrease its walking and running speed.\r\n                this.zepetoCharacter.additionalWalkSpeed
+    = -this.conveyorSpeed;\r\n                this.zepetoCharacter.additionalRunSpeed
+    = -this.conveyorSpeed;\r\n            }\r\n        }\r\n    }\r\n}\r\nexports.default
+    = ConveyorScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29udmV5b3JTY3JpcHQuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJDb252ZXlvclNjcmlwdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUFpRTtBQUNqRSw2RUFBNkU7QUFDN0UsaURBQXNEO0FBRXRELE1BQXFCLGNBQWUsU0FBUSxxQ0FBcUI7SUFBakU7O1FBRUkseUJBQXlCO1FBQ0Msa0JBQWEsR0FBVyxDQUFDLENBQUM7UUFLcEQsZ0RBQWdEO1FBQ3hDLGlCQUFZLEdBQVMsS0FBSyxDQUFDO0lBZ0V2QyxDQUFDO0lBOURHLEtBQUs7UUFDRCw4QkFBOEI7UUFDOUIsMkNBQWEsQ0FBQyxRQUFRLENBQUMsa0JBQWtCLENBQUMsV0FBVyxDQUFDLEdBQUcsRUFBRTtZQUN2RCxJQUFJLENBQUMsZUFBZSxHQUFHLDJDQUFhLENBQUMsUUFBUSxDQUFDLFdBQVcsQ0FBQyxZQUFZLENBQUMsU0FBUyxDQUFDO1FBQ3JGLENBQUMsQ0FBQyxDQUFDO1FBRUgscUNBQXFDO1FBQ3JDLElBQUksQ0FBQyxvQkFBb0IsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxXQUFXLENBQUMsQ0FBQztJQUNqRSxDQUFDO0lBRUQsY0FBYyxDQUFDLFFBQWtCO1FBQzdCLDZHQUE2RztRQUM3RyxJQUFJLENBQUMsSUFBSSxDQUFDLGVBQWUsSUFBSSxDQUFDLElBQUksQ0FBQyxlQUFlLElBQUksUUFBUSxDQUFDLFVBQVUsS0FBSyxJQUFJLENBQUMsZUFBZSxDQUFDLFVBQVUsQ0FBQyxFQUFFO1lBQzVHLE9BQU87U0FDVjtRQUVELDhFQUE4RTtRQUM5RSxJQUFJLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQztJQUM3QixDQUFDO0lBRUQsYUFBYSxDQUFDLFFBQWtCO1FBQzVCLDZHQUE2RztRQUM3RyxJQUFJLENBQUMsSUFBSSxDQUFDLGVBQWUsSUFBSSxDQUFDLElBQUksQ0FBQyxlQUFlLElBQUksUUFBUSxDQUFDLFVBQVUsS0FBSyxJQUFJLENBQUMsZUFBZSxDQUFDLFVBQVUsQ0FBQyxFQUFFO1lBQzVHLE9BQU87U0FDVjtRQUVELDhJQUE4STtRQUM5SSxJQUFJLENBQUMsWUFBWSxHQUFHLEtBQUssQ0FBQztRQUMxQixJQUFJLENBQUMsZUFBZSxDQUFDLG1CQUFtQixHQUFHLENBQUMsQ0FBQztRQUM3QyxJQUFJLENBQUMsZUFBZSxDQUFDLGtCQUFrQixHQUFHLENBQUMsQ0FBQztJQUNoRCxDQUFDO0lBRUQsV0FBVztRQUNQLElBQUksSUFBSSxDQUFDLFlBQVksSUFBSSxJQUFJLENBQUMsZUFBZSxFQUFFO1lBQzNDLHdEQUF3RDtZQUN4RCxJQUFJLElBQUksQ0FBQyxlQUFlLENBQUMsV0FBVyxDQUFDLGdCQUFnQixLQUFLLENBQUMsQ0FBQyxFQUFFO2dCQUMxRCxNQUFNLEdBQUcsR0FBRyxJQUFJLENBQUMsb0JBQW9CLENBQUMsT0FBTyxDQUFDO2dCQUM5QyxNQUFNLFlBQVksR0FBRyxJQUFJLENBQUMsYUFBYSxHQUFHLGtCQUFJLENBQUMsY0FBYyxDQUFDO2dCQUM5RCxNQUFNLE1BQU0sR0FBRyxxQkFBTyxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUUsWUFBWSxDQUFDLENBQUM7Z0JBQ3RELE1BQU0sT0FBTyxHQUFHLElBQUksQ0FBQyxlQUFlLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQztnQkFDeEQsTUFBTSxNQUFNLEdBQUcscUJBQU8sQ0FBQyxXQUFXLENBQUMsT0FBTyxFQUFFLE1BQU0sQ0FBQyxDQUFDO2dCQUNwRCxJQUFJLENBQUMsZUFBZSxDQUFDLFNBQVMsQ0FBQyxRQUFRLEdBQUcsTUFBTSxDQUFDO2FBQ3BEO1lBRUQsb0pBQW9KO1lBQ3BKLDBEQUEwRDtZQUMxRCxNQUFNLFdBQVcsR0FBRyxJQUFJLENBQUMsZUFBZSxDQUFDLFNBQVMsQ0FBQyxPQUFPLENBQUMsVUFBVSxDQUFDO1lBQ3RFLE1BQU0sV0FBVyxHQUFHLElBQUksQ0FBQyxvQkFBb0IsQ0FBQyxPQUFPLENBQUMsVUFBVSxDQUFDO1lBQ2pFLE1BQU0sR0FBRyxHQUFHLHFCQUFPLENBQUMsR0FBRyxDQUFDLFdBQVcsRUFBRSxXQUFXLENBQUMsQ0FBQztZQUVsRCxJQUFJLEdBQUcsR0FBRyxDQUFDLEVBQUU7Z0JBQ1QsNEdBQTRHO2dCQUM1RyxJQUFJLENBQUMsZUFBZSxDQUFDLG1CQUFtQixHQUFHLElBQUksQ0FBQyxhQUFhLENBQUM7Z0JBQzlELElBQUksQ0FBQyxlQUFlLENBQUMsa0JBQWtCLEdBQUcsSUFBSSxDQUFDLGFBQWEsQ0FBQzthQUNoRTtpQkFBTTtnQkFDSCxxREFBcUQ7Z0JBQ3JELElBQUksQ0FBQyxlQUFlLENBQUMsbUJBQW1CLEdBQUcsQ0FBQyxJQUFJLENBQUMsYUFBYSxDQUFDO2dCQUMvRCxJQUFJLENBQUMsZUFBZSxDQUFDLGtCQUFrQixHQUFHLENBQUMsSUFBSSxDQUFDLGFBQWEsQ0FBQzthQUNqRTtTQUNKO0lBQ0wsQ0FBQztDQUVKO0FBekVELGlDQXlFQyJ9","assetPath":"Assets/ConveyorScript.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"conveyorSpeed","type":"System.Single","isArray":false,"initValue":["3"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"ConveyorScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 393aca828f60998acc7509720f6825ee
+  onlyWriteTrigger: 0
