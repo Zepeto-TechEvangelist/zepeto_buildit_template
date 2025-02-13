@@ -45,7 +45,8 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
             GameObject.Destroy(this.gameObject);
         } else {
             MultiplayManager.m_instance = this;
-            GameObject.DontDestroyOnLoad(this.gameObject);
+            if (this.transform.parent === null)
+                GameObject.DontDestroyOnLoad(this.gameObject);
         }
     }
 

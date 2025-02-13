@@ -32,7 +32,6 @@ export default class SceneManager extends ZepetoScriptBehaviour {
 
     private zepetoCharacter: ZepetoCharacter;
 
-
     public OnSceneInitialized: UnityEvent;
     
 

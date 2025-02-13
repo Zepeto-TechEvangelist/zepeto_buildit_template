@@ -53,7 +53,8 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
             GameObject.Destroy(this.gameObject);
         } else {
             ZepetoPlayersManager.m_instance = this;
-            GameObject.DontDestroyOnLoad(this.gameObject);
+            if (this.transform.parent === null)
+                GameObject.DontDestroyOnLoad(this.gameObject);
         }
     }
 

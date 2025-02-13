@@ -7,10 +7,10 @@ export default class NPCManager extends ZepetoScriptBehaviour {
 
     // ZEPETO ID of the NPC
     @SerializeField()
-    private zepetoId: string;
+    private zepetoId: string = "zepeto";
     
     @SerializeField()
-    private hasSpeechBubble: bool;
+    private hasSpeechBubble: bool = true;
 
     // Dialogue content to be displayed in the speech bubble
     @SerializeField()
@@ -42,7 +42,7 @@ export default class NPCManager extends ZepetoScriptBehaviour {
         const spawnInfo = new SpawnInfo();
         spawnInfo.position = this.transform.position;
         spawnInfo.rotation = this.transform.rotation;
-
+        
         // Use ZepetoCharacterCreator to create a new character by ZEPETO ID and assign it to _npc variable
         ZepetoCharacterCreator.CreateByZepetoId(this.zepetoId, spawnInfo, (character: ZepetoCharacter) => {
             this._npc = character;

@@ -1,4 +1,4 @@
-import { GameObject } from 'UnityEngine'
+import { GameObject, Transform } from 'UnityEngine'
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import ObjectGroup from './ObjectGroup';
 
@@ -28,7 +28,8 @@ export default class GroupManager extends ZepetoScriptBehaviour {
             GameObject.Destroy(this.gameObject);
         } else {
             GroupManager.m_instance = this;
-            GameObject.DontDestroyOnLoad(this.gameObject);
+            if (this.transform.parent === null)
+                GameObject.DontDestroyOnLoad(this.gameObject);
         }
     }
     

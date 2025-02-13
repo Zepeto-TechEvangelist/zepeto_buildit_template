@@ -340,24 +340,22 @@ namespace BuilditTemplate.Editor
 
         private IEnumerator LoadDataAsync()
         {
-            if (false)
-            {
-                var data = File.ReadAllText("Assets/BuilditTemplate/PackageManager/Version/moduleInfo.json");
-                contentList = JsonUtility.FromJson<ContentList>(data);
-                lastUpdateTime = DateTime.Now.ToString("HH:mm");
-                for (var i = 0; i < contentList.Items.Count; i++)
-                {
-                    EditorCoroutineUtility.StartCoroutine(LoadImageAsync(i), this);
-                }
-                yield break;
-            }
+            // if (false)
+            // {
+            //     var data = File.ReadAllText("Assets/BuilditTemplate/PackageManager/Version/moduleInfo.json");
+            //     contentList = JsonUtility.FromJson<ContentList>(data);
+            //     lastUpdateTime = DateTime.Now.ToString("HH:mm");
+            //     for (var i = 0; i < contentList.Items.Count; i++)
+            //     {
+            //         EditorCoroutineUtility.StartCoroutine(LoadImageAsync(i), this);
+            //     }
+            //     yield break;
+            // }
             
             yield return NetworkingUtility.GetDataAsync((data) =>
             {
                 if (contentList != null || data == null) return;
-                
-                // Debug
-                
+
                 contentList = JsonUtility.FromJson<ContentList>(data);
                 lastUpdateTime = DateTime.Now.ToString("HH:mm");
                 for (var i = 0; i < contentList.Items.Count; i++)
