@@ -24,17 +24,16 @@ ScriptedImporter:
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
     { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
-    TrapManager_1 = require(\"./TrapManager\");\r\nclass CheckpointPlatformScript
-    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n       
-    super(...arguments);\r\n        // Whether the checkpoint has been visited.\r\n       
-    this.isActive = false;\r\n    }\r\n    Awake() {\r\n        TrapManager_1.default.instance;
-    // Autogenerate if missing\r\n    }\r\n    OnTriggerEnter(collider) {\r\n       
-    // If zepetoCharacter is null or the collider collided with an object other than
-    zepetoCharacter, return.\r\n        let zepetoCharacter = TrapManager_1.default.instance.zepetoCharacter;\r\n       
+    TrapManager_1 = require(\"./TrapManager\");\r\nconst Checkpoint_1 = require(\"./Checkpoint\");\r\nclass
+    CheckpointPlatformScript extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n   
+    Awake() {\r\n        TrapManager_1.default.instance; // Autogenerate if missing\r\n   
+    }\r\n    OnTriggerEnter(collider) {\r\n        // If zepetoCharacter is null
+    or the collider collided with an object other than zepetoCharacter, return.\r\n       
+    let zepetoCharacter = TrapManager_1.default.instance.zepetoCharacter;\r\n       
     if (zepetoCharacter === null || (zepetoCharacter && collider.gameObject !== zepetoCharacter.gameObject))
-    {\r\n            return;\r\n        }\r\n        // If the current platform is
-    inactive, activate it and update the most recent checkpoint.\r\n        if (!this.isActive)
-    {\r\n            this.isActive = true;\r\n            TrapManager_1.default.instance.UpdateCheckpoint(this.transform.position);\r\n       
-    }\r\n    }\r\n}\r\nexports.default = CheckpointPlatformScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ2hlY2twb2ludFBsYXRmb3JtU2NyaXB0LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQ2hlY2twb2ludFBsYXRmb3JtU2NyaXB0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBRUEsaURBQXNEO0FBQ3RELCtDQUF3QztBQUV4QyxNQUFxQix3QkFBeUIsU0FBUSxxQ0FBcUI7SUFBM0U7O1FBRUksMkNBQTJDO1FBQ25DLGFBQVEsR0FBUyxLQUFLLENBQUM7SUFzQm5DLENBQUM7SUFwQkcsS0FBSztRQUNELHFCQUFXLENBQUMsUUFBUSxDQUFDLENBQUcsMEJBQTBCO0lBQ3RELENBQUM7SUFHRCxjQUFjLENBQUMsUUFBa0I7UUFDN0IseUdBQXlHO1FBQ3pHLElBQUksZUFBZSxHQUFHLHFCQUFXLENBQUMsUUFBUSxDQUFDLGVBQWUsQ0FBQztRQUMzRCxJQUFJLGVBQWUsS0FBSyxJQUFJLElBQUksQ0FBQyxlQUFlLElBQUksUUFBUSxDQUFDLFVBQVUsS0FBSyxlQUFlLENBQUMsVUFBVSxDQUFDLEVBQUU7WUFDckcsT0FBTztTQUNWO1FBRUQsMEZBQTBGO1FBQzFGLElBQUksQ0FBQyxJQUFJLENBQUMsUUFBUSxFQUFFO1lBQ2hCLElBQUksQ0FBQyxRQUFRLEdBQUcsSUFBSSxDQUFDO1lBRXJCLHFCQUFXLENBQUMsUUFBUSxDQUFDLGdCQUFnQixDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsUUFBUSxDQUFDLENBQUM7U0FDbEU7SUFDTCxDQUFDO0NBRUo7QUF6QkQsMkNBeUJDIn0=","assetPath":"Assets/BuilditTemplate/Themes/JumpMaster_Traps/Scripts/CheckpointPlatformScript.ts","manifest":{"properties":[],"name":"CheckpointPlatformScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
-  typescriptHash: 47ae3b4ce6a0b6dfa077000cd4a8c2a7
+    {\r\n            return;\r\n        }\r\n        if (this.visited)\r\n           
+    return;\r\n        this.visited = true;\r\n        TrapManager_1.default.instance.VisitCheckpoint(new
+    Checkpoint_1.Checkpoint(this.index, this.transform.position));\r\n    }\r\n}\r\nexports.default
+    = CheckpointPlatformScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ2hlY2twb2ludFBsYXRmb3JtU2NyaXB0LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQ2hlY2twb2ludFBsYXRmb3JtU2NyaXB0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBRUEsaURBQXNEO0FBQ3RELCtDQUF3QztBQUN4Qyw2Q0FBMEM7QUFFMUMsTUFBcUIsd0JBQXlCLFNBQVEscUNBQXFCO0lBTXZFLEtBQUs7UUFDRCxxQkFBVyxDQUFDLFFBQVEsQ0FBQyxDQUFHLDBCQUEwQjtJQUN0RCxDQUFDO0lBRUQsY0FBYyxDQUFDLFFBQWtCO1FBQzdCLHlHQUF5RztRQUN6RyxJQUFJLGVBQWUsR0FBRyxxQkFBVyxDQUFDLFFBQVEsQ0FBQyxlQUFlLENBQUM7UUFDM0QsSUFBSSxlQUFlLEtBQUssSUFBSSxJQUFJLENBQUMsZUFBZSxJQUFJLFFBQVEsQ0FBQyxVQUFVLEtBQUssZUFBZSxDQUFDLFVBQVUsQ0FBQyxFQUFFO1lBQ3JHLE9BQU87U0FDVjtRQUVELElBQUksSUFBSSxDQUFDLE9BQU87WUFBRSxPQUFPO1FBQ3pCLElBQUksQ0FBQyxPQUFPLEdBQUcsSUFBSSxDQUFDO1FBRXBCLHFCQUFXLENBQUMsUUFBUSxDQUFDLGVBQWUsQ0FBQyxJQUFJLHVCQUFVLENBQUMsSUFBSSxDQUFDLEtBQUssRUFBRSxJQUFJLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQyxDQUFDLENBQUM7SUFDOUYsQ0FBQztDQUVKO0FBdkJELDJDQXVCQyJ9","assetPath":"Assets/BuilditTemplate/Themes/JumpMaster_Traps/Scripts/CheckpointPlatformScript.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"index","type":"System.Int32","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"CheckpointPlatformScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: e33c63f8116ccf40ec82b0378dfb3342
   onlyWriteTrigger: 0

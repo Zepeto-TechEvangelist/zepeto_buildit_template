@@ -1,11 +1,14 @@
 import { GameObject, Quaternion, Vector3 } from 'UnityEngine';
 import { ZepetoCharacter, ZepetoPlayers } from 'ZEPETO.Character.Controller';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
+import SceneManager from '../../../Modules/Scripts/SceneManager';
+import { Checkpoint } from './Checkpoint';
+import CheckpointPlatformScript from './CheckpointPlatformScript';
 
 export default class TrapManager extends ZepetoScriptBehaviour {
     
     // Most recent checkpoint.
-    private currentCheckpoint: Vector3 = new Vector3(0, 0, 0);
+    public currentCheckpoint: Checkpoint = new Checkpoint(-1, Vector3.zero);
     
     // Current player's ZepetoCharacter.
     @HideInInspector() public zepetoCharacter: ZepetoCharacter;
@@ -22,6 +25,7 @@ export default class TrapManager extends ZepetoScriptBehaviour {
         }
         return this.m_instance;
     }
+    
     private Awake() {
         if (TrapManager.m_instance !== null && TrapManager.m_instance !== this) {
             GameObject.Destroy(this.gameObject);
@@ -37,17 +41,25 @@ export default class TrapManager extends ZepetoScriptBehaviour {
     }
     
     
-    Start() {    
-        // Initialize zepetoCharacter.
+    Start() {
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             this.zepetoCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
+        
+            this.currentCheckpoint.position = this.zepetoCharacter.transform.position;
         });
+        
+        //
+        // GameObject.FindGameObjectsWithTag("SpawnObject").forEach(obj => {
+        //     let checkpoint = obj.AddComponent<CheckpointPlatformScript>();
+        //     checkpoint.index = 0;
+        // });
+        
     }
 
     Update() {
-        // If zepetoCharacter's y position goes below -20, teleport it to the most recent checkpoint.
+        //If zepetoCharacter's y position goes below -20, teleport it to the most recent checkpoint.
         if (this.zepetoCharacter !== null) {
-            if (this.zepetoCharacter && this.zepetoCharacter.transform.position.y < -20) {
+            if (this.zepetoCharacter && this.zepetoCharacter.transform.position.y < SceneManager.instance.fallAreaPosition + 1) {
                 this.TeleportCharacter();
             }
         }
@@ -55,16 +67,22 @@ export default class TrapManager extends ZepetoScriptBehaviour {
 
     // Method to update the most recent checkpoint.
     UpdateCheckpoint(newCheckpoint: Vector3) {
-        this.currentCheckpoint = newCheckpoint;
+        this.currentCheckpoint.position = newCheckpoint;
     }
 
+    
+    public VisitCheckpoint(checkpoint: Checkpoint) {
+        if (this.currentCheckpoint.index <= checkpoint.index)
+            this.currentCheckpoint = checkpoint;
+    }
+    
     // Method to teleport the character to the most recent checkpoint.
     TeleportCharacter() {
         if (this.zepetoCharacter) {
             // Change zepetoCharacter's position to the most recent checkpoint.
-            this.zepetoCharacter.transform.position = this.currentCheckpoint;
+            this.zepetoCharacter.transform.position = this.currentCheckpoint.position;
             // Teleport the character to the most recent checkpoint.
-            this.zepetoCharacter.Teleport(this.currentCheckpoint, new Quaternion(0, 0, 0, 0));
+            this.zepetoCharacter.Teleport(this.currentCheckpoint.position, new Quaternion(0, 0, 0, 0));
         }
     }
 
