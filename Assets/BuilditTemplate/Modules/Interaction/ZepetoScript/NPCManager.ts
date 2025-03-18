@@ -1,6 +1,6 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
 import { KnowSockets, SpawnInfo, ZepetoCharacter, ZepetoCharacterCreator, ZepetoPlayers } from 'ZEPETO.Character.Controller';
-import { Canvas, Camera, Vector3, Object, GameObject, Collider } from 'UnityEngine';
+import {Canvas, Camera, Vector3, Object, GameObject, Collider, Random} from 'UnityEngine';
 import { Text } from 'UnityEngine.UI';
 
 export default class NPCManager extends ZepetoScriptBehaviour {
@@ -16,6 +16,13 @@ export default class NPCManager extends ZepetoScriptBehaviour {
     @SerializeField()
     private speechBubbleText: string;
     
+    @SerializeField()
+    private dialogueText: string[];
+
+    public randomizeDialogue: bool = true;
+    
+    private _dialogueIndex: int = 0;
+
     // Prefab of the speech bubble canvas game object
     @SerializeField()
     private speechBubblePrefab: GameObject;
@@ -61,6 +68,10 @@ export default class NPCManager extends ZepetoScriptBehaviour {
         if (this._zepetoCharacter == null || collider.gameObject != this._zepetoCharacter.gameObject || !this.hasSpeechBubble || this._speechBubbleObject == null) {
             return;
         }
+        
+        if (this._speechBubbleObject.activeSelf == false)
+            this.SetDialogue();
+        
         this._speechBubbleObject.SetActive(true);
     }
 
@@ -88,12 +99,30 @@ export default class NPCManager extends ZepetoScriptBehaviour {
         this._speechBubbleText = this._speechBubbleObject.GetComponentInChildren<Text>();
         this._speechBubbleText.text = this.speechBubbleText;
         
+        // if (this.dialogueText.length > 0) {
+        //     this._speechBubbleText.text = this.dialogueText[Math.floor(Random.Range(0, this.dialogueText.length))];
+        // }
+        
         this._canvas = this._speechBubbleObject.GetComponent<Canvas>();
         this._cachedWorldCamera = Object.FindObjectOfType<Camera>();
         this._canvas.worldCamera = this._cachedWorldCamera;
         this._speechBubbleObject.SetActive(false);
     }
 
+    SetDialogue() {
+        if (this.dialogueText.length == 0) 
+            return;
+        
+        if (this.randomizeDialogue) {
+            this._speechBubbleText.text = this.dialogueText[Math.floor(Random.Range(0, this.dialogueText.length))];
+        }
+        else {
+            this._speechBubbleText.text = this.dialogueText[this._dialogueIndex];
+            this._dialogueIndex++;
+            this._dialogueIndex %= this.dialogueText.length;
+        }
+    }
+    
     private Update() {
         if (this._canvas != null) {
             this.UpdateCanvasRotation();
