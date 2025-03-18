@@ -99,6 +99,7 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         let screenshotCamera = (GameObject.Instantiate(this._mainCamera) as GameObject).GetComponent<Camera>();
         GameObject.Destroy(screenshotCamera.GetComponent<AudioListener>());
         screenshotCamera.gameObject.name = "ScreenshotCamera";
+        screenshotCamera.cullingMask &= ~(1 << 5);
         screenshotCamera.targetTexture = this._screenshotRenderTexture;
         this.StartCoroutine(this.CoTakePhotoScreenshot(screenshotCamera, isVideo));
     }
@@ -201,7 +202,7 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         this._replicaCamera = (GameObject.Instantiate(this._mainCamera) as GameObject).GetComponent<Camera>();
         GameObject.Destroy(this._replicaCamera.GetComponent<AudioListener>());
         this._replicaCamera.gameObject.name = "ScreenshotCamera";
-
+        this._replicaCamera.cullingMask &= ~(1 << 5);
         let startRecording = WorldVideoRecorder.StartRecording(this._replicaCamera, this._videoResolutionType, this._videoMaxDuration);
 
         // startRecording
