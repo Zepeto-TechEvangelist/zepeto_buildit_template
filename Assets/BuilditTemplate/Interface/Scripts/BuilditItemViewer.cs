@@ -17,6 +17,7 @@ public class BuilditItemViewer : EditorWindow
         { "Utility", "Utility" },
         { "Squid", "ZepetoAssets_Squid_Game" },
         { "Jump", "ZepetoAssets_JumpMaster" },
+        { "Animal", "ZepetoAssets_Animal" },
         { "Cafe", "ZepetoAssets_Cafe" },
         { "Cherry", "ZepetoAssets_Cherryblossom" },
         { "City", "ZepetoAssets_City" },
