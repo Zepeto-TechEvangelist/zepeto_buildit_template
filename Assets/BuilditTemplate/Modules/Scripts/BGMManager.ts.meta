@@ -1,0 +1,49 @@
+fileFormatVersion: 2
+guid: 1b7c47a30d6544e08c9d0337ba61450e
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_World_Gui_1 = require(\"ZEPETO.World.Gui\");\r\nclass
+    BGMManager extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.muted = false;\r\n        this.playOnStart
+    = true;\r\n    }\r\n    Awake() {\r\n        // Get all BGM objects in the scene\r\n       
+    if (this.tracks.length == 0)\r\n            this.tracks = UnityEngine_1.GameObject.Find(\"Objects\").GetComponentsInChildren($typeof(UnityEngine_1.AudioSource));\r\n       
+    if (!(this.tracks.length > 0)) {\r\n            this.toggle.gameObject.SetActive(false);\r\n           
+    return;\r\n        }\r\n        // Mute tracks for manual control\r\n       
+    this.tracks?.forEach(x => { x.playOnAwake = false; });\r\n        // UI binding\r\n       
+    this.toggle ?? (this.toggle = UnityEngine_1.GameObject.Find(\"BGMToggle\").GetComponent($typeof(ZEPETO_World_Gui_1.RoundedRectangleButton)));\r\n       
+    this.toggle?.OnClick.AddListener(() => { this.ToggleMute(); });\r\n        this._normalFill
+    = this.toggle.FillAmount;\r\n        this._normalColor = this.toggle.color;\r\n       
+    this._disabledColor = this.toggle.IconColor;\r\n    }\r\n    Start() {\r\n       
+    this.currentTrack = this.tracks[0];\r\n        if (this.currentTrack != null
+    &&\r\n            this.muted == false &&\r\n            this.playOnStart)\r\n           
+    this.currentTrack?.Play();\r\n    }\r\n    ToggleMute() {\r\n        if (this.muted)\r\n           
+    this.Unmute();\r\n        else\r\n            this.Mute();\r\n    }\r\n    Mute()
+    {\r\n        this.muted = true;\r\n        this.toggle.color = this._disabledColor;\r\n       
+    this.toggle.FillAmount = 0.9;\r\n        this.currentTrack?.Pause();\r\n    }\r\n   
+    Unmute() {\r\n        this.muted = false;\r\n        this.toggle.color = this._normalColor;\r\n       
+    this.toggle.FillAmount = this._normalFill;\r\n        this.currentTrack?.UnPause();\r\n   
+    }\r\n}\r\nexports.default = BGMManager;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQkdNTWFuYWdlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIkJHTU1hbmFnZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBc0Q7QUFDdEQsNkNBQThHO0FBRTlHLHVEQUEwRDtBQUUxRCxNQUFxQixVQUFXLFNBQVEscUNBQXFCO0lBQTdEOztRQUVXLFVBQUssR0FBUyxLQUFLLENBQUM7UUFFcEIsZ0JBQVcsR0FBUyxJQUFJLENBQUM7SUFtRXBDLENBQUM7SUFwREcsS0FBSztRQUVELG1DQUFtQztRQUNuQyxJQUFJLElBQUksQ0FBQyxNQUFNLENBQUMsTUFBTSxJQUFJLENBQUM7WUFDdkIsSUFBSSxDQUFDLE1BQU0sR0FBRyx3QkFBVSxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsQ0FBQyx1QkFBdUIsU0FBQyx5QkFBVyxFQUFHLENBQUM7UUFFcEYsSUFBSSxDQUFDLENBQUMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxNQUFNLEdBQUcsQ0FBQyxDQUFDLEVBQUU7WUFDM0IsSUFBSSxDQUFDLE1BQU0sQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxDQUFDO1lBQ3hDLE9BQU87U0FDVjtRQUVELGlDQUFpQztRQUNqQyxJQUFJLENBQUMsTUFBTSxFQUFFLE9BQU8sQ0FBQyxDQUFDLENBQUMsRUFBRSxHQUFHLENBQUMsQ0FBQyxXQUFXLEdBQUcsS0FBSyxDQUFDLENBQUMsQ0FBQyxDQUFDLENBQUM7UUFFdEQsYUFBYTtRQUNiLElBQUksQ0FBQyxNQUFNLEtBQVgsSUFBSSxDQUFDLE1BQU0sR0FBSyx3QkFBVSxDQUFDLElBQUksQ0FBQyxXQUFXLENBQUMsQ0FBQyxZQUFZLFNBQUMseUNBQXNCLEVBQUcsRUFBQztRQUNwRixJQUFJLENBQUMsTUFBTSxFQUFFLE9BQU8sQ0FBQyxXQUFXLENBQUUsR0FBRyxFQUFFLEdBQUcsSUFBSSxDQUFDLFVBQVUsRUFBRSxDQUFDLENBQUEsQ0FBQyxDQUFDLENBQUM7UUFFL0QsSUFBSSxDQUFDLFdBQVcsR0FBRyxJQUFJLENBQUMsTUFBTSxDQUFDLFVBQVUsQ0FBQztRQUMxQyxJQUFJLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQyxNQUFNLENBQUMsS0FBSyxDQUFDO1FBQ3RDLElBQUksQ0FBQyxjQUFjLEdBQUcsSUFBSSxDQUFDLE1BQU0sQ0FBQyxTQUFTLENBQUM7SUFDaEQsQ0FBQztJQUVELEtBQUs7UUFDRCxJQUFJLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQyxNQUFNLENBQUMsQ0FBQyxDQUFDLENBQUM7UUFFbkMsSUFBSSxJQUFJLENBQUMsWUFBWSxJQUFJLElBQUk7WUFDekIsSUFBSSxDQUFDLEtBQUssSUFBSSxLQUFLO1lBQ25CLElBQUksQ0FBQyxXQUFXO1lBQ2hCLElBQUksQ0FBQyxZQUFZLEVBQUUsSUFBSSxFQUFFLENBQUM7SUFDbEMsQ0FBQztJQUVNLFVBQVU7UUFDYixJQUFJLElBQUksQ0FBQyxLQUFLO1lBQ1YsSUFBSSxDQUFDLE1BQU0sRUFBRSxDQUFDOztZQUVkLElBQUksQ0FBQyxJQUFJLEVBQUUsQ0FBQztJQUNwQixDQUFDO0lBRU0sSUFBSTtRQUNQLElBQUksQ0FBQyxLQUFLLEdBQUcsSUFBSSxDQUFDO1FBQ2xCLElBQUksQ0FBQyxNQUFNLENBQUMsS0FBSyxHQUFHLElBQUksQ0FBQyxjQUFjLENBQUM7UUFDeEMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxVQUFVLEdBQUcsR0FBRyxDQUFDO1FBQzdCLElBQUksQ0FBQyxZQUFZLEVBQUUsS0FBSyxFQUFFLENBQUM7SUFDL0IsQ0FBQztJQUVNLE1BQU07UUFDVCxJQUFJLENBQUMsS0FBSyxHQUFHLEtBQUssQ0FBQztRQUNuQixJQUFJLENBQUMsTUFBTSxDQUFDLEtBQUssR0FBRyxJQUFJLENBQUMsWUFBWSxDQUFDO1FBQ3RDLElBQUksQ0FBQyxNQUFNLENBQUMsVUFBVSxHQUFHLElBQUksQ0FBQyxXQUFXLENBQUM7UUFDMUMsSUFBSSxDQUFDLFlBQVksRUFBRSxPQUFPLEVBQUUsQ0FBQztJQUNqQyxDQUFDO0NBQ0o7QUF2RUQsNkJBdUVDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/BGMManager.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"muted","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"playOnStart","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"ZEPETO.World.Gui","name":"toggle","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.AudioModule","name":"tracks","type":"UnityEngine.AudioSource[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"BGMManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: ed9199a6bdd8c9fe00c90f1523f9d57c
+  onlyWriteTrigger: 0

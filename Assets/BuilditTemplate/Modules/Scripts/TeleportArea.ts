@@ -4,13 +4,16 @@ import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 
 export default class TeleportArea extends ZepetoScriptBehaviour {
 
+    public destination: Vector3 = Vector3.zero;
+    
     private localPlayerCollider: Collider;
 
     private OnTriggerEnter(coll: Collider) {
         if (coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()) {
             return;
         }
-        ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.Teleport(Vector3.zero, Quaternion.identity);
+        
+        ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.Teleport(this.destination, Quaternion.identity);
     }
 
 }

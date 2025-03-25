@@ -1,6 +1,7 @@
-import { BoxCollider, GameObject, Object, Vector3 } from 'UnityEngine';
+import { BoxCollider, GameObject, Object, Vector3, Physics } from 'UnityEngine';
 import { CharacterState, ZepetoCharacter, ZepetoPlayer, ZepetoPlayers, ZepetoScreenButton } from 'ZEPETO.Character.Controller';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
+import { ZepetoWorldHelper, ZepetoScreenOrientation } from 'ZEPETO.World';
 import {UnityEvent} from "UnityEngine.Events";
 import TeleportArea from './TeleportArea';
 
@@ -24,15 +25,20 @@ export default class SceneManager extends ZepetoScriptBehaviour {
     @Tooltip("Set the jump power for the double jump. The default value is 13.")
     public doubleJumpPower: number = 13;
 
-
+    @Tooltip("Gravity percentage, 1 is default")
+    public gravity: number = 1;
+    
     @Header("Scene Settings")
 
     @Tooltip("Set the ground height at which the ZEPETO character will return to the spawn location when falling. Otherwise, the character may fall indefinitely. This value can be set between -100 and -500.")
-    public fallAreaPosition: number = -500;
+    public fallAreaPosition: number = -20;
 
-    private zepetoCharacter: ZepetoCharacter;
+    private zepetoCharacter: ZepetoCharacter = null;
 
     public OnSceneInitialized: UnityEvent;
+    
+    @HideInInspector()
+    public teleporter: TeleportArea;
     
 
     /* Singleton */
@@ -53,6 +59,8 @@ export default class SceneManager extends ZepetoScriptBehaviour {
             SceneManager.m_instance = this;
             GameObject.DontDestroyOnLoad(this.gameObject);
         }
+        
+        Physics.gravity = Physics.gravity * this.gravity;
     }
 
     private Destroy() {
@@ -62,19 +70,18 @@ export default class SceneManager extends ZepetoScriptBehaviour {
     
     
     Start() {
-        this.SetTeleportArea();
-
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             this.zepetoCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
+
+            this.SetTeleportArea();
             this.SetCharacterSettings();
             this.SetDoubleJump();
             
             this.OnSceneInitialized?.Invoke();
         });
+        
     }
     
-    
-
     private SetTeleportArea() {
         const cube = new GameObject;
         const clampPosition = Math.max(-500, Math.min(this.fallAreaPosition, -100));
@@ -82,14 +89,15 @@ export default class SceneManager extends ZepetoScriptBehaviour {
         const col = cube.AddComponent<BoxCollider>();
         col.isTrigger = true;
         col.size = new Vector3(5000, 50, 5000);
-        cube.AddComponent<TeleportArea>();
+        this.teleporter = cube.AddComponent<TeleportArea>();
+        this.teleporter.destination = this.zepetoCharacter.transform.position;
     }
 
     private SetCharacterSettings(){
-        
         this.zepetoCharacter.additionalJumpPower = this.jumpPower - this.zepetoCharacter.JumpPower;
         this.zepetoCharacter.additionalWalkSpeed = this.walkSpeed - this.zepetoCharacter.WalkSpeed;
         this.zepetoCharacter.additionalRunSpeed = this.runSpeed - this.zepetoCharacter.RunSpeed;
+        this.zepetoCharacter.motionState.gravity *= this.gravity;
     }
 
     private SetDoubleJump() {

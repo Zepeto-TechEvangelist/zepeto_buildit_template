@@ -1,136 +1,153 @@
-import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
-import InteractionIcon from './../Interaction/ZepetoScript/InteractionIcon';
-import {Application, GameObject, SystemLanguage, Transform, WaitForEndOfFrame, WaitForSeconds} from "UnityEngine";
+import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
+import {Application, GameObject, SystemLanguage, WaitForEndOfFrame, WaitForSeconds} from "UnityEngine";
 
-import { EventAPI, CurrencyType, CurrencyEventCollectableObject } from 'ZEPETO.Module.Event';
-import Chest from './Chest';
-import {PopupCommon, PopupCommonBuilder} from 'ZEPETO.World.Gui';
+import ObjectGroup from './ObjectGroup';
+import GroupManager from './GroupManager';
+import SceneManager from './SceneManager';
+import CollectableController from './CollectableController';
+
+import {PopupCommon, PopupCommonBuilder, ZepetoToast} from 'ZEPETO.World.Gui';
+import {Type} from "ZEPETO.World.Gui.ZepetoToast";
+import {CurrencyType, EventAPI} from "ZEPETO.Module.Event";
 
 
 export default class CollectableManager extends ZepetoScriptBehaviour {
     
-    public sparkle: GameObject;
-    public chest: GameObject;
+    public isCollecting: boolean;
+
+    public groupCount: number;
     
-    private button: InteractionIcon;
-    private static _isCollecting: boolean = false;
-    private _isCollected: boolean = false;
-    private _chest: Chest;
+    @HideInInspector()
+    public collectables: CollectableController[];
     
-    private collectable: CurrencyEventCollectableObject;
+    @HideInInspector()
+    public current: CollectableController;
     
-    private static activeManager: CollectableManager;
+    /* UI */
+    private _popup: PopupCommon;
+
+    /* Singleton */
+    private static m_instance: CollectableManager = null;
+    public static get instance(): CollectableManager {
+        if (this.m_instance === null) {
+            this.m_instance = GameObject.FindObjectOfType<CollectableManager>();
+            if (this.m_instance === null) {
+                this.m_instance = new GameObject(CollectableManager.name).AddComponent<CollectableManager>();
+            }
+        }
+        return this.m_instance;
+    }
     
-    private popup: PopupCommon;
+    private Awake() {
+        if (CollectableManager.m_instance !== null && CollectableManager.m_instance !== this) {
+            GameObject.Destroy(this.gameObject);
+        } else {
+            CollectableManager.m_instance = this;
+            if (this.transform.parent === null)
+                GameObject.DontDestroyOnLoad(this.gameObject);
+        }
+    }
     
     private Start() {
         
-        this.button = this.GetComponent<InteractionIcon>();
-        this.collectable = this.GetComponent<CurrencyEventCollectableObject>();
-        this._chest = this.chest.GetComponent<Chest>();
+        // TODO: Add additional logic for collectable groups only (now only collectable groups exist)
         
-        this.button.OnClickEvent.AddListener(() => {
-            this.Collect();
+        // Calculate number of possible chests in the world
+        let groups: Map<string, ObjectGroup[]> = GroupManager.instance.groups;
+        this.groupCount = groups.size;
+        
+        SceneManager.instance.OnSceneInitialized.AddListener(() => {
+            this.StartCoroutine(this.ShowWelcome());
         });
         
     }
 
-    private Collect() {
-        if (CollectableManager._isCollecting || this._isCollected) return;
+    public Collect(collectable: CollectableController): boolean {
+        if (this.isCollecting) 
+            return false;
         
-        CollectableManager._isCollecting = true;
-        this.button.HideIcon();
-        this.button.enabled = false;
-        
-        EventAPI.TryCollect((eventName: string, currencyType: CurrencyType, amount: number) => 
-            {
-                this._isCollected = true;
-                CollectableManager._isCollecting = false;
-                
-                this.StartCoroutine(this.OnEventSuccess());
-            }, (errorCode, errorMsg) => {
+        this.isCollecting = true;
+        this.current = collectable;
 
-                CollectableManager._isCollecting = false;
-            
-                // if (errorCode == 0) {
-                //     // Set disabled
-                    this._chest.Open(true);
-                    this.sparkle.SetActive(false);
-                    this.chest.GetComponent<Chest>()?.gold.gameObject.SetActive(false);
-                    return;
-                //    
-                //     this.StartCoroutine(this.RemovePopup());
-                //     return;
-                // }
-                
-                this._isCollected = false;
-                CollectableManager._isCollecting = false;
-                this.button.enabled = true;
+        EventAPI.TryCollect((eventName: string, currencyType: CurrencyType, amount: number) =>
+            {
+                collectable.OnCollected(true);
+                this.OnCollected(true);
+            }, (errorCode, errorMsg) => {
+                collectable.OnCollected(false);
+                this.OnCollected(false);
             }
         );
+        
+        return true;
     }
     
-    private * OnEventSuccess() {
-        yield new WaitForEndOfFrame();
+    private OnCollected(success: boolean) {
+        this.current = null;
+        this.isCollecting = false;
 
-        this._chest.Open(true);
-        
-        yield new WaitForSeconds(1);
-        
-        this.sparkle.SetActive(false);
+        // this.ChestFound();
     }
     
-    
-    // Temporary override
-    private * RemovePopup() {
+    public *ShowWelcome() {
 
-        var ittr = 10;
+        if (this.groupCount < 1) 
+            return;
         
-        var pop: GameObject = null;
-        while ((pop = GameObject.Find("PopupCommon(Clone)")) == null && ittr > 0) {
-            ittr--;
-            yield new WaitForEndOfFrame();
-        }
+        let duration = 3;
+
+        yield new WaitForSeconds(0.5);
         
-        let popup:PopupCommon = pop.GetComponent<PopupCommon>();
+        ZepetoToast.Show(Type.None, "Searching for hidden treasure ...");
         
-        let builder = new PopupCommonBuilder();
-        builder.SetBody(this.GetLocalizedMessage());
-        builder.SetOneButton("OK", () => { popup?.Close(null); });
-        popup.Initialize(builder);
+        yield new WaitForSeconds(duration);
+        
+        this.StartCoroutine(this.ShowRemaining());
     }
-
-
-    // 
+    
+    public ChestFound() {
+        this.groupCount--;
+        this.StartCoroutine(this.ShowRemaining());
+    }
+    
+    public *ShowRemaining() {
+        ZepetoToast.Show(Type.None, this.GetLocalizedMessage());
+    }
+    
     private GetLocalizedMessage(): string {
 
+        return this.groupCount == 0 ?
+            "You found all chests!" :
+            `There are ${this.groupCount} chests hidden in this world!`;
+        
         switch (Application.systemLanguage) {
             case SystemLanguage.Korean:
-                return "이미 이벤트 보상을 최대 수량 만큼 획득하였네요!";
+                return this.groupCount == 0 ?
+                    "You found all chests!" :
+                    `There are ${this.groupCount} chests hidden in this world!`;
                 break;
 
             case SystemLanguage.Japanese:
-                return "おめでとうございます！すでにイベントの報酬を最大数まで獲得していますね！";
+                return `There are ${this.groupCount} chests hidden in this world!`;
                 break;
             case SystemLanguage.Chinese:
             case SystemLanguage.ChineseSimplified:
-                return "你已经获得了活动中可领取的全部奖励啦！";
+                return `There are ${this.groupCount} chests hidden in this world!`;
                 break;
             case SystemLanguage.Thai:
-                return "สุดยอดเลย! คุณได้รางวัลสูงสุดจากกิจกรรม แล้ว!";
+                return `There are ${this.groupCount} chests hidden in this world!`;
                 break;
             case SystemLanguage.Indonesian:
-                return "Kamu udah dapetin semua hadiah maksimal dari event !";
+                return `There are ${this.groupCount} chests hidden in this world!`;
                 break;
             case SystemLanguage.French:
-                return "T’as déjà atteint le max de récompenses pour l’événement !";
+                return `There are ${this.groupCount} chests hidden in this world!`;
                 break;
             case SystemLanguage.English:
             default:
-                return "You’ve already hit the max rewards for the event!";
+                return `There are ${this.groupCount} chests hidden in this world!`;
                 break;
         }
     }
     
-
 }

@@ -38,7 +38,6 @@ export default class GroupManager extends ZepetoScriptBehaviour {
         this.groups.forEach((members, groupId) => {
             this.MakeGroupSelection(groupId, members);
         });
-        
     }
     
     public AddGroup(group: ObjectGroup) {

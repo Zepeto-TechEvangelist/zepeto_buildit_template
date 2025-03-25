@@ -1,0 +1,105 @@
+fileFormatVersion: 2
+guid: 47ac8feb90687441a95cb92e8bc0a157
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    UnityEngine_2 = require(\"UnityEngine\");\r\nconst UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass SelfieController extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n        super(...arguments);\r\n       
+    this._isScreenshotMode = false;\r\n        this._isSelfieMode = false;\r\n       
+    this._isRecordingVideo = false;\r\n    }\r\n    Start() {\r\n        // Find
+    screenshot UI components.\r\n        const managers = UnityEngine_1.GameObject.Find(\"Managers\");\r\n       
+    const screenshot = managers.transform.Find(\"ScreenShot\");\r\n        const
+    screenshotBtn = screenshot.transform.Find(\"ScreenShotBtn\");\r\n        this._screenshotButton
+    = screenshotBtn.GetComponent($typeof(UnityEngine_UI_1.Button));\r\n        const
+    panel = screenshot.transform.Find(\"SafeArea/ScreenShot/ScreenshotPanel\");\r\n       
+    this._screenshotPanel = panel.gameObject;\r\n        const exitBtn = this._screenshotPanel.transform.Find(\"ScreenshotSubButtonBG/ScreenshotPanelExitButton\");\r\n       
+    this._screenshotExitButton = exitBtn.GetComponent($typeof(UnityEngine_UI_1.Button));\r\n       
+    const videoBtn = this._screenshotPanel.transform.Find(\"ScreenshotSubButtonBG/VideoButton\");\r\n       
+    this._screenshotVideoButton = videoBtn.GetComponent($typeof(UnityEngine_UI_1.Button));\r\n       
+    // Initialize zepetoCharacter with the current player''s character and get the
+    head bone of it.\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            this._zepetoCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n           
+    const animator = this._zepetoCharacter.ZepetoAnimator;\r\n            // this._headBone
+    = animator.GetBoneTransform(HumanBodyBones.Head);\r\n            // TODO: Replace
+    this with \r\n            this._headBone = this._zepetoCharacter.GetSocket(ZEPETO_Character_Controller_1.KnowSockets.HEAD_UPPER);\r\n       
+    });\r\n        // Find the main camera in the scene and save its original field
+    of view.\r\n        this._mainCamera = UnityEngine_2.Object.FindObjectOfType($typeof(UnityEngine_2.Camera));
+    // TODO: Camera.main\r\n        this._originalCameraFieldOfView = this._mainCamera.fieldOfView;
+    // TODO: Capture only when switching\r\n        // TODO: Group all subscribers
+    in a function for code clarity\r\n        // Once the screenshot button is clicked,
+    show or hide selfie button.\r\n        this._screenshotButton.onClick.AddListener(()
+    => {\r\n            this.ToggleSelfieButton();\r\n        });\r\n        // Once
+    the exit button is clicked, hide selfie button.\r\n        // If the user clicks
+    the exit button while in selfie mode, exit selfie mode as well.\r\n        this._screenshotExitButton.onClick.AddListener(()
+    => {\r\n            this.ToggleSelfieButton();\r\n        });\r\n        // Add
+    listener to selfie mode button and start or end selfie mode.\r\n        // Set
+    the screenshot panel active so that the panel doesn''t disappear when the selfie
+    mode button is clicekd.\r\n        this.selfieModeButton.GetComponent($typeof(UnityEngine_UI_1.Button)).onClick.AddListener(()
+    => {\r\n            if (!this._isSelfieMode) {\r\n                this.StartSelfieMode();\r\n           
+    }\r\n            else {\r\n                this.EndSelfieMode();\r\n           
+    }\r\n            this._screenshotPanel.SetActive(true);\r\n        });\r\n       
+    // Hide selfie mode button while a video is being recorded.\r\n        this._screenshotVideoButton.onClick.AddListener(()
+    => {\r\n            if (!this._isRecordingVideo) {\r\n                this.selfieModeButton.SetActive(false);\r\n           
+    }\r\n            else {\r\n                this.selfieModeButton.SetActive(true);\r\n           
+    }\r\n            this._isRecordingVideo = !this._isRecordingVideo;\r\n       
+    });\r\n    }\r\n    // Method to show or hide selfie button.\r\n    ToggleSelfieButton()
+    {\r\n        if (!this._isScreenshotMode) {\r\n            this.selfieModeButton.SetActive(true);\r\n       
+    }\r\n        else {\r\n            this.selfieModeButton.SetActive(false);\r\n       
+    }\r\n        if (this._isSelfieMode) {\r\n            this.EndSelfieMode();\r\n       
+    }\r\n        this._isScreenshotMode = !this._isScreenshotMode;\r\n    }\r\n   
+    // Method to start selfie mode. \r\n    StartSelfieMode() {\r\n        if (!this._mainCamera)
+    {\r\n            return;\r\n        }\r\n        // Save the initial local euler
+    angle of the head bone.\r\n        this._initialHeadBoneAngle = this._headBone.localEulerAngles;\r\n       
+    // Rotate the character''s body to face the camera when selfie mode is enabled.\r\n       
+    const cameraPos = this._mainCamera.transform.position;\r\n        const characterPos
+    = this._zepetoCharacter.transform.position;\r\n        const direction = new
+    UnityEngine_2.Vector3(cameraPos.x - characterPos.x, 0, cameraPos.z - characterPos.z);\r\n       
+    if (direction.magnitude > 0.001) {\r\n            const lookRot = UnityEngine_2.Quaternion.LookRotation(direction);\r\n           
+    this._zepetoCharacter.transform.rotation = lookRot;\r\n        }\r\n        //
+    Save the original position and rotation of the character.\r\n        this._originalPosition
+    = this._zepetoCharacter.transform.position;\r\n        this._originalRotation
+    = this._zepetoCharacter.transform.rotation;\r\n        // Change the field of
+    view and local rotation of the main camera to make it zoom into the character''s
+    head.\r\n        this._mainCamera.fieldOfView = 7;\r\n        this._mainCamera.transform.localRotation
+    = UnityEngine_2.Quaternion.Euler(3, 0, 0);\r\n        this._isSelfieMode = true;\r\n   
+    }\r\n    // Method to end selfie mode.\r\n    EndSelfieMode() {\r\n        if
+    (!this._mainCamera) {\r\n            return;\r\n        }\r\n        // Revert
+    the changes made on main camera.\r\n        this._mainCamera.fieldOfView = this._originalCameraFieldOfView;\r\n       
+    this._mainCamera.transform.localRotation = UnityEngine_2.Quaternion.identity;
+    // Quaternion.identity\r\n        this._isSelfieMode = false;\r\n    }\r\n   
+    // Makes the character look at the camera and unable to move while in selfie
+    mode.\r\n    LateUpdate() {\r\n        if (false == this._isSelfieMode || this._headBone
+    == null)\r\n            return;\r\n        this._zepetoCharacter.transform.position
+    = this._originalPosition;\r\n        this._zepetoCharacter.transform.rotation
+    = this._originalRotation;\r\n        this._zepetoCharacter.ZepetoAnimator.Play(\"Idle\");\r\n       
+    this._headBone.LookAt(this._mainCamera.transform.position);\r\n        this.LimitRotation();\r\n   
+    }\r\n    // Method to limit the head bone''s rotation.\r\n    LimitRotation()
+    {\r\n        let outOfBounds = (this._headBone.localEulerAngles.z < 5 || this._headBone.localEulerAngles.z
+    > 175); // ? true : false;\r\n        this._headBone.localRotation = UnityEngine_2.Quaternion.Euler(outOfBounds
+    ? this._initialHeadBoneAngle : this._headBone.localEulerAngles);\r\n    }\r\n}\r\nexports.default
+    = SelfieController;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiU2VsZmllQ29udHJvbGxlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlNlbGZpZUNvbnRyb2xsZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSw2Q0FBeUM7QUFDekMsNkNBQXVHO0FBQ3ZHLG1EQUF3QztBQUN4Qyw2RUFBd0Y7QUFDeEYsaURBQXNEO0FBR3RELE1BQXFCLGdCQUFpQixTQUFRLHFDQUFxQjtJQUFuRTs7UUFVWSxzQkFBaUIsR0FBUyxLQUFLLENBQUM7UUFDaEMsa0JBQWEsR0FBUyxLQUFLLENBQUM7UUFDNUIsc0JBQWlCLEdBQVMsS0FBSyxDQUFDO0lBaUo1QyxDQUFDO0lBMUlHLEtBQUs7UUFDRCxpQ0FBaUM7UUFDakMsTUFBTSxRQUFRLEdBQUcsd0JBQVUsQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUM7UUFDN0MsTUFBTSxVQUFVLEdBQUcsUUFBUSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsWUFBWSxDQUFDLENBQUM7UUFDekQsTUFBTSxhQUFhLEdBQUcsVUFBVSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsZUFBZSxDQUFDLENBQUM7UUFDakUsSUFBSSxDQUFDLGlCQUFpQixHQUFHLGFBQWEsQ0FBQyxZQUFZLFNBQUMsdUJBQU0sRUFBRyxDQUFDO1FBQzlELE1BQU0sS0FBSyxHQUFHLFVBQVUsQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLHFDQUFxQyxDQUFDLENBQUM7UUFDL0UsSUFBSSxDQUFDLGdCQUFnQixHQUFHLEtBQUssQ0FBQyxVQUFVLENBQUM7UUFDekMsTUFBTSxPQUFPLEdBQUcsSUFBSSxDQUFDLGdCQUFnQixDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsaURBQWlELENBQUMsQ0FBQztRQUN4RyxJQUFJLENBQUMscUJBQXFCLEdBQUcsT0FBTyxDQUFDLFlBQVksU0FBQyx1QkFBTSxFQUFHLENBQUM7UUFDNUQsTUFBTSxRQUFRLEdBQUcsSUFBSSxDQUFDLGdCQUFnQixDQUFDLFNBQVMsQ0FB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","assetPath":"Assets/BuilditTemplate/Modules/Scripts/SelfieController.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"selfieModeButton","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"SelfieController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 6160625f588adf871bc598658361dd45
+  onlyWriteTrigger: 0
