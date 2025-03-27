@@ -22,63 +22,104 @@ ScriptedImporter:
   wrapperTypes: []
   WrapperFilters: []
   wrapperOutputDirectory: Generated
-  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
-    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ObjectGroup_1 = require(\"./ObjectGroup\");\r\nconst
-    GroupManager_1 = require(\"./GroupManager\");\r\nconst SceneManager_1 = require(\"./SceneManager\");\r\nconst
-    CollectableController_1 = require(\"./CollectableController\");\r\nconst ZEPETO_World_Gui_1
-    = require(\"ZEPETO.World.Gui\");\r\nconst ZEPETO_World_Gui_ZepetoToast_1 = require(\"ZEPETO.World.Gui.ZepetoToast\");\r\nconst
-    ZEPETO_Module_Event_1 = require(\"ZEPETO.Module.Event\");\r\nclass CollectableManager
-    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    static get instance()
-    {\r\n        if (this.m_instance === null) {\r\n            this.m_instance =
-    UnityEngine_1.GameObject.FindObjectOfType($typeof(CollectableManager));\r\n           
-    if (this.m_instance === null) {\r\n                this.m_instance = new UnityEngine_1.GameObject(CollectableManager.name).AddComponent($typeof(CollectableManager));\r\n           
-    }\r\n        }\r\n        return this.m_instance;\r\n    }\r\n    Awake() {\r\n       
-    if (CollectableManager.m_instance !== null && CollectableManager.m_instance !==
-    this) {\r\n            UnityEngine_1.GameObject.Destroy(this.gameObject);\r\n       
-    }\r\n        else {\r\n            CollectableManager.m_instance = this;\r\n           
-    if (this.transform.parent === null)\r\n                UnityEngine_1.GameObject.DontDestroyOnLoad(this.gameObject);\r\n       
-    }\r\n    }\r\n    Start() {\r\n        // TODO: Add additional logic for collectable
-    groups only (now only collectable groups exist)\r\n        // Calculate number
-    of possible chests in the world\r\n        let groups = GroupManager_1.default.instance.groups;\r\n       
-    this.groupCount = groups.size;\r\n        SceneManager_1.default.instance.OnSceneInitialized.AddListener(()
-    => {\r\n            this.StartCoroutine(this.ShowWelcome());\r\n        });\r\n   
-    }\r\n    Collect(collectable) {\r\n        if (this.isCollecting)\r\n           
-    return false;\r\n        this.isCollecting = true;\r\n        this.current =
-    collectable;\r\n        ZEPETO_Module_Event_1.EventAPI.TryCollect((eventName,
-    currencyType, amount) => {\r\n            collectable.OnCollected(true);\r\n           
-    this.OnCollected(true);\r\n        }, (errorCode, errorMsg) => {\r\n           
-    collectable.OnCollected(false);\r\n            this.OnCollected(false);\r\n       
-    });\r\n        return true;\r\n    }\r\n    OnCollected(success) {\r\n       
-    this.current = null;\r\n        this.isCollecting = false;\r\n        // this.ChestFound();\r\n   
-    }\r\n    *ShowWelcome() {\r\n        if (this.groupCount < 1)\r\n           
-    return;\r\n        let duration = 3;\r\n        yield new UnityEngine_1.WaitForSeconds(0.5);\r\n       
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\nconst ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst
+    UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst ObjectGroup_1 = require(\\\"./ObjectGroup\\\");\\r\\nconst
+    GroupManager_1 = require(\\\"./GroupManager\\\");\\r\\nconst SceneManager_1 =
+    require(\\\"./SceneManager\\\");\\r\\nconst CollectableController_1 = require(\\\"./CollectableController\\\");\\r\\nconst
+    ZEPETO_World_Gui_1 = require(\\\"ZEPETO.World.Gui\\\");\\r\\nconst ZEPETO_World_Gui_ZepetoToast_1
+    = require(\\\"ZEPETO.World.Gui.ZepetoToast\\\");\\r\\nconst ZEPETO_Module_Event_1
+    = require(\\\"ZEPETO.Module.Event\\\");\\r\\nclass CollectableManager extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    static get instance() {\\r\\n       
+    if (this.m_instance === null) {\\r\\n            this.m_instance = UnityEngine_1.GameObject.FindObjectOfType($typeof(CollectableManager));\\r\\n           
+    if (this.m_instance === null) {\\r\\n                this.m_instance = new UnityEngine_1.GameObject(CollectableManager.name).AddComponent($typeof(CollectableManager));\\r\\n           
+    }\\r\\n        }\\r\\n        return this.m_instance;\\r\\n    }\\r\\n    Awake()
+    {\\r\\n        if (CollectableManager.m_instance !== null && CollectableManager.m_instance
+    !== this) {\\r\\n            UnityEngine_1.GameObject.Destroy(this.gameObject);\\r\\n       
+    }\\r\\n        else {\\r\\n            CollectableManager.m_instance = this;\\r\\n           
+    if (this.transform.parent === null)\\r\\n                UnityEngine_1.GameObject.DontDestroyOnLoad(this.gameObject);\\r\\n       
+    }\\r\\n    }\\r\\n    Start() {\\r\\n        // Calculate number of possible
+    chests in the world\\r\\n        let groups = GroupManager_1.default.instance.groups;\\r\\n       
+    this.groupCount = groups.size;\\r\\n        SceneManager_1.default.instance.OnSceneInitialized.AddListener(()
+    => {\\r\\n            this.StartCoroutine(this.ShowWelcome());\\r\\n        });\\r\\n   
+    }\\r\\n    Collect(collectable) {\\r\\n        if (this.isCollecting)\\r\\n           
+    return false;\\r\\n        this.isCollecting = true;\\r\\n        this.current
+    = collectable;\\r\\n        ZEPETO_Module_Event_1.EventAPI.TryCollect((eventName,
+    currencyType, amount) => {\\r\\n            collectable.OnCollected(true);\\r\\n           
+    this.OnCollected(true);\\r\\n        }, (errorCode, errorMsg) => {\\r\\n           
+    collectable.OnCollected(false);\\r\\n            this.OnCollected(false);\\r\\n       
+    });\\r\\n        return true;\\r\\n    }\\r\\n    OnCollected(success) {\\r\\n       
+    this.current = null;\\r\\n        this.isCollecting = false;\\r\\n    }\\r\\n   
+    *ShowWelcome() {\\r\\n        if (this.groupCount < 1)\\r\\n            return;\\r\\n       
+    const duration = 3;\\r\\n        yield new UnityEngine_1.WaitForSeconds(0.5);\\r\\n       
     ZEPETO_World_Gui_1.ZepetoToast.Show(ZEPETO_World_Gui_ZepetoToast_1.Type.None,
-    \"Searching for hidden treasure ...\");\r\n        yield new UnityEngine_1.WaitForSeconds(duration);\r\n       
-    this.StartCoroutine(this.ShowRemaining());\r\n    }\r\n    ChestFound() {\r\n       
-    this.groupCount--;\r\n        this.StartCoroutine(this.ShowRemaining());\r\n   
-    }\r\n    *ShowRemaining() {\r\n        ZEPETO_World_Gui_1.ZepetoToast.Show(ZEPETO_World_Gui_ZepetoToast_1.Type.None,
-    this.GetLocalizedMessage());\r\n    }\r\n    GetLocalizedMessage() {\r\n       
-    return this.groupCount == 0 ?\r\n            \"You found all chests!\" :\r\n           
-    `There are ${this.groupCount} chests hidden in this world!`;\r\n        switch
-    (UnityEngine_1.Application.systemLanguage) {\r\n            case UnityEngine_1.SystemLanguage.Korean:\r\n               
-    return this.groupCount == 0 ?\r\n                    \"You found all chests!\"
-    :\r\n                    `There are ${this.groupCount} chests hidden in this
-    world!`;\r\n                break;\r\n            case UnityEngine_1.SystemLanguage.Japanese:\r\n               
-    return `There are ${this.groupCount} chests hidden in this world!`;\r\n               
-    break;\r\n            case UnityEngine_1.SystemLanguage.Chinese:\r\n           
-    case UnityEngine_1.SystemLanguage.ChineseSimplified:\r\n                return
-    `There are ${this.groupCount} chests hidden in this world!`;\r\n               
-    break;\r\n            case UnityEngine_1.SystemLanguage.Thai:\r\n               
-    return `There are ${this.groupCount} chests hidden in this world!`;\r\n               
-    break;\r\n            case UnityEngine_1.SystemLanguage.Indonesian:\r\n               
-    return `There are ${this.groupCount} chests hidden in this world!`;\r\n               
-    break;\r\n            case UnityEngine_1.SystemLanguage.French:\r\n               
-    return `There are ${this.groupCount} chests hidden in this world!`;\r\n               
-    break;\r\n            case UnityEngine_1.SystemLanguage.English:\r\n           
-    default:\r\n                return `There are ${this.groupCount} chests hidden
-    in this world!`;\r\n                break;\r\n        }\r\n    }\r\n}\r\nexports.default
-    = CollectableManager;\r\n/* Singleton */\r\nCollectableManager.m_instance = null;\r\n//#
-    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29sbGVjdGFibGVNYW5hZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQ29sbGVjdGFibGVNYW5hZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQW1EO0FBQ25ELDZDQUF1RztBQUV2RywrQ0FBd0M7QUFDeEMsaURBQTBDO0FBQzFDLGlEQUEwQztBQUMxQyxtRUFBNEQ7QUFFNUQsdURBQThFO0FBQzlFLCtFQUFrRDtBQUNsRCw2REFBMkQ7QUFHM0QsTUFBcUIsa0JBQW1CLFNBQVEscUNBQXFCO0lBaUIxRCxNQUFNLEtBQUssUUFBUTtRQUN0QixJQUFJLElBQUksQ0FBQyxVQUFVLEtBQUssSUFBSSxFQUFFO1lBQzFCLElBQUksQ0FBQyxVQUFVLEdBQUcsd0JBQVUsQ0FBQyxnQkFBZ0IsU0FBQyxrQkFBa0IsRUFBRyxDQUFDO1lBQ3BFLElBQUksSUFBSSxDQUFDLFVBQVUsS0FBSyxJQUFJLEVBQUU7Z0JBQzFCLElBQUksQ0FBQyxVQUFVLEdBQUcsSUFBSSx3QkFBVSxDQUFDLGtCQUFrQixDQUFDLElBQUksQ0FBQyxDQUFDLFlBQVksU0FBQyxrQkFBa0IsRUFBRyxDQUFDO2FBQ2hHO1NBQ0o7UUFDRCxPQUFPLElBQUksQ0FBQyxVQUFVLENBQUM7SUFDM0IsQ0FBQztJQUVPLEtBQUs7UUFDVCxJQUFJLGtCQUFrQixDQUFDLFVBQVUsS0FBSyxJQUFJLElBQUksa0JBQWtCLENBQUMsVUFBVSxLQUFLLElBQUksRUFBRTtZQUNsRix3QkFBVSxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUM7U0FDdkM7YUFBTTtZQUNILGtCQUFrQixDQUFDLFVBQVUsR0FBRyxJQUFJLENBQUM7WUFDckMsSUFBSSxJQUFJLENBQUMsU0FBUyxDQUFDLE1BQU0sS0FBSyxJQUFJO2dCQUM5Qix3QkFBVSxDQUFDLGlCQUFpQixDQUFDLElBQUksQ0FBQyxVQUFVLENBQUMsQ0FBQztTQUNyRDtJQUNMLENBQUM7SUFFTyxLQUFLO1FB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","assetPath":"Assets/BuilditTemplate/Modules/Scripts/CollectableManager.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"isCollecting","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"groupCount","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"","name":"collectables","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Scripts/CollectableController.default","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"","name":"current","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Scripts/CollectableController.default","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"CollectableManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
-  typescriptHash: ade8f92a3c0f6c7e195ced12af2a804f
+    this.GetLocalizedMessage(ToastMessages.Searching));\\r\\n        yield new UnityEngine_1.WaitForSeconds(duration);\\r\\n       
+    ZEPETO_World_Gui_1.ZepetoToast.Show(ZEPETO_World_Gui_ZepetoToast_1.Type.None,
+    this.GetLocalizedMessage(ToastMessages.Welcome));\\r\\n        yield new UnityEngine_1.WaitForSeconds(duration);\\r\\n       
+    ZEPETO_World_Gui_1.ZepetoToast.Show(ZEPETO_World_Gui_ZepetoToast_1.Type.None,
+    this.GetLocalizedMessage(ToastMessages.EventDesc));\\r\\n    }\\r\\n    ChestFound()
+    {\\r\\n        this.groupCount--;\\r\\n        this.StartCoroutine(this.ShowRemaining());\\r\\n   
+    }\\r\\n    *ShowRemaining() {\\r\\n        ZEPETO_World_Gui_1.ZepetoToast.Show(ZEPETO_World_Gui_ZepetoToast_1.Type.None,
+    this.GetLocalizedMessage(this.groupCount == 0 ? ToastMessages.Finished : ToastMessages.RemainingCount));\\r\\n   
+    }\\r\\n    LanguageStringKey() {\\r\\n        switch (UnityEngine_1.Application.systemLanguage)
+    {\\r\\n            case UnityEngine_1.SystemLanguage.Korean:\\r\\n               
+    return \\\"ko\\\";\\r\\n            case UnityEngine_1.SystemLanguage.Japanese:\\r\\n               
+    return \\\"jp\\\";\\r\\n            case UnityEngine_1.SystemLanguage.Chinese:\\r\\n           
+    case UnityEngine_1.SystemLanguage.ChineseSimplified:\\r\\n                return
+    \\\"cn\\\";\\r\\n            case UnityEngine_1.SystemLanguage.Thai:\\r\\n               
+    return \\\"th\\\";\\r\\n            case UnityEngine_1.SystemLanguage.Indonesian:\\r\\n               
+    return \\\"id\\\";\\r\\n            case UnityEngine_1.SystemLanguage.French:\\r\\n               
+    return \\\"fr\\\";\\r\\n            case UnityEngine_1.SystemLanguage.English:\\r\\n           
+    default:\\r\\n                return \\\"en\\\";\\r\\n        }\\r\\n    }\\r\\n   
+    GetLocalizedMessage(type) {\\r\\n        let str = ToastStrings[this.LanguageStringKey()][type];\\r\\n       
+    return str.replace(\\\"{0}\\\", `${this.groupCount}`);\\r\\n    }\\r\\n}\\r\\nexports.default
+    = CollectableManager;\\r\\n/* Singleton */\\r\\nCollectableManager.m_instance
+    = null;\\r\\nvar ToastMessages;\\r\\n(function (ToastMessages) {\\r\\n    ToastMessages[ToastMessages[\\\"Searching\\\"]
+    = 0] = \\\"Searching\\\";\\r\\n    ToastMessages[ToastMessages[\\\"Welcome\\\"]
+    = 1] = \\\"Welcome\\\";\\r\\n    ToastMessages[ToastMessages[\\\"EventDesc\\\"]
+    = 2] = \\\"EventDesc\\\";\\r\\n    ToastMessages[ToastMessages[\\\"RemainingCount\\\"]
+    = 3] = \\\"RemainingCount\\\";\\r\\n    ToastMessages[ToastMessages[\\\"Finished\\\"]
+    = 4] = \\\"Finished\\\";\\r\\n})(ToastMessages || (ToastMessages = {}));\\r\\n;\\r\\nconst
+    ToastStrings /* = (str: string) =>*/ = {\\r\\n    \\\"ko\\\": [\\r\\n       
+    \\\"\uC774 \uC6D4\uB4DC\uC5D0 \uC788\uB294 \uBCF4\uBB3C \uC0C1\uC790\uB97C \uAC80\uC0C9
+    \uC911\uC785\uB2C8\uB2E4..\\\",\\r\\n        \\\"\uC774 \uC6D4\uB4DC\uC5D0\uB294
+    {0}\uAC1C\uC758 \uBCF4\uBB3C \uC0C1\uC790\uAC00 \uC788\uC2B5\uB2C8\uB2E4!\\\",\\r\\n       
+    \\\"\uC774\uBCA4\uD2B8 \uAE30\uAC04\uC774\uB77C\uBA74 \uBCF4\uBB3C\uC0C1\uC790\uB97C
+    \uCC3E\uC744 \uC218 \uC788\uC744\uAC70\uC5D0\uC694.\\\",\\r\\n        \\\"\uC774
+    \uC6D4\uB4DC\uC5D0\uB294 \uC774\uC81C {0}\uAC1C\uC758 \uBCF4\uBB3C \uC0C1\uC790\uAC00
+    \uB0A8\uC558\uC2B5\uB2C8\uB2E4.\\\",\\r\\n        \\\"\uB2F9\uC2E0\uC740 \uBAA8\uB4E0
+    \uBCF4\uBB3C \uC0C1\uC790\uB97C \uB2E4 \uCC3E\uC558\uC2B5\uB2C8\uB2E4!\\\"\\r\\n   
+    ],\\r\\n    \\\"en\\\": [\\r\\n        \\\"Searching for treasure chests in this
+    World...\\\",\\r\\n        \\\"There are {0} treasure chests in this World!\\\",\\r\\n       
+    \\\"If it's during the event period, you might be able to find some.\\\",\\r\\n       
+    \\\"There are now {0} treasure chests left in this World.\\\",\\r\\n        \\\"You
+    have found all the treasure chests!\\\"\\r\\n    ],\\r\\n    \\\"jp\\\": [\\r\\n       
+    \\\"\u3053\u306EWorld\u3067\u5B9D\u7BB1\u3092\u691C\u7D22\u4E2D\u3067\u3059\u2026\\\",\\r\\n       
+    \\\"\u3053\u306EWorld\u306B\u306F\u5B9D\u7BB1\u304C{0}\u500B\u3042\u308A\u307E\u3059\uFF01\\\",\\r\\n       
+    \\\"\u30A4\u30D9\u30F3\u30C8\u671F\u9593\u4E2D\u306A\u3089\u898B\u3064\u3051\u3089\u308C\u308B\u304B\u3082\u3057\u308C\u307E\u305B\u3093\u3002\\\",\\r\\n       
+    \\\"\u3053\u306EWorld\u306B\u306F\u6B8B\u308A{0}\u500B\u306E\u5B9D\u7BB1\u304C\u3042\u308A\u307E\u3059\u3002\\\",\\r\\n       
+    \\\"\u3059\u3079\u3066\u306E\u5B9D\u7BB1\u3092\u898B\u3064\u3051\u307E\u3057\u305F\uFF01\\\"\\r\\n   
+    ],\\r\\n    \\\"cn\\\": [\\r\\n        \\\"\u6B63\u5728\u641C\u7D22\u8FD9\u4E2AWorld\u4E2D\u7684\u5B9D\u7BB1\u2026\u2026\\\",\\r\\n       
+    \\\"\u8FD9\u4E2AWorld\u4E2D\u6709{0}\u4E2A\u5B9D\u7BB1\uFF01\\\",\\r\\n       
+    \\\"\u5982\u679C\u5728\u6D3B\u52A8\u671F\u95F4\uFF0C\u53EF\u80FD\u53EF\u4EE5\u627E\u5230\u5B9D\u7BB1\u3002\\\",\\r\\n       
+    \\\"\u8FD9\u4E2AWorld\u4E2D\u73B0\u5728\u8FD8\u5269\u4E0B{0}\u4E2A\u5B9D\u7BB1\u3002\\\",\\r\\n       
+    \\\"\u4F60\u5DF2\u7ECF\u627E\u5230\u4E86\u6240\u6709\u7684\u5B9D\u7BB1\uFF01\\\"\\r\\n   
+    ],\\r\\n    \\\"th\\\": [\\r\\n        \\\"\u0E01\u0E33\u0E25\u0E31\u0E07\u0E04\u0E49\u0E19\u0E2B\u0E32\u0E2B\u0E35\u0E1A\u0E2A\u0E21\u0E1A\u0E31\u0E15\u0E34\u0E43\u0E19
+    World \u0E19\u0E35\u0E49...\\\",\\r\\n        \\\"\u0E43\u0E19 World \u0E19\u0E35\u0E49\u0E21\u0E35\u0E2B\u0E35\u0E1A\u0E2A\u0E21\u0E1A\u0E31\u0E15\u0E34
+    {0} \u0E01\u0E25\u0E48\u0E2D\u0E07!\\\",\\r\\n        \\\"\u0E2B\u0E32\u0E01\u0E40\u0E1B\u0E47\u0E19\u0E0A\u0E48\u0E27\u0E07\u0E01\u0E34\u0E08\u0E01\u0E23\u0E23\u0E21
+    \u0E04\u0E38\u0E13\u0E2D\u0E32\u0E08\u0E08\u0E30\u0E1E\u0E1A\u0E2B\u0E35\u0E1A\u0E2A\u0E21\u0E1A\u0E31\u0E15\u0E34\u0E44\u0E14\u0E49\\\",\\r\\n       
+    \\\"\u0E15\u0E2D\u0E19\u0E19\u0E35\u0E49\u0E43\u0E19 World \u0E19\u0E35\u0E49\u0E40\u0E2B\u0E25\u0E37\u0E2D\u0E2B\u0E35\u0E1A\u0E2A\u0E21\u0E1A\u0E31\u0E15\u0E34
+    {0} \u0E01\u0E25\u0E48\u0E2D\u0E07\\\",\\r\\n        \\\"\u0E04\u0E38\u0E13\u0E1E\u0E1A\u0E2B\u0E35\u0E1A\u0E2A\u0E21\u0E1A\u0E31\u0E15\u0E34\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14\u0E41\u0E25\u0E49\u0E27!\\\"\\r\\n   
+    ],\\r\\n    \\\"id\\\": [\\r\\n        \\\"Sedang mencari peti harta karun di
+    World ini...\\\",\\r\\n        \\\"Ada {0} peti harta karun di World ini!\\\",\\r\\n       
+    \\\"Jika sedang dalam periode event, kamu mungkin bisa menemukannya.\\\",\\r\\n       
+    \\\"Sekarang ada {0} peti harta karun tersisa di World ini.\\\",\\r\\n       
+    \\\"Kamu telah menemukan semua peti harta karun!\\\"\\r\\n    ],\\r\\n    \\\"fr\\\":
+    [\\r\\n        \\\"Recherche de coffres au tr\xE9sor dans ce World...\\\",\\r\\n       
+    \\\"Il y a {0} coffre au tr\xE9sor dans ce World !\\\",\\r\\n        \\\"S'il
+    y a un \xE9v\xE9nement en cours, vous pourriez en trouver.\\\",\\r\\n       
+    \\\"Il reste maintenant {0} coffre au tr\xE9sor dans ce World.\\\",\\r\\n       
+    \\\"Vous avez trouv\xE9 tous les coffres au tr\xE9sor !\\\"\\r\\n    ]\\r\\n};\\r\\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29sbGVjdGFibGVNYW5hZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQ29sbGVjdGFibGVNYW5hZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQW1EO0FBQ25ELDZDQUF1RztBQUV2RywrQ0FBd0M7QUFDeEMsaURBQTBDO0FBQzFDLGlEQUEwQztBQUMxQyxtRUFBNEQ7QUFFNUQsdURBQThFO0FBQzlFLCtFQUFrRDtBQUNsRCw2REFBMkQ7QUFHM0QsTUFBcUIsa0JBQW1CLFNBQVEscUNBQXFCO0lBa0IxRCxNQUFNLEtBQUssUUFBUTtRQUN0QixJQUFJLElBQUksQ0FBQyxVQUFVLEtBQUssSUFBSSxFQUFFO1lBQzFCLElBQUksQ0FBQyxVQUFVLEdBQUcsd0JBQVUsQ0FBQyxnQkFBZ0IsU0FBQyxrQkFBa0IsRUFBRyxDQUFDO1lBQ3BFLElBQUksSUFBSSxDQUFDLFVBQVUsS0FBSyxJQUFJLEVBQUU7Z0JBQzFCLElBQUksQ0FBQyxVQUFVLEdBQUcsSUFBSSx3QkFBVSxDQUFDLGtCQUFrQixDQUFDLElBQUksQ0FBQyxDQUFDLFlBQVksU0FBQyxrQkFBa0IsRUFBRyxDQUFDO2FBQ2hHO1NBQ0o7UUFDRCxPQUFPLElBQUksQ0FBQyxVQUFVLENBQUM7SUFDM0IsQ0FBQztJQUVPLEtBQUs7UUFDVCxJQUFJLGtCQUFrQixDQUFDLFVBQVUsS0FBSyxJQUFJLElBQUksa0JBQWtCLENBQUMsVUFBVSxLQUFLLElBQUksRUFBRTtZQUNsRix3QkFBVSxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUM7U0FDdkM7YUFBTTtZQUNILGtCQUFrQixDQUFDLFVBQVUsR0FBRyxJQUFJLENBQUM7WUFDckMsSUFBSSxJQUFJLENBQUMsU0FBUyxDQUFDLE1BQU0sS0FBSyxJQUFJO2dCQUM5Qix3QkFBVSxDQUFDLGlCQUFpQixDQUFDLElBQUksQ0FBQyxVQUFVLENBQUMsQ0FBQztTQUNyRDtJQUNMLENBQUM7SUFFTyxLQUFLO1FB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\",\"assetPath\":\"Assets/BuilditTemplate/Modules/Scripts/CollectableManager.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"mscorlib\",\"name\":\"isCollecting\",\"type\":\"System.Boolean\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"groupCount\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"\",\"name\":\"collectables\",\"type\":\"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Scripts/CollectableController.default\",\"isArray\":true,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[{\"name\":\"HideInInspector\",\"args\":[]}]},{\"assembly\":\"\",\"name\":\"current\",\"type\":\"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Scripts/CollectableController.default\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[{\"name\":\"HideInInspector\",\"args\":[]}]}],\"name\":\"CollectableManager\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: 644806a0c24cfafc7d2656b0475d9b27
   onlyWriteTrigger: 0

@@ -1,6 +1,6 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
 import {Canvas, Camera, Vector3, Object, GameObject, Collider, Random, AudioSource, Color} from 'UnityEngine';
-import { Button } from 'UnityEngine.UI';
+import { Button, Image } from 'UnityEngine.UI';
 import { RoundedRectangleButton } from 'ZEPETO.World.Gui';
 
 export default class BGMManager extends ZepetoScriptBehaviour {
@@ -17,7 +17,8 @@ export default class BGMManager extends ZepetoScriptBehaviour {
     
     private currentTrack: AudioSource;
     
-    // TODO: Move this to new button struct
+    // TODO: Move this to new button struct 
+    private _icon: Image;
     private _normalColor: Color;
     private _disabledColor: Color;
     private _normalFill: number;
@@ -26,7 +27,7 @@ export default class BGMManager extends ZepetoScriptBehaviour {
         
         // Get all BGM objects in the scene
         if (this.tracks.length == 0)
-            this.tracks = GameObject.Find("Objects").GetComponentsInChildren<AudioSource>();
+            this.tracks = Object.FindObjectsOfType<AudioSource>();
         
         if (!(this.tracks.length > 0)) {
             this.toggle.gameObject.SetActive(false);
@@ -39,9 +40,10 @@ export default class BGMManager extends ZepetoScriptBehaviour {
         // UI binding
         this.toggle ??= GameObject.Find("BGMToggle").GetComponent<RoundedRectangleButton>();
         this.toggle?.OnClick.AddListener( () => { this.ToggleMute();});
-    
+        this._icon = this.toggle.GetComponentInChildren<Image>();
+        
         this._normalFill = this.toggle.FillAmount;
-        this._normalColor = this.toggle.color;
+        this._normalColor = this._icon.color;
         this._disabledColor = this.toggle.IconColor;
     }
     
@@ -63,15 +65,16 @@ export default class BGMManager extends ZepetoScriptBehaviour {
     
     public Mute() {
         this.muted = true;
-        this.toggle.color = this._disabledColor;
-        this.toggle.FillAmount = 0.9;
+        this._icon.color = this._disabledColor;
+        // this.toggle.FillAmount = 0.9;
+        
         this.currentTrack?.Pause();
     }
     
     public Unmute() {
         this.muted = false;
-        this.toggle.color = this._normalColor;
-        this.toggle.FillAmount = this._normalFill;
+        this._icon.color = this._normalColor;
+        // this.toggle.FillAmount = this._normalFill;
         this.currentTrack?.UnPause();
     }
 }
