@@ -30,7 +30,9 @@ export default class CollectableController extends ZepetoScriptBehaviour {
     public countdown: TextMeshPro;
     
     // Delay before the collectable object can be obtained
-    public timeout: number = 100;
+    public timeout: number = 60;
+    
+    private _chestFound: boolean = false;
     
     // Tag indicating the object has been activated and is waiting to be collected
     public isWaiting: bool;
@@ -60,6 +62,11 @@ export default class CollectableController extends ZepetoScriptBehaviour {
         if (this._isCollected)
             return;
         
+        if (this._chestFound == false) {
+            CollectableManager.instance.ChestFound();
+            this._chestFound = true;
+        }
+        
         if (this.timeout > 0) {
             this.StartTimer();
             return;
@@ -78,7 +85,6 @@ export default class CollectableController extends ZepetoScriptBehaviour {
         if (this.isWaiting)
             return;
         
-        CollectableManager.instance.ChestFound();
         
         this.isWaiting = true;
         
