@@ -14,12 +14,27 @@ import { EventAPI, CurrencyType, CurrencyEventCollectableObject } from 'ZEPETO.M
 import Chest from './Chest';
 import { ZepetoWorldContent } from 'ZEPETO.World';
 import CollectableManager from './CollectableManager';
+import ObjectGroup from './ObjectGroup';
 import {Button, Text} from 'UnityEngine.UI';
 import InteractionIcon from './../Interaction/ZepetoScript/InteractionIcon';
 import { TextMeshPro } from 'TMPro';
 
 export default class CollectableController extends ZepetoScriptBehaviour {
 
+    @Header("[Configuration]")
+    
+    // Delay before the collectable object can be obtained
+    @Tooltip("Duration in seconds before the chest can be opened")
+    public timeout: number;
+
+    @Tooltip("Icon color when the chest is selectable")
+    public activatedIconColor: Color;
+
+    // @Tooltip("Group of chests it belongs to")
+    // public groupId: string;
+    
+    
+    @Header("[References]")
     // Sparkling effect
     public sparkle: GameObject;
     
@@ -29,27 +44,22 @@ export default class CollectableController extends ZepetoScriptBehaviour {
     // Countdown UI
     public countdown: TextMeshPro;
     
-    // Delay before the collectable object can be obtained
-    public timeout: number = 60;
-    
     private _chestFound: boolean = false;
     
     // Tag indicating the object has been activated and is waiting to be collected
-    public isWaiting: bool;
+    @HideInInspector() public isWaiting: bool;
     
-    public activatedIconColor: Color;
+    
     
     /// --- Private
     
     private _interactionButton: InteractionIcon;
     private _isCollected: boolean;
     private _chest: Chest;
-    private _collectableObject: CurrencyEventCollectableObject;
     private _coTimer: Coroutine;
     
     private Start() {
-        this._interactionButton = this.GetComponent<InteractionIcon>();
-        this._collectableObject = this.GetComponent<CurrencyEventCollectableObject>();
+        this._interactionButton = this.GetComponentInChildren<InteractionIcon>();
         this._chest = this.chest.GetComponent<Chest>();
 
         this._interactionButton.OnClickEvent.AddListener(() => {

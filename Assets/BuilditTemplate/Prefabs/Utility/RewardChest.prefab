@@ -424,9 +424,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6600982819698443832}
-  - component: {fileID: 314236068570523599}
+  - component: {fileID: 1329178347087962809}
   - component: {fileID: 232954007039577073}
   - component: {fileID: 72707528033778796}
+  - component: {fileID: 314236068570523599}
   m_Layer: 0
   m_Name: RewardChest
   m_TagString: Untagged
@@ -453,7 +454,7 @@ Transform:
   - {fileID: 8559444415918196007}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &314236068570523599
+--- !u!114 &1329178347087962809
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -462,9 +463,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 5912957207633702248}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 2001682705, guid: d8b9d8edd71b4da9b0bbb4468e3beacf, type: 3}
+  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  applyRootMotion: 0
+  script:
+    script: {fileID: 4458252877524076426, guid: fe5ff949ec52453293ab31757efd49d5, type: 3}
+    isExpaned: 0
+    keys:
+    - sparkle
+    - chest
+    - timeout
+    - isWaiting
+    - countdown
+    - activatedIconColor
+    unityValues:
+    - {fileID: 5031765012509915618}
+    - {fileID: 7994273708606396922}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 8736410379433946254}
+    - {fileID: 0}
+    values:
+    - 
+    - 
+    - '{"type":"System.Single, mscorlib","value":"60"}'
+    - '{"type":"System.Boolean, mscorlib","value":"False"}'
+    - 
+    - '{"type":"UnityEngine.Color, UnityEngine.CoreModule","value":"{\"r\":0.9056603908538818,\"g\":0.7718859314918518,\"b\":0.08116765320301056,\"a\":1.0}"}'
+    unityArrayValues: []
+    arrayValues: []
 --- !u!114 &232954007039577073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,6 +538,18 @@ MonoBehaviour:
     values: []
     unityArrayValues: []
     arrayValues: []
+--- !u!114 &314236068570523599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5912957207633702248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 2001682705, guid: d8b9d8edd71b4da9b0bbb4468e3beacf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6050277955714567862
 GameObject:
   m_ObjectHideFlags: 0
@@ -552,7 +592,6 @@ GameObject:
   - component: {fileID: 1873108035492283808}
   - component: {fileID: 3989182111656506279}
   - component: {fileID: 6403486398415831501}
-  - component: {fileID: 1518979702566966816}
   m_Layer: 2
   m_Name: InteractionPoint
   m_TagString: 
@@ -625,45 +664,6 @@ MonoBehaviour:
     - 
     - 
     - '{"type":"UnityEngine.Events.UnityEvent, UnityEngine.CoreModule","value":"{\"m_PersistentCalls\":{\"m_Calls\":[]}}"}'
-    unityArrayValues: []
-    arrayValues: []
---- !u!114 &1518979702566966816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6821853510480978114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  applyRootMotion: 0
-  script:
-    script: {fileID: 4458252877524076426, guid: fe5ff949ec52453293ab31757efd49d5, type: 3}
-    isExpaned: 0
-    keys:
-    - sparkle
-    - chest
-    - timeout
-    - isWaiting
-    - countdown
-    - activatedIconColor
-    unityValues:
-    - {fileID: 5031765012509915618}
-    - {fileID: 7994273708606396922}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 8736410379433946254}
-    - {fileID: 0}
-    values:
-    - 
-    - 
-    - '{"type":"System.Single, mscorlib","value":"60"}'
-    - '{"type":"System.Boolean, mscorlib","value":"False"}'
-    - 
-    - '{"type":"UnityEngine.Color, UnityEngine.CoreModule","value":"{\"r\":0.9056603908538818,\"g\":0.7718859314918518,\"b\":0.08116765320301056,\"a\":1.0}"}'
     unityArrayValues: []
     arrayValues: []
 --- !u!1 &7994273708606396922
