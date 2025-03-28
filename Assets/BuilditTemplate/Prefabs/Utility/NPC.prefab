@@ -55,20 +55,25 @@ MonoBehaviour:
     - speechBubblePrefab
     - speechBubbleYOffset
     - hasSpeechBubble
+    - randomizeDialogue
     unityValues:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 1726349219771241084, guid: 5abd49ae982ea4c36b8a9bea12c4f982, type: 3}
     - {fileID: 0}
     - {fileID: 0}
+    - {fileID: 0}
     values:
     - '{"type":"System.String, mscorlib","value":""}'
-    - '{"type":"System.String, mscorlib","value":"Hello.I''m NPC"}'
+    - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":1,\"type\":\"System.String,
+      mscorlib\",\"isUnity\":false}"}'
     - 
     - '{"type":"System.Single, mscorlib","value":"0.5"}'
     - '{"type":"System.Boolean, mscorlib","value":"True"}'
+    - '{"type":"System.Boolean, mscorlib","value":"False"}'
     unityArrayValues: []
-    arrayValues: []
+    arrayValues:
+    - Hello. I am NPC
 --- !u!135 &8767183375340297470
 SphereCollider:
   m_ObjectHideFlags: 0

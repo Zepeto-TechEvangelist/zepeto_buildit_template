@@ -12,12 +12,8 @@ export default class NPCManager extends ZepetoScriptBehaviour {
     @SerializeField()
     private hasSpeechBubble: bool = true;
 
-    // Dialogue content to be displayed in the speech bubble
-    // @SerializeField()
-    private speechBubbleText: string;
-    
     @SerializeField()
-    private dialogueText: string[];
+    private speechBubbleText: string[];
 
     public randomizeDialogue: bool = true;
     
@@ -97,11 +93,6 @@ export default class NPCManager extends ZepetoScriptBehaviour {
 
         // Set the text inside the speech bubble
         this._speechBubbleText = this._speechBubbleObject.GetComponentInChildren<Text>();
-        this._speechBubbleText.text = this.speechBubbleText;
-        
-        // if (this.dialogueText.length > 0) {
-        //     this._speechBubbleText.text = this.dialogueText[Math.floor(Random.Range(0, this.dialogueText.length))];
-        // }
         
         this._canvas = this._speechBubbleObject.GetComponent<Canvas>();
         this._cachedWorldCamera = Object.FindObjectOfType<Camera>();
@@ -110,16 +101,16 @@ export default class NPCManager extends ZepetoScriptBehaviour {
     }
 
     SetDialogue() {
-        if (this.dialogueText.length == 0) 
+        if (this.speechBubbleText.length == 0) 
             return;
         
         if (this.randomizeDialogue) {
-            this._speechBubbleText.text = this.dialogueText[Math.floor(Random.Range(0, this.dialogueText.length))];
+            this._speechBubbleText.text = this.speechBubbleText[Math.floor(Random.Range(0, this.speechBubbleText.length))];
         }
         else {
-            this._speechBubbleText.text = this.dialogueText[this._dialogueIndex];
+            this._speechBubbleText.text = this.speechBubbleText[this._dialogueIndex];
             this._dialogueIndex++;
-            this._dialogueIndex %= this.dialogueText.length;
+            this._dialogueIndex %= this.speechBubbleText.length;
         }
     }
     
