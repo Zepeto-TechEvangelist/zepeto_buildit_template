@@ -27,7 +27,7 @@ export default class BGMManager extends ZepetoScriptBehaviour {
         
         // Get all BGM objects in the scene
         if (this.tracks.length == 0)
-            this.tracks = Object.FindObjectsOfType<AudioSource>();
+            this.tracks = Object.FindObjectsOfType<AudioSource>(false).filter(x => x.gameObject.name == "BGM");
         
         if (!(this.tracks.length > 0)) {
             this.toggle.gameObject.SetActive(false);
