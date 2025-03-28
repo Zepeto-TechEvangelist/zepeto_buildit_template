@@ -10,6 +10,7 @@ export default class CheckpointPlatformScript extends ZepetoScriptBehaviour {
     public index: int;
     
     @Tooltip("Enabling will restrict this checkpoint to only one visit, Disabling it means it can be revisited")
+    @HideInInspector()
     public singleUseOnly: boolean = false;
     
     // Whether the checkpoint has been visited.
