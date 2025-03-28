@@ -13,7 +13,7 @@ export default class NPCManager extends ZepetoScriptBehaviour {
     private hasSpeechBubble: bool = true;
 
     // Dialogue content to be displayed in the speech bubble
-    @SerializeField()
+    // @SerializeField()
     private speechBubbleText: string;
     
     @SerializeField()
