@@ -6,7 +6,12 @@ import { Checkpoint } from './Checkpoint';
 
 export default class CheckpointPlatformScript extends ZepetoScriptBehaviour {
 
+    @Tooltip("Index of the Checkpoint as a sequence")
     public index: int;
+    
+    @Tooltip("Enabling will restrict this checkpoint to only one visit, Disabling it means it can be revisited")
+    public singleUseOnly: boolean = false;
+    
     // Whether the checkpoint has been visited.
     private visited: bool;
     
@@ -21,7 +26,9 @@ export default class CheckpointPlatformScript extends ZepetoScriptBehaviour {
             return;
         }
         
-        if (this.visited) return;
+        if (this.singleUseOnly && this.visited) 
+            return;
+        
         this.visited = true;
         
         TrapManager.instance.VisitCheckpoint(new Checkpoint(this.index, this.transform.position));

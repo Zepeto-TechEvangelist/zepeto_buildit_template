@@ -51,7 +51,6 @@ export default class TrapManager extends ZepetoScriptBehaviour {
         });
 
         this.fallAreaPosition = SceneManager.instance.fallAreaPosition;
-        SceneManager.instance.fallAreaPosition *= 2;
     }
 
     Update() {
@@ -66,12 +65,15 @@ export default class TrapManager extends ZepetoScriptBehaviour {
     // Method to update the most recent checkpoint.
     UpdateCheckpoint(newCheckpoint: Vector3) {
         this.currentCheckpoint.position = newCheckpoint;
+        SceneManager.instance.teleporter.destination = newCheckpoint;
     }
 
     
     public VisitCheckpoint(checkpoint: Checkpoint) {
-        if (this.currentCheckpoint.index <= checkpoint.index)
+        if (this.currentCheckpoint.index <= checkpoint.index) {
             this.currentCheckpoint = checkpoint;
+            SceneManager.instance.teleporter.destination = checkpoint.position;
+        }
     }
     
     // Method to teleport the character to the most recent checkpoint.
