@@ -48,7 +48,6 @@ GameObject:
   - component: {fileID: 531121484023379697}
   - component: {fileID: 531121484023379696}
   - component: {fileID: 531121484023379695}
-  - component: {fileID: 2609038114288693960}
   m_Layer: 5
   m_Name: ScreenShot
   m_TagString: Untagged
@@ -140,30 +139,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2609038114288693960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 531121484023379694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  applyRootMotion: 0
-  script:
-    script: {fileID: 4458252877524076426, guid: 47ac8feb90687441a95cb92e8bc0a157, type: 3}
-    isExpaned: 0
-    keys:
-    - selfieModeButton
-    unityValues:
-    - {fileID: 5184647000424230021}
-    values:
-    - 
-    unityArrayValues: []
-    arrayValues: []
 --- !u!1 &3743335365269014536
 GameObject:
   m_ObjectHideFlags: 0
@@ -1640,6 +1615,7 @@ GameObject:
   - component: {fileID: 6811595875057307700}
   - component: {fileID: 6811595875057307701}
   - component: {fileID: 6811595875057307702}
+  - component: {fileID: 8778685010731776697}
   m_Layer: 5
   m_Name: ScreenShot
   m_TagString: Untagged
@@ -1794,6 +1770,27 @@ MonoBehaviour:
     - 
     - 
     - 
+    unityArrayValues: []
+    arrayValues: []
+--- !u!114 &8778685010731776697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6811595875057308431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyRootMotion: 0
+  script:
+    script: {fileID: 4458252877524076426, guid: 47ac8feb90687441a95cb92e8bc0a157, type: 3}
+    isExpaned: 0
+    keys: []
+    unityValues: []
+    values: []
     unityArrayValues: []
     arrayValues: []
 --- !u!1 &6811595875057308432
