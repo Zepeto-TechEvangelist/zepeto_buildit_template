@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 531121484023379697}
   - component: {fileID: 531121484023379696}
   - component: {fileID: 531121484023379695}
+  - component: {fileID: 2609038114288693960}
   m_Layer: 5
   m_Name: ScreenShot
   m_TagString: Untagged
@@ -139,6 +140,30 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2609038114288693960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531121484023379694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyRootMotion: 0
+  script:
+    script: {fileID: 4458252877524076426, guid: 47ac8feb90687441a95cb92e8bc0a157, type: 3}
+    isExpaned: 0
+    keys:
+    - selfieModeButton
+    unityValues:
+    - {fileID: 5184647000424230021}
+    values:
+    - 
+    unityArrayValues: []
+    arrayValues: []
 --- !u!1 &3743335365269014536
 GameObject:
   m_ObjectHideFlags: 0
@@ -1730,6 +1755,7 @@ MonoBehaviour:
     - _previewShareButton
     - _previewSaveButton
     - _previewVideoRawImage
+    - _selfieModeButton
     unityValues:
     - {fileID: 6811595875057308466}
     - {fileID: 6811595875057307682}
@@ -1748,7 +1774,9 @@ MonoBehaviour:
     - {fileID: 6811595875057307735}
     - {fileID: 6811595875057307728}
     - {fileID: 6811595875057308467}
+    - {fileID: 1257268579652507326}
     values:
+    - 
     - 
     - 
     - 
