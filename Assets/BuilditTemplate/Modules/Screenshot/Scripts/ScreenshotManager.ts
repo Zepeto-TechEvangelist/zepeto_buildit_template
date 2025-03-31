@@ -169,6 +169,7 @@ export default class ScreenshotManager extends ZepetoScriptBehaviour {
         this._screenshotController.OnVideoRecordingStopEvent.AddListener(() => {
             this.StopTimer();
             this._screenshotUIController.TakePhotoScreenshotButton.interactable = true;
+            this._screenshotUIController.SelfieModeButton.interactable = true;
             this._screenshotUIController.ExitButton.interactable = true;
             this._screenshotController.StartTakePhotoScreenshot(true);
             this._screenshotUIController.ToggleEasyUploadWindow(true);
@@ -182,6 +183,7 @@ export default class ScreenshotManager extends ZepetoScriptBehaviour {
     private StartTimer() {
         this._coRecordingTimer = this.StartCoroutine(this.CoStartTimer());
         this._screenshotUIController.TakePhotoScreenshotButton.interactable = false;
+        this._screenshotUIController.SelfieModeButton.interactable = false;
         this._screenshotUIController.ExitButton.interactable = false;
         this._canEnterOrExit = false;
         this.StartCoroutine(this.ImageColorPingpong(this._screenshotUIController.VideoTimer.GetComponent<Image>()));

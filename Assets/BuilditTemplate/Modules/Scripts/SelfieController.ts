@@ -36,8 +36,8 @@ export default class SelfieController extends ZepetoScriptBehaviour {
         this._screenshotExitButton = exitBtn.GetComponent<Button>();
         const videoBtn = this._screenshotPanel.transform.Find("ScreenshotSubButtonBG/VideoButton");
         this._screenshotVideoButton = videoBtn.GetComponent<Button>();
-
-
+        
+        const selfieButton = this.selfieModeButton.GetComponent<Button>();
 
         // Initialize zepetoCharacter with the current player's character and get the head bone of it.
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
@@ -52,50 +52,31 @@ export default class SelfieController extends ZepetoScriptBehaviour {
         // Find the main camera in the scene and save its original field of view.
         this._mainCamera = Object.FindObjectOfType<Camera>();   // TODO: Camera.main
         this._originalCameraFieldOfView = this._mainCamera.fieldOfView; // TODO: Capture only when switching
-
-
-        // TODO: Group all subscribers in a function for code clarity
-
-        // Once the screenshot button is clicked, show or hide selfie button.
-        this._screenshotButton.onClick.AddListener(() => {
-            this.ToggleSelfieButton();
-        })
-
-        // Once the exit button is clicked, hide selfie button.
-        // If the user clicks the exit button while in selfie mode, exit selfie mode as well.
-        this._screenshotExitButton.onClick.AddListener(() => {
-            this.ToggleSelfieButton();
-        })
+        
 
         // Add listener to selfie mode button and start or end selfie mode.
         // Set the screenshot panel active so that the panel doesn't disappear when the selfie mode button is clicekd.
-        this.selfieModeButton.GetComponent<Button>().onClick.AddListener(() => {
+        selfieButton.onClick.AddListener(() => {
             if (!this._isSelfieMode) {
                 this.StartSelfieMode();
             } else {
                 this.EndSelfieMode();
             }
-            this._screenshotPanel.SetActive(true);
         });
 
         // Hide selfie mode button while a video is being recorded.
-        this._screenshotVideoButton.onClick.AddListener(() => {
-            if (!this._isRecordingVideo) {
-                this.selfieModeButton.SetActive(false);
-            } else {
-                this.selfieModeButton.SetActive(true);
-            }
-            this._isRecordingVideo = !this._isRecordingVideo;
-        })
+        // this._screenshotVideoButton.onClick.AddListener(() => {
+        //     if (!this._isRecordingVideo) {
+        //         this.selfieButton.enabled = false;
+        //     } else {
+        //         this.selfieButton.enabled = true;
+        //     }
+        //     this._isRecordingVideo = !this._isRecordingVideo;
+        // })
     }
 
     // Method to show or hide selfie button.
-    private ToggleSelfieButton() {
-        if (!this._isScreenshotMode) {
-            this.selfieModeButton.SetActive(true);
-        } else {
-            this.selfieModeButton.SetActive(false);
-        }
+    public ToggleSelfieMode() {
         if (this._isSelfieMode) {
             this.EndSelfieMode();
         }

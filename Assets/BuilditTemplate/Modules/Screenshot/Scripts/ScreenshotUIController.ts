@@ -10,6 +10,7 @@ export default class ScreenshotUIController extends ZepetoScriptBehaviour {
     @Header("Screenshot Main UI")
     @SerializeField() private _takePhotoButton: Button;
     @SerializeField() private _takeVideoButton: Button;
+    @SerializeField() private _selfieModeButton: Button;
     @SerializeField() private _exitButton: Button;
     @SerializeField() private _videoTimer: GameObject;
 
@@ -101,6 +102,13 @@ export default class ScreenshotUIController extends ZepetoScriptBehaviour {
             console.error("Invalid Photo Button");
         }
         return this._takePhotoButton;
+    }
+
+    public get SelfieModeButton() {
+        if (!this.IsValid(this._selfieModeButton)) {
+            console.error("Invalid Selfie Mode Button");
+        }
+        return this._selfieModeButton;
     }
 
     public get TakeVideoScreenshotButton() {
