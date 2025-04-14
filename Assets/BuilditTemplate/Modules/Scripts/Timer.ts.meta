@@ -1,0 +1,58 @@
+fileFormatVersion: 2
+guid: c67ff7d4fe3448d3a69f61a4240f3cf9
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nclass Timer extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.repeatCount
+    = 1;\r\n        // Step interval in seconds\r\n        this.interval = 0.5;\r\n       
+    // Countdown ----------------------------------------------------- //\r\n       
+    /** Tag representing if the timer is counting down */\r\n        this._countdownActive
+    = false;\r\n        // Time elapsed since starting the timer\r\n        this._elapsedTime
+    = 0;\r\n        // ---------------------------------------------------------------
+    //\r\n    }\r\n    get elapsedTime() { return this._elapsedTime; }\r\n    ;\r\n   
+    get remainingTime() { return this.timeout - this._elapsedTime; }\r\n    ;\r\n   
+    get countdownActive() { return this._countdownActive; }\r\n    ;\r\n    Start()
+    {\r\n        if (this.interval == 0)\r\n            this.interval = this.timeout;\r\n       
+    if (this.automaticallyStart)\r\n            this.StartTimer();\r\n    }\r\n   
+    StartTimer() {\r\n        this.StartCountdown();\r\n    }\r\n    PauseTimer()
+    {\r\n        this._countdownActive = false;\r\n    }\r\n    EndTimer() {\r\n       
+    this.EndCountdown();\r\n    }\r\n    StartCountdown() {\r\n        if (this._countdownActive
+    || this.repeatCount == 0)\r\n            return;\r\n        this._countdownActive
+    = true;\r\n        this.delegate?.OnCountdownStart();\r\n        this.OnCountdownStart?.Invoke();\r\n       
+    if (this._stepper) {\r\n            return;\r\n        }\r\n        this._stepper
+    = this.StartCoroutine(this.Step());\r\n    }\r\n    *Step() {\r\n        while
+    (this._countdownActive && this._elapsedTime < this.timeout) {\r\n           
+    this.delegate?.OnStep();\r\n            this.OnStep?.Invoke();\r\n           
+    yield new UnityEngine_1.WaitForSeconds(this.interval);\r\n            this._elapsedTime
+    += this.interval;\r\n        }\r\n        if (this._elapsedTime >= this.timeout)\r\n           
+    this.EndCountdown();\r\n    }\r\n    EndCountdown() {\r\n        this.StopCoroutine(this._stepper);\r\n       
+    this._stepper = null;\r\n        this._countdownActive = false;\r\n        this.repeatCount
+    -= 1;\r\n        this.delegate?.OnCoundownEnd();\r\n        this.OnCountdownEnd?.Invoke();\r\n       
+    this._elapsedTime = 0;\r\n        this.StartCountdown(); // repeat\r\n    }\r\n}\r\nexports.default
+    = Timer;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVGltZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJUaW1lci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLGlEQUFzRDtBQUN0RCw2Q0FBc0U7QUFTdEUsTUFBcUIsS0FBTSxTQUFRLHFDQUFxQjtJQUF4RDs7UUFVVyxnQkFBVyxHQUFXLENBQUMsQ0FBQztRQUUvQiwyQkFBMkI7UUFDcEIsYUFBUSxHQUFXLEdBQUcsQ0FBQztRQXlDOUIscUVBQXFFO1FBRXJFLHFEQUFxRDtRQUMzQyxxQkFBZ0IsR0FBWSxLQUFLLENBQUM7UUFFNUMsd0NBQXdDO1FBQzlCLGlCQUFZLEdBQVcsQ0FBQyxDQUFDO1FBa0RuQyxxRUFBcUU7SUFFekUsQ0FBQztJQTdGRyxJQUFXLFdBQVcsS0FBYSxPQUFPLElBQUksQ0FBQyxZQUFZLENBQUEsQ0FBQyxDQUFDO0lBQUEsQ0FBQztJQUU5RCxJQUFXLGFBQWEsS0FBYSxPQUFPLElBQUksQ0FBQyxPQUFPLEdBQUcsSUFBSSxDQUFDLFlBQVksQ0FBQSxDQUFDLENBQUM7SUFBQSxDQUFDO0lBRS9FLElBQVcsZUFBZSxLQUFjLE9BQU8sSUFBSSxDQUFDLGdCQUFnQixDQUFBLENBQUMsQ0FBQztJQUFBLENBQUM7SUFHdkUsS0FBSztRQUVELElBQUksSUFBSSxDQUFDLFFBQVEsSUFBSSxDQUFDO1lBQ2xCLElBQUksQ0FBQyxRQUFRLEdBQUcsSUFBSSxDQUFDLE9BQU8sQ0FBQztRQUVqQyxJQUFJLElBQUksQ0FBQyxrQkFBa0I7WUFDdkIsSUFBSSxDQUFDLFVBQVUsRUFBRSxDQUFDO0lBQzFCLENBQUM7SUFFTSxVQUFVO1FBQ2IsSUFBSSxDQUFDLGNBQWMsRUFBRSxDQUFDO0lBQzFCLENBQUM7SUFDTSxVQUFVO1FBQ2IsSUFBSSxDQUFDLGdCQUFnQixHQUFHLEtBQUssQ0FBQztJQUNsQyxDQUFDO0lBQ00sUUFBUTtRQUNYLElBQUksQ0FBQyxZQUFZLEVBQUUsQ0FBQztJQUN4QixDQUFDO0lBdUJTLGNBQWM7UUFFcEIsSUFBSSxJQUFJLENBQUMsZ0JBQWdCLElBQUksSUFBSSxDQUFDLFdBQVcsSUFBSSxDQUFDO1lBQzlDLE9BQU87UUFFWCxJQUFJLENBQUMsZ0JBQWdCLEdBQUcsSUFBSSxDQUFDO1FBRTdCLElBQUksQ0FBQyxRQUFRLEVBQUUsZ0JBQWdCLEVBQUUsQ0FBQztRQUNsQyxJQUFJLENBQUMsZ0JBQWdCLEVBQUUsTUFBTSxFQUFFLENBQUM7UUFFaEMsSUFBSSxJQUFJLENBQUMsUUFBUSxFQUFFO1lBQ2YsT0FBTztTQUNWO1FBQ0QsSUFBSSxDQUFDLFFBQVEsR0FBRyxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxJQUFJLEVBQUUsQ0FBQyxDQUFDO0lBQ3JELENBQUM7SUFFUyxDQUFDLElBQUk7UUFDWCxPQUFPLElBQUksQ0FBQyxnQkFBZ0IsSUFBSSxJQUFJLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQyxPQUFPLEVBQUU7WUFFOUQsSUFBSSxDQUFDLFFBQVEsRUFBRSxNQUFNLEVBQUUsQ0FBQztZQUN4QixJQUFJLENBQUMsTUFBTSxFQUFFLE1BQU0sRUFBRSxDQUFDO1lBRXRCLE1BQU0sSUFBSSw0QkFBYyxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQztZQUN4QyxJQUFJLENBQUMsWUFBWSxJQUFJLElBQUksQ0FBQyxRQUFRLENBQUM7U0FDdEM7UUFFRCxJQUFJLElBQUksQ0FBQyxZQUFZLElBQUksSUFBSSxDQUFDLE9BQU87WUFDakMsSUFBSSxDQUFDLFlBQVksRUFBRSxDQUFDO0lBQzVCLENBQUM7SUFFUyxZQUFZO1FBQ2xCLElBQUksQ0FBQyxhQUFhLENBQUMsSUFBSSxDQUFDLFFBQVEsQ0FBQyxDQUFDO1FBQ2xDLElBQUksQ0FBQyxRQUFRLEdBQUcsSUFBSSxDQUFDO1FBRXJCLElBQUksQ0FBQyxnQkFBZ0IsR0FBRyxLQUFLLENBQUM7UUFDOUIsSUFBSSxDQUFDLFdBQVcsSUFBSSxDQUFDLENBQUM7UUFFdEIsSUFBSSxDQUFDLFFBQVEsRUFBRSxhQUFhLEVBQUUsQ0FBQztRQUMvQixJQUFJLENBQUMsY0FBYyxFQUFFLE1BQU0sRUFBRSxDQUFDO1FBRTlCLElBQUksQ0FBQyxZQUFZLEdBQUcsQ0FBQyxDQUFDO1FBQ3RCLElBQUksQ0FBQyxjQUFjLEVBQUUsQ0FBQyxDQUFFLFNBQVM7SUFDckMsQ0FBQztDQUlKO0FBaEhELHdCQWdIQyJ9","assetPath":"Assets/BuilditTemplate/Modules/Scripts/Timer.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"automaticallyStart","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"timeout","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Timeout
+    in seconds\""]}]},{"assembly":"mscorlib","name":"repeatCount","type":"System.Single","isArray":false,"initValue":["1"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Does
+    the timer repeat multiple times\""]}]},{"assembly":"mscorlib","name":"interval","type":"System.Single","isArray":false,"initValue":["0.5"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"","name":"delegate","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Scripts/Timer.TimerInterface","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"OnCountdownStart","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"OnStep","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"OnCountdownEnd","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"Timer","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 8539fff04eab1a2200952d8bcf598ad6
+  onlyWriteTrigger: 0

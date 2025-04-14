@@ -1,0 +1,56 @@
+fileFormatVersion: 2
+guid: 33f34a28b90b4769a9b40a29c985bc52
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nclass ShakeAnimation extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        // [Header(\"Settings\")]\r\n       
+    this.time = 0.2;\r\n        // [Range(0f, 2f)]\r\n        this.distance = 0.1;\r\n       
+    // [Range(0f, 0.1f)]\r\n        this.interval = 0;\r\n        this.curveTimer
+    = 0;\r\n        this.intervalCurve = 0;\r\n        this.distanceCurve = 0;\r\n       
+    this._curveTimer = 0;\r\n    }\r\n    Awake() {\r\n        // this.OnValidate(); 
+    // Validate is disabled by default\r\n        this._startPos = this.transform.position;\r\n   
+    }\r\n    // private OnValidate() {\r\n    //     if (this.interval > this.time)\r\n   
+    //         this.interval = this.time;\r\n    // }\r\n    OnEnable() {\r\n       
+    console.log(\"Begin called from \");\r\n        console.log(this);\r\n       
+    this.StopAllCoroutines();\r\n        this._intervalTimer = this.interval;\r\n       
+    this.StartCoroutine(this.Shake());\r\n    }\r\n    *Shake() {\r\n        this._timer
+    = 0;\r\n        while (this._timer < this.time) {\r\n            this._timer
+    += UnityEngine_1.Time.deltaTime;\r\n            if ((this.intervalCurve != 0
+    || this.distanceCurve != 0) && this._curveTimer > this.curveTimer) {\r\n               
+    this.interval += this.intervalCurve;\r\n                this._curveTimer = 0;\r\n           
+    }\r\n            if (this._intervalTimer >= this.interval) {\r\n               
+    this._intervalTimer = 0;\r\n                this._intervalPos = this.transform.position;\r\n               
+    this._randomPos = UnityEngine_1.Vector3.op_Addition(this._startPos, new UnityEngine_1.Vector3(Math.random()
+    * this.distance, Math.random() * this.distance, Math.random() * this.distance));\r\n           
+    }\r\n            this._intervalTimer += UnityEngine_1.Time.deltaTime;\r\n           
+    this._curveTimer += UnityEngine_1.Time.deltaTime;\r\n            // Lerp to the
+    position\r\n            this.transform.position = //this._randomPos;\r\n               
+    UnityEngine_1.Vector3.Lerp(this._intervalPos, this._randomPos, this._intervalTimer
+    / this.interval);\r\n            // if (this.interval > 0)\r\n            //    
+    yield new WaitForSeconds(this.interval);\r\n            yield null;\r\n       
+    }\r\n        this.transform.position = this._startPos;\r\n    }\r\n}\r\nexports.default
+    = ShakeAnimation;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiU2hha2VBbmltYXRpb24uanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJTaGFrZUFuaW1hdGlvbi50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLGlEQUFvRDtBQUNwRCw2Q0FBc0c7QUFFdEcsTUFBcUIsY0FBZSxTQUFRLHFDQUFxQjtJQUFqRTs7UUFRSSx1QkFBdUI7UUFHaEIsU0FBSSxHQUFVLEdBQUcsQ0FBQztRQUN6QixrQkFBa0I7UUFDWCxhQUFRLEdBQVUsR0FBRyxDQUFDO1FBQzdCLG9CQUFvQjtRQUNiLGFBQVEsR0FBVSxDQUFDLENBQUM7UUFFcEIsZUFBVSxHQUFVLENBQUMsQ0FBQztRQUN0QixrQkFBYSxHQUFVLENBQUMsQ0FBQztRQUN6QixrQkFBYSxHQUFVLENBQUMsQ0FBQztRQUN4QixnQkFBVyxHQUFVLENBQUMsQ0FBQztJQXlEbkMsQ0FBQztJQXZEVyxLQUFLO1FBQ1QseURBQXlEO1FBRXpELElBQUksQ0FBQyxTQUFTLEdBQUcsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLENBQUM7SUFDN0MsQ0FBQztJQUVELHlCQUF5QjtJQUN6QixxQ0FBcUM7SUFDckMscUNBQXFDO0lBQ3JDLElBQUk7SUFFRyxRQUFRO1FBQ1gsT0FBTyxDQUFDLEdBQUcsQ0FBQyxvQkFBb0IsQ0FBQyxDQUFBO1FBQ2pDLE9BQU8sQ0FBQyxHQUFHLENBQUMsSUFBSSxDQUFDLENBQUE7UUFDakIsSUFBSSxDQUFDLGlCQUFpQixFQUFFLENBQUM7UUFDekIsSUFBSSxDQUFDLGNBQWMsR0FBRyxJQUFJLENBQUMsUUFBUSxDQUFDO1FBQ3BDLElBQUksQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLEtBQUssRUFBRSxDQUFDLENBQUM7SUFDdEMsQ0FBQztJQUVNLENBQUUsS0FBSztRQUNWLElBQUksQ0FBQyxNQUFNLEdBQUcsQ0FBQyxDQUFDO1FBRWhCLE9BQU8sSUFBSSxDQUFDLE1BQU0sR0FBRyxJQUFJLENBQUMsSUFBSSxFQUFFO1lBQzVCLElBQUksQ0FBQyxNQUFNLElBQUksa0JBQUksQ0FBQyxTQUFTLENBQUM7WUFFOUIsSUFBSSxDQUFDLElBQUksQ0FBQyxhQUFhLElBQUksQ0FBQyxJQUFJLElBQUksQ0FBQyxhQUFhLElBQUksQ0FBQyxDQUFDLElBQUksSUFBSSxDQUFDLFdBQVcsR0FBRyxJQUFJLENBQUMsVUFBVSxFQUFFO2dCQUM1RixJQUFJLENBQUMsUUFBUSxJQUFJLElBQUksQ0FBQyxhQUFhLENBQUM7Z0JBQ3BDLElBQUksQ0FBQyxXQUFXLEdBQUcsQ0FBQyxDQUFDO2FBQ3hCO1lBRUQsSUFBSSxJQUFJLENBQUMsY0FBYyxJQUFJLElBQUksQ0FBQyxRQUFRLEVBQUU7Z0JBRXRDLElBQUksQ0FBQyxjQUFjLEdBQUcsQ0FBQyxDQUFDO2dCQUN4QixJQUFJLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQyxTQUFTLENBQUMsUUFBUSxDQUFDO2dCQUM1QyxJQUFJLENBQUMsVUFBVSxHQTFEWixxQkFBTyxDQStFcTQzRCxXQUFZLENBckJ6NDNELElBQUksQ0FBQyxTQUFTLEVBQUcsSUFBSSxxQkFBTyxDQUMxQyxJQUFJLENBQUMsTUFBTSxFQUFFLEdBQUcsSUFBSSxDQUFDLFFBQVEsRUFDN0IsSUFBSSxDQUFDLE1BQU0sRUFBRSxHQUFHLElBQUksQ0FBQyxRQUFRLEVBQzdCLElBQUksQ0FBQyxNQUFNLEVBQUUsR0FBRyxJQUFJLENBQUMsUUFBUSxDQUFDLENBQUEsQ0FBQzthQUN0QztZQUNELElBQUksQ0FBQyxjQUFjLElBQUksa0JBQUksQ0FBQyxTQUFTLENBQUM7WUFDdEMsSUFBSSxDQUFDLFdBQVcsSUFBSSxrQkFBSSxDQUFDLFNBQVMsQ0FBQztZQUVuQyx1QkFBdUI7WUFDdkIsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLEdBQUcsa0JBQWtCO2dCQUM1QyxxQkFBTyxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUMsWUFBWSxFQUFFLElBQUksQ0FBQyxVQUFVLEVBQUMsSUFBSSxDQUFDLGNBQWMsR0FBRyxJQUFJLENBQUMsUUFBUSxDQUFDLENBQUM7WUFFckYseUJBQXlCO1lBQ3pCLCtDQUErQztZQUUvQyxNQUFNLElBQUksQ0FBQztTQUNkO1FBRUQsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLEdBQUcsSUFBSSxDQUFDLFNBQVMsQ0FBQztJQUM3QyxDQUFDO0NBRUo7QUE3RUQsaUNBNkVDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/Effects/ShakeAnimation.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"time","type":"System.Single","isArray":false,"initValue":["0.2"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Settings\""]}]},{"assembly":"mscorlib","name":"distance","type":"System.Single","isArray":false,"initValue":["0.1"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"interval","type":"System.Single","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"curveTimer","type":"System.Single","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"intervalCurve","type":"System.Single","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"distanceCurve","type":"System.Single","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"ShakeAnimation","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: a98e45d92e5d89d5302b26ce4d6988ba
+  onlyWriteTrigger: 0

@@ -1,0 +1,57 @@
+fileFormatVersion: 2
+guid: cd184febfa174c6dafb5c4e9d5b6641f
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.FXBase = void 0;\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nclass FXBase extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    // Initialized state\r\n    get initialized() { return this._initialized;
+    }\r\n    // Is the effect playing\r\n    get playing() { return this._playing;
+    }\r\n    // Elapsed time\r\n    get time() { return this._time; }\r\n    /**\r\n    
+    * Playback progress in percent, value between 0 and 1\r\n     */\r\n    get progress()
+    { return this.time / this.duration; }\r\n    /** ------------------------------------------------------------------------
+    */\r\n    // Playback functions\r\n    /**\r\n     * @inheritdoc\r\n     */\r\n   
+    Play() {\r\n        if (this._playing)\r\n            return;\r\n        if (this._time
+    == 0) {\r\n            this.Prepare();\r\n        }\r\n        this._playing
+    = true;\r\n        this.OnStart?.Invoke();\r\n    }\r\n    Pause() {\r\n       
+    if (this._playing == false)\r\n            return;\r\n        this._playing =
+    false;\r\n    }\r\n    Restart() {\r\n        this._playing = false;\r\n       
+    this._time = 0;\r\n        this.Play();\r\n    }\r\n    Stop() {\r\n        if
+    (this._playing == false)\r\n            return;\r\n        this._playing = false;\r\n       
+    this._Finish();\r\n        this._time = 0;\r\n    }\r\n    /** ------------------------------------------------------------------------
+    */\r\n    /** ------------------------------------------------------------------------
+    */\r\n    // Behaviour events\r\n    Awake() {\r\n        this._Initialize();\r\n   
+    }\r\n    Start() {\r\n        if (this.playOnAwake)\r\n            this.Play();\r\n   
+    }\r\n    Update() {\r\n        if (false == this._playing)\r\n            return;\r\n       
+    this._time += UnityEngine_1.Time.deltaTime;\r\n        // Normalize the time
+    (normalized time)\r\n        if (this._time > this.duration)\r\n            this._time
+    = this.duration;\r\n        // The Timed function\r\n        this.TimeFunction();\r\n       
+    if (this.duration <= this._time) {\r\n            this._Finish();\r\n       
+    }\r\n    }\r\n    /** ------------------------------------------------------------------------
+    */\r\n    // Private abstract derived methods\r\n    _Initialize() {\r\n       
+    if (this._initialized)\r\n            return;\r\n        this.Initialize();\r\n       
+    this._initialized = true;\r\n    }\r\n    _Finish() {\r\n        this.Finish();\r\n       
+    this.OnEnd?.Invoke();\r\n        if (this.destroyOnFinished)\r\n            UnityEngine_1.GameObject.Destroy(this.gameObject);\r\n   
+    }\r\n}\r\nexports.FXBase = FXBase;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRlhCYXNlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiRlhCYXNlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLGlEQUFzRDtBQUN0RCw2Q0FBMEQ7QUF3QjFELE1BQXNCLE1BQU8sU0FBUSxxQ0FBcUI7SUFvQnRELG9CQUFvQjtJQUNwQixJQUFXLFdBQVcsS0FBYyxPQUFPLElBQUksQ0FBQyxZQUFZLENBQUMsQ0FBQyxDQUFDO0lBRy9ELHdCQUF3QjtJQUN4QixJQUFXLE9BQU8sS0FBYyxPQUFPLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQyxDQUFDO0lBR3ZELGVBQWU7SUFDZixJQUFXLElBQUksS0FBWSxPQUFPLElBQUksQ0FBQyxLQUFLLENBQUMsQ0FBQyxDQUFDO0lBRy9DOztPQUVHO0lBQ0gsSUFBVyxRQUFRLEtBQVksT0FBTyxJQUFJLENBQUMsSUFBSSxHQUFHLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQyxDQUFDO0lBRWxFLCtFQUErRTtJQUMvRSxxQkFBcUI7SUFFckI7O09BRUc7SUFDSSxJQUFJO1FBQ1AsSUFBSSxJQUFJLENBQUMsUUFBUTtZQUNiLE9BQU87UUFFWCxJQUFJLElBQUksQ0FBQyxLQUFLLElBQUksQ0FBQyxFQUFFO1lBQ2pCLElBQUksQ0FBQyxPQUFPLEVBQUUsQ0FBQztTQUNsQjtRQUVELElBQUksQ0FBQyxRQUFRLEdBQUcsSUFBSSxDQUFDO1FBQ3JCLElBQUksQ0FBQyxPQUFPLEVBQUUsTUFBTSxFQUFFLENBQUM7SUFDM0IsQ0FBQztJQUVNLEtBQUs7UUFDUixJQUFJLElBQUksQ0FBQyxRQUFRLElBQUksS0FBSztZQUN0QixPQUFPO1FBRVgsSUFBSSxDQUFDLFFBQVEsR0FBRyxLQUFLLENBQUM7SUFDMUIsQ0FBQztJQUVNLE9BQU87UUFDVixJQUFJLENBQUMsUUFBUSxHQUFHLEtBQUssQ0FBQztRQUN0QixJQUFJLENBQUMsS0FBSyxHQUFHLENBQUMsQ0FBQztRQUVmLElBQUksQ0FBQyxJQUFJLEVBQUUsQ0FBQztJQUNoQixDQUFDO0lBRU0sSUFBSTtRQUNQLElBQUksSUFBSSxDQUFDLFFBQVEsSUFBSSxLQUFLO1lBQ3RCLE9BQU87UUFDWCxJQUFJLENBQUMsUUFBUSxHQUFHLEtBQUssQ0FBQztRQUV0QixJQUFJLENBQUMsT0FBTyxFQUFFLENBQUM7UUFFZixJQUFJLENBQUMsS0FBSyxHQUFHLENBQUMsQ0FBQztJQUNuQixDQUFDO0lBRUQsK0VBQStFO0lBRy9FLCtFQUErRTtJQUMvRSxtQkFBbUI7SUFFVCxLQUFLO1FBQ1gsSUFBSSxDQUFDLFdBQVcsRUFBRSxDQUFDO0lBQ3ZCLENBQUM7SUFFUyxLQUFLO1FBQ1gsSUFBSSxJQUFJLENBQUMsV0FBVztZQUNoQixJQUFJLENBQUMsSUFBSSxFQUFFLENBQUM7SUFDcEIsQ0FBQztJQUVTLE1BQU07UUFDWixJQUFJLEtBQUssSUFBSSxJQUFJLENBQUMsUUFBUTtZQUN0QixPQUFPO1FBRVgsSUFBSSxDQUFDLEtBQUssSUFBSSxrQkFBSSxDQUFDLFNBQVMsQ0FBQztRQUM3Qix1Q0FBdUM7UUFDdkMsSUFBSSxJQUFJLENBQUMsS0FBSyxHQUFHLElBQUksQ0FBQyxRQUFRO1lBQzFCLElBQUksQ0FBQyxLQUFLLEdBQUcsSUFBSSxDQUFDLFFBQVEsQ0FBQztRQUUvQixxQkFBcUI7UUFDckIsSUFBSSxDQUFDLFlBQVksRUFBRSxDQUFDO1FBRXBCLElBQUksSUFBSSxDQUFDLFFBQVEsSUFBSSxJQUFJLENBQUMsS0FBSyxFQUFFO1lBQzdCLElBQUksQ0FBQyxPQUFPLEVBQUUsQ0FBQztTQUNsQjtJQUNMLENBQUM7SUFFRCwrRUFBK0U7SUFDL0UsbUNBQW1DO0lBRTNCLFdBQVc7UUFDZixJQUFJLElBQUksQ0FBQyxZQUFZO1lBQ2pCLE9BQU87UUFFWCxJQUFJLENBQUMsVUFBVSxFQUFFLENBQUM7UUFFbEIsSUFBSSxDQUFDLFlBQVksR0FBRyxJQUFJLENBQUM7SUFDN0IsQ0FBQztJQUVPLE9BQU87UUFFWCxJQUFJLENBQUMsTUFBTSxFQUFFLENBQUM7UUFFZCxJQUFJLENBQUMsS0FBSyxFQUFFLE1BQU0sRUFBRSxDQUFDO1FBRXJCLElBQUksSUFBSSxDQUFDLGlCQUFpQjtZQUN0Qix3QkFBVSxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUM7SUFDNUMsQ0FBQztDQW9DSjtBQXZLRCx3QkF1S0MifQ==","assetPath":"Assets/BuilditTemplate/Modules/Scripts/Effects/FXBase.ts","manifest":{"properties":[],"name":"FXBase","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 4fe5e7e3ca1108bb8b88d0d52cce5e14
+  onlyWriteTrigger: 0

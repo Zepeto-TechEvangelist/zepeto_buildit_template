@@ -1,0 +1,39 @@
+fileFormatVersion: 2
+guid: bc16b8a63ad34a22901fef68c31eff38
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nclass Explosion extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this._triggered
+    = false;\r\n        this._expiredTime = 0;\r\n    }\r\n    Start() {\r\n       
+    const speed = this.size / this.duration;\r\n        this._triggered = true;\r\n       
+    this._initialScale = this.transform.localScale;\r\n    }\r\n    Update() {\r\n       
+    if (!this._triggered)\r\n            return;\r\n        this._expiredTime +=
+    UnityEngine_1.Time.deltaTime;\r\n        this.transform.localScale = UnityEngine_1.Vector3.Lerp(this._initialScale,
+    UnityEngine_1.Vector3.op_Multiply(this._initialScale, this.size), this._expiredTime
+    / this.duration);\r\n        if (this.duration <= this._expiredTime) {\r\n           
+    this.gameObject.SetActive(false);\r\n        }\r\n    }\r\n}\r\nexports.default
+    = Explosion;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRXhwbG9zaW9uLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiRXhwbG9zaW9uLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQ0EsaURBQXNEO0FBQ3RELDZDQUF1RDtBQUV2RCxNQUFxQixTQUFVLFNBQVEscUNBQXFCO0lBQTVEOztRQU1ZLGVBQVUsR0FBWSxLQUFLLENBQUM7UUFDNUIsaUJBQVksR0FBVyxDQUFDLENBQUM7SUFvQnJDLENBQUM7SUFsQkcsS0FBSztRQUNELE1BQU0sS0FBSyxHQUFHLElBQUksQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDLFFBQVEsQ0FBQztRQUV4QyxJQUFJLENBQUMsVUFBVSxHQUFHLElBQUksQ0FBQztRQUN2QixJQUFJLENBQUMsYUFBYSxHQUFHLElBQUksQ0FBQyxTQUFTLENBQUMsVUFBVSxDQUFDO0lBQ25ELENBQUM7SUFFRCxNQUFNO1FBQ0YsSUFBSSxDQUFDLElBQUksQ0FBQyxVQUFVO1lBQUUsT0FBTztRQUU3QixJQUFJLENBQUMsWUFBWSxJQUFJLGtCQUFJLENBQUMsU0FBUyxDQUFDO1FBRXBDLElBQUksQ0FBQyxTQUFTLENBQUMsVUFBVSxHQUFHLHFCQUFPLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxhQUFhLEVBdkIvQyxxQkFBTyxDQTZCMnI3RCxXQUFZLENBTjdwN0QsSUFBSSxDQUFDLGFBQWEsRUFBRyxJQUFJLENBQUMsSUFBSSxHQUFFLElBQUksQ0FBQyxZQUFZLEdBQUcsSUFBSSxDQUFDLFFBQVEsQ0FBQyxDQUFDO1FBRWhJLElBQUksSUFBSSxDQUFDLFFBQVEsSUFBSSxJQUFJLENBQUMsWUFBWSxFQUFFO1lBQ3BDLElBQUksQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxDQUFDO1NBQ3BDO0lBQ0wsQ0FBQztDQUNKO0FBM0JELDRCQTJCQyJ9","assetPath":"Assets/BuilditTemplate/Themes/JumpMaster_Traps/Scripts/Explosion.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"duration","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"size","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"Explosion","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: abec5c2b0c8323632f1a9a5973df5158
+  onlyWriteTrigger: 0

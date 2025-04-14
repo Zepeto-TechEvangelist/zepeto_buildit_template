@@ -1,0 +1,45 @@
+fileFormatVersion: 2
+guid: 7b586d1c422543a9acc8c39a7d74c9ee
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst PlayerTrigger_1 = require(\"./PlayerTrigger\");\r\nconst
+    MotionModifier_1 = require(\"./MotionModifier\");\r\nclass MotionModifierZone
+    extends MotionModifier_1.default {\r\n    Start() {\r\n        this._playerTrigger
+    = this.GetComponentInChildren($typeof(PlayerTrigger_1.default));\r\n        this._playerTrigger.delegate
+    = this;\r\n    }\r\n    /** ------------------------------------------------------------------------
+    */\r\n    // Player trigger delegate\r\n    OnPlayerEnter(character, type) {\r\n       
+    console.log(\"Player enter trigger\");\r\n        this.ApplyModifiers(character);\r\n   
+    }\r\n    OnPlayerStay(character, type) {\r\n        // Intentionally left empty\r\n   
+    }\r\n    OnPlayerExit(character, type) {\r\n        this.RestoreState(character);\r\n   
+    }\r\n}\r\nexports.default = MotionModifierZone;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTW90aW9uTW9kaWZpZXJab25lLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiTW90aW9uTW9kaWZpZXJab25lLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQ0EsbURBQTZGO0FBQzdGLHFEQUE4QztBQUU5QyxNQUFxQixrQkFBbUIsU0FBUSx3QkFBYztJQVExRCxLQUFLO1FBQ0QsSUFBSSxDQUFDLGNBQWMsR0FBRyxJQUFJLENBQUMsc0JBQXNCLFNBQUMsdUJBQWEsRUFBRyxDQUFDO1FBQ25FLElBQUksQ0FBQyxjQUFjLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQztJQUN4QyxDQUFDO0lBRUQsK0VBQStFO0lBQy9FLDBCQUEwQjtJQUUxQixhQUFhLENBQUMsU0FBMEIsRUFBRSxJQUF5QjtRQUMvRCxPQUFPLENBQUMsR0FBRyxDQUFDLHNCQUFzQixDQUFDLENBQUE7UUFDbkMsSUFBSSxDQUFDLGNBQWMsQ0FBQyxTQUFTLENBQUMsQ0FBQztJQUNuQyxDQUFDO0lBQ0QsWUFBWSxDQUFDLFNBQTBCLEVBQUUsSUFBeUI7UUFDOUQsMkJBQTJCO0lBQy9CLENBQUM7SUFDRCxZQUFZLENBQUMsU0FBMEIsRUFBRSxJQUF5QjtRQUM5RCxJQUFJLENBQUMsWUFBWSxDQUFDLFNBQVMsQ0FBQyxDQUFDO0lBQ2pDLENBQUM7Q0FFSjtBQTNCRCxxQ0EyQkMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Scripts/MotionModifierZone.ts","manifest":{"properties":[{"assembly":"","name":"modifyJump","type":"ModifierType","isArray":false,"initValue":["Multiplicative"],"enumKeys":["Additive","Flat","Multiplicative"],"enumValues":["0","1","2"],"attributes":[{"name":"Tooltip","args":["\"The
+    type of modification applied to jump power\""]}]},{"assembly":"mscorlib","name":"jumpPower","type":"System.Single","isArray":false,"initValue":["2"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"The
+    value of modification to \""]}]},{"assembly":"","name":"modifyRun","type":"ModifierType","isArray":false,"initValue":["Multiplicative"],"enumKeys":["Additive","Flat","Multiplicative"],"enumValues":["0","1","2"],"attributes":[{"name":"Tooltip","args":["\"The
+    type of modification applied to run speed\""]}]},{"assembly":"mscorlib","name":"runSpeed","type":"System.Single","isArray":false,"initValue":["2"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"The
+    value of modification to run speed\""]}]},{"assembly":"","name":"modifyWalk","type":"ModifierType","isArray":false,"initValue":["Multiplicative"],"enumKeys":["Additive","Flat","Multiplicative"],"enumValues":["0","1","2"],"attributes":[{"name":"Tooltip","args":["\"The
+    type of modification applied to walk speed\""]}]},{"assembly":"mscorlib","name":"walkSpeed","type":"System.Single","isArray":false,"initValue":["2"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"The
+    value of modification to walk speed\""]}]},{"assembly":"","name":"modifyGravity","type":"ModifierType","isArray":false,"initValue":["Multiplicative"],"enumKeys":["Additive","Flat","Multiplicative"],"enumValues":["0","1","2"],"attributes":[{"name":"Tooltip","args":["\"The
+    type of modification applied to gravity\""]}]},{"assembly":"mscorlib","name":"gravity","type":"System.Single","isArray":false,"initValue":["0.5"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"The
+    value of modification to gravity\""]}]}],"name":"MotionModifierZone","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 967b557a387e001b04ceccd947d3373e
+  onlyWriteTrigger: 0

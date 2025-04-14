@@ -1,0 +1,42 @@
+fileFormatVersion: 2
+guid: c22a3cf5e5604115883718ba5253e775
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    Timer_1 = require(\"./Timer\");\r\nconst PlayerTrigger_1 = require(\"./PlayerTrigger\");\r\nclass
+    TriggerTimerController extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n   
+    constructor() {\r\n        super(...arguments);\r\n        this._triggerActivated
+    = false;\r\n    }\r\n    get playerTrigger() { return this._playerTrigger; }\r\n   
+    get timer() { return this._timer; }\r\n    Awake() {\r\n        this._playerTrigger
+    = this.GetComponent($typeof(PlayerTrigger_1.default));\r\n        this._timer
+    = this.GetComponent($typeof(Timer_1.default));\r\n        this._playerTrigger.delegate
+    = this;\r\n        this._timer.delegate = this;\r\n    }\r\n    OnPlayerEnter(character,
+    type) {\r\n        this._timer.StartTimer();\r\n    }\r\n    OnPlayerExit(character,
+    type) {\r\n    }\r\n    OnCountdownStart() {\r\n        // this.timerDisplay.gameObject.SetActive(true);\r\n   
+    }\r\n    OnStep() {\r\n        this.timerDisplay.text = `${Math.ceil(this._timer.remainingTime)}`;\r\n   
+    }\r\n    OnCoundownEnd() {\r\n        this.timerDisplay.gameObject.SetActive(false);\r\n       
+    this._triggerActivated = true;\r\n        this.activator?.Invoke();\r\n    }\r\n}\r\nexports.default
+    = TriggerTimerController;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHJpZ2dlclRpbWVyQ29udHJvbGxlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlRyaWdnZXJUaW1lckNvbnRyb2xsZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBc0Q7QUFFdEQsbUNBQThDO0FBQzlDLG1EQUEyRjtBQU0zRixNQUFxQixzQkFBdUIsU0FBUSxxQ0FBcUI7SUFBekU7O1FBT1ksc0JBQWlCLEdBQVksS0FBSyxDQUFDO0lBbUMvQyxDQUFDO0lBaENHLElBQVcsYUFBYSxLQUFvQixPQUFPLElBQUksQ0FBQyxjQUFjLENBQUMsQ0FBQyxDQUFDO0lBRXpFLElBQVcsS0FBSyxLQUFZLE9BQU8sSUFBSSxDQUFDLE1BQU0sQ0FBQyxDQUFDLENBQUM7SUFFakQsS0FBSztRQUNELElBQUksQ0FBQyxjQUFjLEdBQUcsSUFBSSxDQUFDLFlBQVksU0FBQyx1QkFBYSxFQUFHLENBQUM7UUFDekQsSUFBSSxDQUFDLE1BQU0sR0FBRyxJQUFJLENBQUMsWUFBWSxTQUFDLGVBQUssRUFBRyxDQUFDO1FBRXpDLElBQUksQ0FBQyxjQUFjLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQztRQUNwQyxJQUFJLENBQUMsTUFBTSxDQUFDLFFBQVEsR0FBRyxJQUFJLENBQUM7SUFDaEMsQ0FBQztJQUVELGFBQWEsQ0FBQyxTQUEwQixFQUFFLElBQXlCO1FBQy9ELElBQUksQ0FBQyxNQUFNLENBQUMsVUFBVSxFQUFFLENBQUM7SUFDN0IsQ0FBQztJQUVELFlBQVksQ0FBQyxTQUEwQixFQUFFLElBQXlCO0lBQ2xFLENBQUM7SUFFRCxnQkFBZ0I7UUFDWixnREFBZ0Q7SUFDcEQsQ0FBQztJQUVELE1BQU07UUFDRixJQUFJLENBQUMsWUFBWSxDQUFDLElBQUksR0FBRyxHQUFHLElBQUksQ0FBQyxJQUFJLENBQUMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxhQUFhLENBQUMsRUFBRSxDQUFDO0lBQ3ZFLENBQUM7SUFFRCxhQUFhO1FBQ1QsSUFBSSxDQUFDLFlBQVksQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxDQUFDO1FBQzlDLElBQUksQ0FBQyxpQkFBaUIsR0FBRyxJQUFJLENBQUM7UUFDOUIsSUFBSSxDQUFDLFNBQVMsRUFBRSxNQUFNLEVBQUUsQ0FBQztJQUM3QixDQUFDO0NBQ0o7QUExQ0QseUNBMENDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/TriggerTimerController.ts","manifest":{"properties":[{"assembly":"Unity.TextMeshPro","name":"timerDisplay","type":"TMPro.TextMeshPro","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"activator","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"TriggerTimerController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 6d88198c2d0489315defb81b5519a77f
+  onlyWriteTrigger: 0
