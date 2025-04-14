@@ -1,0 +1,39 @@
+fileFormatVersion: 2
+guid: c9b5fe6dd0bc4486857f3bada0d02d14
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst Timer_1 = require(\"../../../Modules/Scripts/Timer\");\r\nconst
+    UnityEngine_Events_1 = require(\"UnityEngine.Events\");\r\nclass ShrinkingPlatform
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n       
+    super(...arguments);\r\n        this._minSpeed = 0.1;\r\n    }\r\n    Start()
+    {\r\n        let timer = this.GetComponentInChildren($typeof(Timer_1.default));\r\n       
+    let animator = this.GetComponentInChildren($typeof(UnityEngine_1.Animator));\r\n       
+    timer.timeout = this.timeout;\r\n        timer?.StartTimer();\r\n        this.speed
+    = Math.max(this._minSpeed, this.speed);\r\n        animator.speed = this.speed;\r\n       
+    timer.OnCountdownEnd = new UnityEngine_Events_1.UnityEvent();\r\n        timer?.OnCountdownEnd.AddListener(()
+    => {\r\n            this._open != this._open;\r\n            animator.SetTrigger(\"open\");\r\n       
+    });\r\n    }\r\n}\r\nexports.default = ShrinkingPlatform;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiU2hyaW5raW5nUGxhdGZvcm0uanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJTaHJpbmtpbmdQbGF0Zm9ybS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUF1QztBQUN2QyxpREFBcUQ7QUFDckQsMERBQW1EO0FBQ25ELDJEQUFnRDtBQUVoRCxNQUFxQixpQkFBa0IsU0FBUSxxQ0FBcUI7SUFBcEU7O1FBTVksY0FBUyxHQUFHLEdBQUcsQ0FBQztJQXFCNUIsQ0FBQztJQWpCRyxLQUFLO1FBQ0QsSUFBSSxLQUFLLEdBQUcsSUFBSSxDQUFDLHNCQUFzQixTQUFDLGVBQUssRUFBRyxDQUFDO1FBQ2pELElBQUksUUFBUSxHQUFHLElBQUksQ0FBQyxzQkFBc0IsU0FBQyxzQkFBUSxFQUFHLENBQUM7UUFFdkQsS0FBSyxDQUFDLE9BQU8sR0FBRyxJQUFJLENBQUMsT0FBTyxDQUFDO1FBQzdCLEtBQUssRUFBRSxVQUFVLEVBQUUsQ0FBQztRQUVwQixJQUFJLENBQUMsS0FBSyxHQUFHLElBQUksQ0FBQyxHQUFHLENBQUMsSUFBSSxDQUFDLFNBQVMsRUFBRSxJQUFJLENBQUMsS0FBSyxDQUFDLENBQUM7UUFDbEQsUUFBUSxDQUFDLEtBQUssR0FBRyxJQUFJLENBQUMsS0FBSyxDQUFDO1FBRTVCLEtBQUssQ0FBQyxjQUFjLEdBQUcsSUFBSSwrQkFBVSxFQUFFLENBQUM7UUFDeEMsS0FBSyxFQUFFLGNBQWMsQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQ25DLElBQUksQ0FBQyxLQUFLLElBQUksSUFBSSxDQUFDLEtBQUssQ0FBQztZQUN6QixRQUFRLENBQUMsVUFBVSxDQUFDLE1BQU0sQ0FBQyxDQUFDO1FBQ2hDLENBQUMsQ0FBQyxDQUFDO0lBQ1AsQ0FBQztDQUVKO0FBM0JELG9DQTJCQyJ9","assetPath":"Assets/BuilditTemplate/Themes/JumpMaster_Traps/Scripts/ShrinkingPlatform.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"timeout","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"speed","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"ShrinkingPlatform","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 0e11aa86d6cf66c9b52f0f520621df6b
+  onlyWriteTrigger: 0

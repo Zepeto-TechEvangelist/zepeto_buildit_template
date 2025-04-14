@@ -1,0 +1,34 @@
+fileFormatVersion: 2
+guid: 39262f54ddbb4039bbfc66f136ec2d6e
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    TrapManager_1 = require(\"./TrapManager\");\r\nconst PlayerTrigger_1 = require(\"../../../Modules/Scripts/PlayerTrigger\");\r\nconst
+    UnityEngine_Events_1 = require(\"UnityEngine.Events\");\r\nclass ContactTrap
+    extends PlayerTrigger_1.default {\r\n    Awake() {\r\n        this.OnPlayerEnter
+    = new ($generic(UnityEngine_Events_1.UnityEvent$1, ZEPETO_Character_Controller_1.ZepetoCharacter))();\r\n       
+    this.OnPlayerEnter.AddListener((_) => {\r\n            TrapManager_1.default.instance.TeleportCharacter();\r\n       
+    });\r\n    }\r\n}\r\nexports.default = ContactTrap;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ29udGFjdFRyYXAuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJDb250YWN0VHJhcC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZFQUE2RTtBQUU3RSwrQ0FBd0M7QUFDeEMsMEVBQW1IO0FBQ25ILDJEQUFnRDtBQUVoRCxNQUFxQixXQUFZLFNBQVEsdUJBQWE7SUFFbEQsS0FBSztRQUNELElBQUksQ0FBQyxhQUFhLGlCQUFPLGlDQUFZLEVBQUMsNkNBQWUsSUFBRyxDQUFDO1FBQ3pELElBQUksQ0FBQyxhQUFhLENBQUMsV0FBVyxDQUFDLENBQUMsQ0FBQyxFQUFFLEVBQUU7WUFDakMscUJBQVcsQ0FBQyxRQUFRLENBQUMsaUJBQWlCLEVBQUUsQ0FBQztRQUM3QyxDQUFDLENBQUMsQ0FBQztJQUNQLENBQUM7Q0FFSjtBQVRELDhCQVNDIn0=","assetPath":"Assets/BuilditTemplate/Themes/JumpMaster_Traps/Scripts/ContactTrap.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"detectLocalPlayer","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"detectNetworkPlayer","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"detectNpc","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"","name":"OnPlayerEnter","type":"UnityEngine.Events.UnityEvent$1","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"","name":"OnPlayerExit","type":"UnityEngine.Events.UnityEvent$1","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"","name":"delegate","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Scripts/PlayerTrigger.PlayerTriggerInterface","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"ContactTrap","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: aa846dcf99414392f5ebbfd39910d1f0
+  onlyWriteTrigger: 0
