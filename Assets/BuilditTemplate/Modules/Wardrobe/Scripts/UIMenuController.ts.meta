@@ -1,0 +1,113 @@
+fileFormatVersion: 2
+guid: ff67654bfd1d4bb1b73ccb8937f63044
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\nexports.Direction = void 0;\\r\\nconst
+    UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nclass
+    UIMenuController extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    constructor()
+    {\\r\\n        super(...arguments);\\r\\n        this.direction = Direction.Left;\\r\\n       
+    this._touchBlockDelay = 0.5;\\r\\n        this._menuVisible = false;\\r\\n       
+    // private readonly _panelScreenInfo = {\\r\\n        //     landscape: { posX:
+    -132, top: 204, bottom: 280 },\\r\\n        //     portrait: { posX: -20, top:
+    537, bottom: 548 },\\r\\n        // } as ScreenInfo;\\r\\n        this._directionScreen
+    = {\\r\\n            left: { l: 0, r: 0, t: 0, b: 0, w: 320, h: 1, pivot: { x:
+    0, y: 0.5 }, anchors: Anchors.left },\\r\\n            right: { l: 0, r: 0, t:
+    0, b: 0, w: 320, h: 1, pivot: { x: 1, y: 0.5 }, anchors: Anchors.right },\\r\\n           
+    bottom: { l: 0, r: 0, t: 0, b: 0, w: 0, h: 200, pivot: { x: 0, y: 0 }, anchors:
+    Anchors.bottom },\\r\\n        };\\r\\n        // public HideList(isHidingForSequenceExecution:
+    boolean) {\\r\\n        //     if (!this.isVisible) {\\r\\n        //        
+    return;\\r\\n        //     }\\r\\n        //     this._isShowingList = false;\\r\\n       
+    //     this._listClosed.Invoke(isHidingForSequenceExecution);\\r\\n        //    
+    this.Hide();\\r\\n        // }\\r\\n        //\\r\\n        // private *SetTitlePanelPosition()
+    {\\r\\n        //     yield WaitPool.endOfFrame;\\r\\n        //\\r\\n       
+    //     const topItemPosY: number = this._itemInstances[0].gameObject.GetComponent<RectTransform>().anchoredPosition.y;\\r\\n       
+    //     const titlePanelPosY: number = topItemPosY + 70; // \uCD5C\uC0C1\uB2E8
+    \uC544\uC774\uD15C\uACFC \uD0C0\uC774\uD2C0 \uC0AC\uC774\uC758 \uAC04\uACA9\\r\\n       
+    //     this.titlePanel.anchoredPosition = new Vector2(this.titlePanel.anchoredPosition.x,
+    titlePanelPosY);\\r\\n        // }\\r\\n        // private *SetTouchDetection()
+    {\\r\\n        //     yield WaitPool.Seconds(this._touchBlockDelay);\\r\\n       
+    //     while (this.isVisible) {\\r\\n        //         if (Input.touchCount
+    > 0 && Input.GetTouch(0).phase === TouchPhase.Began) {\\r\\n        //            
+    if (!this._uiManager.CheckHitUILayer(Input.GetTouch(0).position)) {\\r\\n       
+    //                 this.Hide();\\r\\n        //             }\\r\\n        //        
+    }\\r\\n        //         yield null;\\r\\n        //     }\\r\\n        // }\\r\\n       
+    //\\r\\n        // private UpdateListItem(item: UIListInteractionItem, info:
+    ListInteractionInfo) {\\r\\n        //     NewWorldBase.localization.ApplyLocalization(item.text,
+    info.text);\\r\\n        //     item.icon.sprite = info.icon;\\r\\n        //    
+    if (info.badge != null) {\\r\\n        //         item.badge.sprite = info.badge;\\r\\n       
+    //         item.badge.gameObject.SetActive(true);\\r\\n        //     } else
+    {\\r\\n        //         item.badge.gameObject.SetActive(false);\\r\\n       
+    //     }\\r\\n        //     item.mainButton.onClick.RemoveAllListeners();\\r\\n       
+    //     if (info.isActive) {\\r\\n        //         item.canvasGroup.alpha =
+    1;\\r\\n        //         item.mainButton.onClick.AddListener(() => {\\r\\n       
+    //             info.callback();\\r\\n        //             this.HideList(true);\\r\\n       
+    //         });\\r\\n        //     } else {\\r\\n        //         item.canvasGroup.alpha
+    = 0.5;\\r\\n        //     }\\r\\n        // }\\r\\n    }\\r\\n    get menuVisible()
+    {\\r\\n        return this._menuVisible;\\r\\n    }\\r\\n    Awake() {\\r\\n       
+    this.OnInitUI();\\r\\n    }\\r\\n    OnInitUI() {\\r\\n        let rect;\\r\\n       
+    switch (this.direction) {\\r\\n            case Direction.Left:\\r\\n               
+    rect = this._directionScreen.left;\\r\\n                break;\\r\\n           
+    case Direction.Right:\\r\\n                rect = this._directionScreen.right;\\r\\n               
+    break;\\r\\n            case Direction.Bottom:\\r\\n                rect = this._directionScreen.bottom;\\r\\n               
+    break;\\r\\n        }\\r\\n        this.panelRect.anchorMin = new UnityEngine_1.Vector2(rect.anchors.min.x,
+    rect.anchors.min.y);\\r\\n        this.panelRect.anchorMax = new UnityEngine_1.Vector2(rect.anchors.max.x,
+    rect.anchors.max.y);\\r\\n        this.panelRect.pivot = new UnityEngine_1.Vector2(rect.pivot.x,
+    rect.pivot.y);\\r\\n        this.panelRect.sizeDelta = new UnityEngine_1.Vector2(rect.w,
+    rect.h);\\r\\n    }\\r\\n    OnShowUI() {\\r\\n    }\\r\\n    // protected OnChangeScreenMode()
+    {\\r\\n    //     this.ChangeRectByScreenMode(mode, this.panelRect, this._panelScreenInfo);\\r\\n   
+    // }\\r\\n    OnHideUI(isFromInit) {\\r\\n    }\\r\\n    IsEnableShow() {\\r\\n       
+    return true;\\r\\n    }\\r\\n    IsEnableHide() {\\r\\n        return true;\\r\\n   
+    }\\r\\n    Hide() {\\r\\n        this.onClosed();\\r\\n        this._menuVisible
+    = false;\\r\\n    }\\r\\n    ShowMenu() {\\r\\n        if (!this._menuVisible)
+    {\\r\\n            // this.Show();\\r\\n        }\\r\\n        this.closeButton.onClick.RemoveAllListeners();\\r\\n       
+    this.closeButton.onClick.AddListener(() => this.Hide());\\r\\n        // if (titleKey)
+    {\\r\\n        //     this.titleText.text = titleKey; // TODO: Localize\\r\\n       
+    // } else {\\r\\n        //     this.titleText.text = \\\"\\\";\\r\\n       
+    // }\\r\\n        this.onOpened();\\r\\n        //this._isVisible = true;\\r\\n       
+    // this.StartCoroutine(this.SetTitlePanelPosition());\\r\\n        // this.StartCoroutine(this.SetTouchDetection());\\r\\n   
+    }\\r\\n}\\r\\nexports.default = UIMenuController;\\r\\nvar Direction;\\r\\n(function
+    (Direction) {\\r\\n    Direction[Direction[\\\"Left\\\"] = 0] = \\\"Left\\\";\\r\\n   
+    Direction[Direction[\\\"Bottom\\\"] = 1] = \\\"Bottom\\\";\\r\\n    Direction[Direction[\\\"Right\\\"]
+    = 2] = \\\"Right\\\";\\r\\n    Direction[Direction[\\\"Top\\\"] = 3] = \\\"Top\\\";\\r\\n})(Direction
+    = exports.Direction || (exports.Direction = {}));\\r\\nconst Anchors = {\\r\\n   
+    left: {\\r\\n        min: { x: 0, y: 0 },\\r\\n        max: { x: 0, y: 1 }\\r\\n   
+    },\\r\\n    right: {\\r\\n        min: { x: 1, y: 0 },\\r\\n        max: { x:
+    1, y: 1 }\\r\\n    },\\r\\n    bottom: {\\r\\n        min: { x: 0, y: 0 },\\r\\n       
+    max: { x: 1, y: 0 }\\r\\n    },\\r\\n    top: {\\r\\n        min: { x: 0, y:
+    1 },\\r\\n        max: { x: 1, y: 1 }\\r\\n    }\\r\\n};\\r\\n// RectTransform
+    rectTransform;\\r\\n//\\r\\n// /*Left*/ rectTransform.offsetMin.x;\\r\\n// /*Right*/
+    rectTransform.offsetMax.x;\\r\\n// /*Top*/ rectTransform.offsetMax.y;\\r\\n//
+    /*Bottom*/ rectTransform.offsetMin.y;\\r\\n// public static class RectTransformExtensions\\r\\n//
+    {\\r\\n//     public static RectTransform Left( this RectTransform rt, float
+    x )\\r\\n// {\\r\\n//     rt.offsetMin = new Vector2( x, rt.offsetMin.y );\\r\\n//    
+    return rt;\\r\\n// }\\r\\n//\\r\\n// public static RectTransform Right( this
+    RectTransform rt, float x )\\r\\n// {\\r\\n//     rt.offsetMax = new Vector2(
+    -x, rt.offsetMax.y );\\r\\n//     return rt;\\r\\n// }\\r\\n//\\r\\n// public
+    static RectTransform Bottom( this RectTransform rt, float y )\\r\\n// {\\r\\n//    
+    rt.offsetMin = new Vector2( rt.offsetMin.x, y );\\r\\n//     return rt;\\r\\n//
+    }\\r\\n//\\r\\n// public static RectTransform Top( this RectTransform rt, float
+    y )\\r\\n// {\\r\\n//     rt.offsetMax = new Vector2( rt.offsetMax.x, -y );\\r\\n//    
+    return rt;\\r\\n// }\\r\\n// }\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVUlNZW51Q29udHJvbGxlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlVJTWVudUNvbnRyb2xsZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQUEsNkNBQThEO0FBRzlELGlEQUFvRDtBQUlwRCxNQUFxQixnQkFBaUIsU0FBUSxxQ0FBcUI7SUFBbkU7O1FBT1csY0FBUyxHQUFjLFNBQVMsQ0FBQyxJQUFJLENBQUM7UUFFNUIscUJBQWdCLEdBQUcsR0FBRyxDQUFDO1FBQ2hDLGlCQUFZLEdBQVksS0FBSyxDQUFDO1FBQ3RDLHdDQUF3QztRQUN4Qyx3REFBd0Q7UUFDeEQsc0RBQXNEO1FBQ3RELG1CQUFtQjtRQUVGLHFCQUFnQixHQUFHO1lBQ2hDLElBQUksRUFBRSxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLEdBQUcsRUFBRSxDQUFDLEVBQUMsQ0FBQyxFQUFFLEtBQUssRUFBRSxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLEdBQUcsRUFBRSxFQUFFLE9BQU8sRUFBRSxPQUFPLENBQUMsSUFBSSxFQUFFO1lBQzdGLEtBQUssRUFBRSxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLEdBQUcsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLEtBQUssRUFBRSxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLEdBQUcsRUFBRSxFQUFFLE9BQU8sRUFBRSxPQUFPLENBQUMsS0FBSyxFQUFFO1lBQ2hHLE1BQU0sRUFBRSxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxFQUFFLENBQUMsRUFBRSxDQUFDLEVB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\",\"assetPath\":\"Assets/BuilditTemplate/Modules/Wardrobe/Scripts/UIMenuController.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"root\",\"type\":\"UnityEngine.Transform\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.UI\",\"name\":\"closeButton\",\"type\":\"UnityEngine.UI.Button\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.UI\",\"name\":\"titleText\",\"type\":\"UnityEngine.UI.Text\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"titlePanel\",\"type\":\"UnityEngine.RectTransform\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"panelRect\",\"type\":\"UnityEngine.RectTransform\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"\",\"name\":\"direction\",\"type\":\"Direction\",\"isArray\":false,\"initValue\":[\"Left\"],\"enumKeys\":[\"Left\",\"Bottom\",\"Right\",\"Top\"],\"enumValues\":[\"0\",\"1\",\"2\",\"3\"],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"open\",\"type\":\"UnityEngine.Events.UnityEvent\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"close\",\"type\":\"UnityEngine.Events.UnityEvent\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"\",\"name\":\"onOpened\",\"type\":\"__type\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"\",\"name\":\"onClosed\",\"type\":\"__type\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]}],\"name\":\"UIMenuController\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: 9ab82a6e19a08b52c86bf872fb64e35e
+  onlyWriteTrigger: 0
