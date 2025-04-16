@@ -2,6 +2,9 @@ import { ZepetoCharacter } from 'ZEPETO.Character.Controller';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
 import MotionModifier, {ModifierType} from '../../../Modules/Scripts/MotionModifier';
 import MotionModifierZone from '../../../Modules/Scripts/MotionModifierZone';
+import { Animation } from 'UnityEngine';
+import { UnityEvent$1 } from 'UnityEngine.Events';
+
 
 export default class BuffPlatform extends ZepetoScriptBehaviour
 {
@@ -10,6 +13,7 @@ export default class BuffPlatform extends ZepetoScriptBehaviour
     public jumpPower: float;
     
     private _zone: MotionModifierZone;
+    private _animator: Animation;
     
     Awake() {
         this._zone = this.GetComponentInChildren<MotionModifierZone>();
@@ -23,5 +27,18 @@ export default class BuffPlatform extends ZepetoScriptBehaviour
         this._zone.modifyGravity = ModifierType.Additive;
     }
 
+    
+    Start() {
+        // Animation triggered playback
+        this._animator = this.GetComponentInChildren<Animation>();
+        var enterEvent = new UnityEvent$1<ZepetoCharacter>();
+        enterEvent.AddListener((character) => { this._animator.Play(); });
+        this._zone.trigger.OnPlayerEnter = enterEvent;
+
+        var exitEvent = new UnityEvent$1<ZepetoCharacter>();
+        exitEvent.AddListener((character) => { this._animator.Stop(); });
+        this._zone.trigger.OnPlayerExit = exitEvent;
+    }
+    
 
 }

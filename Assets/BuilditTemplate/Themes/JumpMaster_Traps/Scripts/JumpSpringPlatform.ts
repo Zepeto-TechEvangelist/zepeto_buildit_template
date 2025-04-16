@@ -9,12 +9,14 @@ export default class JumpSpringPlatform extends ZepetoScriptBehaviour implements
     @Tooltip("Jump acceleration when the spring is activated")
     public jumpPower: number = 4;
 
+    @Tooltip("Delay before spring is automatically activated")
+    public delayJumpTimer: number = 1.5;
    
     private _particleEffect: ParticleSystem;
     
     private _isTrrggerBool: boolean = false;
     private _minJumpPower: number = 4;
-    private _delayJumpTimer: number = 1.5;
+    
     private _currentDelayTimer: number = 0;
     private _jumpTimer: number = 0.4;
     private _jumpBool: boolean = true;
@@ -32,7 +34,7 @@ export default class JumpSpringPlatform extends ZepetoScriptBehaviour implements
         {
             var player = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer;
             
-            if (this._currentDelayTimer <= this._delayJumpTimer)
+            if (this._currentDelayTimer <= this.delayJumpTimer)
             {
                 this._currentDelayTimer += Time.deltaTime;
             }

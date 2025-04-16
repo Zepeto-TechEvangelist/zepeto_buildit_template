@@ -5,12 +5,15 @@ import MotionModifier, {ModifierType} from './MotionModifier';
 export default class MotionModifierZone extends MotionModifier implements PlayerTriggerInterface
 {
     
+    private _trigger: PlayerTrigger;
+    public get trigger(): PlayerTrigger { return this._trigger; }
+    
     /** ------------------------------------------------------------------------ */
     // Behaviour events
     
-    
     Start() {
-        this.GetComponentInChildren<PlayerTrigger>().delegate = this;
+        this._trigger = this.GetComponentInChildren<PlayerTrigger>();
+        this._trigger.delegate = this;
     }
     
     /** ------------------------------------------------------------------------ */
