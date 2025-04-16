@@ -14,7 +14,7 @@ export default class BombTrap extends ZepetoScriptBehaviour {
     
     @Header("Settings")
     public fuseDuration: number;
-    public explosionSpeed: number;
+    @HideInInspector() public explosionSpeed: number = 0.2;
     public explosionRange: number;
     public showTimer: boolean;
     

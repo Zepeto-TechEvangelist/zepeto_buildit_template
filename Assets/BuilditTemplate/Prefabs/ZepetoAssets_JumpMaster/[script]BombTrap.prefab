@@ -71676,7 +71676,7 @@ GameObject:
   - component: {fileID: 7835243382329791086}
   - component: {fileID: 7365275781842083123}
   m_Layer: 0
-  m_Name: BombTrap
+  m_Name: '[script]BombTrap'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72111,7 +72111,9 @@ MonoBehaviour:
     - detectNpc
     - OnPlayerEnter
     - OnPlayerExit
+    - OnPlayerStay
     unityValues:
+    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
@@ -72121,6 +72123,7 @@ MonoBehaviour:
     - '{"type":"System.Boolean, mscorlib","value":"True"}'
     - '{"type":"System.Boolean, mscorlib","value":"False"}'
     - '{"type":"System.Boolean, mscorlib","value":"False"}'
+    - 
     - 
     - 
     unityArrayValues: []

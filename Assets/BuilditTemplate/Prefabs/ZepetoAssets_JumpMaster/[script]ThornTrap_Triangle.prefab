@@ -241,7 +241,7 @@ GameObject:
   - component: {fileID: 105184657718456154}
   - component: {fileID: 105184657718456156}
   m_Layer: 11
-  m_Name: ThornTrap_Triangle
+  m_Name: '[script]ThornTrap_Triangle'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -255,7 +255,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 105184657718456157}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.894, y: 0.17473087, z: 0.566}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -287,9 +287,15 @@ MonoBehaviour:
   script:
     script: {fileID: 4458252877524076426, guid: 019bc222e4d7b42b285ffb1e3448d3fd, type: 3}
     isExpaned: 0
-    keys: []
-    unityValues: []
-    values: []
+    keys:
+    - timeout
+    - speed
+    unityValues:
+    - {fileID: 0}
+    - {fileID: 0}
+    values:
+    - '{"type":"System.Single, mscorlib","value":"5"}'
+    - '{"type":"System.Single, mscorlib","value":"1"}'
     unityArrayValues: []
     arrayValues: []
 --- !u!1 &105184657727774272
@@ -1265,7 +1271,6 @@ GameObject:
   - component: {fileID: 5988958393243344739}
   - component: {fileID: 5988958393242246563}
   - component: {fileID: 5988958393238220227}
-  - component: {fileID: 5988958393244500834}
   - component: {fileID: 1559364324846179836}
   m_Layer: 11
   m_Name: SKY_Triangle_free
@@ -1361,27 +1366,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 683f40394a11e2f41b694e723eb885e3, type: 3}
---- !u!114 &5988958393244500834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5988958393244500835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  applyRootMotion: 0
-  script:
-    script: {fileID: 4458252877524076426, guid: 006c22882dc030a4ebdd956b7f9b380d, type: 3}
-    isExpaned: 0
-    keys: []
-    unityValues: []
-    values: []
-    unityArrayValues: []
-    arrayValues: []
 --- !u!114 &1559364324846179836
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,9 +1,12 @@
 import { ZepetoCharacter } from 'ZEPETO.Character.Controller';
 import PlayerTrigger, { PlayerTriggerInterface, ZepetoCharacterType } from './PlayerTrigger';
-import MotionModifier from './MotionModifier';
+import MotionModifier, {ModifierType} from './MotionModifier';
 
 export default class MotionModifierZone extends MotionModifier implements PlayerTriggerInterface
 {
+    
+    @HideInInspector() public override gravity: float;
+    @HideInInspector() public override modifyGravity: ModifierType = ModifierType.Multiplicative;
     
     /** ------------------------------------------------------------------------ */
     // Behaviour events
@@ -19,7 +22,6 @@ export default class MotionModifierZone extends MotionModifier implements Player
     // Player trigger delegate
 
     OnPlayerEnter(character: ZepetoCharacter, type: ZepetoCharacterType) {
-        console.log("Player enter trigger")
         this.ApplyModifiers(character);
     }
     OnPlayerStay(character: ZepetoCharacter, type: ZepetoCharacterType) {

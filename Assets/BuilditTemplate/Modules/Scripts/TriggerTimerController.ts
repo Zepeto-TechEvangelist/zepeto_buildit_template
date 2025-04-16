@@ -33,6 +33,10 @@ export default class TriggerTimerController extends ZepetoScriptBehaviour implem
         this._timer.StartTimer();
     }
     
+    OnPlayerStay(character: ZepetoCharacter, type: ZepetoCharacterType) {}
+        
+    
+    
     OnPlayerExit(character: ZepetoCharacter, type: ZepetoCharacterType) {
     }
     

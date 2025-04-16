@@ -1,0 +1,62 @@
+fileFormatVersion: 2
+guid: a923d41178ed4f958f7cfd251cd29cc1
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_Character_Controller_1
+    = require(\"ZEPETO.Character.Controller\");\r\nconst PlayerTrigger_1 = require(\"../../../Modules/Scripts/PlayerTrigger\");\r\n//
+    import { P } from ''UnityEngine.ParticleSystem'';\r\nclass JumpSpringPlatform
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n       
+    super(...arguments);\r\n        this.jumpPower = 4;\r\n        this._isTrrggerBool
+    = false;\r\n        this._minJumpPower = 4;\r\n        this._delayJumpTimer =
+    1.5;\r\n        this._currentDelayTimer = 0;\r\n        this._jumpTimer = 0.4;\r\n       
+    this._jumpBool = true;\r\n    }\r\n    Awake() {\r\n        this.GetComponentInChildren($typeof(PlayerTrigger_1.default)).delegate
+    = this;\r\n        this._particleEffect = this.GetComponentInChildren($typeof(UnityEngine_1.ParticleSystem));\r\n       
+    this._particleEffect.Stop(); // Stop at start\r\n    }\r\n    Update() {\r\n       
+    if (this._isTrrggerBool) {\r\n            var player = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer;\r\n           
+    if (this._currentDelayTimer <= this._delayJumpTimer) {\r\n                this._currentDelayTimer
+    += UnityEngine_1.Time.deltaTime;\r\n            }\r\n            else {\r\n               
+    if (this._jumpTimer > 0) {\r\n                    this._jumpTimer -= UnityEngine_1.Time.deltaTime;\r\n                   
+    if (this._jumpBool) {\r\n                        player.character.Jump();\r\n                       
+    this._particleEffect.Stop();\r\n                        // player.character.
+    Move(Vector3.op_Multiply(Vector3.forward, 0.5));\r\n                        this._jumpBool
+    = false;\r\n                    }\r\n                }\r\n                else
+    {\r\n                    this._isTrrggerBool = false;\r\n                   
+    this._jumpBool = true;\r\n                    this._jumpTimer = 0.4;\r\n                   
+    this._currentDelayTimer = 0;\r\n                    ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.additionalJumpPower
+    = this._savedJumpPower;\r\n                }\r\n            }\r\n        }\r\n       
+    else if (this._isTrrggerBool == false && this._currentDelayTimer > 0) {\r\n           
+    this._currentDelayTimer = 0;\r\n        }\r\n    }\r\n    OnPlayerEnter(character,
+    type) {\r\n        // Intentionally left blank\r\n        this._particleEffect.Play();\r\n   
+    }\r\n    OnPlayerStay(character, type) {\r\n        if (this._isTrrggerBool ==
+    false) {\r\n            this._isTrrggerBool = true;\r\n            if (this.jumpPower
+    < this._minJumpPower) {\r\n                this.jumpPower = this._minJumpPower;\r\n           
+    }\r\n            this._savedJumpPower = character.additionalJumpPower;\r\n           
+    character.additionalJumpPower += this.jumpPower;\r\n        }\r\n    }\r\n   
+    OnPlayerExit(character, type) {\r\n        this._isTrrggerBool = false;\r\n       
+    character.additionalJumpPower = this._savedJumpPower;\r\n        this._particleEffect.Stop();\r\n   
+    }\r\n}\r\nexports.default = JumpSpringPlatform;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiSnVtcFNwcmluZ1BsYXRmb3JtLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiSnVtcFNwcmluZ1BsYXRmb3JtLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQW9EO0FBQ3BELDZDQUFxRTtBQUNyRSw2RUFBK0Y7QUFDL0YsMEVBQW9IO0FBQ3BILGtEQUFrRDtBQUVsRCxNQUFxQixrQkFBbUIsU0FBUSxxQ0FBcUI7SUFBckU7O1FBR1csY0FBUyxHQUFXLENBQUMsQ0FBQztRQUtyQixtQkFBYyxHQUFZLEtBQUssQ0FBQztRQUNoQyxrQkFBYSxHQUFXLENBQUMsQ0FBQztRQUMxQixvQkFBZSxHQUFXLEdBQUcsQ0FBQztRQUM5Qix1QkFBa0IsR0FBVyxDQUFDLENBQUM7UUFDL0IsZUFBVSxHQUFXLEdBQUcsQ0FBQztRQUN6QixjQUFTLEdBQVksSUFBSSxDQUFDO0lBeUV0QyxDQUFDO0lBdEVHLEtBQUs7UUFDRCxJQUFJLENBQUMsc0JBQXNCLFNBQUMsdUJBQWEsRUFBRyxDQUFDLFFBQVEsR0FBRyxJQUFJLENBQUM7UUFDN0QsSUFBSSxDQUFDLGVBQWUsR0FBRyxJQUFJLENBQUMsc0JBQXNCLFNBQUMsNEJBQWMsRUFBRyxDQUFDO1FBQ3JFLElBQUksQ0FBQyxlQUFlLENBQUMsSUFBSSxFQUFFLENBQUMsQ0FBSSxnQkFBZ0I7SUFDcEQsQ0FBQztJQUVELE1BQU07UUFFRixJQUFJLElBQUksQ0FBQyxjQUFjLEVBQ3ZCO1lBQ0ksSUFBSSxNQUFNLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQztZQUU3RCxJQUFJLElBQUksQ0FBQyxrQkFBa0IsSUFBSSxJQUFJLENBQUMsZUFBZSxFQUNuRDtnQkFDSSxJQUFJLENBQUMsa0JBQWtCLElBQUksa0JBQUksQ0FBQyxTQUFTLENBQUM7YUFDN0M7aUJBRUQ7Z0JBQ0ksSUFBSSxJQUFJLENBQUMsVUFBVSxHQUFHLENBQUMsRUFDdkI7b0JBQ0ksSUFBSSxDQUFDLFVBQVUsSUFBSSxrQkFBSSxDQUFDLFNBQVMsQ0FBQztvQkFDbEMsSUFBSSxJQUFJLENBQUMsU0FBUyxFQUNsQjt3QkFDSSxNQUFNLENBQUMsU0FBUyxDQUFDLElBQUksRUFBRSxDQUFDO3dCQUN4QixJQUFJLENBQUMsZUFBZSxDQUFDLElBQUksRUFBRSxDQUFDO3dCQUM1QixxRUFBcUU7d0JBQ3JFLElBQUksQ0FBQyxTQUFTLEdBQUcsS0FBSyxDQUFDO3FCQUMxQjtpQkFDSjtxQkFDSTtvQkFDRCxJQUFJLENBQUMsY0FBYyxHQUFHLEtBQUssQ0FBQztvQkFDNUIsSUFBSSxDQUFDLFNBQVMsR0FBRyxJQUFJLENBQUM7b0JBQ3RCLElBQUksQ0FBQyxVQUFVLEdBQUcsR0FBRyxDQUFDO29CQUN0QixJQUFJLENBQUMsa0JBQWtCLEdBQUcsQ0FBQyxDQUFDO29CQUM1QiwyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxXQUFXLENBQUMsWUFBWSxDQUFDLFNBQVMsQ0FBQyxtQkFBbUIsR0FBRyxJQUFJLENBQUMsZUFBZSxDQUFDO2lCQUN4RzthQUNKO1NBQ0o7YUFDSSxJQUFJLElBQUksQ0FBQyxjQUFjLElBQUksS0FBSyxJQUFJLElBQUksQ0FBQyxrQkFBa0IsR0FBRyxDQUFDLEVBQ3BFO1lBQ0ksSUFBSSxDQUFDLGtCQUFrQixHQUFHLENBQUMsQ0FBQztTQUMvQjtJQUNMLENBQUM7SUFJRCxhQUFhLENBQUMsU0FBMEIsRUFBRSxJQUF5QjtRQUMvRCwyQkFBMkI7UUFDM0IsSUFBSSxDQUFDLGVBQWUsQ0FBQyxJQUFJLEVBQUUsQ0FBQztJQUNoQyxDQUFDO0lBQ0QsWUFBWSxDQUFDLFNBQTBCLEVBQUUsSUFBeUI7UUFDOUQsSUFBSSxJQUFJLENBQUMsY0FBYyxJQUFJLEtBQUssRUFBRztZQUMvQixJQUFJLENBQUMsY0FBYyxHQUFHLElBQUksQ0FBQztZQUMzQixJQUFJLElBQUksQ0FBQyxTQUFTLEdBQUcsSUFBSSxDQUFDLGFBQWEsRUFDdkM7Z0JBQ0ksSUFBSSxDQUFDLFNBQVMsR0FBRyxJQUFJLENBQUMsYUFBYSxDQUFDO2FBQ3ZDO1lBRUQsSUFBSSxDQUFDLGVBQWUsR0FBRyxTQUFTLENBQUMsbUJBQW1CLENBQUM7WUFDckQsU0FBUyxDQUFDLG1CQUFtQixJQUFJLElBQUksQ0FBQyxTQUFTLENBQUM7U0FDbkQ7SUFDTCxDQUFDO0lBQ0QsWUFBWSxDQUFDLFNBQTBCLEVBQUUsSUFBeUI7UUFDOUQsSUFBSSxDQUFDLGNBQWMsR0FBRyxLQUFLLENBQUM7UUFDNUIsU0FBUyxDQUFDLG1CQUFtQixHQUFHLElBQUksQ0FBQyxlQUFlLENBQUM7UUFDckQsSUFBSSxDQUFDLGVBQWUsQ0FBQyxJQUFJLEVBQUUsQ0FBQztJQUNoQyxDQUFDO0NBSUo7QUF0RkQscUNBc0ZDIn0=","assetPath":"Assets/BuilditTemplate/Themes/JumpMaster_Traps/Scripts/JumpSpringPlatform.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"jumpPower","type":"System.Single","isArray":false,"initValue":["4"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Jump
+    acceleration when the spring is activated\""]}]}],"name":"JumpSpringPlatform","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: ed82548937113d6480665d3859786fe7
+  onlyWriteTrigger: 0
