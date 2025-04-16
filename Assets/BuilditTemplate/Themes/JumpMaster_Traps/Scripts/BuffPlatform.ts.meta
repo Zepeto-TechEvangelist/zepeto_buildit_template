@@ -1,0 +1,37 @@
+fileFormatVersion: 2
+guid: 70bfe9a8a9a040699ce259fd5f1fc967
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    MotionModifier_1 = require(\"../../../Modules/Scripts/MotionModifier\");\r\nconst
+    MotionModifierZone_1 = require(\"../../../Modules/Scripts/MotionModifierZone\");\r\nclass
+    BuffPlatform extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Awake() {\r\n       
+    this._zone = this.GetComponentInChildren($typeof(MotionModifierZone_1.default));\r\n       
+    this._zone.walkSpeed = this.walkSpeed;\r\n        this._zone.modifyWalk = MotionModifier_1.ModifierType.Additive;\r\n       
+    this._zone.runSpeed = this.runSpeed;\r\n        this._zone.modifyRun = MotionModifier_1.ModifierType.Additive;\r\n       
+    this._zone.jumpPower = this.jumpPower;\r\n        this._zone.modifyJump = MotionModifier_1.ModifierType.Additive;\r\n       
+    this._zone.gravity = 0;\r\n        this._zone.modifyGravity = MotionModifier_1.ModifierType.Additive;\r\n   
+    }\r\n}\r\nexports.default = BuffPlatform;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQnVmZlBsYXRmb3JtLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQnVmZlBsYXRmb3JtLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQ0EsaURBQXNEO0FBQ3RELDRFQUFxRjtBQUNyRixvRkFBNkU7QUFFN0UsTUFBcUIsWUFBYSxTQUFRLHFDQUFxQjtJQVEzRCxLQUFLO1FBQ0QsSUFBSSxDQUFDLEtBQUssR0FBRyxJQUFJLENBQUMsc0JBQXNCLFNBQUMsNEJBQWtCLEVBQUcsQ0FBQztRQUMvRCxJQUFJLENBQUMsS0FBSyxDQUFDLFNBQVMsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDO1FBQ3RDLElBQUksQ0FBQyxLQUFLLENBQUMsVUFBVSxHQUFHLDZCQUFZLENBQUMsUUFBUSxDQUFDO1FBQzlDLElBQUksQ0FBQyxLQUFLLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQyxRQUFRLENBQUM7UUFDcEMsSUFBSSxDQUFDLEtBQUssQ0FBQyxTQUFTLEdBQUcsNkJBQVksQ0FBQyxRQUFRLENBQUM7UUFDN0MsSUFBSSxDQUFDLEtBQUssQ0FBQyxTQUFTLEdBQUcsSUFBSSxDQUFDLFNBQVMsQ0FBQztRQUN0QyxJQUFJLENBQUMsS0FBSyxDQUFDLFVBQVUsR0FBRyw2QkFBWSxDQUFDLFFBQVEsQ0FBQztRQUM5QyxJQUFJLENBQUMsS0FBSyxDQUFDLE9BQU8sR0FBRyxDQUFDLENBQUM7UUFDdkIsSUFBSSxDQUFDLEtBQUssQ0FBQyxhQUFhLEdBQUcsNkJBQVksQ0FBQyxRQUFRLENBQUM7SUFDckQsQ0FBQztDQUdKO0FBckJELCtCQXFCQyJ9","assetPath":"Assets/BuilditTemplate/Themes/JumpMaster_Traps/Scripts/BuffPlatform.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"walkSpeed","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"runSpeed","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"jumpPower","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"BuffPlatform","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 610e4516259a97f24a78961d196e069c
+  onlyWriteTrigger: 0
