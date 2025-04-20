@@ -22,10 +22,13 @@ export default class JumpSpringPlatform extends ZepetoScriptBehaviour implements
     private _jumpBool: boolean = true;
     private _savedJumpPower: float
    
+    private _particleTimer: float;
+    
     Awake() {
         this.GetComponentInChildren<PlayerTrigger>().delegate = this;
         this._particleEffect = this.GetComponentInChildren<ParticleSystem>();
         this._particleEffect.Stop();    // Stop at start
+        // this._particleEffect.loop = false;
     }
     
     Update()
@@ -45,8 +48,10 @@ export default class JumpSpringPlatform extends ZepetoScriptBehaviour implements
                     this._jumpTimer -= Time.deltaTime;
                     if (this._jumpBool)
                     {
+                        this._particleEffect.Play();
+                        this._particleTimer = this._particleEffect.duration;    
                         player.character.Jump();
-                        this._particleEffect.Stop();
+                        
                         // player.character. Move(Vector3.op_Multiply(Vector3.forward, 0.5));
                         this._jumpBool = false;
                     }
@@ -59,6 +64,12 @@ export default class JumpSpringPlatform extends ZepetoScriptBehaviour implements
                     ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.additionalJumpPower = this._savedJumpPower;
                 }
             }
+            
+            if (this._particleTimer > 0) {
+                this._particleTimer -= Time.deltaTime;
+                if (this._particleTimer < 0)
+                    this._particleEffect.Stop();
+            }
         }
         else if (this._isTrrggerBool == false && this._currentDelayTimer > 0)
         {
@@ -70,7 +81,7 @@ export default class JumpSpringPlatform extends ZepetoScriptBehaviour implements
 
     OnPlayerEnter(character: ZepetoCharacter, type: ZepetoCharacterType) {
         // Intentionally left blank
-        this._particleEffect.Play();
+        
     }
     OnPlayerStay(character: ZepetoCharacter, type: ZepetoCharacterType) {
         if (this._isTrrggerBool == false ) {
@@ -87,7 +98,7 @@ export default class JumpSpringPlatform extends ZepetoScriptBehaviour implements
     OnPlayerExit(character: ZepetoCharacter, type: ZepetoCharacterType) {
         this._isTrrggerBool = false;
         character.additionalJumpPower = this._savedJumpPower;
-        this._particleEffect.Stop();
+        // this._particleEffect.Stop();
     }
     
     
