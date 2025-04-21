@@ -31,10 +31,13 @@ export default class BombTrap extends ZepetoScriptBehaviour {
     // Fuse
     private _sparkEffect: ParticleSystem;
     private _shakeAnimation: ShakeAnimation;
+
+    
+    Awake() {
+        TrapManager.instance;   // Autogenerate if missing
+    }
     
     Start() {
-        
-        
         
         // Configure Fuse
         this._proximityTrigger = this.GetComponentInChildren<TriggerTimerController>(true);
