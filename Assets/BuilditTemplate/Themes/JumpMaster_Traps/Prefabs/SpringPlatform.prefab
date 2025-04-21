@@ -5490,7 +5490,7 @@ GameObject:
   - component: {fileID: 4628990248613076768}
   - component: {fileID: 667709965427887942}
   m_Layer: 11
-  m_Name: Spring Platform
+  m_Name: SpringPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 208415392
@@ -5550,11 +5550,14 @@ MonoBehaviour:
     script: {fileID: 4458252877524076426, guid: a923d41178ed4f958f7cfd251cd29cc1, type: 3}
     isExpaned: 0
     keys:
-    - SpringJumpPower
+    - jumpPower
+    - delayJumpTimer
     unityValues:
+    - {fileID: 0}
     - {fileID: 0}
     values:
     - '{"type":"System.Single, mscorlib","value":"4"}'
+    - '{"type":"System.Single, mscorlib","value":"1.5"}'
     unityArrayValues: []
     arrayValues: []
 --- !u!1 &7529231902425268823
