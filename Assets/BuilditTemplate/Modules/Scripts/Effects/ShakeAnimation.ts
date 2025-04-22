@@ -9,13 +9,10 @@ export default class ShakeAnimation extends ZepetoScriptBehaviour {
     private _intervalPos: Vector3;
     private _intervalTimer: float;
 
-    // [Header("Settings")]
     @Header("Settings")
-    //  [Range(0f, 2f)]
+
     public time: float = 0.2;
-    // [Range(0f, 2f)]
     public distance: float = 0.1;
-    // [Range(0f, 0.1f)]
     public interval: float = 0;
 
     public curveTimer: float = 0;
@@ -24,19 +21,10 @@ export default class ShakeAnimation extends ZepetoScriptBehaviour {
     private _curveTimer: float = 0;
     
     private Awake() {
-        // this.OnValidate();  // Validate is disabled by default
-        
         this._startPos = this.transform.position;
     }
 
-    // private OnValidate() {
-    //     if (this.interval > this.time)
-    //         this.interval = this.time;
-    // }
-
     public OnEnable() {
-        console.log("Begin called from ")
-        console.log(this)
         this.StopAllCoroutines();
         this._intervalTimer = this.interval;
         this.StartCoroutine(this.Shake());
@@ -69,9 +57,6 @@ export default class ShakeAnimation extends ZepetoScriptBehaviour {
             this.transform.position = //this._randomPos;
             Vector3.Lerp(this._intervalPos, this._randomPos,this._intervalTimer / this.interval);
             
-            // if (this.interval > 0)
-            //     yield new WaitForSeconds(this.interval);
-
             yield null;
         }
 
