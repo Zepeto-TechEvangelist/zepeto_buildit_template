@@ -45,7 +45,6 @@ export default class BombTrap extends ZepetoScriptBehaviour {
         this._shakeAnimation = this._proximityTrigger.GetComponentInChildren<ShakeAnimation>(true);
         
         
-        
         var startFuse = new UnityEvent();
         startFuse.AddListener(() => { 
             this._sparkEffect.gameObject.SetActive(true);

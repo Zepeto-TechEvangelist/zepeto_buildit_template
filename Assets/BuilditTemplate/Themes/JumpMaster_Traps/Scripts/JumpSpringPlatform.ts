@@ -24,7 +24,7 @@ export default class JumpSpringPlatform extends ZepetoScriptBehaviour implements
    
     private _particleTimer: float;
     
-    Awake() {
+    Start() {
         this.GetComponentInChildren<PlayerTrigger>().delegate = this;
         this._particleEffect = this.GetComponentInChildren<ParticleSystem>();
         this._particleEffect.Stop();    // Stop at start
@@ -81,7 +81,6 @@ export default class JumpSpringPlatform extends ZepetoScriptBehaviour implements
 
     OnPlayerEnter(character: ZepetoCharacter, type: ZepetoCharacterType) {
         // Intentionally left blank
-        
     }
     OnPlayerStay(character: ZepetoCharacter, type: ZepetoCharacterType) {
         if (this._isTrrggerBool == false ) {

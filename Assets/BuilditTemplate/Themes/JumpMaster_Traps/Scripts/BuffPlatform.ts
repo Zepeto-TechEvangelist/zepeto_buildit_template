@@ -29,6 +29,18 @@ export default class BuffPlatform extends ZepetoScriptBehaviour
 
     
     Start() {
+
+        this._zone = this.GetComponentInChildren<MotionModifierZone>();
+        this._zone.walkSpeed = this.walkSpeed;
+        this._zone.modifyWalk = ModifierType.Additive;
+        this._zone.runSpeed = this.runSpeed;
+        this._zone.modifyRun = ModifierType.Additive;
+        this._zone.jumpPower = this.jumpPower;
+        this._zone.modifyJump = ModifierType.Additive;
+        this._zone.gravity = 0;
+        this._zone.modifyGravity = ModifierType.Additive;
+        
+        
         // Animation triggered playback
         this._animator = this.GetComponentInChildren<Animation>();
         var enterEvent = new UnityEvent$1<ZepetoCharacter>();
