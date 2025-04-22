@@ -23,14 +23,15 @@ ScriptedImporter:
   WrapperFilters: []
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
-    TrapManager_1 = require(\"./TrapManager\");\r\nclass TrapObjScript extends ZEPETO_Script_1.ZepetoScriptBehaviour
-    {\r\n    Awake() {\r\n        TrapManager_1.default.instance; // Autogenerate
-    if missing\r\n    }\r\n    OnTriggerEnter(collider) {\r\n        // If zepetoCharacter
-    is null or the collider collided with an object other than zepetoCharacter, return.\r\n       
+    { value: true });\r\nconst ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst TrapManager_1 = require(\"./TrapManager\");\r\nclass
+    TrapObjScript extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Awake()
+    {\r\n        TrapManager_1.default.instance; // Autogenerate if missing\r\n   
+    }\r\n    OnTriggerEnter(collider) {\r\n        // If zepetoCharacter is null
+    or the collider collided with an object other than zepetoCharacter, return.\r\n       
     let zepetoCharacter = TrapManager_1.default.instance.zepetoCharacter;\r\n       
     if (zepetoCharacter === null || (zepetoCharacter && collider.gameObject !== zepetoCharacter.gameObject))
     {\r\n            return;\r\n        }\r\n        TrapManager_1.default.instance?.TeleportCharacter();\r\n   
-    }\r\n}\r\nexports.default = TrapObjScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHJhcE9ialNjcmlwdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlRyYXBPYmpTY3JpcHQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFFQSxpREFBc0Q7QUFDdEQsK0NBQXdDO0FBRXhDLE1BQXFCLGFBQWMsU0FBUSxxQ0FBcUI7SUFFNUQsS0FBSztRQUNELHFCQUFXLENBQUMsUUFBUSxDQUFDLENBQUcsMEJBQTBCO0lBQ3RELENBQUM7SUFFRCxjQUFjLENBQUMsUUFBa0I7UUFDN0IseUdBQXlHO1FBQ3pHLElBQUksZUFBZSxHQUFHLHFCQUFXLENBQUMsUUFBUSxDQUFDLGVBQWUsQ0FBQztRQUMzRCxJQUFJLGVBQWUsS0FBSyxJQUFJLElBQUksQ0FBQyxlQUFlLElBQUksUUFBUSxDQUFDLFVBQVUsS0FBSyxlQUFlLENBQUMsVUFBVSxDQUFDLEVBQUU7WUFDckcsT0FBTztTQUNWO1FBQ0QscUJBQVcsQ0FBQyxRQUFRLEVBQUUsaUJBQWlCLEVBQUUsQ0FBQztJQUM5QyxDQUFDO0NBRUo7QUFmRCxnQ0FlQyJ9","assetPath":"Assets/BuilditTemplate/Themes/JumpMaster_Traps/Scripts/TrapObjScript.ts","manifest":{"properties":[],"name":"TrapObjScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
+    }\r\n}\r\nexports.default = TrapObjScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHJhcE9ialNjcmlwdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlRyYXBPYmpTY3JpcHQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFDQSw2RUFBNkU7QUFDN0UsaURBQXNEO0FBQ3RELCtDQUF3QztBQUV4QyxNQUFxQixhQUFjLFNBQVEscUNBQXFCO0lBRTVELEtBQUs7UUFDRCxxQkFBVyxDQUFDLFFBQVEsQ0FBQyxDQUFHLDBCQUEwQjtJQUN0RCxDQUFDO0lBRUQsY0FBYyxDQUFDLFFBQWtCO1FBQzdCLHlHQUF5RztRQUN6RyxJQUFJLGVBQWUsR0FBRyxxQkFBVyxDQUFDLFFBQVEsQ0FBQyxlQUFlLENBQUM7UUFDM0QsSUFBSSxlQUFlLEtBQUssSUFBSSxJQUFJLENBQUMsZUFBZSxJQUFJLFFBQVEsQ0FBQyxVQUFVLEtBQUssZUFBZSxDQUFDLFVBQVUsQ0FBQyxFQUFFO1lBQ3JHLE9BQU87U0FDVjtRQUNELHFCQUFXLENBQUMsUUFBUSxFQUFFLGlCQUFpQixFQUFFLENBQUM7SUFDOUMsQ0FBQztDQUVKO0FBZkQsZ0NBZUMifQ==","assetPath":"Assets/BuilditTemplate/Themes/JumpMaster_Traps/Scripts/TrapObjScript.ts","manifest":{"properties":[],"name":"TrapObjScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
   typescriptHash: 5e50f177e2c1cf8d93aa0be6d7a8b231
   onlyWriteTrigger: 0

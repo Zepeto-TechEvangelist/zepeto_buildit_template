@@ -14,7 +14,7 @@ export default class CheckpointPlatformScript extends ZepetoScriptBehaviour {
     public singleUseOnly: boolean = false;
     
     // Whether the checkpoint has been visited.
-    private visited: bool;
+    private visited: bool = false;
     
     Awake() {
         TrapManager.instance;   // Autogenerate if missing

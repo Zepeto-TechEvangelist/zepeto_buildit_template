@@ -60,7 +60,7 @@ export default class SceneManager extends ZepetoScriptBehaviour {
             GameObject.DontDestroyOnLoad(this.gameObject);
         }
         
-        Physics.gravity = Physics.gravity * this.gravity;
+        // Physics.gravity = Physics.gravity * this.gravity;
     }
 
     private Destroy() {
