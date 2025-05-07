@@ -59,7 +59,7 @@ export default class TeleportController extends ZepetoScriptBehaviour {
             this._button = canvas.GetComponentInChildren<Button>();
             this._canvas.transform.position = this.iconPosition.position;
         }
-        this._cachedWorldCamera = Object.FindObjectOfType<Camera>();
+        this._cachedWorldCamera ??= ZepetoPlayers.instance.ZepetoCamera.camera;
         this._canvas.worldCamera = this._cachedWorldCamera;
 
         this._button.onClick.AddListener(() => {

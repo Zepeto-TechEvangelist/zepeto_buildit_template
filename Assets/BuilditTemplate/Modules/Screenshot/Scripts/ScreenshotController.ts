@@ -1,5 +1,5 @@
 import { Application, AudioListener, Camera, Coroutine, GameObject, RenderTexture, WaitForEndOfFrame } from 'UnityEngine'
-import { UnityEvent } from 'UnityEngine.Events';
+import { UnityEvent, UnityEvent$1 } from 'UnityEngine.Events';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import { VideoPlayer } from 'UnityEngine.Video';
 import { VideoResolutions, WorldVideoRecorder, ZepetoWorldContent } from 'ZEPETO.World';
@@ -20,7 +20,9 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
 
     private _onVideoRecordingStartEvent: UnityEvent;
     private _onVideoRecordingStopEvent: UnityEvent;
-
+    
+    private _onCameraChange: UnityEvent$1<Camera>;
+    
     private _coRecordVideo: Coroutine;
 
     LateUpdate() {
@@ -84,6 +86,13 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         return this._onVideoRecordingStopEvent;
     }
 
+    public get OnCameraChange() {
+        if (!this.IsValid(this._onCameraChange)) {
+            this._onCameraChange = new UnityEvent$1<Camera>();
+        }
+        return this._onCameraChange;
+    }
+    
     // returns {RenderTexture}
     public get ScreenshotRenderTexture() {
         if (!this.IsValid(this._screenshotRenderTexture)) {
@@ -205,6 +214,8 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         this._replicaCamera.cullingMask &= ~(1 << 5);
         let startRecording = WorldVideoRecorder.StartRecording(this._replicaCamera, this._videoResolutionType, this._videoMaxDuration);
 
+        
+        
         // startRecording
         if (!startRecording) {
             if (this.IsValid(this._onFailEvent)) {
@@ -224,6 +235,11 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
             return;
         }
 
+        
+        // Publish Camera Change
+        this._onCameraChange?.Invoke(this._replicaCamera);
+        
+
         while (WorldVideoRecorder.IsRecording()) {
             yield null;
         }
@@ -236,9 +252,14 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         if (this.IsValid(this._onVideoRecordingStopEvent)) {
             this._onVideoRecordingStopEvent.Invoke();
         }
+        
+        
         WorldVideoRecorder.StopRecording();
         GameObject.Destroy(this._replicaCamera.gameObject);
         this._replicaCamera = null;
+
+        // Publish Camera Change
+        this._onCameraChange?.Invoke(this._mainCamera);
     }
 
     public VideoPostToFeed(feedMessage: string) {

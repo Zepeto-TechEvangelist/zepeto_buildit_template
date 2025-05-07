@@ -5,6 +5,8 @@ import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import ScreenshotController from './ScreenshotController';
 import ScreenshotUIController from './ScreenshotUIController';
 
+export type CameraChangeHandler = (camera: Camera) => void;
+
 export default class ScreenshotManager extends ZepetoScriptBehaviour {
 
     private _canEnterOrExit: bool;
@@ -14,8 +16,33 @@ export default class ScreenshotManager extends ZepetoScriptBehaviour {
     private _coRecordingTimer: Coroutine;
     private _screenshotController: ScreenshotController;
     private _screenshotUIController: ScreenshotUIController;
-
+    
+    /* Singleton */
+    private static m_instance: ScreenshotManager = null;
+    public static get instance(): ScreenshotManager {
+        if (this.m_instance === null) {
+            this.m_instance = GameObject.FindObjectOfType<ScreenshotManager>();
+            if (this.m_instance === null) {
+                this.m_instance = new GameObject(ScreenshotManager.name).AddComponent<ScreenshotManager>();
+            }
+        }
+        return this.m_instance;
+    }
+    
+    private Destroy() {
+        if (ScreenshotManager.m_instance == this)
+            ScreenshotManager.m_instance = null;
+    }
+    
+    
     Awake() {
+        if (ScreenshotManager.m_instance !== null && ScreenshotManager.m_instance !== this) {
+            GameObject.Destroy(this.gameObject);
+        } else {
+            ScreenshotManager.m_instance = this;
+            GameObject.DontDestroyOnLoad(this.gameObject);
+        }
+        
         this._canEnterOrExit = true;
         this._screenshotController = this.gameObject.GetComponent<ScreenshotController>();
         this._screenshotUIController = this.gameObject.GetComponent<ScreenshotUIController>();
@@ -32,6 +59,10 @@ export default class ScreenshotManager extends ZepetoScriptBehaviour {
         this._originalInputFeedMsg = this._screenshotUIController.PreviewInputField.text;
     }
 
+    public RegisterCameraChangeHandler(handler: CameraChangeHandler) {
+        this._screenshotController.OnCameraChange.AddListener(handler);
+    }
+    
     /* Initialze */
 
     private InitialzeScreenshotManager() {
