@@ -77,8 +77,7 @@ export default class NPCManager extends ZepetoScriptBehaviour {
         }
         this._speechBubbleObject.SetActive(false);
     }
-
-
+    
     // Set the speech bubble
     SetBubble() {
 
@@ -95,7 +94,7 @@ export default class NPCManager extends ZepetoScriptBehaviour {
         this._speechBubbleText = this._speechBubbleObject.GetComponentInChildren<Text>();
         
         this._canvas = this._speechBubbleObject.GetComponent<Canvas>();
-        this._cachedWorldCamera = Object.FindObjectOfType<Camera>();
+        this._cachedWorldCamera ??= ZepetoPlayers.instance.ZepetoCamera.camera;
         this._canvas.worldCamera = this._cachedWorldCamera;
         this._speechBubbleObject.SetActive(false);
     }
@@ -125,5 +124,4 @@ export default class NPCManager extends ZepetoScriptBehaviour {
         this._canvas.transform.LookAt(this._cachedWorldCamera.transform);
         this._canvas.transform.Rotate(0, 180, 0);
     }
-    
 }

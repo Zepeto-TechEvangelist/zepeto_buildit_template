@@ -213,8 +213,6 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         this._replicaCamera.gameObject.name = "ScreenshotCamera";
         this._replicaCamera.cullingMask &= ~(1 << 5);
         let startRecording = WorldVideoRecorder.StartRecording(this._replicaCamera, this._videoResolutionType, this._videoMaxDuration);
-
-        
         
         // startRecording
         if (!startRecording) {
@@ -234,12 +232,10 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
             }
             return;
         }
-
         
         // Publish Camera Change
         this._onCameraChange?.Invoke(this._replicaCamera);
         
-
         while (WorldVideoRecorder.IsRecording()) {
             yield null;
         }
@@ -252,7 +248,6 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         if (this.IsValid(this._onVideoRecordingStopEvent)) {
             this._onVideoRecordingStopEvent.Invoke();
         }
-        
         
         WorldVideoRecorder.StopRecording();
         GameObject.Destroy(this._replicaCamera.gameObject);
@@ -279,7 +274,6 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
             if (!result && this.IsValid(this._onFailEvent)) {
                 this._onFailEvent.Invoke();
             }
-
         });
     }
 
