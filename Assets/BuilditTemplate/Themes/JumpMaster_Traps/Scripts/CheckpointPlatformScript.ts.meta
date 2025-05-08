@@ -23,22 +23,38 @@ ScriptedImporter:
   WrapperFilters: []
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nconst ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
     ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst TrapManager_1 = require(\"./TrapManager\");\r\nconst
-    Checkpoint_1 = require(\"./Checkpoint\");\r\nclass CheckpointPlatformScript extends
-    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n        super(...arguments);\r\n       
+    Checkpoint_1 = require(\"./Checkpoint\");\r\nconst PlayerTrigger_1 = require(\"../../../Modules/Scripts/PlayerTrigger\");\r\nclass
+    CheckpointPlatformScript extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n   
+    constructor() {\r\n        super(...arguments);\r\n        this.isActive = false;\r\n       
     this.singleUseOnly = false;\r\n        // Whether the checkpoint has been visited.\r\n       
-    this.visited = false;\r\n    }\r\n    Awake() {\r\n        TrapManager_1.default.instance;
-    // Autogenerate if missing\r\n    }\r\n    OnTriggerEnter(collider) {\r\n       
-    // If zepetoCharacter is null or the collider collided with an object other than
-    zepetoCharacter, return.\r\n        let zepetoCharacter = TrapManager_1.default.instance.zepetoCharacter;\r\n       
-    if (zepetoCharacter === null || (zepetoCharacter && collider.gameObject !== zepetoCharacter.gameObject))
-    {\r\n            return;\r\n        }\r\n        if (this.singleUseOnly && this.visited)\r\n           
-    return;\r\n        this.visited = true;\r\n        TrapManager_1.default.instance.VisitCheckpoint(new
-    Checkpoint_1.Checkpoint(this.index, this.transform.position));\r\n    }\r\n}\r\nexports.default
-    = CheckpointPlatformScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ2hlY2twb2ludFBsYXRmb3JtU2NyaXB0LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQ2hlY2twb2ludFBsYXRmb3JtU2NyaXB0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQ0EsNkVBQTZFO0FBQzdFLGlEQUFzRDtBQUN0RCwrQ0FBd0M7QUFDeEMsNkNBQTBDO0FBRTFDLE1BQXFCLHdCQUF5QixTQUFRLHFDQUFxQjtJQUEzRTs7UUFPVyxrQkFBYSxHQUFZLEtBQUssQ0FBQztRQUV0QywyQ0FBMkM7UUFDbkMsWUFBTyxHQUFTLEtBQUssQ0FBQztJQXFCbEMsQ0FBQztJQW5CRyxLQUFLO1FBQ0QscUJBQVcsQ0FBQyxRQUFRLENBQUMsQ0FBRywwQkFBMEI7SUFDdEQsQ0FBQztJQUVELGNBQWMsQ0FBQyxRQUFrQjtRQUM3Qix5R0FBeUc7UUFDekcsSUFBSSxlQUFlLEdBQUcscUJBQVcsQ0FBQyxRQUFRLENBQUMsZUFBZSxDQUFDO1FBQzNELElBQUksZUFBZSxLQUFLLElBQUksSUFBSSxDQUFDLGVBQWUsSUFBSSxRQUFRLENBQUMsVUFBVSxLQUFLLGVBQWUsQ0FBQyxVQUFVLENBQUMsRUFBRTtZQUNyRyxPQUFPO1NBQ1Y7UUFFRCxJQUFJLElBQUksQ0FBQyxhQUFhLElBQUksSUFBSSxDQUFDLE9BQU87WUFDbEMsT0FBTztRQUVYLElBQUksQ0FBQyxPQUFPLEdBQUcsSUFBSSxDQUFDO1FBRXBCLHFCQUFXLENBQUMsUUFBUSxDQUFDLGVBQWUsQ0FBQyxJQUFJLHVCQUFVLENBQUMsSUFBSSxDQUFDLEtBQUssRUFBRSxJQUFJLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQyxDQUFDLENBQUM7SUFDOUYsQ0FBQztDQUVKO0FBL0JELDJDQStCQyJ9","assetPath":"Assets/BuilditTemplate/Themes/JumpMaster_Traps/Scripts/CheckpointPlatformScript.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"index","type":"System.Int32","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Index
-    of the Checkpoint as a sequence\""]}]},{"assembly":"mscorlib","name":"singleUseOnly","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Enabling
+    this.visited = false;\r\n        //@Header(\"Animation\")\r\n        this.animationEnabled
+    = true;\r\n        this.animationTrigger = \"activate\";\r\n    }\r\n    Awake()
+    {\r\n        TrapManager_1.default.instance; // Autogenerate if missing\r\n   
+    }\r\n    Start() {\r\n        this.GetComponentInChildren($typeof(PlayerTrigger_1.default)).delegate
+    = this;\r\n        this._animator = this.GetComponentInChildren($typeof(UnityEngine_1.Animator));\r\n       
+    if (!this._animator)\r\n            this.animationEnabled = false;\r\n       
+    else\r\n            this.animationEnabled = true;\r\n        // else\r\n       
+    //     this._animator.enabled = this.animationEnabled;\r\n    }\r\n    Activate()
+    {\r\n        if (this.isActive)\r\n            return;\r\n        CheckpointPlatformScript.ActivePlatform?.Deactivate();\r\n       
+    CheckpointPlatformScript.ActivePlatform = this;\r\n        this.isActive = true;\r\n       
+    this.visited = true;\r\n        TrapManager_1.default.instance.VisitCheckpoint(new
+    Checkpoint_1.Checkpoint(this.index, this.transform.position));\r\n        if
+    (this.animationEnabled)\r\n            this._animator?.SetTrigger(this.animationTrigger);\r\n   
+    }\r\n    Deactivate() {\r\n        if (this.isActive == false)\r\n           
+    return;\r\n        this.isActive = false;\r\n        if (this.animationEnabled)\r\n           
+    this._animator?.ResetTrigger(this.animationTrigger);\r\n    }\r\n    OnPlayerEnter(character,
+    type) {\r\n        if (this.singleUseOnly && this.visited)\r\n            return;\r\n       
+    this.Activate();\r\n    }\r\n    OnPlayerStay(character, type) {\r\n        //
+    Intentionally left empty\r\n    }\r\n    OnPlayerExit(character, type) {\r\n       
+    // Intentionally left empty\r\n        // this.Deactivate();\r\n    }\r\n}\r\nexports.default
+    = CheckpointPlatformScript;\r\nCheckpointPlatformScript.ActivePlatform = null;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ2hlY2twb2ludFBsYXRmb3JtU2NyaXB0LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQ2hlY2twb2ludFBsYXRmb3JtU2NyaXB0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsNkNBQXFFO0FBRXJFLGlEQUFzRDtBQUN0RCwrQ0FBd0M7QUFDeEMsNkNBQTBDO0FBQzFDLDBFQUFtSDtBQUVuSCxNQUFxQix3QkFBeUIsU0FBUSxxQ0FBcUI7SUFBM0U7O1FBTVcsYUFBUSxHQUFZLEtBQUssQ0FBQztRQUkxQixrQkFBYSxHQUFZLEtBQUssQ0FBQztRQUV0QywyQ0FBMkM7UUFDbkMsWUFBTyxHQUFTLEtBQUssQ0FBQztRQU05QixzQkFBc0I7UUFFSSxxQkFBZ0IsR0FBWSxJQUFJLENBQUM7UUFFakMscUJBQWdCLEdBQVcsVUFBVSxDQUFDO0lBMkRwRSxDQUFDO0lBekRHLEtBQUs7UUFDRCxxQkFBVyxDQUFDLFFBQVEsQ0FBQyxDQUFHLDBCQUEwQjtJQUN0RCxDQUFDO0lBRUQsS0FBSztRQUNELElBQUksQ0FBQyxzQkFBc0IsU0FBQyx1QkFBYSxFQUFHLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQztRQUM3RCxJQUFJLENBQUMsU0FBUyxHQUFHLElBQUksQ0FBQyxzQkFBc0IsU0FBQyxzQkFBUSxFQUFHLENBQUM7UUFFekQsSUFBSSxDQUFDLElBQUksQ0FBQyxTQUFTO1lBQ2YsSUFBSSxDQUFDLGdCQUFnQixHQUFHLEtBQUssQ0FBQzs7WUFFOUIsSUFBSSxDQUFDLGdCQUFnQixHQUFHLElBQUksQ0FBQztRQUNqQyxPQUFPO1FBQ1Asc0RBQXNEO0lBQzFELENBQUM7SUFFTSxRQUFRO1FBQ1gsSUFBSSxJQUFJLENBQUMsUUFBUTtZQUNiLE9BQU87UUFFWCx3QkFBd0IsQ0FBQyxjQUFjLEVBQUUsVUFBVSxFQUFFLENBQUM7UUFDdEQsd0JBQXdCLENBQUMsY0FBYyxHQUFHLElBQUksQ0FBQztRQUUvQyxJQUFJLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQztRQUNyQixJQUFJLENBQUMsT0FBTyxHQUFHLElBQUksQ0FBQztRQUVwQixxQkFBVyxDQUFDLFFBQVEsQ0FBQyxlQUFlLENBQUMsSUFBSSx1QkFBVSxDQUFDLElBQUksQ0FBQyxLQUFLLEVBQUUsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLENBQUMsQ0FBQyxDQUFDO1FBRTFGLElBQUksSUFBSSxDQUFDLGdCQUFnQjtZQUNyQixJQUFJLENBQUMsU0FBUyxFQUFFLFVBQVUsQ0FBQyxJQUFJLENBQUMsZ0JBQWdCLENBQUMsQ0FBQztJQUMxRCxDQUFDO0lBRU0sVUFBVTtRQUNiLElBQUksSUFBSSxDQUFDLFFBQVEsSUFBSSxLQUFLO1lBQ3RCLE9BQU87UUFFWCxJQUFJLENBQUMsUUFBUSxHQUFHLEtBQUssQ0FBQztRQUV0QixJQUFJLElBQUksQ0FBQyxnQkFBZ0I7WUFDckIsSUFBSSxDQUFDLFNBQVMsRUFBRSxZQUFZLENBQUMsSUFBSSxDQUFDLGdCQUFnQixDQUFDLENBQUM7SUFDNUQsQ0FBQztJQUdELGFBQWEsQ0FBQyxTQUEwQixFQUFFLElBQXlCO1FBQy9ELElBQUksSUFBSSxDQUFDLGFBQWEsSUFBSSxJQUFJLENBQUMsT0FBTztZQUNsQyxPQUFPO1FBRVgsSUFBSSxDQUFDLFFBQVEsRUFBRSxDQUFDO0lBQ3BCLENBQUM7SUFFRCxZQUFZLENBQUMsU0FBMEIsRUFBRSxJQUF5QjtRQUM5RCwyQkFBMkI7SUFDL0IsQ0FBQztJQUNELFlBQVksQ0FBQyxTQUEwQixFQUFFLElBQXlCO1FBQzlELDJCQUEyQjtRQUMzQixxQkFBcUI7SUFDekIsQ0FBQzs7QUFqRkwsMkNBa0ZDO0FBakVrQix1Q0FBYyxHQUE2QixJQUFJLENBQUMifQ==","assetPath":"Assets/BuilditTemplate/Themes/JumpMaster_Traps/Scripts/CheckpointPlatformScript.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"index","type":"System.Int32","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Index
+    of the Checkpoint as a sequence\""]}]},{"assembly":"mscorlib","name":"isActive","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"singleUseOnly","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Enabling
     will restrict this checkpoint to only one visit, Disabling it means it can be
-    revisited\""]},{"name":"HideInInspector","args":[]}]}],"name":"CheckpointPlatformScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
-  typescriptHash: ee29e5fe0c3e2f0113a6325cb5ea1946
+    revisited\""]},{"name":"HideInInspector","args":[]}]},{"assembly":"mscorlib","name":"animationEnabled","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Is
+    animation enabled\""]},{"name":"HideInInspector","args":[]}]},{"assembly":"mscorlib","name":"animationTrigger","type":"System.String","isArray":false,"initValue":["activate"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Animation
+    trigger mapped to the activation sequence\""]},{"name":"HideInInspector","args":[]}]}],"name":"CheckpointPlatformScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 8f157623d5cff5551e704e66f1e0ae4c
   onlyWriteTrigger: 0

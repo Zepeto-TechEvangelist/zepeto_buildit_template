@@ -23,7 +23,8 @@ ScriptedImporter:
   WrapperFilters: []
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nconst ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
     ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst TrapManager_1 = require(\"./TrapManager\");\r\nclass
     TrapObjScript extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    Awake()
     {\r\n        TrapManager_1.default.instance; // Autogenerate if missing\r\n   
@@ -32,6 +33,6 @@ ScriptedImporter:
     let zepetoCharacter = TrapManager_1.default.instance.zepetoCharacter;\r\n       
     if (zepetoCharacter === null || (zepetoCharacter && collider.gameObject !== zepetoCharacter.gameObject))
     {\r\n            return;\r\n        }\r\n        TrapManager_1.default.instance?.TeleportCharacter();\r\n   
-    }\r\n}\r\nexports.default = TrapObjScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHJhcE9ialNjcmlwdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlRyYXBPYmpTY3JpcHQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFDQSw2RUFBNkU7QUFDN0UsaURBQXNEO0FBQ3RELCtDQUF3QztBQUV4QyxNQUFxQixhQUFjLFNBQVEscUNBQXFCO0lBRTVELEtBQUs7UUFDRCxxQkFBVyxDQUFDLFFBQVEsQ0FBQyxDQUFHLDBCQUEwQjtJQUN0RCxDQUFDO0lBRUQsY0FBYyxDQUFDLFFBQWtCO1FBQzdCLHlHQUF5RztRQUN6RyxJQUFJLGVBQWUsR0FBRyxxQkFBVyxDQUFDLFFBQVEsQ0FBQyxlQUFlLENBQUM7UUFDM0QsSUFBSSxlQUFlLEtBQUssSUFBSSxJQUFJLENBQUMsZUFBZSxJQUFJLFFBQVEsQ0FBQyxVQUFVLEtBQUssZUFBZSxDQUFDLFVBQVUsQ0FBQyxFQUFFO1lBQ3JHLE9BQU87U0FDVjtRQUNELHFCQUFXLENBQUMsUUFBUSxFQUFFLGlCQUFpQixFQUFFLENBQUM7SUFDOUMsQ0FBQztDQUVKO0FBZkQsZ0NBZUMifQ==","assetPath":"Assets/BuilditTemplate/Themes/JumpMaster_Traps/Scripts/TrapObjScript.ts","manifest":{"properties":[],"name":"TrapObjScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
+    }\r\n}\r\nexports.default = TrapObjScript;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHJhcE9ialNjcmlwdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlRyYXBPYmpTY3JpcHQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSw2Q0FBdUM7QUFDdkMsNkVBQTZFO0FBQzdFLGlEQUFzRDtBQUN0RCwrQ0FBd0M7QUFFeEMsTUFBcUIsYUFBYyxTQUFRLHFDQUFxQjtJQUU1RCxLQUFLO1FBQ0QscUJBQVcsQ0FBQyxRQUFRLENBQUMsQ0FBRywwQkFBMEI7SUFDdEQsQ0FBQztJQUVELGNBQWMsQ0FBQyxRQUFrQjtRQUM3Qix5R0FBeUc7UUFDekcsSUFBSSxlQUFlLEdBQUcscUJBQVcsQ0FBQyxRQUFRLENBQUMsZUFBZSxDQUFDO1FBQzNELElBQUksZUFBZSxLQUFLLElBQUksSUFBSSxDQUFDLGVBQWUsSUFBSSxRQUFRLENBQUMsVUFBVSxLQUFLLGVBQWUsQ0FBQyxVQUFVLENBQUMsRUFBRTtZQUNyRyxPQUFPO1NBQ1Y7UUFDRCxxQkFBVyxDQUFDLFFBQVEsRUFBRSxpQkFBaUIsRUFBRSxDQUFDO0lBQzlDLENBQUM7Q0FFSjtBQWZELGdDQWVDIn0=","assetPath":"Assets/BuilditTemplate/Themes/JumpMaster_Traps/Scripts/TrapObjScript.ts","manifest":{"properties":[],"name":"TrapObjScript","description":"","hasAnimatorMove":false},"isCompiled":true}'
   typescriptHash: 5e50f177e2c1cf8d93aa0be6d7a8b231
   onlyWriteTrigger: 0
