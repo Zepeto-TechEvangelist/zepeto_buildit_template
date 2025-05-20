@@ -1,12 +1,13 @@
-import {RectTransform, Transform, Vector2} from 'UnityEngine';
+import {Canvas, RectTransform, Transform, Vector2, Vector3 } from 'UnityEngine';
 import {Button, LayoutRebuilder, Text} from 'UnityEngine.UI';
 import {UnityEvent} from "UnityEngine.Events";
 import {ZepetoScriptBehaviour} from "ZEPETO.Script";
 import {Axis} from "UnityEngine.RectTransform";
+import {ZepetoPlayers, ZepetoCamera} from "ZEPETO.Character.Controller";
 
 
 export default class UIMenuController extends ZepetoScriptBehaviour {
-
+    
     public root: Transform;
     public closeButton: Button;
     public titleText: Text;
@@ -22,15 +23,20 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
     // } as ScreenInfo;
 
     private readonly _directionScreen = {
-        left: { l: 0, r: 0, t: 0, b: 0, w: 320, h:1, pivot: { x: 0, y: 0.5 }, anchors: Anchors.left },
-        right: { l: 0, r: 0, t: 0, b: 0, w: 320, h: 1, pivot: { x: 1, y: 0.5 }, anchors: Anchors.right },
-        bottom: { l: 0, r: 0, t: 0, b: 0, w: 0, h: 200, pivot: { x: 0, y: 0 }, anchors: Anchors.bottom },
+        left: { l: 0, r: 0, t: 0, b: 0, w: 340, h:0, pivot: { x: 0, y: 0.5 }, anchors: Anchors.left, offset: { x: 1, y: 0, z: 0 } },
+        right: { l: 0, r: -20, t: 20, b: 20, w: 340, h: 0, pivot: { x: 1, y: 0.5 }, anchors: Anchors.right, offset: { x: -1, y: 0, z: 0 } },
+        bottom: { l: 0, r: 0, t: 0, b: 0, w: 0, h: 400, pivot: { x: 0, y: 0 }, anchors: Anchors.bottom, offset: { x: 0, y: -1, z: 0 } },
     }
+    
+    public cameraOffsetAdjustment: Vector3;
     
     public open: UnityEvent;
     public close: UnityEvent;
-    public onOpened: () => {};
-    public onClosed: () => {};
+    public get onOpened(): UnityEvent { this.open ??= new UnityEvent(); return this.open; }
+    public get onClosed(): UnityEvent { this.close ??= new UnityEvent(); return this.close; }
+
+
+    private savedCameraOffset: Vector3;
     
     public get menuVisible(): boolean { 
         return this._menuVisible; 
@@ -56,11 +62,19 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
                 break;
         }
         
-        
         this.panelRect.anchorMin = new Vector2(rect.anchors.min.x, rect.anchors.min.y);
         this.panelRect.anchorMax = new Vector2(rect.anchors.max.x, rect.anchors.max.y);
         this.panelRect.pivot = new Vector2(rect.pivot.x, rect.pivot.y);
-        this.panelRect.sizeDelta = new Vector2(rect.w, rect.h);
+       // this.panelRect.sizeDelta = new Vector2(rect.w, rect.h);
+        this.panelRect.offsetMin = new Vector2(rect.l, rect.t);
+        this.panelRect.offsetMax = new Vector2(rect.r, -rect.b);
+
+        if (rect.h != 0)
+            this.panelRect.SetSizeWithCurrentAnchors(Axis.Vertical, rect.h);
+        if (rect.w != 0)
+            this.panelRect.SetSizeWithCurrentAnchors(Axis.Horizontal, rect.w);
+
+        this.cameraOffsetAdjustment = Vector3.op_Multiply(new Vector3(rect.offset.x, rect.offset.y, rect.offset.z), 0.5);
     }
 
     protected OnShowUI() {
@@ -81,26 +95,41 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
         return true;
     }
 
+    public ToggleMenu() {
+        this._menuVisible ? this.Hide() : this.ShowMenu(); 
+    }
+    
     public Hide() {
-        this.onClosed();
+        
+        this.GetComponent<Canvas>().enabled = false;
         this._menuVisible = false;
+
+        ZepetoPlayers.instance.ZepetoCamera.additionalOffset = this.savedCameraOffset;
+
+        this.close?.Invoke();
     }
 
     public ShowMenu() {
-        if (!this._menuVisible) {
-            // this.Show();
-        } 
+        if (this._menuVisible) return;
+        this._menuVisible = true;
         
-        this.closeButton.onClick.RemoveAllListeners();
-        this.closeButton.onClick.AddListener(() => this.Hide());
+        this.GetComponent<Canvas>().enabled = true;
+        
+        this.closeButton?.onClick.RemoveAllListeners();
+        this.closeButton?.onClick.AddListener(() => this.Hide());
 
         // if (titleKey) {
         //     this.titleText.text = titleKey; // TODO: Localize
         // } else {
         //     this.titleText.text = "";
         // }
+        this.savedCameraOffset = ZepetoPlayers.instance.ZepetoCamera.additionalOffset;
+        // TODO: lock zoom
+        ZepetoPlayers.instance.ZepetoCamera.additionalOffset = this.cameraOffsetAdjustment;
 
-        this.onOpened();
+
+        this.open?.Invoke();
+        
         //this._isVisible = true;
 
         // this.StartCoroutine(this.SetTitlePanelPosition());

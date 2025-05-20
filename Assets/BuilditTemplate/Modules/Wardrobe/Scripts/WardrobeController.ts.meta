@@ -26,43 +26,107 @@ ScriptedImporter:
     { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
     ZEPETO_Module_Shop_1 = require(\"ZEPETO.Module.Shop\");\r\nconst UnityEngine_1
     = require(\"UnityEngine\");\r\nconst UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst
-    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nclass
-    WardrobeController extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    //
-    When the scene starts, create a player with the provided user ID and begin fetching
-    and displaying the items.\r\n    Start() {\r\n        // Create a new player
-    with the specified user ID.\r\n        // ZepetoPlayers.instance.CreatePlayerWithUserId(WorldService.userId,
-    new SpawnInfo(), true);\r\n        // Add a listener to the OnAddedLocalPlayer
-    event, which triggers when the local player is added.\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
-    => {\r\n            // Start the CoGetMyItem coroutine to fetch and display the
-    items.\r\n            this.StartCoroutine(this.CoGetMyItem());\r\n        });\r\n   
-    }\r\n    // Coroutine to fetch and display the items.\r\n    *CoGetMyItem() {\r\n       
-    // Request the item list with the \"all\" keyword and no filters.\r\n       
-    var requestItemList = ZEPETO_Module_Shop_1.ShopService.GetMyContentItemListAsync(this.itemCategory,
-    null);\r\n        // Wait until the request is complete.\r\n        yield new
-    UnityEngine_1.WaitUntil(() => requestItemList.keepWaiting == false);\r\n       
-    if (requestItemList.responseData.isSuccess) {\r\n            let contentItems
-    = requestItemList.responseData.items;\r\n            for (let i = 0; i < contentItems.length;
-    ++i) {\r\n                const property = contentItems[i].property;\r\n               
-    // Request the thumbnail texture for the item.\r\n                var textureReq
-    = contentItems[i].GetThumbnailAsync();\r\n                yield new UnityEngine_1.WaitUntil(()
-    => textureReq.keepWaiting == false);\r\n                let thumbnailTexture
-    = textureReq.responseData.texture;\r\n                // Instantiate an item
-    prefab and set its properties.\r\n                const item = UnityEngine_1.Object.Instantiate(this.itemPrefab,
-    this.itemCanvas);\r\n                item.GetComponentInChildren($typeof(UnityEngine_UI_1.RawImage)).texture
-    = thumbnailTexture;\r\n                item.GetComponentInChildren($typeof(UnityEngine_UI_1.Text)).text
-    = contentItems[i].id;\r\n                // Add a click listener to the item
-    button to change the costume when clicked.\r\n                item.GetComponentInChildren($typeof(UnityEngine_UI_1.Button)).onClick.AddListener(()
-    => {\r\n                    this.SetItemButton(contentItems[i].id);\r\n               
-    });\r\n            }\r\n        }\r\n        // Force layout rebuild to ensure
-    proper UI element positioning.\r\n        const rect = this.itemCanvas.gameObject.GetComponent($typeof(UnityEngine_1.RectTransform));\r\n       
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    UIMenuController_1 = require(\"./UIMenuController\");\r\nconst WardrobeItemController_1
+    = require(\"./WardrobeItemController\");\r\nconst ZEPETO_Inventory_1 = require(\"ZEPETO.Inventory\");\r\nclass
+    WardrobeController extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.isInventory = true;\r\n       
+    this.cachedItems = new Map();\r\n        this.categories = [\r\n            ZEPETO_Module_Shop_1.ItemKeyword.outwear,\r\n           
+    ZEPETO_Module_Shop_1.ItemKeyword.top,\r\n            ZEPETO_Module_Shop_1.ItemKeyword.pants,\r\n           
+    ZEPETO_Module_Shop_1.ItemKeyword.skirt,\r\n            ZEPETO_Module_Shop_1.ItemKeyword.onepiece,\r\n           
+    ZEPETO_Module_Shop_1.ItemKeyword.footwear,\r\n            ZEPETO_Module_Shop_1.ItemKeyword.accessory,\r\n           
+    ZEPETO_Module_Shop_1.ItemKeyword.jewelry,\r\n            ZEPETO_Module_Shop_1.ItemKeyword.headwear,\r\n           
+    ZEPETO_Module_Shop_1.ItemKeyword.eyewear,\r\n            ZEPETO_Module_Shop_1.ItemKeyword.socks,\r\n           
+    ZEPETO_Module_Shop_1.ItemKeyword.makeup,\r\n            ZEPETO_Module_Shop_1.ItemKeyword.hair,\r\n           
+    // ItemKeyword.bodyfigure\r\n        ];\r\n        this.selectedCategoryItem
+    = null;\r\n        /**\r\n         * Inventory of user owned/worn products\r\n        
+    * @private\r\n         */\r\n        this.inventory = null;\r\n        // private
+    AddMessageHandler(){\r\n        //     // [Option] Synchronize each player''s
+    clothes\r\n        //     this._room.AddMessageHandler<ChangedItem>(this.MESSAGE_TYPE.SyncChangedItem,
+    message => {\r\n        //         console.log(\"syncChangedItem\");\r\n       
+    //         if (message == null) {\r\n        //             return;\r\n       
+    //         }\r\n        //\r\n        //         if(false == this._userZepetoContexts.has(message.sessionId)){\r\n       
+    //             return;\r\n        //         }\r\n        //\r\n        //        
+    let itemContents:ItemContent[] = [];\r\n        //\r\n        //         for
+    (const characterItem of message.characterItems) {\r\n        //             let
+    itemContent:ItemContent = new ItemContent();\r\n        //             itemContent.id
+    = characterItem.id;\r\n        //             itemContent.property = parseInt(characterItem.property);\r\n       
+    //\r\n        //             if(itemContent.id == this._basicClothString)\r\n       
+    //                 itemContent.id = \"\";\r\n        //\r\n        //            
+    itemContents.push(itemContent);\r\n        //         }\r\n        //        
+    let clothesPreviewer:ClothesPreviewer = new ClothesPreviewer(this._userZepetoContexts.get(message.sessionId),itemContents);\r\n       
+    //         clothesPreviewer.PreviewContents();\r\n        //     });\r\n       
+    // }\r\n    }\r\n    // When the scene starts, create a player with the provided
+    user ID and begin fetching and displaying the items.\r\n    Start() {\r\n       
+    // Hide the prefabs\r\n        for (var i = 0; i < this.categories.length; i++)\r\n           
+    this.cachedItems.set(this.categories[i], []);\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            // this.StartCoroutine(this.LoadInventory());   // disabled
+    currently\r\n            this.StartCoroutine(this.CoGetMyItem());\r\n       
+    });\r\n        this.StartCoroutine(this.CreateCategoryMenu());\r\n        this.menu
+    ?? (this.menu = this.GetComponent($typeof(UIMenuController_1.default)));\r\n       
+    this.menu.onOpened.AddListener(() => {\r\n            this.OnShow();\r\n       
+    });\r\n    }\r\n    *CreateCategoryMenu() {\r\n        var strings = [\r\n           
+    \"Outwear\",\r\n            \"Top\",\r\n            \"Pants\",\r\n           
+    \"Skirt\",\r\n            \"Dress\",\r\n            \"Footwear\",\r\n           
+    \"Accessory\",\r\n            \"Jewelry\",\r\n            \"Headwear\",\r\n           
+    \"Eyewear\",\r\n            \"Socks\",\r\n            \"Makeup\",\r\n           
+    \"Hair\",\r\n            // \"Bodyfigure\"\r\n        ];\r\n        for (let
+    i = 0; i < strings.length; i++) {\r\n            let category = this.categories[i];\r\n           
+    const item = UnityEngine_1.Object.Instantiate(this.categoryPrefab, this.categoryCanvas);\r\n           
+    let text = item.GetComponentInChildren($typeof(UnityEngine_UI_1.Text));\r\n           
+    text.text = strings[i];\r\n            let button = item.GetComponentInChildren($typeof(UnityEngine_UI_1.Button));\r\n           
+    button.onClick.AddListener(() => {\r\n                if (this.selectedCategoryItem
+    == button)\r\n                    return;\r\n                // Unselect previous\r\n               
+    this.selectedCategoryItem.GetComponentInChildren($typeof(UnityEngine_UI_1.Text)).fontStyle
+    = UnityEngine_1.FontStyle.Normal;\r\n                this.selectedCategoryItem
+    = button;\r\n                // Select current\r\n                button.Select();\r\n               
+    text.fontStyle = UnityEngine_1.FontStyle.Bold;\r\n                this.SelectCategory(category);\r\n           
+    });\r\n            if (this.selectedCategoryItem == null) {\r\n               
+    // button.onClick.Invoke();\r\n                // Unselect previous\r\n               
+    this.selectedCategoryItem = button;\r\n                // Select current\r\n               
+    button.Select();\r\n                text.fontStyle = UnityEngine_1.FontStyle.Bold;\r\n               
+    this.SelectCategory(category);\r\n            }\r\n        }\r\n    }\r\n   
+    OnShow() {\r\n        if (this.selectedCategoryItem.transform.GetSiblingIndex()
+    == 0)\r\n            this.categoryScroll.horizontalNormalizedPosition = this.selectedCategoryItem.transform.GetSiblingIndex();\r\n   
+    }\r\n    /**\r\n     * Load the user''s inventory\r\n     * @private\r\n    
+    */\r\n    *LoadInventory() {\r\n        let request = ZEPETO_Inventory_1.InventoryService.GetListAsync();\r\n       
+    yield new UnityEngine_1.WaitUntil(() => request.keepWaiting == false);\r\n       
+    if (request.responseData.isSuccess) {\r\n            this.inventory = request.responseData.products;\r\n           
+    console.log(this.inventory.flatMap(x => x.productId).join(\",\"));\r\n       
+    }\r\n    }\r\n    InventoryHasItem(itemId) {\r\n        return this.inventory.findIndex(x
+    => x.productId == itemId) != -1;\r\n    }\r\n    // Coroutine to fetch and display
+    the items.\r\n    *CoGetMyItem() {\r\n        // CleanupI\r\n        for (let
+    i = 0; i < this.itemCanvas.childCount; i++) {\r\n            UnityEngine_1.Object.Destroy(this.itemCanvas.GetChild(i).gameObject);\r\n       
+    }\r\n        // Maybe loading\r\n        // TODO: Add categories title from a
+    category response\r\n        if (!this.cachedItems[this.itemCategory])\r\n           
+    this.cachedItems[this.itemCategory] = [];\r\n        if (this.cachedItems[this.itemCategory].length
+    == 0) {\r\n            let nextPageToken = null;\r\n            while (true)
+    {\r\n                // Request the item list with the \"all\" keyword and no
+    filters.\r\n                var requestItemList = ZEPETO_Module_Shop_1.ShopService.GetMyContentItemListAsync(this.itemCategory,
+    null);\r\n                // Wait until the request is complete.\r\n               
+    yield new UnityEngine_1.WaitUntil(() => requestItemList.keepWaiting == false);\r\n               
+    if (requestItemList.responseData.isSuccess) {\r\n                    let contentItems
+    = requestItemList.responseData.items;\r\n                    this.cachedItems[this.itemCategory]
+    = contentItems;\r\n                    nextPageToken = requestItemList.responseData.nextPageToken;\r\n               
+    }\r\n                else {\r\n                    // Error\r\n               
+    }\r\n                if (nextPageToken == null)\r\n                    break;\r\n           
+    }\r\n        }\r\n        let contentItems = this.cachedItems[this.itemCategory];\r\n       
+    for (let i = 0; i < contentItems.length; ++i) {\r\n            const item = UnityEngine_1.Object.Instantiate(this.itemPrefab,
+    this.itemCanvas);\r\n            let itemController = item.GetComponentInChildren($typeof(WardrobeItemController_1.default));\r\n           
+    itemController.SetItem(contentItems[i], false);\r\n            item.GetComponentInChildren($typeof(UnityEngine_UI_1.Button)).onClick.AddListener(()
+    => {\r\n                // itemController.SetSelectedState(true);\r\n               
+    this.SetItemButton(contentItems[i].id);\r\n            });\r\n        }\r\n       
+    // Force layout rebuild to ensure proper UI element positioning.\r\n        const
+    rect = this.itemCanvas.gameObject.GetComponent($typeof(UnityEngine_1.RectTransform));\r\n       
     UnityEngine_UI_1.LayoutRebuilder.ForceRebuildLayoutImmediate(rect);\r\n    }\r\n   
-    // Method to change the local player''s costume based on the provided item code.\r\n   
-    SetItemButton(itemCode) {\r\n        // Use the ZepetoPlayers.instance.LocalPlayer
-    property to access the local player instance and change their costume.\r\n       
-    ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.SetCostume(itemCode,
+    SelectCategory(category) {\r\n        this.itemCategory = category;\r\n       
+    this.StartCoroutine(this.CoGetMyItem());\r\n    }\r\n    // Method to change
+    the local player''s costume based on the provided item code.\r\n    SetItemButton(itemCode)
+    {\r\n        // Use the ZepetoPlayers.instance.LocalPlayer property to access
+    the local player instance and change their costume.\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.SetCostume(itemCode,
     () => {\r\n            // Once the costume change is complete, log a message
-    indicating the successful change.\r\n            console.log(`Set Costume Complete
-    : ${itemCode}`);\r\n        });\r\n    }\r\n}\r\nexports.default = WardrobeController;\r\n//#
-    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiV2FyZHJvYmVDb250cm9sbGVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiV2FyZHJvYmVDb250cm9sbGVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXNEO0FBQ3RELDJEQUE4RDtBQUU5RCw2Q0FBaUc7QUFDakcsbURBQXlFO0FBQ3pFLDZFQUF1RTtBQUl2RSxNQUFxQixrQkFBbUIsU0FBUSxxQ0FBcUI7SUFNakUsZ0hBQWdIO0lBQ2hILEtBQUs7UUFFRCxrREFBa0Q7UUFDbEQsNkZBQTZGO1FBRTdGLGlHQUFpRztRQUNqRywyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxrQkFBa0IsQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQ3ZELGtFQUFrRTtZQUNsRSxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxXQUFXLEVBQUUsQ0FBQyxDQUFDO1FBQzVDLENBQUMsQ0FBQyxDQUFDO0lBQ1AsQ0FBQztJQUVELDRDQUE0QztJQUM1QyxDQUFDLFdBQVc7UUFDUiwrREFBK0Q7UUFDL0QsSUFBSSxlQUFlLEdBQUcsZ0NBQVcsQ0FBQyx5QkFBeUIsQ0FBQyxJQUFJLENBQUMsWUFBWSxFQUFFLElBQUksQ0FBQyxDQUFDO1FBRXJGLHNDQUFzQztRQUN0QyxNQUFNLElBQUksdUJBQVMsQ0FBQyxHQUFHLEVBQUUsQ0FBQyxlQUFlLENBQUMsV0FBVyxJQUFJLEtBQUssQ0FBQyxDQUFDO1FBRWhFLElBQUksZUFBZSxDQUFDLFlBQVksQ0FBQyxTQUFTLEVBQUU7WUFDeEMsSUFBSSxZQUFZLEdBQVcsZUFBZSxDQUFDLFlBQVksQ0FBQyxLQUFLLENBQUM7WUFFOUQsS0FBSyxJQUFJLENBQUMsR0FBRyxDQUFDLEVBQUUsQ0FBQyxHQUFHLFlBQVksQ0FBQyxNQUFNLEVBQUUsRUFBRSxDQUFDLEVBQUU7Z0JBQzFDLE1BQU0sUUFBUSxHQUF1QixZQUFZLENBQUMsQ0FBQyxDQUFDLENBQUMsUUFBUSxDQUFDO2dCQUU5RCw4Q0FBOEM7Z0JBQzlDLElBQUksVUFBVSxHQUFHLFlBQVksQ0FBQyxDQUFDLENBQUMsQ0FBQyxpQkFBaUIsRUFBRSxDQUFDO2dCQUNyRCxNQUFNLElBQUksdUJBQVMsQ0FBQyxHQUFHLEVBQUUsQ0FBQyxVQUFVLENBQUMsV0FBVyxJQUFJLEtBQUssQ0FBQyxDQUFDO2dCQUMzRCxJQUFJLGdCQUFnQixHQUFjLFVBQVUsQ0FBQyxZQUFZLENBQUMsT0FBTyxDQUFDO2dCQUVsRSxxREFBcUQ7Z0JBQ3JELE1BQU0sSUFBSSxHQUFHLG9CQUFNLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxVQUFVLEVBQUUsSUFBSSxDQUFDLFVBQVUsQ0FBZSxDQUFDO2dCQUNoRixJQUFJLENBQUMsc0JBQXNCLFNBQUMseUJBQVEsRUFBRyxDQUFDLE9BQU8sR0FBRyxnQkFBZ0IsQ0FBQztnQkFDbkUsSUFBSSxDQUFDLHNCQUFzQixTQUFDLHFCQUFJLEVBQUcsQ0FBQyxJQUFJLEdBQUcsWUFBWSxDQUFDLENBQUMsQ0FBQyxDQUFDLEVBQUUsQ0FBQztnQkFFOUQsOEVBQThFO2dCQUM5RSxJQUFJLENBQUMsc0JBQXNCLFNBQUMsdUJBQU0sRUFBRyxDQUFDLE9BQU8sQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO29CQUMzRCxJQUFJLENBQUMsYUFBYSxDQUFDLFlBQVksQ0FBQyxDQUFDLENBQUMsQ0FBQyxFQUFFLENBQUMsQ0FBQztnQkFDM0MsQ0FBQyxDQUFDLENBQUM7YUFDTjtTQUNKO1FBRUQsZ0VBQWdFO1FBQ2hFLE1BQU0sSUFBSSxHQUFHLElBQUksQ0FBQyxVQUFVLENBQUMsVUFBVSxDQUFDLFlBQVksU0FBQywyQkFBYSxFQUFHLENBQUM7UUFDdEUsZ0NBQWUsQ0FBQywyQkFBMkIsQ0FBQyxJQUFJLENBQUMsQ0FBQztJQUN0RCxDQUFDO0lBRUQsK0VBQStFO0lBQy9FLGFBQWEsQ0FBQyxRQUFnQjtRQUMxQixvSEFBb0g7UUFDcEgsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFVBQVUsQ0FBQyxRQUFRLEVBQUUsR0FBRyxFQUFFO1lBQ3pELHVGQUF1RjtZQUN2RixPQUFPLENBQUMsR0FBRyxDQUFDLDBCQUEwQixRQUFRLEVBQUUsQ0FBQyxDQUFDO1FBQ3RELENBQUMsQ0FBQyxDQUFDO0lBQ1AsQ0FBQztDQTRFSjtBQTFJRCxxQ0EwSUMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Wardrobe/Scripts/WardrobeController.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"itemPrefab","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"itemCanvas","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"ZEPETO.Module.Shop","name":"itemCategory","type":"ZEPETO.Module.Shop.ItemKeyword","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"WardrobeController","description":"","hasAnimatorMove":false},"isCompiled":true}'
-  typescriptHash: ccc3ea12d886641f4158e972e71c25d0
+    indicating the successful change.\r\n            // console.log(`Set Costume
+    Complete : ${itemCode}`);\r\n            // TODO: Additional item code etc\r\n       
+    });\r\n    }\r\n}\r\nexports.default = WardrobeController;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiV2FyZHJvYmVDb250cm9sbGVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiV2FyZHJvYmVDb250cm9sbGVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQW9EO0FBQ3BELDJEQUE0RDtBQUM1RCw2Q0FBK0Y7QUFDL0YsbURBQXlFO0FBQ3pFLDZFQUEwRDtBQUUxRCx5REFBa0Q7QUFDbEQscUVBQThEO0FBQzlELHVEQUFtRTtBQUduRSxNQUFxQixrQkFBbUIsU0FBUSxxQ0FBcUI7SUFBckU7O1FBSVcsZ0JBQVcsR0FBWSxJQUFJLENBQUM7UUFhNUIsZ0JBQVcsR0FBNkIsSUFBSSxHQUFHLEVBQXVCLENBQUM7UUFFdEUsZUFBVSxHQUFrQjtZQUNoQyxnQ0FBVyxDQUFDLE9BQU87WUFDbkIsZ0NBQVcsQ0FBQyxHQUFHO1lBQ2YsZ0NBQVcsQ0FBQyxLQUFLO1lBQ2pCLGdDQUFXLENBQUMsS0FBSztZQUNqQixnQ0FBVyxDQUFDLFFBQVE7WUFDcEIsZ0NBQVcsQ0FBQyxRQUFRO1lBQ3BCLGdDQUFXLENBQUMsU0FBUztZQUNyQixnQ0FBVyxDQUFDLE9BQU87WUFDbkIsZ0NBQVcsQ0FBQyxRQUFRO1lBQ3BCLGdDQUFXLENBQUMsT0FBTztZQUNuQixnQ0FBVyxDQUFDLEtBQUs7WUFDakIsZ0NBQVcsQ0FBQyxNQUFNO1lBQ2xCLGdDQUFXLENBQUMsSUFBSTtZQUNoQix5QkFBeUI7U0FDNUIsQ0FBQztRQXVCTSx5QkFBb0IsR0FBVyxJQUFJLENBQUM7UUFtRTVDOzs7V0FHRztRQUNLLGNBQVMsR0FBc0IsSUFBSSxDQUFDO1FBd0c1QywrQkFBK0I7UUFDL0Isb0RBQW9EO1FBQ3BELGdHQUFnRztRQUNoRywwQ0FBMEM7UUFDMUMsaUNBQWlDO1FBQ2pDLHNCQUFzQjtRQUN0QixZQUFZO1FBQ1osRUFBRTtRQUNGLHdFQUF3RTtRQUN4RSxzQkFBc0I7UUFDdEIsWUFBWTtRQUNaLEVBQUU7UUFDRiwrQ0FBK0M7UUFDL0MsRUFBRTtRQUNGLGdFQUFn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","assetPath":"Assets/BuilditTemplate/Modules/Wardrobe/Scripts/WardrobeController.ts","manifest":{"properties":[{"assembly":"","name":"menu","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Wardrobe/Scripts/UIMenuController.default","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"isInventory","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"itemPrefab","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"itemCanvas","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"ZEPETO.Module.Shop","name":"itemCategory","type":"ZEPETO.Module.Shop.ItemKeyword","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"categoryScroll","type":"UnityEngine.UI.ScrollRect","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"categoryPrefab","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"categoryCanvas","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"WardrobeController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 29bcb103ac523a217cc1a37fce993e30
   onlyWriteTrigger: 0

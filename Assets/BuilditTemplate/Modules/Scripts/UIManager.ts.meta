@@ -1,0 +1,45 @@
+fileFormatVersion: 2
+guid: a18157ebe7bc4773a9a56769094d4cb7
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst WardrobeController_1 =
+    require(\"../Wardrobe/Scripts/WardrobeController\");\r\nconst UIMenuController_1
+    = require(\"../Wardrobe/Scripts/UIMenuController\");\r\nclass UIManager extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    static get instance() {\r\n       
+    if (this.m_instance === null) {\r\n            this.m_instance = UnityEngine_1.GameObject.FindObjectOfType($typeof(UIManager));\r\n           
+    if (this.m_instance === null) {\r\n                this.m_instance = new UnityEngine_1.GameObject(UIManager.name).AddComponent($typeof(UIManager));\r\n           
+    }\r\n        }\r\n        return this.m_instance;\r\n    }\r\n    Awake() {\r\n       
+    if (UIManager.m_instance !== null && UIManager.m_instance !== this) {\r\n           
+    UnityEngine_1.GameObject.Destroy(this.gameObject);\r\n        }\r\n        else
+    {\r\n            UIManager.m_instance = this;\r\n            UnityEngine_1.GameObject.DontDestroyOnLoad(this.gameObject);\r\n       
+    }\r\n    }\r\n    Destroy() {\r\n        if (UIManager.m_instance == this)\r\n           
+    UIManager.m_instance = null;\r\n    }\r\n    Start() {\r\n        let wardrobeController
+    = this.wardrobe.GetComponent($typeof(WardrobeController_1.default));\r\n       
+    let wardrobeMenu = this.wardrobe.GetComponent($typeof(UIMenuController_1.default));\r\n       
+    this.wardrobeToggle.onClick.AddListener(() => { wardrobeMenu.ToggleMenu(); });\r\n   
+    }\r\n}\r\nexports.default = UIManager;\r\n/* Singleton */\r\nUIManager.m_instance
+    = null;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVUlNYW5hZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiVUlNYW5hZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsNkNBQTBEO0FBQzFELGlEQUFxRDtBQUlyRCwrRUFBd0U7QUFDeEUsMkVBQW9FO0FBRXBFLE1BQXFCLFNBQVUsU0FBUSxxQ0FBcUI7SUFRakQsTUFBTSxLQUFLLFFBQVE7UUFDdEIsSUFBSSxJQUFJLENBQUMsVUFBVSxLQUFLLElBQUksRUFBRTtZQUMxQixJQUFJLENBQUMsVUFBVSxHQUFHLHdCQUFVLENBQUMsZ0JBQWdCLFNBQUMsU0FBUyxFQUFHLENBQUM7WUFDM0QsSUFBSSxJQUFJLENBQUMsVUFBVSxLQUFLLElBQUksRUFBRTtnQkFDMUIsSUFBSSxDQUFDLFVBQVUsR0FBRyxJQUFJLHdCQUFVLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxDQUFDLFlBQVksU0FBQyxTQUFTLEVBQUcsQ0FBQzthQUM5RTtTQUNKO1FBQ0QsT0FBTyxJQUFJLENBQUMsVUFBVSxDQUFDO0lBQzNCLENBQUM7SUFFTyxLQUFLO1FBQ1QsSUFBSSxTQUFTLENBQUMsVUFBVSxLQUFLLElBQUksSUFBSSxTQUFTLENBQUMsVUFBVSxLQUFLLElBQUksRUFBRTtZQUNoRSx3QkFBVSxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUM7U0FDdkM7YUFBTTtZQUNILFNBQVMsQ0FBQyxVQUFVLEdBQUcsSUFBSSxDQUFDO1lBQzVCLHdCQUFVLENBQUMsaUJBQWlCLENBQUMsSUFBSSxDQUFDLFVBQVUsQ0FBQyxDQUFDO1NBQ2pEO0lBQ0wsQ0FBQztJQUVPLE9BQU87UUFDWCxJQUFJLFNBQVMsQ0FBQyxVQUFVLElBQUksSUFBSTtZQUM1QixTQUFTLENBQUMsVUFBVSxHQUFHLElBQUksQ0FBQztJQUNwQyxDQUFDO0lBRU8sS0FBSztRQUVULElBQUksa0JBQWtCLEdBQUcsSUFBSSxDQUFDLFFBQVEsQ0FBQyxZQUFZLFNBQUMsNEJBQWtCLEVBQUcsQ0FBQztRQUMxRSxJQUFJLFlBQVksR0FBRyxJQUFJLENBQUMsUUFBUSxDQUFDLFlBQVksU0FBQywwQkFBZ0IsRUFBRyxDQUFDO1FBRWxFLElBQUksQ0FBQyxjQUFjLENBQUMsT0FBTyxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUUsR0FBRyxZQUFZLENBQUMsVUFBVSxFQUFFLENBQUMsQ0FBQyxDQUFDLENBQUMsQ0FBQztJQUVsRixDQUFDOztBQXZDTCw0QkF3Q0M7QUFuQ0csZUFBZTtBQUNBLG9CQUFVLEdBQWMsSUFBSSxDQUFDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/UIManager.ts","manifest":{"properties":[{"assembly":"UnityEngine.UI","name":"wardrobeToggle","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"wardrobe","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"UIManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 312d04e7d12fd1ca8f519ccca7dcf546
+  onlyWriteTrigger: 0

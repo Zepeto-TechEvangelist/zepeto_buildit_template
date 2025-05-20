@@ -88,8 +88,8 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 150
-  m_PreferredHeight: 150
+  m_PreferredWidth: 120
+  m_PreferredHeight: 120
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -105,8 +105,10 @@ GameObject:
   - component: {fileID: 3467748256452648125}
   - component: {fileID: 5301627955939468786}
   - component: {fileID: 7508954666724428711}
+  - component: {fileID: 3925047337832653055}
+  - component: {fileID: 1926071032442485428}
   m_Layer: 5
-  m_Name: Item
+  m_Name: ContentItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -131,7 +133,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3467748256452648125
 CanvasRenderer:
@@ -181,7 +183,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 1416805799048842860}
+  m_TargetGraphic: {fileID: 1926071032442485428}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -203,7 +205,7 @@ MonoBehaviour:
     m_Top: 5
     m_Bottom: 5
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 5
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -211,6 +213,81 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &3925047337832653055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5005924237924912280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyRootMotion: 0
+  script:
+    script: {fileID: 4458252877524076426, guid: b2a87be97d854a8abc4908d261cecc9d, type: 3}
+    isExpaned: 0
+    keys:
+    - item
+    - image
+    - text
+    - OnLoadingFinished
+    - isItemEquiped
+    - button
+    - outline
+    unityValues:
+    - {fileID: 0}
+    - {fileID: 1416805799048842860}
+    - {fileID: 2116711487185123406}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 5301627955939468786}
+    - {fileID: 1926071032442485428}
+    values:
+    - '{"type":"ZEPETO.Module.Content.Item, ZEPETO.Module","value":"{\"id\":\"\",\"property\":0,\"thumbnail\":\"\",\"isZem\":false,\"price\":0,\"badge\":\"\",\"keywords\":[],\"creator\":\"\",\"type\":\"\"}"}'
+    - 
+    - 
+    - 
+    - '{"type":"System.Boolean, mscorlib","value":"False"}'
+    - 
+    - 
+    unityArrayValues: []
+    arrayValues: []
+--- !u!114 &1926071032442485428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5005924237924912280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 266641665, guid: eb020944284e149ba8281a465630e06a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  texture: {fileID: 0}
+  icon: {fileID: 0}
+  iconColor: {r: 0, g: 0, b: 0, a: 0}
+  iconScale: 1
+  fillType: 0
+  fillAmount: 1
+  borderWidth: 0
+  borderColor: {r: 0.70270574, g: 0.2082592, b: 0.9811321, a: 1}
+  isCircle: 0
+  modifier: {x: 20, y: 20, z: 20, w: 20}
+  falloffDistance: 2
+  isPremultiplied: 0
+  isCover: 1
 --- !u!1 &7387636747208240296
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +306,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8935538681347726033
 RectTransform:
   m_ObjectHideFlags: 0
@@ -244,10 +321,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6936131088029476100}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 75, y: -156.25}
+  m_SizeDelta: {x: 140, y: 17.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5002502051014282357
 CanvasRenderer:
@@ -264,7 +341,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7387636747208240296}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 1992568646, guid: eb020944284e149ba8281a465630e06a, type: 3}
   m_Name: 
@@ -284,7 +361,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 8
     m_MaxSize: 40
-    m_Alignment: 1
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0

@@ -1,0 +1,55 @@
+fileFormatVersion: 2
+guid: de167b25d0694279b7a9e0f637d41115
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.ZepetoCharacterUtilities = void 0;\r\nconst ZEPETO_Character_Controller_1
+    = require(\"ZEPETO.Character.Controller\");\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nclass
+    ZepetoCharacterUtilities {\r\n    static GetCharacterScale(character) {\r\n       
+    return character.Context.transform.localScale.x;\r\n    }\r\n    static GetPlayerCameraModifier(player)
+    {\r\n        return 1;\r\n    }\r\n    static FullScreenScale(character) {\r\n       
+    var perspectiveCompensation = 0.95;\r\n        var cam = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.ZepetoCamera.camera;\r\n       
+    let bounds = character.GetComponentInChildren($typeof(UnityEngine_1.SkinnedMeshRenderer)).bounds;\r\n       
+    let screenSize = new UnityEngine_1.Vector2(UnityEngine_1.Screen.width, UnityEngine_1.Screen.height);\r\n       
+    //Get the position on screen.\r\n        let screenPosition = cam.WorldToScreenPoint(bounds.center);\r\n       
+    //Get the position on screen from the position + the bounds of the object.\r\n       
+    let sizePosition = cam.WorldToScreenPoint(UnityEngine_1.Vector3.op_Addition(bounds.center,
+    bounds.size));\r\n        //By subtracting the screen position from the size
+    position, we get the size of the object on screen.\r\n        let objectSize
+    = UnityEngine_1.Vector3.op_Subtraction(sizePosition, screenPosition);\r\n       
+    //Calculate how many times the object can be scaled up.\r\n        let scaleFactor
+    = UnityEngine_1.Vector2.op_Division(screenSize, new UnityEngine_1.Vector2(objectSize.x,
+    objectSize.y));\r\n        //The maximum scale is the one form the longest side,
+    with the lowest scale factor.\r\n        let maximumScale = Math.abs(scaleFactor.y);
+    //Math.min(scaleFactor.x, scaleFactor.y);\r\n        console.log(\"Max Scale
+    \" + maximumScale);\r\n        if (cam.orthographic) {\r\n            //Scale
+    the orthographic size.\r\n            cam.orthographicSize = cam.orthographicSize
+    / maximumScale;\r\n        }\r\n        else {\r\n            //Set the scale
+    of the object.\r\n            // character.transform.localScale = character.transform.localScale
+    * maximumScale * perspectiveCompensation;\r\n            // Logic for additional
+    zoom\r\n        }\r\n    }\r\n    static TopBoundsAdjustment(character) {\r\n       
+    let bounds = character.GetComponentInChildren($typeof(UnityEngine_1.SkinnedMeshRenderer)).bounds;\r\n       
+    console.log(\"Character Bounds Height: \" + bounds.size.y);\r\n    }\r\n}\r\nexports.ZepetoCharacterUtilities
+    = ZepetoCharacterUtilities;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiWmVwZXRvQ2hhcmFjdGVyVXRpbGl0aWVzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiWmVwZXRvQ2hhcmFjdGVyVXRpbGl0aWVzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLDZFQUF5RztBQUV6Ryw2Q0FBcUg7QUFFckgsTUFBYSx3QkFBd0I7SUFFMUIsTUFBTSxDQUFDLGlCQUFpQixDQUFDLFNBQTBCO1FBQ3RELE9BQU8sU0FBUyxDQUFDLE9BQU8sQ0FBQyxTQUFTLENBQUMsVUFBVSxDQUFDLENBQUMsQ0FBQztJQUNwRCxDQUFDO0lBRU0sTUFBTSxDQUFDLHVCQUF1QixDQUFDLE1BQW9CO1FBQ3RELE9BQU8sQ0FBQyxDQUFDO0lBQ2IsQ0FBQztJQUVNLE1BQU0sQ0FBQyxlQUFlLENBQUMsU0FBMEI7UUFDcEQsSUFBSSx1QkFBdUIsR0FBRyxJQUFJLENBQUM7UUFHbkMsSUFBSSxHQUFHLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsWUFBWSxDQUFDLE1BQU0sQ0FBQztRQUNyRCxJQUFJLE1BQU0sR0FBRyxTQUFTLENBQUMsc0JBQXNCLFNBQUMsaUNBQW1CLEVBQUcsQ0FBQyxNQUFNLENBQUM7UUFDNUUsSUFBSSxVQUFVLEdBQUcsSUFBSSxxQkFBTyxDQUFDLG9CQUFNLENBQUMsS0FBSyxFQUFFLG9CQUFNLENBQUMsTUFBTSxDQUFDLENBQUM7UUFFMUQsNkJBQTZCO1FBQzdCLElBQUksY0FBYyxHQUFHLEdBQUcsQ0FBQyxrQkFBa0IsQ0FBQyxNQUFNLENBQUMsTUFBTSxDQUFDLENBQUM7UUFDM0QsMEVBQTBFO1FBQzFFLElBQUksWUFBWSxHQUFHLEdBQUcsQ0FBQyxrQkFBa0IsQ0F2QmYscUJBQU8sQ0F1RG9nNEQsV0FBWSxDQWhDdmc0RCxNQUFNLENBQUMsTUFBTSxFQUFHLE1BQU0sQ0FBQyxJQUFJLEVBQUMsQ0FBQztRQUN2RSxxR0FBcUc7UUFDckcsSUFBSSxVQUFVLEdBekJZLHFCQUFPLENBdURrbDRELGNBQWUsQ0E5QmpuNEQsWUFBWSxFQUFHLGNBQWMsQ0FBQSxDQUFDO1FBQy9DLHVEQUF1RDtRQUN2RCxJQUFJLFdBQVcsR0FBRyxxQkFBTyxDQUFDLFdBQVcsQ0FBQyxVQUFVLEVBQUUsSUFBSSxxQkFBTyxDQUFDLFVBQVUsQ0FBQyxDQUFDLEVBQUUsVUFBVSxDQUFDLENBQUMsQ0FBQyxDQUFDLENBQUM7UUFDM0YsbUZBQW1GO1FBQ25GLElBQUksWUFBWSxHQUFHLElBQUksQ0FBQyxHQUFHLENBQUMsV0FBVyxDQUFDLENBQUMsQ0FBQyxDQUFDLENBQUMseUNBQXlDO1FBQ3JGLE9BQU8sQ0FBQyxHQUFHLENBQUMsWUFBWSxHQUFHLFlBQVksQ0FBQyxDQUFBO1FBQ3hDLElBQUksR0FBRyxDQUFDLFlBQVksRUFDcEI7WUFDSSw4QkFBOEI7WUFDOUIsR0FBRyxDQUFDLGdCQUFnQixHQUFHLEdBQUcsQ0FBQyxnQkFBZ0IsR0FBRyxZQUFZLENBQUM7U0FDOUQ7YUFFRDtZQUNJLDhCQUE4QjtZQUM5Qiw0R0FBNEc7WUFFNUcsNEJBQTRCO1NBQy9CO0lBQ0wsQ0FBQztJQUdNLE1BQU0sQ0FBQyxtQkFBbUIsQ0FBQyxTQUEwQjtRQUV4RCxJQUFJLE1BQU0sR0FBRyxTQUFTLENBQUMsc0JBQXNCLFNBQUMsaUNBQW1CLEVBQUcsQ0FBQyxNQUFNLENBQUM7UUFFNUUsT0FBTyxDQUFDLEdBQUcsQ0FBQywyQkFBMkIsR0FBRyxNQUFNLENBQUMsSUFBSSxDQUFDLENBQUMsQ0FBQyxDQUFDO0lBQzdELENBQUM7Q0FJSjtBQXJERCw0REFxREMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Scripts/Utility/ZepetoCharacterUtilities.ts","manifest":{"properties":[],"name":"ZepetoCharacterUtilities","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 1959eb2ca7f4cbb56ff435888c19f179
+  onlyWriteTrigger: 0
