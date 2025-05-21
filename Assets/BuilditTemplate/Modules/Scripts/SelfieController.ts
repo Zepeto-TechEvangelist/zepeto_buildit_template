@@ -1,8 +1,9 @@
-import {Animator, Camera, HumanBodyBones, Object, Quaternion, Transform, Vector3} from 'UnityEngine';
+import {Animator, Camera, HumanBodyBones, Object, Quaternion, Transform, Vector3, WaitForEndOfFrame} from 'UnityEngine';
 import {ZepetoCameraControl, ZepetoCharacter, ZepetoPlayerControl, ZepetoPlayers} from 'ZEPETO.Character.Controller';
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script';
 import ScreenshotController from '../Screenshot/Scripts/ScreenshotController';
 import ScreenshotUIController from '../Screenshot/Scripts/ScreenshotUIController';
+import { ZepetoCharacterUtilities } from './Utility/ZepetoCharacterUtilities';
 
 export default class SelfieController extends ZepetoScriptBehaviour {
     
@@ -52,8 +53,9 @@ export default class SelfieController extends ZepetoScriptBehaviour {
     // Method to start selfie mode. 
     public StartSelfieMode() {
         
+        
         this._zepetoCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
-
+        
         const animator: Animator = this._zepetoCharacter.ZepetoAnimator;
         this._headBone = animator.GetBoneTransform( HumanBodyBones.Head );
         
@@ -88,15 +90,14 @@ export default class SelfieController extends ZepetoScriptBehaviour {
         this._mainCamera.fieldOfView = 7;
         this._mainCamera.transform.localRotation = Quaternion.Euler(3, 0, 0);
         
-        
         const playerControl = Object.FindObjectOfType<ZepetoPlayerControl>();
-        // const cameraControl = Object.FindObjectOfType<ZepetoCameraControl>();
         playerControl.Enable = false;
-        // cameraControl.Enable = false;
-        // ZepetoPlayers.instance.LocalPlayer.zepetoCamera.tar
         this._isSelfieMode = true
 
         this._zepetoCharacter.ZepetoAnimator.Play("Idle");
+        
+        // ZepetoCharacterUtilities.AdjustCameraLookAtTarget(this._zepetoCharacter, this._headBone.gameObject);
+        // this.StartCoroutine(this.DelayFrame());
     }
 
     // Method to end selfie mode.
@@ -109,7 +110,7 @@ export default class SelfieController extends ZepetoScriptBehaviour {
         
         // Revert the changes made on main camera.
         this._mainCamera.fieldOfView = this._originalCameraFieldOfView;
-        this._mainCamera.transform.localRotation = Quaternion.identity;  // Quaternion.identity
+        this._mainCamera.transform.localRotation = Quaternion.identity;
         this._isSelfieMode = false;
 
         const playerControl = Object.FindObjectOfType<ZepetoPlayerControl>();
@@ -126,9 +127,9 @@ export default class SelfieController extends ZepetoScriptBehaviour {
 
         
         // TODO: Enable For Selfie Fix
-        // const additionalOffset = new Vector3(0, 2 * (this._zepetoCharacter.Context.transform.localScale.y - 1.0), 0);
-        // if (additionalOffset.y > 0)
-        //     ZepetoPlayers.instance.ZepetoCamera.additionalOffset = additionalOffset;
+        const additionalOffset = new Vector3(0, 2 * (this._zepetoCharacter.Context.transform.localScale.y - 1.0), 0);
+        if (additionalOffset.y > 0)
+            ZepetoPlayers.instance.ZepetoCamera.additionalOffset = additionalOffset;
 
 
         this._headBone.LookAt(this._mainCamera.transform.position);
@@ -139,6 +140,12 @@ export default class SelfieController extends ZepetoScriptBehaviour {
     private LimitRotation() {
         let outOfBounds = (this._headBone.localEulerAngles.z < 20 || this._headBone.localEulerAngles.z > 150) ? true : false;
         this._headBone.localRotation = Quaternion.Euler( outOfBounds ? this._initialHeadBoneAngle : this._headBone.localEulerAngles );
+    }
+    
+    *DelayFrame() {
+        return yield new WaitForEndOfFrame;
+
+        ZepetoCharacterUtilities.FullScreenScale(this._zepetoCharacter);
     }
 
 }
