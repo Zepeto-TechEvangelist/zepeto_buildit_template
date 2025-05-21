@@ -14,6 +14,10 @@ namespace BuilditTemplate.Editor
         public const string ISSUE_REPORT_PATH =
             "";
 
+        public const string THEME_PACKAGE_PATH = "Assets/BuilditTemplate/Themes";
+        
+        public const string THEME_PACKAGE_FILENAME  = "package.json";
+
         public const string EXTENSION_UNITYPACKAGE = ".unitypackage";
 
         public const string README_PATH = "docs/README.md";

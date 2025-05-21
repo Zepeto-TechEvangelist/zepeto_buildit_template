@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
@@ -12,9 +13,11 @@ namespace BuilditTemplate.Editor
     public class PackageManager : EditorWindow
     {
         private Content selectedData;
+        private bool selectionIsTheme;
         private ContentList contentList;
         private ContentList themeList;
-        
+        private Dictionary<string, PackageInfo> themeInfos;
+
         private string lastUpdateTime = "";
 
         private Language selectedLanguage = Language.English;
@@ -36,6 +39,10 @@ namespace BuilditTemplate.Editor
                 ShowWindow();
             }
 
+            // TODO: Also requires update after a package has been downloaded
+            themeInfos = PackageUtility.GetThemesInfo();
+            
+            // Loading Segment
             if (contentList == null)
             {
                 selectedLanguage =
@@ -52,6 +59,7 @@ namespace BuilditTemplate.Editor
                 EditorGUILayout.EndHorizontal();
                 GUILayout.EndArea();
             }
+            // Content Segment
             else
             {
                 DrawAll();
@@ -60,15 +68,18 @@ namespace BuilditTemplate.Editor
 
         private void DrawAll()
         {
-            // TODO: Rename some
+            // Top header
             DoTopBarGUI();
+            
             GUILayout.BeginHorizontal();
 
             DoSideButtonGUI();
+
+            // Details selection
             if (selectedData != null)
             {
                 GUILayout.BeginVertical();
-
+                
                 DoTopButtonGUI();
                 DoVersionInfoGUI();
                 DoDescriptionGUI();
@@ -114,10 +125,13 @@ namespace BuilditTemplate.Editor
             GUILayout.BeginVertical(GUILayout.Width(buttonWidth));
             selectedData ??= contentList.Items[0];
 
+            
+            // Core plugins
             foreach (var data in contentList.Items)
             {
                 if (GUILayout.Button("", GUILayout.Width(buttonWidth), GUILayout.Height(30)))
                 {
+                    selectionIsTheme = false;
                     selectedData = data;
                 }
 
@@ -131,10 +145,9 @@ namespace BuilditTemplate.Editor
 
                 GUI.Label(titleRect, data.Title);
                 
-
                 
                 var version = PackageUtility.VersionCheck("BuilditUnityPluginVersion");
-                if (version != "UNKNOWN")
+                if (version != "")
                 {
                     var labelStyle = new GUIStyle(GUI.skin.label);
                     GUI.Label(versionRect, version, EditorStyles.miniLabel);
@@ -146,7 +159,6 @@ namespace BuilditTemplate.Editor
             }
 
             
-            
             // Themes
             GUILayout.Space(20);
             GUILayout.Label(" Themes", EditorStyles.label);
@@ -155,6 +167,7 @@ namespace BuilditTemplate.Editor
             {
                 if (GUILayout.Button("", GUILayout.Width(buttonWidth), GUILayout.Height(30)))
                 {
+                    selectionIsTheme = true;
                     selectedData = data;
                 }
 
@@ -167,7 +180,15 @@ namespace BuilditTemplate.Editor
                     guiRect.height);
 
                 GUI.Label(titleRect, data.Title);
-                var version = PackageUtility.VersionCheck(data.Title);
+
+
+                var version = "1.0.0";
+                if (data.Name != null && themeInfos.ContainsKey(data.Name))
+                {
+                    version = themeInfos[data.Name].version;
+                }
+
+                // var version = PackageUtility.ThemeVersionCheck(data.Title);
                 if (version != "")
                 {
                     var labelStyle = new GUIStyle(GUI.skin.label);
@@ -201,23 +222,18 @@ namespace BuilditTemplate.Editor
             GUILayout.EndHorizontal();
         }
 
-        private void DoContibuteButtonGUI()
-        {
-            GUILayout.BeginVertical();
-            GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Report Issue", GUILayout.Width(200), GUILayout.Height(20)))
-            {
-                OpenLocalizeURL(Constants.ISSUE_REPORT_PATH);
-            }
-
-            // if (GUILayout.Button("Contribute", GUILayout.Width(200), GUILayout.Height(20)))
-            // {
-            //     OpenLocalizeURL(Constants.CONTRIBUTE_PATH);
-            // }
-
-            GUILayout.Space(3);
-            GUILayout.EndVertical();
-        }
+        // private void DoContibuteButtonGUI()
+        // {
+        //     GUILayout.BeginVertical();
+        //     GUILayout.FlexibleSpace();
+        //     if (GUILayout.Button("Report Issue", GUILayout.Width(200), GUILayout.Height(20)))
+        //     {
+        //         OpenLocalizeURL(Constants.ISSUE_REPORT_PATH);
+        //     }
+        //
+        //     GUILayout.Space(3);
+        //     GUILayout.EndVertical();
+        // }
 
         private void DoTopButtonGUI()
         {
@@ -234,16 +250,15 @@ namespace BuilditTemplate.Editor
 
             if (GUILayout.Button("View Import Guide", GUILayout.Height(20), GUILayout.ExpandWidth(false)))
             {
-                var url = selectedData.DocsUrl;//Path.Combine(Constants.REPO_PATH, GetRemoveSpace(selectedData.Title),
-                    //Constants.README_PATH);
+                var url = selectedData.DocsUrl;
                 OpenLocalizeURL(url);
             }
 
             if (GUILayout.Button("Import " + selectedData.LatestVersion, GUILayout.Height(20),
                     GUILayout.ExpandWidth(false)))
             {
-                string title = GetRemoveSpace(selectedData.Title);
-                string version = "v" + selectedData.LatestVersion;
+                var title = GetRemoveSpace(selectedData.Title);
+                var version = "v" + selectedData.LatestVersion;
                 EditorCoroutineUtility.StartCoroutine(PackageUtility.ImportPackage(title, version), this);
             }
 
@@ -255,8 +270,8 @@ namespace BuilditTemplate.Editor
         private void DoVersionInfoGUI()
         {
             var className = GetRemoveSpace(selectedData.Title) + "Version";
-            var downloadedVersion = PackageUtility.VersionCheck(className);
-
+            var downloadedVersion = GetSelectedVersion(selectedData, selectionIsTheme);
+            
             GUILayout.Label($"Version : {downloadedVersion}", EditorStyles.boldLabel);
 
             var linkStyle = new GUIStyle(GUI.skin.label)
@@ -340,17 +355,17 @@ namespace BuilditTemplate.Editor
 
         private IEnumerator LoadDataAsync()
         {
-            // if (false)
-            // {
-            //     var data = File.ReadAllText("Assets/BuilditTemplate/PackageManager/Version/moduleInfo.json");
-            //     contentList = JsonUtility.FromJson<ContentList>(data);
-            //     lastUpdateTime = DateTime.Now.ToString("HH:mm");
-            //     for (var i = 0; i < contentList.Items.Count; i++)
-            //     {
-            //         EditorCoroutineUtility.StartCoroutine(LoadImageAsync(i), this);
-            //     }
-            //     yield break;
-            // }
+            if (false)
+            {
+                var data = File.ReadAllText("Assets/BuilditTemplate/PackageManager/Version/moduleInfo.json");
+                contentList = JsonUtility.FromJson<ContentList>(data);
+                lastUpdateTime = DateTime.Now.ToString("HH:mm");
+                for (var i = 0; i < contentList.Items.Count; i++)
+                {
+                    EditorCoroutineUtility.StartCoroutine(LoadImageAsync(i), this);
+                }
+                yield break;
+            }
             
             yield return NetworkingUtility.GetDataAsync((data) =>
             {
@@ -403,10 +418,20 @@ namespace BuilditTemplate.Editor
             return s.Replace(" ", "");
         }
 
+        private string GetSelectedVersion(Content content, bool isTheme)
+        {
+            if (isTheme)
+                return themeInfos.ContainsKey(content.Name) ? themeInfos[content.Name].version : "1.0.0";
+            
+            return PackageUtility.VersionCheck(GetRemoveSpace(content.Title) + "Version");
+        }
+        
+
         [System.Serializable]
         public class Content
         {
             public string Title;
+            public string Name;
             public string Description;
             public string Description_ko;
             public string DocsUrl;
