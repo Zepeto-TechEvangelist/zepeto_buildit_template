@@ -1,6 +1,17 @@
 import { ZepetoCharacter, ZepetoPlayers, ZepetoPlayer, ZepetoCamera } from 'ZEPETO.Character.Controller';
 import { ZepetoPropertyFlag, ZepetoContext } from 'Zepeto';
-import { Camera, Bounds, Vector2, Vector3, MeshRenderer, SkinnedMeshRenderer, Screen, Transform } from 'UnityEngine';
+import {
+    Camera,
+    Bounds,
+    Vector2,
+    Vector3,
+    MeshRenderer,
+    SkinnedMeshRenderer,
+    Screen,
+    Transform,
+    GameObject,
+    Quaternion
+} from 'UnityEngine';
 
 export class ZepetoCharacterUtilities {
 
@@ -53,6 +64,30 @@ export class ZepetoCharacterUtilities {
         console.log("Character Bounds Height: " + bounds.size.y);
     }
     
+    public static AdjustCameraLookAtTarget(character: ZepetoCharacter, target: GameObject) {
+
+        let zepetoCamera = ZepetoPlayers.instance.ZepetoCamera;
+        let camera = zepetoCamera.camera;
+        let player = ZepetoPlayers.instance.LocalPlayer;
+        
+        // 0. Miscelanious settings
+        zepetoCamera.useCharacterCulling = false;
+        
+        // 1. Look at target
+        camera.fieldOfView = 7;
+        camera.transform.localRotation = Quaternion.Euler(3, 0, 0); // this works because follow is enabled
+        
+        // 2. Raycast target position
+        let targetPosition = camera.WorldToScreenPoint(target.transform.position);
+        let screenSize = new Vector2(Screen.width, Screen.height);
+        
+        // 3. Adjust height
+        let adjustY = targetPosition.y - (Screen.height * 0.75);
+        const additionalOffset = new Vector3(0, adjustY, 0);
+        if (additionalOffset.y > 0)
+            zepetoCamera.additionalOffset = additionalOffset;
+        
+    }
 
 
 }
