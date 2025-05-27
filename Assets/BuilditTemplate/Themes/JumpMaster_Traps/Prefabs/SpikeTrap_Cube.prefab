@@ -1879,7 +1879,7 @@ GameObject:
   - component: {fileID: 8861073792852484939}
   - component: {fileID: 3750238170006083170}
   m_Layer: 11
-  m_Name: ThornTrap_Cube
+  m_Name: SpikeTrap_Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1893,7 +1893,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8861073792852484940}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1929,14 +1929,23 @@ MonoBehaviour:
     script: {fileID: 4458252877524076426, guid: 019bc222e4d7b42b285ffb1e3448d3fd, type: 3}
     isExpaned: 0
     keys:
-    - timeout
-    - speed
+    - enableInterrupt
+    - animationStateName
+    - repeatCount
+    - spikeActiveDuration
+    - spikeCooldownDuration
     unityValues:
     - {fileID: 0}
     - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     values:
-    - '{"type":"System.Single, mscorlib","value":"5"}'
+    - '{"type":"System.Boolean, mscorlib","value":"True"}'
+    - '{"type":"System.String, mscorlib","value":"Open"}'
+    - '{"type":"System.Int32, mscorlib","value":"-1"}'
     - '{"type":"System.Single, mscorlib","value":"1"}'
+    - '{"type":"System.Single, mscorlib","value":"4"}'
     unityArrayValues: []
     arrayValues: []
 --- !u!1 &8861073793007212300
