@@ -1,20 +1,45 @@
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script';
+import { Action } from 'System';
 import {ItemKeyword, ShopService} from 'ZEPETO.Module.Shop';
-import {FontStyle, GameObject, Object, RectTransform, Transform, WaitUntil} from 'UnityEngine';
+import {
+    FontStyle,
+    GameObject,
+    MeshRenderer,
+    Object,
+    RectTransform,
+    SkinnedMeshRenderer,
+    Transform,
+    WaitUntil
+} from 'UnityEngine';
 import {Button, LayoutRebuilder, ScrollRect, Text} from 'UnityEngine.UI';
-import {ZepetoPlayers} from 'ZEPETO.Character.Controller';
+import {ZepetoContext, ZepetoPropertyFlag} from 'Zepeto';
+import {ZepetoPlayers, ZepetoCharacter} from 'ZEPETO.Character.Controller';
 import {Item} from 'ZEPETO.Module.Content';
 import UIMenuController from './UIMenuController';
 import WardrobeItemController from './WardrobeItemController';
 import {InventoryRecord, InventoryService} from 'ZEPETO.Inventory';
+import { UnityEvent, UnityAction } from 'UnityEngine.Events';
+
+import {
+    ClothesPreviewer,
+    ItemContent, ItemContentsRequest,
+    Mannequin,
+    MannequinComponent,
+    MannequinInteractable,
+    MannequinPreviewer
+} from "ZEPETO.Mannequin";
+
 
 
 export default class WardrobeController extends ZepetoScriptBehaviour {
     
-    
     public menu: UIMenuController;
-    public isInventory: boolean = true;
     
+    public emptyListIndicator: GameObject;
+    
+    public resetButton: Button;
+    
+    public isInventory: boolean = true;
     
     public itemPrefab: GameObject;
     
@@ -28,6 +53,11 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
     
     public cachedItems: Map<ItemKeyword, Item[]> = new Map<ItemKeyword, Item[]>();
     
+    public activeItems: Item[];
+    public bodyModifiers: ZepetoPropertyFlag[];
+    
+    private _activeSelection: WardrobeItemController;
+    
     private categories: ItemKeyword[] = [
         ItemKeyword.outwear,
         ItemKeyword.top,
@@ -40,14 +70,15 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
         ItemKeyword.headwear,
         ItemKeyword.eyewear,
         ItemKeyword.socks,
-        ItemKeyword.makeup,
-        ItemKeyword.hair,
+        // ItemKeyword.makeup,
+        // ItemKeyword.hair,
         // ItemKeyword.bodyfigure
     ];
     
     
     // When the scene starts, create a player with the provided user ID and begin fetching and displaying the items.
     Start() {
+        this.emptyListIndicator.SetActive(false);
         
         // Hide the prefabs
         for (var i = 0; i < this.categories.length; i++)
@@ -56,6 +87,9 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
         ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
             // this.StartCoroutine(this.LoadInventory());   // disabled currently
             this.StartCoroutine(this.CoGetMyItem());
+
+            this._owner = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
+            this.InitOriginalItems();
         });
         
         this.StartCoroutine(this.CreateCategoryMenu());
@@ -63,6 +97,13 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
         this.menu ??= this.GetComponent<UIMenuController>();
         this.menu.onOpened.AddListener(() => {
             this.OnShow();
+        });
+
+        this.resetButton.onClick.AddListener(() => {
+            this.ResetCharacterItems(() => {
+                this.UpdateCurrentItems();
+                this.UpdateSelection();
+            });
         });
     }
     
@@ -82,8 +123,8 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
             "Headwear",
             "Eyewear",
             "Socks",
-            "Makeup",
-            "Hair",
+            // "Makeup",
+            // "Hair",
             // "Bodyfigure"
         ];
         
@@ -101,6 +142,7 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
                 if (this.selectedCategoryItem == button) return;
                 
                 // Unselect previous
+                this._activeSelection = null;
                 this.selectedCategoryItem.GetComponentInChildren<Text>().fontStyle = FontStyle.Normal;
                 this.selectedCategoryItem = button;
                 
@@ -133,6 +175,35 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
     }
     
 
+    
+    /* ---------------------------------------------------------------------------------------------------- */
+
+    private _isActive: boolean = false;
+    private _owner: ZepetoCharacter;
+
+    private readonly _originalItems = new Map<number, string>();
+    private readonly _currentItems = new Map<number, string>();
+    private readonly _itemChanged = new UnityEvent();
+
+    public get isActive(): boolean {
+        return this._isActive;
+    }
+    // public get checked(): IComponentBase {
+    //     return this._isActive ? this : null;
+    // }
+    public get owner(): ZepetoCharacter {
+        return this._owner;
+    }
+    public get originalItems(): Map<number, string> {
+        return this._originalItems;
+    }
+    public get currentItems(): Map<number, string> {
+        return this._currentItems;
+    }
+    public get itemChanged(): UnityEvent {
+        return this._itemChanged;
+    }
+    
     /**
      * Inventory of user owned/worn products
      * @private
@@ -151,30 +222,146 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
         
         if (request.responseData.isSuccess) {
             this.inventory = request.responseData.products;
-            
-            console.log( this.inventory.flatMap(x => x.productId).join(",") );
+        }
+    }
+
+    private InventoryHasItem(itemId: string) : boolean {
+        for (let item of this.currentItems.values()) {
+            if (item == "@" + itemId) return true;
+        }
+        return false;
+        // return this.currentItems.has(this.activeItems[0].property) && this.currentItems[this.activeItems[0].property] == "@" + itemId;
+        // return this.inventory.findIndex(x => x.productId == itemId) != -1;
+    }
+
+    public SetCharacterItem(propertyFlag: number, id: string, onItemLoaded?: UnityAction) {
+        this._owner.Context.Metadata.Set(propertyFlag, id);
+        this.RegisterCurrentItem(propertyFlag, id);
+        // this._owner.isDirtyRenderers = true;
+        this._itemChanged.Invoke();
+
+        if (onItemLoaded) {
+            this.StartCoroutine(this.CoWaitForMetadataSet(onItemLoaded));
+        }
+    }
+
+    // public SetCharacterItems(characterItemInfo: CharacterItemInfo[], onItemsLoaded?: UnityAction) {
+    //     for (const itemInfo of characterItemInfo) {
+    //         this._owner.context.Metadata.Set(itemInfo[0], itemInfo[1]);
+    //         this.RegisterCurrentItem(itemInfo[0], itemInfo[1]);
+    //     }
+    //     this._owner.isDirtyRenderers = true;
+    //     this._itemChanged.Invoke();
+    //
+    //     if (onItemsLoaded) {
+    //         this.owner.StartCoroutine(this.CoWaitForMetadataSet(onItemsLoaded));
+    //     }
+    // }
+
+    public ResetCharacterItems(onFinished?: Action) {
+        if (this._originalItems.size < 1) {
+            return;
+        }
+        this._originalItems.forEach((id, propertyFlag) => {
+            this._owner.Context.Metadata.Set(propertyFlag, id);
+            this.RegisterCurrentItem(propertyFlag, id);
+        });
+        // this._owner.isDirtyRenderers = true;
+
+        if (onFinished) {
+            this.StartCoroutine(this.CoWaitForMetadataSet(onFinished));
         }
     }
     
-    private InventoryHasItem(itemId: string) : boolean {
-        return this.inventory.findIndex(x => x.productId == itemId) != -1;
+    public SetOriginalItem(propertyFlag: number, id: string) {
+        this._originalItems.set(propertyFlag, id);
+    }
+
+    public RegisterCurrentItem(propertyFlag: number, id: string) {
+        this._currentItems.set(propertyFlag, id);
+    }
+
+    public ClearCurrentItems() {
+        this._currentItems.clear();
     }
     
-    // Coroutine to fetch and display the items.
+    public InitOriginalItems() {
+        for (let i = ZepetoPropertyFlag.ClothesTop; i <= ZepetoPropertyFlag.ClothesDress; ++i) {
+            this.RegisterOriginalItemFromContext(i, this.owner.Context);
+        }
+        for (let i = ZepetoPropertyFlag.ClothesSocks; i <= ZepetoPropertyFlag.AccessoryPiercing; ++i) {
+            this.RegisterOriginalItemFromContext(i, this.owner.Context);
+        }
+        for (let i = ZepetoPropertyFlag.AccessoryMask; i <= ZepetoPropertyFlag.ClothesExtra; ++i) {
+            this.RegisterOriginalItemFromContext(i, this.owner.Context);
+        }
+        for (let i = ZepetoPropertyFlag.AccessoryTail; i <= ZepetoPropertyFlag.AccessoryEffect; ++i) {
+            this.RegisterOriginalItemFromContext(i, this.owner.Context);
+        }
+
+        this.RegisterOriginalItemFromContext(ZepetoPropertyFlag.ClothesGlasses, this.owner.Context);
+        this.RegisterOriginalItemFromContext(ZepetoPropertyFlag.Hair, this.owner.Context);
+        this.RegisterOriginalItemFromContext(ZepetoPropertyFlag.EyeLens, this.owner.Context);
+        
+        this._originalItems.forEach((id, propertyFlag) => this.RegisterCurrentItem(propertyFlag, id));
+    }
+
+    public UpdateCurrentItems() {
+        this.ClearCurrentItems();
+        
+        for (let i = ZepetoPropertyFlag.ClothesTop; i <= ZepetoPropertyFlag.ClothesDress; ++i) {
+
+            this._currentItems.set(i, this.owner.Context.Metadata.Get(i));
+        }
+        for (let i = ZepetoPropertyFlag.ClothesSocks; i <= ZepetoPropertyFlag.AccessoryPiercing; ++i) {
+            this._currentItems.set(i, this.owner.Context.Metadata.Get(i));
+        }
+        for (let i = ZepetoPropertyFlag.AccessoryMask; i <= ZepetoPropertyFlag.ClothesExtra; ++i) {
+            this._currentItems.set(i, this.owner.Context.Metadata.Get(i));
+        }
+        for (let i = ZepetoPropertyFlag.AccessoryTail; i <= ZepetoPropertyFlag.AccessoryEffect; ++i) {
+            this._currentItems.set(i, this.owner.Context.Metadata.Get(i));
+        }
+
+        let additional = [ZepetoPropertyFlag.ClothesGlasses, ZepetoPropertyFlag.Hair, ZepetoPropertyFlag.EyeLens];
+        for (let property of additional) {
+            this._currentItems.set(property, this.owner.Context.Metadata.Get(property));
+        }
+        // this.RegisterOriginalItemFromContext(ZepetoPropertyFlag.ClothesGlasses, this.owner.Context);
+        // this.RegisterOriginalItemFromContext(ZepetoPropertyFlag.Hair, this.owner.Context);
+        // this.RegisterOriginalItemFromContext(ZepetoPropertyFlag.EyeLens, this.owner.Context);
+        
+        // this._currentItems.set(ZepetoPropertyFlag.AccessoryExtra, this.owner.Context.Metadata.Get(ZepetoPropertyFlag.AccessoryHeadwear));
+    }
+    
+    private RegisterOriginalItemFromContext(propertyFlag: number, context: ZepetoContext) {
+        this._originalItems.set(propertyFlag, context.Metadata.Get(propertyFlag));
+    }
+    
+    
+
+    /* ---------------------------------------------------------------------------------------------------- */
+
+    /**
+     *  Load my items
+      */
     private *CoGetMyItem() {
+        this.emptyListIndicator.SetActive(false);
+        
         
         // CleanupI
         for (let i = 0; i < this.itemCanvas.childCount; i++)
         {
             Object.Destroy(this.itemCanvas.GetChild(i).gameObject);
         }
-        // Maybe loading
+        
         
         // TODO: Add categories title from a category response
         
         if (!this.cachedItems[this.itemCategory])
             this.cachedItems[this.itemCategory] = [];
         
+        // Load contents
         if (this.cachedItems[this.itemCategory].length == 0) {
 
             let nextPageToken: string = null;
@@ -202,19 +389,42 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
             }
             
         }
-
+        
+        // Instantiation
         let contentItems: Item[] = this.cachedItems[this.itemCategory];
+        this.activeItems = this.cachedItems[this.itemCategory];
+
+        this.emptyListIndicator.SetActive(this.activeItems.length == 0);
         
         for (let i = 0; i < contentItems.length; ++i) {
           
             const item = Object.Instantiate(this.itemPrefab, this.itemCanvas) as GameObject;
 
             let itemController = item.GetComponentInChildren<WardrobeItemController>();
-            itemController.SetItem(contentItems[i], false);
             
-            item.GetComponentInChildren<Button>().onClick.AddListener(() => {
-                // itemController.SetSelectedState(true);
-                this.SetItemButton(contentItems[i].id);
+            let isFocused = this.InventoryHasItem(contentItems[i].id);
+            if (isFocused)
+                this._activeSelection = itemController;
+            
+            itemController.SetItem(contentItems[i], isFocused);
+            
+            
+            itemController.button.onClick.AddListener(() => {
+                
+                if (itemController.isItemEquiped == false) {
+                    this.SetCostume(contentItems[i]);
+                }
+                else {
+                    let propertyFlag = contentItems[i].property;
+                    let id: string = this._originalItems[propertyFlag];
+
+                    // this._owner.Context.Metadata.Set(propertyFlag, id);
+                    // this.RegisterCurrentItem(propertyFlag, id);
+                    this.SetCharacterItem(propertyFlag, "", () => {
+                        this.UpdateCurrentItems();
+                        this.UpdateSelection();
+                    });
+                }
             });
         }
         
@@ -229,17 +439,58 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
     }
     
     // Method to change the local player's costume based on the provided item code.
-    private SetItemButton(itemCode: string) {
-        // Use the ZepetoPlayers.instance.LocalPlayer property to access the local player instance and change their costume.
+    private SetCostume(item: Item) {
         
-        ZepetoPlayers.instance.LocalPlayer.SetCostume(itemCode, () => {
-            // Once the costume change is complete, log a message indicating the successful change.
-            // console.log(`Set Costume Complete : ${itemCode}`);
-            // TODO: Additional item code etc
-        });
+        try {
+            this.SetCharacterItem(item.property, "@" + item.id, () => {
+                this.UpdateCurrentItems();
+                this.UpdateSelection();
+            });
+            
+            // ZepetoPlayers.instance.LocalPlayer.SetCostume(item.id, () => {
+            //     // Once the costume change is complete, log a message indicating the successful change.
+            //     // console.log(`Set Costume Complete : ${itemCode}`);
+            //     // TODO: Additional item code etc
+            //    
+            //     // Possible waiting lock for interface change
+            //    
+            //     this.UpdateCurrentItems();
+            //     this.UpdateSelection();
+            // });
+        }
+        catch (e) {
+            console.log(e)
+        }
+        
     }
 
+    /**
+     * Updates the selection for all current items
+     */
+    private UpdateSelection() {
 
+        for (let i = 0; i < this.activeItems.length; ++i) {
+
+            let item = this.activeItems[i];
+            let controller = this.itemCanvas.GetChild(i).GetComponentInChildren<WardrobeItemController>();
+
+            controller.SetSelected(this.InventoryHasItem(item.id));
+        }
+    }
+
+    private *CoWaitForMetadataSet(onFinished: Action) {
+        while (this._owner.Context.IsContentLoading) {
+            yield null;
+        }
+        onFinished();
+    }
+
+    // private RefreshRenderers() {
+    //     let renderers = this._owner.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+    //     renderers = renderers.concat(this._owner.gameObject.GetComponentsInChildren<MeshRenderer>());
+    //     // this._isDirtyRenderers = false;
+    // }
+    //
 
     // private AddMessageHandler(){
     //     // [Option] Synchronize each player's clothes

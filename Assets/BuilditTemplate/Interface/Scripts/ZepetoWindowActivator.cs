@@ -14,8 +14,8 @@ public class ZepetoWindowActivator
         if (hasFocus)
         {
             // ZEPETO 윈도우 열기
-            EditorApplication.ExecuteMenuItem("ZEPETO/Build It Asset Browser");
-            EditorApplication.ExecuteMenuItem("ZEPETO/Zepeto Scene Settings");
+            // EditorApplication.ExecuteMenuItem("ZEPETO/Build It Asset Browser");
+            // EditorApplication.ExecuteMenuItem("ZEPETO/Zepeto Scene Settings");
         }
     }
 

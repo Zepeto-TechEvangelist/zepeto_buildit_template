@@ -1,4 +1,4 @@
-import {Canvas, RectTransform, Transform, Vector2, Vector3 } from 'UnityEngine';
+import {Canvas, RectTransform, Transform, Vector2, Vector3, Quaternion } from 'UnityEngine';
 import {Button, LayoutRebuilder, Text} from 'UnityEngine.UI';
 import {UnityEvent} from "UnityEngine.Events";
 import {ZepetoScriptBehaviour} from "ZEPETO.Script";
@@ -74,6 +74,7 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
         if (rect.w != 0)
             this.panelRect.SetSizeWithCurrentAnchors(Axis.Horizontal, rect.w);
 
+        
         this.cameraOffsetAdjustment = Vector3.op_Multiply(new Vector3(rect.offset.x, rect.offset.y, rect.offset.z), 0.5);
     }
 
@@ -125,7 +126,11 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
         // }
         this.savedCameraOffset = ZepetoPlayers.instance.ZepetoCamera.additionalOffset;
         // TODO: lock zoom
-        ZepetoPlayers.instance.ZepetoCamera.additionalOffset = this.cameraOffsetAdjustment;
+        
+        // Logic for moving the character
+        // let forwardAngle = ZepetoPlayers.instance.ZepetoCamera.cameraParent.transform.localEulerAngles.y - 180;  // 180 is zero state angle
+        // let v = Quaternion.AngleAxis(forwardAngle, Vector3.up) * this.cameraOffsetAdjustment;
+        // ZepetoPlayers.instance.ZepetoCamera.additionalOffset = v;
 
 
         this.open?.Invoke();

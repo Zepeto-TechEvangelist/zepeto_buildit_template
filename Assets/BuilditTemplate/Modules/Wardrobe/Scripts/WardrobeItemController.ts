@@ -2,9 +2,10 @@ import {ZepetoScriptBehaviour} from 'ZEPETO.Script';
 import {ItemKeyword, ShopService} from 'ZEPETO.Module.Shop';
 import {ZepetoPropertyFlag} from 'Zepeto';
 import {GameObject, Vector3, Object, RectTransform, Texture2D, Transform, WaitUntil, FontStyle, Coroutine} from 'UnityEngine';
-import {Button, RawImage, Text} from 'UnityEngine.UI';
+import {Button, RawImage, Text } from 'UnityEngine.UI';
 import {ZepetoPlayers, ZepetoCamera} from 'ZEPETO.Character.Controller';
 import {Item} from 'ZEPETO.Module.Content';
+import { BaseEventData } from 'UnityEngine.EventSystems';
 
 import { InventoryService, InventoryListResponse, CheckInventoryResponse, CheckInventoryRequest, InventoryError, InventoryRecord, InventoryResponse } from 'ZEPETO.Inventory';
 import { RoundedRectangle } from 'ZEPETO.World.Gui';
@@ -47,13 +48,17 @@ export default class WardrobeItemController extends ZepetoScriptBehaviour {
     public OnLoadingFinished: (item: WardrobeItemController) => void = null;
     
     
-    Start() {
+    private Start() {
         this.image ??= this.GetComponentInChildren<RawImage>();
         this.text ??= this.GetComponentInChildren<Text>();
         this.button ??= this.GetComponent<Button>();
+        this.outline ??= this.GetComponent<RoundedRectangle>();
     }
     
-    private _loadItemDataOperation: Coroutine;
+    public OnSelect($eventData: BaseEventData) {
+        console.log("Selection Detected")
+    }
+    
     
     public SetItem(item: Item, isEquiped: boolean = false) {
         if (this.item.id == item.id) 
@@ -66,13 +71,28 @@ export default class WardrobeItemController extends ZepetoScriptBehaviour {
         
         this._loadItemDataOperation = this.StartCoroutine(this.LoadItemData(item));
     }
+
+    public SetSelected(selected: boolean) {
+        this.isItemEquiped = selected;
+        
+        if ( selected )
+            this.outline.BorderWidth = 1;
+        else {
+            this.outline.BorderWidth = 0;
+        }
+    }
     
-    private Reset() {
-        this.StopAllCoroutines();   // Can be exclusive to this coroutine
+    public Reset() {
+        this.StopAllCoroutines();
         this.image.texture = null;
         this.text.text = "";
     }
-    
+
+    /**
+     * Coroutine instance associated with LoadItemData
+     * @private
+     */
+    private _loadItemDataOperation: Coroutine;
     // Coroutine to fetch and display the items.
     private *LoadItemData(item: Item) {
 
@@ -86,24 +106,18 @@ export default class WardrobeItemController extends ZepetoScriptBehaviour {
         this.image.texture = thumbnailTexture;
         this.text.text = item.id;
         
-        this.SetSelectedState(this.isItemEquiped);
+        this.SetSelected(this.isItemEquiped);
         
         if (this.OnLoadingFinished != null)
             this.OnLoadingFinished(this);
         
-        let request = InventoryService.HasAsync(this.item.id);
-        yield new WaitUntil(() => request.keepWaiting == false);
-
-        if (this.isItemEquiped == false)
-            this.SetSelectedState(request.responseData.isSuccess && request.responseData.isExist);
+        // TODO: removed due to missing info in inventory
+        // let request = InventoryService.HasAsync(this.item.id);
+        // yield new WaitUntil(() => request.keepWaiting == false);
+        // if (this.isItemEquiped == false)
+        //     this.SetSelected(request.responseData.isSuccess && request.responseData.isExist);
     }
     
-    public SetSelectedState(selected: boolean) {
-        if ( selected )
-            this.outline.BorderWidth = 2;
-        else {
-            this.outline.BorderWidth = 0;
-        }
-    }
+    
 
 }

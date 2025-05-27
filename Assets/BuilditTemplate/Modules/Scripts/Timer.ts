@@ -105,8 +105,10 @@ export default class Timer extends ZepetoScriptBehaviour {
     }
 
     protected EndCountdown() {
-        this.StopCoroutine(this._stepper);
-        this._stepper = null;
+        if (this._stepper) {
+            this.StopCoroutine(this._stepper);
+            this._stepper = null;
+        }
         
         this._countdownActive = false;
         this.repeatCount -= 1;
