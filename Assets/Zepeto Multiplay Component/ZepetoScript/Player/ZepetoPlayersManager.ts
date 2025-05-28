@@ -116,7 +116,8 @@ export default class ZepetoPlayersManager extends ZepetoScriptBehaviour {
             spawnInfo.position = this.transform.position;
             spawnInfo.rotation = this.transform.rotation;
 
-            const spawnInfos = GameObject.FindGameObjectsWithTag("SpawnObject");
+            const spawnInfos = GameObject.FindGameObjectsWithTag("SpawnObject")
+                                .filter(obj => obj.name.startsWith("SpawnPoint"));
             
             if (spawnInfos.length > 0) {
                 const randomSpawn = Math.floor(Random.Range(0, spawnInfos.length));
