@@ -17,11 +17,8 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
     
     private readonly _touchBlockDelay = 0.5;
     private _menuVisible: boolean = false;
-    // private readonly _panelScreenInfo = {
-    //     landscape: { posX: -132, top: 204, bottom: 280 },
-    //     portrait: { posX: -20, top: 537, bottom: 548 },
-    // } as ScreenInfo;
-
+   
+    // TODO: Type set
     private readonly _directionScreen = {
         left: { l: 0, r: 0, t: 0, b: 0, w: 340, h:0, pivot: { x: 0, y: 0.5 }, anchors: Anchors.left, offset: { x: 1, y: 0, z: 0 } },
         right: { l: 0, r: -20, t: 20, b: 20, w: 340, h: 0, pivot: { x: 1, y: 0.5 }, anchors: Anchors.right, offset: { x: -1, y: 0, z: 0 } },
@@ -41,7 +38,6 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
     public get menuVisible(): boolean { 
         return this._menuVisible; 
     }
-
     
     protected Awake() {
         this.OnInitUI();
@@ -124,8 +120,8 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
         // } else {
         //     this.titleText.text = "";
         // }
+        
         this.savedCameraOffset = ZepetoPlayers.instance.ZepetoCamera.additionalOffset;
-        // TODO: lock zoom
         
         // Logic for moving the character
         // let forwardAngle = ZepetoPlayers.instance.ZepetoCamera.cameraParent.transform.localEulerAngles.y - 180;  // 180 is zero state angle
@@ -140,16 +136,7 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
         // this.StartCoroutine(this.SetTitlePanelPosition());
         // this.StartCoroutine(this.SetTouchDetection());
     }
-
-    // public HideList(isHidingForSequenceExecution: boolean) {
-    //     if (!this.isVisible) {
-    //         return;
-    //     }
-    //     this._isShowingList = false;
-    //     this._listClosed.Invoke(isHidingForSequenceExecution);
-    //     this.Hide();
-    // }
-    //
+    
     // private *SetTitlePanelPosition() {
     //     yield WaitPool.endOfFrame;
     //
@@ -157,42 +144,6 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
     //     const titlePanelPosY: number = topItemPosY + 70; // 최상단 아이템과 타이틀 사이의 간격
     //     this.titlePanel.anchoredPosition = new Vector2(this.titlePanel.anchoredPosition.x, titlePanelPosY);
     // }
-
-    // private *SetTouchDetection() {
-    //     yield WaitPool.Seconds(this._touchBlockDelay);
-    //     while (this.isVisible) {
-    //         if (Input.touchCount > 0 && Input.GetTouch(0).phase === TouchPhase.Began) {
-    //             if (!this._uiManager.CheckHitUILayer(Input.GetTouch(0).position)) {
-    //                 this.Hide();
-    //             }
-    //         }
-    //         yield null;
-    //     }
-    // }
-    //
-    // private UpdateListItem(item: UIListInteractionItem, info: ListInteractionInfo) {
-    //     NewWorldBase.localization.ApplyLocalization(item.text, info.text);
-    //     item.icon.sprite = info.icon;
-    //     if (info.badge != null) {
-    //         item.badge.sprite = info.badge;
-    //         item.badge.gameObject.SetActive(true);
-    //     } else {
-    //         item.badge.gameObject.SetActive(false);
-    //     }
-    //     item.mainButton.onClick.RemoveAllListeners();
-    //     if (info.isActive) {
-    //         item.canvasGroup.alpha = 1;
-    //         item.mainButton.onClick.AddListener(() => {
-    //             info.callback();
-    //             this.HideList(true);
-    //         });
-    //     } else {
-    //         item.canvasGroup.alpha = 0.5;
-    //     }
-    // }
-
-
-    
 }
 
 export enum Direction {

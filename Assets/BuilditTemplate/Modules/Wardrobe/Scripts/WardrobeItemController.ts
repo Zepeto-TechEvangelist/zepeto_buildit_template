@@ -1,14 +1,10 @@
 import {ZepetoScriptBehaviour} from 'ZEPETO.Script';
 import {ItemKeyword, ShopService} from 'ZEPETO.Module.Shop';
 import {ZepetoPropertyFlag} from 'Zepeto';
-import {GameObject, Vector3, Object, RectTransform, Texture2D, Transform, WaitUntil, FontStyle, Coroutine} from 'UnityEngine';
+import {GameObject, Vector3, Object, RectTransform, Texture2D, Transform, WaitUntil, Coroutine} from 'UnityEngine';
 import {Button, RawImage, Text } from 'UnityEngine.UI';
-import {ZepetoPlayers, ZepetoCamera} from 'ZEPETO.Character.Controller';
 import {Item} from 'ZEPETO.Module.Content';
-import { BaseEventData } from 'UnityEngine.EventSystems';
-
-import { InventoryService, InventoryListResponse, CheckInventoryResponse, CheckInventoryRequest, InventoryError, InventoryRecord, InventoryResponse } from 'ZEPETO.Inventory';
-import { RoundedRectangle } from 'ZEPETO.World.Gui';
+import {RoundedRectangle} from 'ZEPETO.World.Gui';
 
 export default class WardrobeItemController extends ZepetoScriptBehaviour {
 
@@ -54,11 +50,6 @@ export default class WardrobeItemController extends ZepetoScriptBehaviour {
         this.button ??= this.GetComponent<Button>();
         this.outline ??= this.GetComponent<RoundedRectangle>();
     }
-    
-    public OnSelect($eventData: BaseEventData) {
-        console.log("Selection Detected")
-    }
-    
     
     public SetItem(item: Item, isEquiped: boolean = false) {
         if (this.item.id == item.id) 
@@ -110,14 +101,6 @@ export default class WardrobeItemController extends ZepetoScriptBehaviour {
         
         if (this.OnLoadingFinished != null)
             this.OnLoadingFinished(this);
-        
-        // TODO: removed due to missing info in inventory
-        // let request = InventoryService.HasAsync(this.item.id);
-        // yield new WaitUntil(() => request.keepWaiting == false);
-        // if (this.isItemEquiped == false)
-        //     this.SetSelected(request.responseData.isSuccess && request.responseData.isExist);
     }
     
-    
-
 }

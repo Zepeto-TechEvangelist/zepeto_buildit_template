@@ -230,14 +230,12 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
             if (item == "@" + itemId) return true;
         }
         return false;
-        // return this.currentItems.has(this.activeItems[0].property) && this.currentItems[this.activeItems[0].property] == "@" + itemId;
-        // return this.inventory.findIndex(x => x.productId == itemId) != -1;
     }
 
     public SetCharacterItem(propertyFlag: number, id: string, onItemLoaded?: UnityAction) {
         this._owner.Context.Metadata.Set(propertyFlag, id);
         this.RegisterCurrentItem(propertyFlag, id);
-        // this._owner.isDirtyRenderers = true;
+
         this._itemChanged.Invoke();
 
         if (onItemLoaded) {
@@ -245,18 +243,18 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
         }
     }
 
-    // public SetCharacterItems(characterItemInfo: CharacterItemInfo[], onItemsLoaded?: UnityAction) {
-    //     for (const itemInfo of characterItemInfo) {
-    //         this._owner.context.Metadata.Set(itemInfo[0], itemInfo[1]);
-    //         this.RegisterCurrentItem(itemInfo[0], itemInfo[1]);
-    //     }
-    //     this._owner.isDirtyRenderers = true;
-    //     this._itemChanged.Invoke();
-    //
-    //     if (onItemsLoaded) {
-    //         this.owner.StartCoroutine(this.CoWaitForMetadataSet(onItemsLoaded));
-    //     }
-    // }
+    public SetCharacterItems(items: Item[], onItemsLoaded?: UnityAction) {
+        for (const item of items) {
+            this._owner.Context.Metadata.Set(item.property, "@" + item.id);
+            this.RegisterCurrentItem(item.property, "@" + item.id);
+        }
+
+        this._itemChanged.Invoke();
+
+        if (onItemsLoaded) {
+            this.StartCoroutine(this.CoWaitForMetadataSet(onItemsLoaded));
+        }
+    }
 
     public ResetCharacterItems(onFinished?: Action) {
         if (this._originalItems.size < 1) {
@@ -266,7 +264,6 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
             this._owner.Context.Metadata.Set(propertyFlag, id);
             this.RegisterCurrentItem(propertyFlag, id);
         });
-        // this._owner.isDirtyRenderers = true;
 
         if (onFinished) {
             this.StartCoroutine(this.CoWaitForMetadataSet(onFinished));
@@ -299,9 +296,10 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
             this.RegisterOriginalItemFromContext(i, this.owner.Context);
         }
 
-        this.RegisterOriginalItemFromContext(ZepetoPropertyFlag.ClothesGlasses, this.owner.Context);
-        this.RegisterOriginalItemFromContext(ZepetoPropertyFlag.Hair, this.owner.Context);
-        this.RegisterOriginalItemFromContext(ZepetoPropertyFlag.EyeLens, this.owner.Context);
+        let additional = [ZepetoPropertyFlag.ClothesGlasses, ZepetoPropertyFlag.Hair, ZepetoPropertyFlag.EyeLens];
+        for (let property of additional) {
+            this.RegisterOriginalItemFromContext(property, this.owner.Context);
+        }
         
         this._originalItems.forEach((id, propertyFlag) => this.RegisterCurrentItem(propertyFlag, id));
     }
@@ -327,18 +325,11 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
         for (let property of additional) {
             this._currentItems.set(property, this.owner.Context.Metadata.Get(property));
         }
-        // this.RegisterOriginalItemFromContext(ZepetoPropertyFlag.ClothesGlasses, this.owner.Context);
-        // this.RegisterOriginalItemFromContext(ZepetoPropertyFlag.Hair, this.owner.Context);
-        // this.RegisterOriginalItemFromContext(ZepetoPropertyFlag.EyeLens, this.owner.Context);
-        
-        // this._currentItems.set(ZepetoPropertyFlag.AccessoryExtra, this.owner.Context.Metadata.Get(ZepetoPropertyFlag.AccessoryHeadwear));
     }
     
     private RegisterOriginalItemFromContext(propertyFlag: number, context: ZepetoContext) {
         this._originalItems.set(propertyFlag, context.Metadata.Get(propertyFlag));
     }
-    
-    
 
     /* ---------------------------------------------------------------------------------------------------- */
 
@@ -348,13 +339,12 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
     private *CoGetMyItem() {
         this.emptyListIndicator.SetActive(false);
         
-        
-        // CleanupI
+        // Cleanup
+        // TODO: Reusable object cleanup
         for (let i = 0; i < this.itemCanvas.childCount; i++)
         {
             Object.Destroy(this.itemCanvas.GetChild(i).gameObject);
         }
-        
         
         // TODO: Add categories title from a category response
         
@@ -387,7 +377,6 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
                 if (nextPageToken == null)
                     break;
             }
-            
         }
         
         // Instantiation
@@ -417,9 +406,7 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
                 else {
                     let propertyFlag = contentItems[i].property;
                     let id: string = this._originalItems[propertyFlag];
-
-                    // this._owner.Context.Metadata.Set(propertyFlag, id);
-                    // this.RegisterCurrentItem(propertyFlag, id);
+                    
                     this.SetCharacterItem(propertyFlag, "", () => {
                         this.UpdateCurrentItems();
                         this.UpdateSelection();
@@ -437,8 +424,11 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
         this.itemCategory = category;
         this.StartCoroutine(this.CoGetMyItem());
     }
-    
-    // Method to change the local player's costume based on the provided item code.
+
+    /**
+     * Equip the item to current character
+     * @param item
+     */
     private SetCostume(item: Item) {
         
         try {
@@ -446,26 +436,15 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
                 this.UpdateCurrentItems();
                 this.UpdateSelection();
             });
-            
-            // ZepetoPlayers.instance.LocalPlayer.SetCostume(item.id, () => {
-            //     // Once the costume change is complete, log a message indicating the successful change.
-            //     // console.log(`Set Costume Complete : ${itemCode}`);
-            //     // TODO: Additional item code etc
-            //    
-            //     // Possible waiting lock for interface change
-            //    
-            //     this.UpdateCurrentItems();
-            //     this.UpdateSelection();
-            // });
         }
         catch (e) {
             console.log(e)
         }
-        
     }
 
     /**
      * Updates the selection for all current items
+     * @private
      */
     private UpdateSelection() {
 
@@ -484,40 +463,4 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
         }
         onFinished();
     }
-
-    // private RefreshRenderers() {
-    //     let renderers = this._owner.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
-    //     renderers = renderers.concat(this._owner.gameObject.GetComponentsInChildren<MeshRenderer>());
-    //     // this._isDirtyRenderers = false;
-    // }
-    //
-
-    // private AddMessageHandler(){
-    //     // [Option] Synchronize each player's clothes
-    //     this._room.AddMessageHandler<ChangedItem>(this.MESSAGE_TYPE.SyncChangedItem, message => {
-    //         console.log("syncChangedItem");
-    //         if (message == null) {
-    //             return;
-    //         }
-    //
-    //         if(false == this._userZepetoContexts.has(message.sessionId)){
-    //             return;
-    //         }
-    //
-    //         let itemContents:ItemContent[] = [];
-    //
-    //         for (const characterItem of message.characterItems) {
-    //             let itemContent:ItemContent = new ItemContent();
-    //             itemContent.id = characterItem.id;
-    //             itemContent.property = parseInt(characterItem.property);
-    //
-    //             if(itemContent.id == this._basicClothString)
-    //                 itemContent.id = "";
-    //
-    //             itemContents.push(itemContent);
-    //         }
-    //         let clothesPreviewer:ClothesPreviewer = new ClothesPreviewer(this._userZepetoContexts.get(message.sessionId),itemContents);
-    //         clothesPreviewer.PreviewContents();
-    //     });
-    // }
 }
