@@ -24,36 +24,40 @@ ScriptedImporter:
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
     { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
-    UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst ZEPETO_Advertisement_General_1
-    = require(\"ZEPETO.Advertisement.General\");\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
-    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
-    AD_KEY = \"Monetize_Template\";\r\nclass AdvertisementManager extends ZEPETO_Script_1.ZepetoScriptBehaviour
-    {\r\n    static get Instance() {\r\n        if (ZEPETO_Script_1.ZepetoScriptBehaviour.op_Equality(this.instance,
-    null)) {\r\n            this.instance = UnityEngine_1.GameObject.FindObjectOfType($typeof(AdvertisementManager));\r\n       
+    ZEPETO_Advertisement_General_1 = require(\"ZEPETO.Advertisement.General\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst ZEPETO_Character_Controller_1
+    = require(\"ZEPETO.Character.Controller\");\r\nconst ApplicationUtilities_1 =
+    require(\"../Scripts/Utility/ApplicationUtilities\");\r\n// const AD_KEY: string
+    = \"Monetize_Template\";\r\nclass AdvertisementManager extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.adKey
+    = \"Monetize_Template\";\r\n    }\r\n    static get Instance() {\r\n        if
+    (ZEPETO_Script_1.ZepetoScriptBehaviour.op_Equality(this.instance, null)) {\r\n           
+    this.instance = UnityEngine_1.GameObject.FindObjectOfType($typeof(AdvertisementManager));\r\n       
     }\r\n        return this.instance;\r\n    }\r\n    ReWardTeleport(position, rotation)
     {\r\n        this.destinationPosiiton = position;\r\n        this.destinationRotation
     = rotation;\r\n        this.ShowAd(this.rewardTeleport);\r\n    }\r\n    rewardTeleport()
     {\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.Teleport(this.destinationPosiiton,
     this.destinationRotation);\r\n    }\r\n    // Method to show an advertisement
     and specify a reward function to call upon ad completion\r\n    ShowAd(rewardFunction)
-    {\r\n        ZEPETO_Advertisement_General_1.WorldAdvertisement.Show(AD_KEY, //
-    Using the defined advertisement key\r\n        // Using the defined advertisement
-    key\r\n        result => this.rewardTeleport()\r\n        //this.OnAdShowResult(result,
-    rewardFunction) // Handling the ad result and specifying the reward function\r\n       
-    );\r\n    }\r\n    // Method to handle the result of the advertisement show\r\n   
-    OnAdShowResult(result, rewardFunction) {\r\n        if (result === ZEPETO_Advertisement_General_1.AdShowResult.Finished)
-    {\r\n            // If the ad was successfully watched to completion\r\n           
-    console.log(\"Ad show successful; Finished.\");\r\n            rewardFunction();
-    // Call the specified reward function\r\n            return;\r\n        }\r\n       
-    // Variable to store the failure message\r\n        let failMessage;\r\n       
-    // Determine the appropriate failure message based on the ad result\r\n       
-    switch (result) {\r\n            case ZEPETO_Advertisement_General_1.AdShowResult.Failed:\r\n               
+    {\r\n        if (ApplicationUtilities_1.ApplicationUtilities.isMobile) {\r\n           
+    ZEPETO_Advertisement_General_1.WorldAdvertisement.Show(this.adKey, // Using the
+    defined advertisement key\r\n            // Using the defined advertisement key\r\n           
+    result => this.rewardTeleport());\r\n        }\r\n        else {\r\n           
+    this.rewardTeleport();\r\n        }\r\n    }\r\n    // Method to handle the result
+    of the advertisement show\r\n    OnAdShowResult(result, rewardFunction) {\r\n       
+    if (result === ZEPETO_Advertisement_General_1.AdShowResult.Finished) {\r\n           
+    // If the ad was successfully watched to completion\r\n            console.log(\"Ad
+    show successful; Finished.\");\r\n            rewardFunction(); // Call the specified
+    reward function\r\n            return;\r\n        }\r\n        // Variable to
+    store the failure message\r\n        let failMessage;\r\n        // Determine
+    the appropriate failure message based on the ad result\r\n        switch (result)
+    {\r\n            case ZEPETO_Advertisement_General_1.AdShowResult.Failed:\r\n               
     failMessage = \"Failed\";\r\n                break;\r\n            case ZEPETO_Advertisement_General_1.AdShowResult.Skipped:\r\n               
     failMessage = \"Skipped\";\r\n                break;\r\n            case ZEPETO_Advertisement_General_1.AdShowResult.NotReady:\r\n               
     failMessage = \"NotReady\";\r\n                break;\r\n            default:\r\n               
     failMessage = \"Unknown result\";\r\n                break;\r\n        }\r\n       
     // Log the failure message\r\n        console.log(`Ad show failed; ${failMessage}.`);\r\n   
     }\r\n}\r\nexports.default = AdvertisementManager;\r\n// Singleton declaration\r\nAdvertisementManager.instance
-    = null;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWR2ZXJ0aXNlbWVudE1hbmFnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBZHZlcnRpc2VtZW50TWFuYWdlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUF5RTtBQUN6RSxtREFBd0M7QUFDeEMsK0VBQWdGO0FBQ2hGLGlEQUFzRDtBQUN0RCw2RUFBNEQ7QUFFNUQsTUFBTSxNQUFNLEdBQVcsbUJBQW1CLENBQUM7QUFFM0MsTUFBcUIsb0JBQXFCLFNBQVEscUNBQXFCO0lBUTVELE1BQU0sS0FBSyxRQUFRO1FBQ3RCLElBZEMscUNBQXFCLENBNERiLFdBQVksQ0E5Q2pCLElBQUksQ0FBQyxRQUFRLEVBQUksSUFBSSxHQUFFO1lBQ3ZCLElBQUksQ0FBQyxRQUFRLEdBQUcsd0JBQVUsQ0FBQyxnQkFBZ0IsU0FBQyxvQkFBb0IsRUFBRyxDQUFDO1NBQ3ZFO1FBRUQsT0FBTyxJQUFJLENBQUMsUUFBUSxDQUFDO0lBQ3pCLENBQUM7SUFFTSxjQUFjLENBQUMsUUFBaUIsRUFBRSxRQUFvQjtRQUN6RCxJQUFJLENBQUMsbUJBQW1CLEdBQUcsUUFBUSxDQUFDO1FBQ3BDLElBQUksQ0FBQyxtQkFBbUIsR0FBRyxRQUFRLENBQUM7UUFDcEMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxJQUFJLENBQUMsY0FBYyxDQUFDLENBQUM7SUFDckMsQ0FBQztJQUVELGNBQWM7UUFDViwyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxXQUFXLENBQUMsWUFBWSxDQUFDLFNBQVMsQ0FBQyxRQUFRLENBQUMsSUFBSSxDQUFDLG1CQUFtQixFQUFFLElBQUksQ0FBQyxtQkFBbUIsQ0FBQyxDQUFDO0lBQzNILENBQUM7SUFFRCwyRkFBMkY7SUFDM0YsTUFBTSxDQUFDLGNBQTBCO1FBQzdCLGlEQUFrQixDQUFDLElBQUksQ0FDbkIsTUFBTSxFQUFFLHNDQUFzQztRQUM5QyxBQURRLHNDQUFzQztRQUM5QyxNQUFNLENBQUMsRUFBRSxDQUFDLElBQUksQ0FBQyxjQUFjLEVBQUU7UUFDM0IsMEdBQTBHO1NBQ2pILENBQUM7SUFDTixDQUFDO0lBRUQsd0RBQXdEO0lBQ3hELGNBQWMsQ0FBQyxNQUFvQixFQUFFLGNBQTBCO1FBQzNELElBQUksTUFBTSxLQUFLLDJDQUFZLENBQUMsUUFBUSxFQUFFO1lBQ2xDLG1EQUFtRDtZQUNuRCxPQUFPLENBQUMsR0FBRyxDQUFDLCtCQUErQixDQUFDLENBQUM7WUFDN0MsY0FBYyxFQUFFLENBQUMsQ0FBQyxxQ0FBcUM7WUFDdkQsT0FBTztTQUNWO1FBRUQsd0NBQXdDO1FBQ3hDLElBQUksV0FBbUIsQ0FBQztRQUN4QixtRUFBbUU7UUFDbkUsUUFBUSxNQUFNLEVBQUU7WUFDWixLQUFLLDJDQUFZLENBQUMsTUFBTTtnQkFDcEIsV0FBVyxHQUFHLFFBQVEsQ0FBQztnQkFDdkIsTUFBTTtZQUNWLEtBQUssMkNBQVksQ0FBQyxPQUFPO2dCQUNyQixXQUFXLEdBQUcsU0FBUyxDQUFDO2dCQUN4QixNQUFNO1lBQ1YsS0FBSywyQ0FBWSxDQUFDLFFBQVE7Z0JBQ3RCLFdBQVcsR0FBRyxVQUFVLENBQUM7Z0JBQ3pCLE1BQU07WUFDVjtnQkFDSSxXQUFXLEdBQUcsZ0JBQWdCLENBQUM7Z0JBQy9CLE1BQU07U0FDYjtRQUNELDBCQUEwQjtRQUMxQixPQUFPLENBQUMsR0FBRyxDQUFDLG1CQUFtQixXQUFXLEdBQUcsQ0FBQyxDQUFDO0lBQ25ELENBQUM7O0FBL0RMLHVDQWdFQztBQTNERyx3QkFBd0I7QUFDVCw2QkFBUSxHQUF5QixJQUFJLENBQUMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Advertisement/AdvertisementManager.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"destinationPosiiton","type":"UnityEngine.Vector3","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"destinationRotation","type":"UnityEngine.Quaternion","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"AdvertisementManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
-  typescriptHash: 62bfbfd907d98a3d4401dec273111e6c
+    = null;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWR2ZXJ0aXNlbWVudE1hbmFnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBZHZlcnRpc2VtZW50TWFuYWdlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUF5RTtBQUV6RSwrRUFBZ0Y7QUFDaEYsaURBQXNEO0FBQ3RELDZFQUE0RDtBQUU1RCxrRkFBb0c7QUFFcEcsOENBQThDO0FBRTlDLE1BQXFCLG9CQUFxQixTQUFRLHFDQUFxQjtJQUF2RTs7UUFFVyxVQUFLLEdBQVcsbUJBQW1CLENBQUM7SUFzRS9DLENBQUM7SUE5RFUsTUFBTSxLQUFLLFFBQVE7UUFDdEIsSUFsQkMscUNBQXFCLENBaUVkLFdBQUQsQ0EvQ0gsSUFBSSxDQUFDLFFBQVEsRUFBSSxJQUFJLEdBQUU7WUFDdkIsSUFBSSxDQUFDLFFBQVEsR0FBRyx3QkFBVSxDQUFDLGdCQUFnQixTQUFDLG9CQUFvQixFQUFHLENBQUM7U0FDdkU7UUFFRCxPQUFPLElBQUksQ0FBQyxRQUFRLENBQUM7SUFDekIsQ0FBQztJQUVNLGNBQWMsQ0FBQyxRQUFpQixFQUFFLFFBQW9CO1FBQ3pELElBQUksQ0FBQyxtQkFBbUIsR0FBRyxRQUFRLENBQUM7UUFDcEMsSUFBSSxDQUFDLG1CQUFtQixHQUFHLFFBQVEsQ0FBQztRQUNwQyxJQUFJLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxjQUFjLENBQUMsQ0FBQztJQUNyQyxDQUFDO0lBRUQsY0FBYztRQUNWLDJDQUFhLENBQUMsUUFBUSxDQUFDLFdBQVcsQ0FBQyxZQUFZLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsbUJBQW1CLEVBQUUsSUFBSSxDQUFDLG1CQUFtQixDQUFDLENBQUM7SUFDM0gsQ0FBQztJQUVELDJGQUEyRjtJQUMzRixNQUFNLENBQUMsY0FBMEI7UUFFN0IsSUFBSSwyQ0FBb0IsQ0FBQyxRQUFRLEVBQUU7WUFFL0IsaURBQWtCLENBQUMsSUFBSSxDQUNuQixJQUFJLENBQUMsS0FBSyxFQUFFLHNDQUFzQztZQUNsRCxBQURZLHNDQUFzQztZQUNsRCxNQUFNLENBQUMsRUFBRSxDQUFDLElBQUksQ0FBQyxjQUFjLEVBQUUsQ0FDbEMsQ0FBQztTQUNMO2FBQ0k7WUFDRCxJQUFJLENBQUMsY0FBYyxFQUFFLENBQUM7U0FDekI7SUFDTCxDQUFDO0lBRUQsd0RBQXdEO0lBQ3hELGNBQWMsQ0FBQyxNQUFvQixFQUFFLGNBQTBCO1FBQzNELElBQUksTUFBTSxLQUFLLDJDQUFZLENBQUMsUUFBUSxFQUFFO1lBQ2xDLG1EQUFtRDtZQUNuRCxPQUFPLENBQUMsR0FBRyxDQUFDLCtCQUErQixDQUFDLENBQUM7WUFDN0MsY0FBYyxFQUFFLENBQUMsQ0FBQyxxQ0FBcUM7WUFDdkQsT0FBTztTQUNWO1FBRUQsd0NBQXdDO1FBQ3hDLElBQUksV0FBbUIsQ0FBQztRQUN4QixtRUFBbUU7UUFDbkUsUUFBUSxNQUFNLEVBQUU7WUFDWixLQUFLLDJDQUFZLENBQUMsTUFBTTtnQkFDcEIsV0FBVyxHQUFHLFFBQVEsQ0FBQztnQkFDdkIsTUFBTTtZQUNWLEtBQUssMkNBQVksQ0FBQyxPQUFPO2dCQUNyQixXQUFXLEdBQUcsU0FBUyxDQUFDO2dCQUN4QixNQUFNO1lBQ1YsS0FBSywyQ0FBWSxDQUFDLFFBQVE7Z0JBQ3RCLFdBQVcsR0FBRyxVQUFVLENBQUM7Z0JBQ3pCLE1BQU07WUFDVjtnQkFDSSxXQUFXLEdBQUcsZ0JBQWdCLENBQUM7Z0JBQy9CLE1BQU07U0FDYjtRQUNELDBCQUEwQjtRQUMxQixPQUFPLENBQUMsR0FBRyxDQUFDLG1CQUFtQixXQUFXLEdBQUcsQ0FBQyxDQUFDO0lBQ25ELENBQUM7O0FBdkVMLHVDQXdFQztBQWpFRyx3QkFBd0I7QUFDVCw2QkFBUSxHQUF5QixJQUFJLENBQUMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Advertisement/AdvertisementManager.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"adKey","type":"System.String","isArray":false,"initValue":["Monetize_Template"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"destinationPosiiton","type":"UnityEngine.Vector3","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"destinationRotation","type":"UnityEngine.Quaternion","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"AdvertisementManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 1f3c338266a9bd94b91db0726c6b27cd
   onlyWriteTrigger: 0

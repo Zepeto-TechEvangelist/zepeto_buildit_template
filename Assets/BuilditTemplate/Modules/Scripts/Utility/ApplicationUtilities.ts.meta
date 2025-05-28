@@ -1,0 +1,56 @@
+fileFormatVersion: 2
+guid: 4239d6defada44a0a9f709f656d6221b
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.ApplicationUtilities = exports.ApplicationPlatform
+    = void 0;\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nvar ApplicationPlatform;\r\n(function
+    (ApplicationPlatform) {\r\n    ApplicationPlatform[ApplicationPlatform[\"ios\"]
+    = 0] = \"ios\";\r\n    ApplicationPlatform[ApplicationPlatform[\"android\"] =
+    1] = \"android\";\r\n    ApplicationPlatform[ApplicationPlatform[\"osx\"] = 2]
+    = \"osx\";\r\n    ApplicationPlatform[ApplicationPlatform[\"windows\"] = 3] =
+    \"windows\";\r\n    ApplicationPlatform[ApplicationPlatform[\"other\"] = 4] =
+    \"other\";\r\n})(ApplicationPlatform = exports.ApplicationPlatform || (exports.ApplicationPlatform
+    = {}));\r\nclass ApplicationUtilities {\r\n    /**\r\n     * Get the current
+    runtime platform\r\n     */\r\n    static get currentPlatform() {\r\n       
+    switch (UnityEngine_1.Application.platform) {\r\n            case UnityEngine_1.RuntimePlatform.IPhonePlayer:\r\n               
+    return ApplicationPlatform.ios;\r\n            case UnityEngine_1.RuntimePlatform.Android:\r\n               
+    return ApplicationPlatform.android;\r\n            case UnityEngine_1.RuntimePlatform.OSXEditor,
+    UnityEngine_1.RuntimePlatform.OSXEditor:\r\n                return ApplicationPlatform.osx;\r\n           
+    case UnityEngine_1.RuntimePlatform.WindowsPlayer, UnityEngine_1.RuntimePlatform.WindowsEditor:\r\n               
+    return ApplicationPlatform.windows;\r\n            default:\r\n               
+    return ApplicationPlatform.other;\r\n        }\r\n    }\r\n    /**\r\n     *
+    Is the current platform a mobile device\r\n     */\r\n    static get isMobile()
+    {\r\n        switch (UnityEngine_1.Application.platform) {\r\n            case
+    UnityEngine_1.RuntimePlatform.IPhonePlayer, UnityEngine_1.RuntimePlatform.Android:\r\n               
+    return true;\r\n            default:\r\n                return false;\r\n       
+    }\r\n    }\r\n    /**\r\n     * Is the current platform PC (Windows/OSX)\r\n    
+    */\r\n    static get isPC() { return !this.isMobile; }\r\n    /**\r\n     * Is
+    the current platform running in Editor\r\n     */\r\n    static get isEditor()
+    {\r\n        switch (UnityEngine_1.Application.platform) {\r\n            case
+    UnityEngine_1.RuntimePlatform.OSXEditor, UnityEngine_1.RuntimePlatform.WindowsEditor:\r\n               
+    return true;\r\n            default:\r\n                return false;\r\n       
+    }\r\n    }\r\n}\r\nexports.ApplicationUtilities = ApplicationUtilities;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQXBwbGljYXRpb25VdGlsaXRpZXMuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBcHBsaWNhdGlvblV0aWxpdGllcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSw2Q0FBeUQ7QUFFekQsSUFBWSxtQkFNWDtBQU5ELFdBQVksbUJBQW1CO0lBQzNCLDJEQUFHLENBQUE7SUFDSCxtRUFBTyxDQUFBO0lBQ1AsMkRBQUcsQ0FBQTtJQUNILG1FQUFPLENBQUE7SUFDUCwrREFBSyxDQUFBO0FBQ1QsQ0FBQyxFQU5XLG1CQUFtQixHQUFuQiwyQkFBbUIsS0FBbkIsMkJBQW1CLFFBTTlCO0FBRUQsTUFBYSxvQkFBb0I7SUFFN0I7O09BRUc7SUFDSSxNQUFNLEtBQUssZUFBZTtRQUU3QixRQUFRLHlCQUFXLENBQUMsUUFBUSxFQUFFO1lBQzFCLEtBQUssNkJBQWUsQ0FBQyxZQUFZO2dCQUM3QixPQUFPLG1CQUFtQixDQUFDLEdBQUcsQ0FBQztZQUVuQyxLQUFLLDZCQUFlLENBQUMsT0FBTztnQkFDeEIsT0FBTyxtQkFBbUIsQ0FBQyxPQUFPLENBQUM7WUFFdkMsS0FBSyw2QkFBZSxDQUFDLFNBQVMsRUFBRSw2QkFBZSxDQUFDLFNBQVM7Z0JBQ3JELE9BQU8sbUJBQW1CLENBQUMsR0FBRyxDQUFDO1lBRW5DLEtBQUssNkJBQWUsQ0FBQyxhQUFhLEVBQUUsNkJBQWUsQ0FBQyxhQUFhO2dCQUM3RCxPQUFPLG1CQUFtQixDQUFDLE9BQU8sQ0FBQztZQUV2QztnQkFDSSxPQUFPLG1CQUFtQixDQUFDLEtBQUssQ0FBQTtTQUN2QztJQUNMLENBQUM7SUFFRDs7T0FFRztJQUNJLE1BQU0sS0FBSyxRQUFRO1FBQ3RCLFFBQVEseUJBQVcsQ0FBQyxRQUFRLEVBQUU7WUFDMUIsS0FBSyw2QkFBZSxDQUFDLFlBQVksRUFBRSw2QkFBZSxDQUFDLE9BQU87Z0JBQ3RELE9BQU8sSUFBSSxDQUFDO1lBQ2hCO2dCQUNJLE9BQU8sS0FBSyxDQUFDO1NBQ3BCO0lBQ0wsQ0FBQztJQUVEOztPQUVHO0lBQ0ksTUFBTSxLQUFLLElBQUksS0FBYyxPQUFPLENBQUMsSUFBSSxDQUFDLFFBQVEsQ0FBQyxDQUFDLENBQUM7SUFFNUQ7O09BRUc7SUFDSSxNQUFNLEtBQUssUUFBUTtRQUN0QixRQUFRLHlCQUFXLENBQUMsUUFBUSxFQUFFO1lBQzFCLEtBQUssNkJBQWUsQ0FBQyxTQUFTLEVBQUUsNkJBQWUsQ0FBQyxhQUFhO2dCQUN6RCxPQUFPLElBQUksQ0FBQztZQUVoQjtnQkFDSSxPQUFPLEtBQUssQ0FBQztTQUNwQjtJQUNMLENBQUM7Q0FDSjtBQXRERCxvREFzREMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Scripts/Utility/ApplicationUtilities.ts","manifest":{"properties":[],"name":"ApplicationUtilities","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 9119f19b60b7fd93f78fc11ab0de811f
+  onlyWriteTrigger: 0
