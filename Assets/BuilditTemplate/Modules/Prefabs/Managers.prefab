@@ -1728,7 +1728,7 @@ GameObject:
   - component: {fileID: 1056510381457332618}
   - component: {fileID: 6011604681734725269}
   m_Layer: 5
-  m_Name: BGMToggle (1)
+  m_Name: BGMToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2009,9 +2009,12 @@ MonoBehaviour:
   script:
     script: {fileID: 4458252877524076426, guid: 5491895edbd55495890f0f0e3c5f9167, type: 3}
     isExpaned: 0
-    keys: []
-    unityValues: []
-    values: []
+    keys:
+    - adKey
+    unityValues:
+    - {fileID: 0}
+    values:
+    - '{"type":"System.String, mscorlib","value":"Monetize_Template"}'
     unityArrayValues: []
     arrayValues: []
 --- !u!1 &8858254789748417455
@@ -3432,7 +3435,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 443622795295581356, guid: 57e62576455ae4ef4baf385c6062a2ae, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 480.00003
+      value: 570
       objectReference: {fileID: 0}
     - target: {fileID: 468515428618568361, guid: 57e62576455ae4ef4baf385c6062a2ae, type: 3}
       propertyPath: m_Color.b
@@ -3710,7 +3713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7058889219639671427, guid: 57e62576455ae4ef4baf385c6062a2ae, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -89439.03
+      value: -142593.94
       objectReference: {fileID: 0}
     - target: {fileID: 7393393723855408645, guid: 57e62576455ae4ef4baf385c6062a2ae, type: 3}
       propertyPath: m_SizeDelta.y
