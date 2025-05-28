@@ -18,14 +18,14 @@ public class ToolMenuForGuide : EditorWindow
     private GUIStyle labelStyle;
     private Canvas canvas;
 
-    [MenuItem("ZEPETO/Guide/Open Tool Menu")]
+    // [MenuItem("ZEPETO/Guide/Open Tool Menu")]
     public static void ShowGuideEditor()
     {
         EditorWindow wnd = GetWindow<ToolMenuForGuide>();
         wnd.titleContent = new GUIContent("Tool menu for Guide");
     }
 
-    [MenuItem("ZEPETO/Guide/Set Scene Environment")]
+    // [MenuItem("ZEPETO/Guide/Set Scene Environment")]
     public static void SetSceneEnvironment()
     {
         ToolMenuForGuide window = GetWindow<ToolMenuForGuide>();
