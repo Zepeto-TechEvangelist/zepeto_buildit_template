@@ -5,12 +5,16 @@ import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
 import { ZepetoPlayers } from 'ZEPETO.Character.Controller';
 
 import { ApplicationPlatform, ApplicationUtilities } from '../Scripts/Utility/ApplicationUtilities';
+import {PopupCommon, PopupCommonBuilder, ZepetoToast} from 'ZEPETO.World.Gui';
+import {Type} from "ZEPETO.World.Gui.ZepetoToast";
 
-// const AD_KEY: string = "Monetize_Template";
+
+const AD_KEY: string = "Monetize_Template";
 
 export default class AdvertisementManager extends ZepetoScriptBehaviour {
 
-    public adKey: string = "Monetize_Template";
+    // @HideInInspector()
+    // public adKey: string = "Monetize_Template";
     
     @HideInInspector() destinationPosiiton: Vector3;
     @HideInInspector() destinationRotation: Quaternion;
@@ -38,16 +42,14 @@ export default class AdvertisementManager extends ZepetoScriptBehaviour {
 
     // Method to show an advertisement and specify a reward function to call upon ad completion
     ShowAd(rewardFunction: () => void) {
-        
         if (ApplicationUtilities.isMobile) {
-
             WorldAdvertisement.Show(
-                this.adKey, // Using the defined advertisement key
+                AD_KEY, // Using the defined advertisement key
                 result => this.rewardTeleport()
             );
         }
         else {
-            this.rewardTeleport();
+            ZepetoToast.Show(Type.None, "Ads are only visible on the mobile Zepeto app");
         }
     }
 
