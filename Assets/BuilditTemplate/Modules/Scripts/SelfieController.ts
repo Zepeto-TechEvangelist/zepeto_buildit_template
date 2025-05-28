@@ -127,7 +127,7 @@ export default class SelfieController extends ZepetoScriptBehaviour {
 
         
         // TODO: Enable For Selfie Fix
-        const additionalOffset = new Vector3(0, 2 * (this._zepetoCharacter.Context.transform.localScale.y - 1.0), 0);
+        const additionalOffset = new Vector3(0, 1 * (this._zepetoCharacter.Context.transform.localScale.y - 1.0), 0);
         if (additionalOffset.y > 0)
             ZepetoPlayers.instance.ZepetoCamera.additionalOffset = additionalOffset;
 
