@@ -196,7 +196,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -11731.0205, y: 0}
+  m_AnchoredPosition: {x: -12086.092, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2216293173962810417
@@ -1637,7 +1637,7 @@ GameObject:
   - component: {fileID: 2216755432058319882}
   - component: {fileID: 4201986142539248394}
   m_Layer: 5
-  m_Name: WardrobeUI
+  m_Name: '[obsolete]WardrobeUI'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1750,8 +1750,6 @@ MonoBehaviour:
     - panelRect
     - open
     - close
-    - onOpened
-    - onClosed
     - direction
     - cameraOffsetAdjustment
     unityValues:
@@ -1764,8 +1762,6 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
     values:
     - 
     - 
@@ -1774,8 +1770,6 @@ MonoBehaviour:
     - 
     - '{"type":"UnityEngine.Events.UnityEvent, UnityEngine.CoreModule","value":"{\"m_PersistentCalls\":{\"m_Calls\":[]}}"}'
     - '{"type":"UnityEngine.Events.UnityEvent, UnityEngine.CoreModule","value":"{\"m_PersistentCalls\":{\"m_Calls\":[]}}"}'
-    - 
-    - 
     - '{"type":"System.Int32, mscorlib","value":"2"}'
     - '{"type":"UnityEngine.Vector3, UnityEngine.CoreModule","value":"{\"x\":-1.0,\"y\":0.0,\"z\":0.0}"}'
     unityArrayValues: []
@@ -1802,18 +1796,41 @@ MonoBehaviour:
     - itemCategory
     - categoryPrefab
     - categoryCanvas
+    - menu
+    - emptyListIndicator
+    - resetButton
+    - isInventory
+    - categoryScroll
+    - activeItems
+    - bodyModifiers
     unityValues:
     - {fileID: 5005924237924912280, guid: a8e9037e9a9de477ab224c459075c653, type: 3}
     - {fileID: 443622795295581356}
     - {fileID: 0}
     - {fileID: 2436392294572009275, guid: 04c78a258d84c41a49f2e4c3a834ce9f, type: 3}
     - {fileID: 7058889219639671427}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     values:
     - 
     - 
     - '{"type":"ZEPETO.Module.Shop.ItemKeyword, ZEPETO.Module.Shop","value":"{\"value__\":3}"}'
     - 
     - 
+    - 
+    - 
+    - 
+    - '{"type":"System.Boolean, mscorlib","value":"False"}'
+    - 
+    - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":0,\"type\":\"ZEPETO.Module.Content.Item,
+      ZEPETO.Module\",\"isUnity\":false}"}'
+    - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":0,\"type\":\"Zepeto.ZepetoPropertyFlag,
+      ZEPETO\",\"isUnity\":false}"}'
     unityArrayValues: []
     arrayValues: []
 --- !u!1 &8453863889616433415

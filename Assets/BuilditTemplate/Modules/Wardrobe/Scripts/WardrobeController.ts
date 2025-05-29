@@ -33,10 +33,11 @@ import {
 
 export default class WardrobeController extends ZepetoScriptBehaviour {
     
+    @HideInInspector()
     public menu: UIMenuController;
     
     public emptyListIndicator: GameObject;
-    
+
     public resetButton: Button;
     
     public isInventory: boolean = true;
@@ -78,7 +79,7 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
     
     // When the scene starts, create a player with the provided user ID and begin fetching and displaying the items.
     Start() {
-        this.emptyListIndicator.SetActive(false);
+        this.emptyListIndicator?.SetActive(false);
         
         // Hide the prefabs
         for (var i = 0; i < this.categories.length; i++)
@@ -337,7 +338,7 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
      *  Load my items
       */
     private *CoGetMyItem() {
-        this.emptyListIndicator.SetActive(false);
+        this.emptyListIndicator?.SetActive(false);
         
         // Cleanup
         // TODO: Reusable object cleanup
@@ -383,7 +384,7 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
         let contentItems: Item[] = this.cachedItems[this.itemCategory];
         this.activeItems = this.cachedItems[this.itemCategory];
 
-        this.emptyListIndicator.SetActive(this.activeItems.length == 0);
+        this.emptyListIndicator?.SetActive(this.activeItems.length == 0);
         
         for (let i = 0; i < contentItems.length; ++i) {
           
