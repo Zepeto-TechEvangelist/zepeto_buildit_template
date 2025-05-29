@@ -1,3 +1,3 @@
  public static class BuilditUnityPluginVersion {
-    public const string VERSION = "1.0.4";
+    public const string VERSION = "1.0.5";
 }
