@@ -22,10 +22,12 @@ export class ApplicationUtilities {
             case RuntimePlatform.Android:
                 return ApplicationPlatform.android;
 
-            case RuntimePlatform.OSXEditor, RuntimePlatform.OSXEditor:
+            case RuntimePlatform.OSXEditor:
+                case RuntimePlatform.OSXEditor:
                 return ApplicationPlatform.osx;
 
-            case RuntimePlatform.WindowsPlayer, RuntimePlatform.WindowsEditor:
+            case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.WindowsEditor:
                 return ApplicationPlatform.windows;
 
             default:
@@ -38,7 +40,8 @@ export class ApplicationUtilities {
      */
     public static get isMobile(): boolean {
         switch (Application.platform) {
-            case RuntimePlatform.IPhonePlayer, RuntimePlatform.Android:
+            case RuntimePlatform.IPhonePlayer:
+                case RuntimePlatform.Android:
                 return true;
             default:
                 return false;
@@ -55,7 +58,8 @@ export class ApplicationUtilities {
      */
     public static get isEditor(): boolean {
         switch (Application.platform) {
-            case RuntimePlatform.OSXEditor, RuntimePlatform.WindowsEditor:
+            case RuntimePlatform.OSXEditor: 
+                case RuntimePlatform.WindowsEditor:
                 return true;
 
             default:

@@ -21,7 +21,7 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
     // TODO: Type set
     private readonly _directionScreen = {
         left: { l: 0, r: 0, t: 0, b: 0, w: 340, h:0, pivot: { x: 0, y: 0.5 }, anchors: Anchors.left, offset: { x: 1, y: 0, z: 0 } },
-        right: { l: 0, r: -20, t: 20, b: 20, w: 340, h: 0, pivot: { x: 1, y: 0.5 }, anchors: Anchors.right, offset: { x: -1, y: 0, z: 0 } },
+        right: { l: 0, r: -35, t: 35, b: 35, w: 340, h: 0, pivot: { x: 1, y: 0.5 }, anchors: Anchors.right, offset: { x: -1, y: 0, z: 0 } },
         bottom: { l: 0, r: 0, t: 0, b: 0, w: 0, h: 400, pivot: { x: 0, y: 0 }, anchors: Anchors.bottom, offset: { x: 0, y: -1, z: 0 } },
     }
     

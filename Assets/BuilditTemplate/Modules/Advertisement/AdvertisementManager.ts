@@ -42,6 +42,8 @@ export default class AdvertisementManager extends ZepetoScriptBehaviour {
 
     // Method to show an advertisement and specify a reward function to call upon ad completion
     ShowAd(rewardFunction: () => void) {
+        
+        // console.log(`ShowAd Platform:${ApplicationUtilities.currentPlatform} isMobile: ${ApplicationUtilities.isMobile}`);
         if (ApplicationUtilities.isMobile) {
             WorldAdvertisement.Show(
                 AD_KEY, // Using the defined advertisement key
