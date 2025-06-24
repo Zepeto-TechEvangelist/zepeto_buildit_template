@@ -1,0 +1,37 @@
+fileFormatVersion: 2
+guid: 80bf6ef8c647042fd9866e83e7cc01ab
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst AdvertisementActionBase_1 = require(\"./AdvertisementActionBase\");\r\nconst
+    AE_Character_Buff_1 = require(\"../../Scripts/InteractionSystem/Actions/AE_Character_Buff\");\r\nconst
+    MotionModifier_1 = require(\"../../Scripts/MotionModifier\");\r\nclass AdBuff
+    extends AdvertisementActionBase_1.AdvertisementActionBase {\r\n    Start() {\r\n       
+    super.Start();\r\n        let ae = this.GetComponentInChildren($typeof(AE_Character_Buff_1.default));\r\n       
+    ae.Init();\r\n        let modifier = ae.motionModifier;\r\n        modifier.jumpPower
+    = this.jumpPowerMultiplier;\r\n        modifier.runSpeed = this.moveSpeedMultiplier;\r\n       
+    modifier.walkSpeed = this.moveSpeedMultiplier;\r\n        // modifier.enableDoubleJump
+    = this.enableDoubleJump;\r\n        modifier.modifierDuration = this.buffDurationSeconds;\r\n   
+    }\r\n}\r\nexports.default = AdBuff;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWRCdWZmLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQWRCdWZmLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsdUVBQW9FO0FBQ3BFLGlHQUEwRjtBQUMxRixpRUFBMEQ7QUFFMUQsTUFBcUIsTUFBTyxTQUFRLGlEQUF1QjtJQVN2RCxLQUFLO1FBQ0QsS0FBSyxDQUFDLEtBQUssRUFBRSxDQUFDO1FBRWQsSUFBSSxFQUFFLEdBQUcsSUFBSSxDQUFDLHNCQUFzQixTQUFDLDJCQUFpQixFQUFHLENBQUM7UUFDMUQsRUFBRSxDQUFDLElBQUksRUFBRSxDQUFDO1FBRVYsSUFBSSxRQUFRLEdBQUcsRUFBRSxDQUFDLGNBQWMsQ0FBQztRQUVqQyxRQUFRLENBQUMsU0FBUyxHQUFHLElBQUksQ0FBQyxtQkFBbUIsQ0FBQztRQUM5QyxRQUFRLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQyxtQkFBbUIsQ0FBQztRQUM3QyxRQUFRLENBQUMsU0FBUyxHQUFHLElBQUksQ0FBQyxtQkFBbUIsQ0FBQztRQUM5QyxxREFBcUQ7UUFDckQsUUFBUSxDQUFDLGdCQUFnQixHQUFHLElBQUksQ0FBQyxtQkFBbUIsQ0FBQztJQUN6RCxDQUFDO0NBQ0o7QUF2QkQseUJBdUJDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Advertisement/Templates/AdBuff.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"moveSpeedMultiplier","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"jumpPowerMultiplier","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"enableDoubleJump","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"mscorlib","name":"buffDurationSeconds","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"AdBuff","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: b85cde7d5ed091c389a6ccbbadb3801e
+  onlyWriteTrigger: 0

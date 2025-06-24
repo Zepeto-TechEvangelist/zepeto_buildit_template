@@ -1,0 +1,36 @@
+fileFormatVersion: 2
+guid: f9866d532c056488581f1071cb95ff3d
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ActionBase_1 = require(\"../ActionBase\");\r\nconst
+    ZEPETO_World_Gui_1 = require(\"ZEPETO.World.Gui\");\r\nclass AE_UI_ShowPopup
+    extends ActionBase_1.ActionBase {\r\n    constructor() {\r\n        super(...arguments);\r\n       
+    this.buttonTitle = \"OK\";\r\n    }\r\n    DoAction() {\r\n        let popup
+    = ZEPETO_World_Gui_1.PopupCommon.CreateInstance();\r\n        popup.Initialize(new
+    ZEPETO_World_Gui_1.PopupCommonBuilder()\r\n            .SetTitle(this.title)\r\n           
+    .SetBody(this.body)\r\n            .SetOneButton(this.buttonTitle, () => {\r\n           
+    this.buttonAction?.Invoke();\r\n            popup.Close();\r\n        }));\r\n   
+    }\r\n}\r\nexports.default = AE_UI_ShowPopup;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQUVfVUlfU2hvd1BvcHVwLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQUVfVUlfU2hvd1BvcHVwLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsOENBQTJDO0FBRTNDLHVEQUFtRTtBQUVuRSxNQUFxQixlQUFnQixTQUFRLHVCQUFVO0lBQXZEOztRQUlXLGdCQUFXLEdBQVcsSUFBSSxDQUFDO0lBZXRDLENBQUM7SUFaWSxRQUFRO1FBRWIsSUFBSSxLQUFLLEdBQUcsOEJBQVcsQ0FBQyxjQUFjLEVBQUUsQ0FBQztRQUV6QyxLQUFLLENBQUMsVUFBVSxDQUFDLElBQUkscUNBQWtCLEVBQUU7YUFDcEMsUUFBUSxDQUFDLElBQUksQ0FBQyxLQUFLLENBQUM7YUFDcEIsT0FBTyxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUM7YUFDbEIsWUFBWSxDQUFDLElBQUksQ0FBQyxXQUFXLEVBQUUsR0FBRyxFQUFFO1lBQ2pDLElBQUksQ0FBQyxZQUFZLEVBQUUsTUFBTSxFQUFFLENBQUM7WUFDNUIsS0FBSyxDQUFDLEtBQUssRUFBRSxDQUFDO1FBQ2xCLENBQUMsQ0FBQyxDQUFDLENBQUM7SUFDWixDQUFDO0NBQ0o7QUFuQkQsa0NBbUJDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/InteractionSystem/Actions/AE_UI_ShowPopup.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"isLocalized","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"title","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"body","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"buttonTitle","type":"System.String","isArray":false,"initValue":["OK"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"buttonAction","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"scriptName","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"AE_UI_ShowPopup","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 83a405bcc16a7c6e18a907c739c00253
+  onlyWriteTrigger: 0

@@ -1,0 +1,95 @@
+fileFormatVersion: 2
+guid: 978f48414396915458e8007bc1997336
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\nexports.MathUtils = void 0;\\r\\nclass
+    MathUtils {\\r\\n    static Clamp(value, min, max) {\\r\\n        return value
+    < min ? min : value > max ? max : value;\\r\\n    }\\r\\n    static InverseLerp(x,
+    y, value) {\\r\\n        if (x !== y) {\\r\\n            return (value - x) /
+    (y - x);\\r\\n        }\\r\\n        else {\\r\\n            return 0;\\r\\n       
+    }\\r\\n    }\\r\\n    static Lerp(x, y, t) {\\r\\n        return (1 - t) * x
+    + t * y;\\r\\n    }\\r\\n    static Smoothstep(x, min, max) {\\r\\n        if
+    (x > min) {\\r\\n            if (x < max) {\\r\\n                x = (x - min)
+    / (max - min);\\r\\n                return x * x * (3 - 2 * x);\\r\\n           
+    }\\r\\n            return 1;\\r\\n        }\\r\\n        return 0;\\r\\n    }\\r\\n   
+    static Smootherstep(x, min, max) {\\r\\n        if (x > min) {\\r\\n           
+    if (x < max) {\\r\\n                x = (x - min) / (max - min);\\r\\n               
+    return x * x * x * (x * (x * 6 - 15) + 10);\\r\\n            }\\r\\n           
+    return 1;\\r\\n        }\\r\\n        return 0;\\r\\n    }\\r\\n    /** \uC18C\uC22B\uC810
+    \uC790\uB9BF\uC218\uB97C \uACE0\uC815\uD55C\uB2E4. \uAE30\uBCF8 toFixed()\uD568\uC218\uB294
+    \uBB34\uAC81\uAE30 \uB54C\uBB38\uC5D0 \uC131\uB2A5 \uCD5C\uC801\uD654\uB97C \uC704\uD574
+    \uBCC4\uB3C4 \uD568\uC218 \uAD6C\uD604.\\r\\n     ** toFixed()\uCC98\uB7FC \uC790\uB9BF\uC218\uB97C
+    1,2,3,.. \uC2DD\uC73C\uB85C \uBC1B\uB294\uB300\uC2E0 1,10,100,.. \uC2DD\uC73C\uB85C
+    \uBC1B\uB294\uB2E4.\\r\\n     ** \uC608)\\r\\n     ** * ToFixed(0.45678, 1);
+    // 0\\r\\n     ** * ToFixed(0.45678, 10); // 0.5\\r\\n     ** * ToFixed(0.45678,
+    100); // 0.46\\r\\n     ** * ToFixed(0.45678, 1000); // 0.457\\r\\n     */\\r\\n   
+    static ToFixed(num, digits) {\\r\\n        return Math.round(num * digits) /
+    digits;\\r\\n    }\\r\\n    /** min(included) ~ max(not included) \uC2E4\uC218\uAC12
+    \uBC18\uD658\\r\\n     ** \uC608) Random(0.5, 1); // 0.5 ~ 0.9999...\\r\\n    
+    */\\r\\n    static Random(min, max) {\\r\\n        return Math.random() * (max
+    - min) + min;\\r\\n    }\\r\\n    /** min(included) ~ max(included) \uC815\uC218\uAC12
+    \uBC18\uD658\\r\\n     ** \uC608) RandomRange(1, 3); // 1 ~ 3\\r\\n     */\\r\\n   
+    static RandomRange(min, max) {\\r\\n        return Math.floor(Math.random() *
+    (max - min + 1) + min);\\r\\n    }\\r\\n    /** 0 ~ max(not included) \uC815\uC218\uAC12
+    \uBC18\uD658\\r\\n     ** \uC608) RandomInt(10); // 0 ~ 9\\r\\n     */\\r\\n   
+    static RandomInt(num) {\\r\\n        return Math.floor(Math.min(Math.random()
+    * num, num - 1));\\r\\n    }\\r\\n    /** \uB79C\uB364\uD55C boolean\uAC12 \uBC18\uD658\\r\\n    
+    ** \uC608) RandomBool(); // true or false\\r\\n     */\\r\\n    static RandomBool()
+    {\\r\\n        return Math.floor(Math.random() * 2) === 0;\\r\\n    }\\r\\n   
+    /** \uC8FC\uC5B4\uC9C4 \uBC30\uC5F4\uC5D0\uC11C \uB79C\uB364\uD55C \uC6D0\uC18C\uB97C
+    \uC120\uD0DD\uD558\uC5EC \uBC18\uD658\\r\\n     ** \uC608) RandomSelect([\\\"a\\\",
+    \\\"b\\\", \\\"c\\\"]); // \\\"a\\\" or \\\"b\\\" or \\\"c\\\"\\r\\n     */\\r\\n   
+    static RandomSelect(array) {\\r\\n        const length = array.length;\\r\\n       
+    if (length > 1) {\\r\\n            return array[this.RandomInt(length)];\\r\\n       
+    }\\r\\n        return array[0];\\r\\n    }\\r\\n    /** length \uAE38\uC774\uC758
+    \uB79C\uB364 \uBB38\uC790\uC5F4 \uBC18\uD658 (length\uB294 10\uC774\uD558\uB85C
+    \uAD8C\uC7A5)\\r\\n     ** \uB300\uC18C\uBB38\uC790 \uC54C\uD30C\uBCB3 \uB610\uB294
+    \uC22B\uC790\uAC00 \uD3EC\uD568\uB428\\r\\n     ** \uC608) RandomString(4); //
+    \\\"asdf\\\" or \\\"QWER\\\" or \\\"12qA\\\" or ...\\r\\n     */\\r\\n    static
+    RandomString(length) {\\r\\n        const rangeSize = this._randomStringRange.length;\\r\\n       
+    const generated = new Array(length);\\r\\n        for (let i = 0; i < length;
+    ++i) {\\r\\n            generated[i] = this._randomStringRange[this.RandomInt(rangeSize)];\\r\\n       
+    }\\r\\n        return generated.join(\\\"\\\");\\r\\n    }\\r\\n    /** \uC8FC\uC5B4\uC9C4
+    \uBC30\uC5F4 \uB0B4\uC758 \uC6D0\uC18C\uB97C \uB79C\uB364\uC73C\uB85C \uC11E\uB294\uB2E4.\\r\\n    
+    * \uCC38\uACE0)\\r\\n     * https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm\\r\\n    
+    * https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array\\r\\n    
+    */\\r\\n    static Shuffle(array) {\\r\\n        for (let i = array.length -
+    1; i > 0; --i) {\\r\\n            const j = Math.floor(Math.random() * (i + 1));\\r\\n           
+    [array[i], array[j]] = [array[j], array[i]];\\r\\n        }\\r\\n    }\\r\\n   
+    /** UTC \uD2B9\uC815 \uC2DC\uAC04\uB300\uB97C \uAE30\uC900\uC73C\uB85C \uB0A0\uC9DC\uB97C
+    \uAD6C\uBD84\uD558\uAE30 \uC704\uD55C \uD568\uC218.\\r\\n     * \uAE30\uBCF8\uAC12\uC73C\uB85C
+    initHour\uAC00 15\uB85C \uC124\uC815\uB41C\uB2E4. (\uD55C\uAD6D \uAE30\uC900
+    UTC+9 00\uC2DC\uC5D0 \uB0A0\uC9DC\uAC00 \uBC14\uB01C\uC73C\uB85C UTC\uAE30\uC900
+    15\uC2DC\uB97C \uB0A0\uC9DC \uBD84\uAE30\uC810\uC73C\uB85C \uC7A1\uB294\uB2E4.)\\r\\n    
+    */\\r\\n    static GetCurrentDay(curTime = Date.now(), initHour = 15 /* Constant.DAILY_INIT_HOUR
+    */) {\\r\\n        const curDay = Math.floor(curTime / 86400000 /* Constant.ONE_DAY
+    */);\\r\\n        const curHour = Math.floor((curTime % 86400000 /* Constant.ONE_DAY
+    */) / 3600000 /* Constant.ONE_HOUR */);\\r\\n        if (curHour < initHour)
+    {\\r\\n            return curDay - 1; // 0\uC2DC ~ \uB0A0\uC9DC \uBD84\uAE30\uC810
+    \uC2DC\uAC01 \uAE4C\uC9C0\uB294 \uC804\uB0A0\uB85C \uCDE8\uAE09\uD55C\uB2E4.\\r\\n       
+    }\\r\\n        return curDay;\\r\\n    }\\r\\n}\\r\\nexports.MathUtils = MathUtils;\\r\\nMathUtils._randomStringRange
+    = \\\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwyxz1234567890\\\";\\r\\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTWF0aFV0aWxzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiTWF0aFV0aWxzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQVFBLE1BQWEsU0FBUztJQUdYLE1BQU0sQ0FBQyxLQUFLLENBQUMsS0FBYSxFQUFFLEdBQVcsRUFBRSxHQUFXO1FBQ3ZELE9BQU8sS0FBSyxHQUFHLEdBQUcsQ0FBQyxDQUFDLENBQUMsR0FBRyxDQUFDLENBQUMsQ0FBQyxLQUFLLEdBQUcsR0FBRyxDQUFDLENBQUMsQ0FBQyxHQUFHLENBQUMsQ0FBQyxDQUFDLEtBQUssQ0FBQztJQUN6RCxDQUFDO0lBRU0sTUFBTSxDQUFDLFdBQVcsQ0FBQyxDQUFTLEVBQUUsQ0FBUyxFQUFFLEtBQWE7UUFDekQsSUFBSSxDQUFDLEtBQUssQ0FBQyxFQUFFO1lBQ1QsT0FBTyxDQUFDLEtBQUssR0FBRyxDQUFDLENBQUMsR0FBRyxDQUFDLENBQUMsR0FBRyxDQUFDLENBQUMsQ0FBQztTQUNoQzthQUFNO1lBQ0gsT0FBTyxDQUFDLENBQUM7U0FDWjtJQUNMLENBQUM7SUFFTSxNQUFNLENBQUMsSUFBSSxDQUFDLENBQVMsRUFBRSxDQUFTLEVBQUUsQ0FBUztRQUM5QyxPQUFPLENBQUMsQ0FBQyxHQUFHLENBQUMsQ0FBQyxHQUFHLENBQUMsR0FBRyxDQUFDLEdBQUcsQ0FBQyxDQUFDO0lBQy9CLENBQUM7SUFFTSxNQUFNLENBQUMsVUFBVSxDQUFDLENBQVMsRUFBRSxHQUFXLEVBQUUsR0FBVztRQUN4RCxJQUFJLENBQUMsR0FBRyxHQUFHLEVBQUU7WUFDVCxJQUFJLENBQUMsR0FBRyxHQUFHLEVBQUU7Z0JBQ1QsQ0FBQyxHQUFHLENBQUMsQ0FBQyxHQUFHLEdBQUcsQ0FBQyxHQUFHLENBQUMsR0FBRyxHQUFHLEdBQUcsQ0FBQyxDQUFDO2dCQUM1QixPQUFPLENBQUMsR0FBRyxDQUFDLEdBQUcsQ0FBQyxDQUFDLEdBQUcsQ0FBQyxHQUFHLENBQUMsQ0FBQyxDQUFDO2FBQzlCO1lBQ0Qs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\",\"assetPath\":\"Assets/ClientModule/Scripts/Shared/Utilities/MathUtils.ts\",\"manifest\":{\"properties\":[],\"name\":\"MathUtils\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: ab43906b761b5d6eeed4343d8b5a6301
+  onlyWriteTrigger: 0

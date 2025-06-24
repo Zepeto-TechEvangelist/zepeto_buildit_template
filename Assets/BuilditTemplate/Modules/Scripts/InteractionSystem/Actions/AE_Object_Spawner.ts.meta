@@ -1,0 +1,31 @@
+fileFormatVersion: 2
+guid: dbeef0d25b3eb4bf1994150c55dd8015
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ActionBase_1 = require(\"../ActionBase\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nclass AE_Object_Spawner extends
+    ActionBase_1.ActionBase {\r\n    DoAction() {\r\n        UnityEngine_1.Object.Instantiate(this.targetObject);\r\n   
+    }\r\n}\r\nexports.default = AE_Object_Spawner;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQUVfT2JqZWN0X1NwYXduZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBRV9PYmplY3RfU3Bhd25lci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDhDQUEyQztBQUMzQyw2Q0FBMEQ7QUFFMUQsTUFBcUIsaUJBQWtCLFNBQVEsdUJBQVU7SUFJNUMsUUFBUTtRQUNaLG9CQUFNLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxZQUFZLENBQUMsQ0FBQztJQUMzQyxDQUFDO0NBQ0o7QUFQRCxvQ0FPQyJ9","assetPath":"Assets/BuilditTemplate/Modules/Scripts/Interactions/Actions/AE_Object_Spawner.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"targetObject","type":"UnityEngine.Object","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"position","type":"UnityEngine.Vector3","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"scriptName","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"AE_Object_Spawner","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 5ddc00bd57311b560a9ee17841ed018e
+  onlyWriteTrigger: 0

@@ -1,0 +1,36 @@
+fileFormatVersion: 2
+guid: 09659413d20354aefb5284d9dc51a27f
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst AE_UI_ShowPopup_1 = require(\"../../Scripts/InteractionSystem/Actions/AE_UI_ShowPopup\");\r\nconst
+    AdvertisementActionBase_1 = require(\"./AdvertisementActionBase\");\r\nclass
+    AdPopupTrigger extends AdvertisementActionBase_1.AdvertisementActionBase {\r\n   
+    constructor() {\r\n        super(...arguments);\r\n        this.buttonTitle =
+    \"OK\";\r\n    }\r\n    Start() {\r\n        super.Start();\r\n        let ae
+    = this.GetComponentInChildren($typeof(AE_UI_ShowPopup_1.default));\r\n       
+    ae.title = this.title;\r\n        ae.body = this.body;\r\n        ae.buttonTitle
+    = this.buttonTitle;\r\n        ae.buttonAction = this.buttonAction;\r\n    }\r\n}\r\nexports.default
+    = AdPopupTrigger;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWRQb3B1cFRyaWdnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBZFBvcHVwVHJpZ2dlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUNBLDZGQUFzRjtBQUV0Rix1RUFBb0U7QUFFcEUsTUFBcUIsY0FBZSxTQUFRLGlEQUF1QjtJQUFuRTs7UUFJVyxnQkFBVyxHQUFXLElBQUksQ0FBQztJQWN0QyxDQUFDO0lBVEcsS0FBSztRQUNELEtBQUssQ0FBQyxLQUFLLEVBQUUsQ0FBQztRQUVkLElBQUksRUFBRSxHQUFHLElBQUksQ0FBQyxzQkFBc0IsU0FBQyx5QkFBZSxFQUFHLENBQUM7UUFDeEQsRUFBRSxDQUFDLEtBQUssR0FBRyxJQUFJLENBQUMsS0FBSyxDQUFDO1FBQ3RCLEVBQUUsQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDLElBQUksQ0FBQztRQUNwQixFQUFFLENBQUMsV0FBVyxHQUFHLElBQUksQ0FBQyxXQUFXLENBQUM7UUFDbEMsRUFBRSxDQUFDLFlBQVksR0FBRyxJQUFJLENBQUMsWUFBWSxDQUFDO0lBQ3hDLENBQUM7Q0FDSjtBQWxCRCxpQ0FrQkMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Advertisement/Templates/AdPopupTrigger.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"title","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"body","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"buttonTitle","type":"System.String","isArray":false,"initValue":["OK"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"buttonAction","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"AdPopupTrigger","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 08c1aa2c183643a99ffa6112e7f5470c
+  onlyWriteTrigger: 0

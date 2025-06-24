@@ -1,0 +1,33 @@
+fileFormatVersion: 2
+guid: b2c9718b488444c0b880c174be5baf09
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ActionBase_1 = require(\"../ActionBase\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nclass
+    AE_Character_TeleportToTarget extends ActionBase_1.ActionBase {\r\n    DoAction()
+    {\r\n        this.character ?? (this.character = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character);\r\n       
+    this.character.Teleport(this.targetObject.position, this.targetObject.rotation);\r\n   
+    }\r\n}\r\nexports.default = AE_Character_TeleportToTarget;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQUVfQ2hhcmFjdGVyX1RlbGVwb3J0VG9UYXJnZXQuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBRV9DaGFyYWN0ZXJfVGVsZXBvcnRUb1RhcmdldC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDhDQUEyQztBQUMzQyw2RUFBeUc7QUFJekcsTUFBcUIsNkJBQThCLFNBQVEsdUJBQVU7SUFLeEQsUUFBUTtRQUNiLElBQUksQ0FBQyxTQUFTLEtBQWQsSUFBSSxDQUFDLFNBQVMsR0FBSywyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxXQUFXLENBQUMsWUFBWSxDQUFDLFNBQVMsRUFBQztRQUM3RSxJQUFJLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsWUFBWSxDQUFDLFFBQVEsRUFBRSxJQUFJLENBQUMsWUFBWSxDQUFDLFFBQVEsQ0FBQyxDQUFDO0lBQ3BGLENBQUM7Q0FDSjtBQVRELGdEQVNDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/InteractionSystem/Actions/AE_Character_TeleportToTarget.ts","manifest":{"properties":[{"assembly":"ZEPETO.Character.Controller","name":"character","type":"ZEPETO.Character.Controller.ZepetoCharacter","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"targetObject","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"scriptName","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"AE_Character_TeleportToTarget","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 7c6adba2d4e1dbf0a61024bc8ade865b
+  onlyWriteTrigger: 0

@@ -77,8 +77,6 @@ export default class InteractionIcon extends ZepetoScriptBehaviour {
         this._button.onClick.AddListener(()=>{
             this.OnClickIcon();
         });
-        
-        // ScreenshotManager.instance.RegisterCameraChangeHandler((camera) => { this._canvas.worldCamera = camera; });
     }
     
     private UpdateIconRotation() {

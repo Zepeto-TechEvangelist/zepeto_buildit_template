@@ -59,8 +59,6 @@ export default class SceneManager extends ZepetoScriptBehaviour {
             SceneManager.m_instance = this;
             GameObject.DontDestroyOnLoad(this.gameObject);
         }
-        
-        // Physics.gravity = Physics.gravity * this.gravity;
     }
 
     private Destroy() {
@@ -97,16 +95,16 @@ export default class SceneManager extends ZepetoScriptBehaviour {
         this.zepetoCharacter.additionalJumpPower = this.jumpPower - this.zepetoCharacter.JumpPower;
         this.zepetoCharacter.additionalWalkSpeed = this.walkSpeed - this.zepetoCharacter.WalkSpeed;
         this.zepetoCharacter.additionalRunSpeed = this.runSpeed - this.zepetoCharacter.RunSpeed;
+        this.zepetoCharacter.motionState.doubleJumpPower = this.doubleJumpPower;
         this.zepetoCharacter.motionState.gravity *= this.gravity;
     }
 
     private SetDoubleJump() {
 
-        if (!this.enableDoubleJump) {
-            return;
-        }
-
-        this.zepetoCharacter.motionState.doubleJumpPower = this.doubleJumpPower;
+        // if (!this.enableDoubleJump) {
+        //     return;
+        // }
+        
 
         // Find an object of type ZepetoScreenButton in the scene
         const screenButton = Object.FindObjectOfType<ZepetoScreenButton>();
@@ -114,6 +112,10 @@ export default class SceneManager extends ZepetoScriptBehaviour {
         // Add a listener for the OnPointDownEvent of the screen button to handle jump actions
         screenButton.OnPointDownEvent.AddListener(() => {
 
+            if (!this.enableDoubleJump) {
+                return;
+            }
+            
             // If the character's current state is Jump, trigger a double jump
             if (this.zepetoCharacter.CurrentState === CharacterState.Jump) {
                 this.zepetoCharacter.DoubleJump();

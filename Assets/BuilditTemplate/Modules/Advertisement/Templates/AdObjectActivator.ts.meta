@@ -1,0 +1,35 @@
+fileFormatVersion: 2
+guid: fd853a7ca41fa4bdf84c46465a161f51
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst AE_GameObject_SetActive_1 = require(\"../../Scripts/InteractionSystem/Actions/AE_GameObject_SetActive\");\r\nconst
+    AdvertisementActionBase_1 = require(\"./AdvertisementActionBase\");\r\nclass
+    AdObjectActivator extends AdvertisementActionBase_1.AdvertisementActionBase {\r\n   
+    Start() {\r\n        super.Start();\r\n        let aes = this.GetComponentsInChildren($typeof(AE_GameObject_SetActive_1.default));\r\n       
+    if (aes.length > 0)\r\n            aes[0].targetObject = this.objectToActivate;\r\n       
+    if (aes.length > 1)\r\n            aes[1].targetObject = this.objectToDeactivate;\r\n       
+    aes.forEach(x => x.Init());\r\n    }\r\n}\r\nexports.default = AdObjectActivator;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWRPYmplY3RBY3RpdmF0b3IuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBZE9iamVjdEFjdGl2YXRvci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUNBLDZHQUFzRztBQUN0Ryx1RUFBb0U7QUFFcEUsTUFBcUIsaUJBQWtCLFNBQVEsaURBQXVCO0lBS2xFLEtBQUs7UUFDRCxLQUFLLENBQUMsS0FBSyxFQUFFLENBQUM7UUFFZCxJQUFJLEdBQUcsR0FBRyxJQUFJLENBQUMsdUJBQXVCLFNBQUMsaUNBQXVCLEVBQUcsQ0FBQztRQUVsRSxJQUFJLEdBQUcsQ0FBQyxNQUFNLEdBQUcsQ0FBQztZQUNkLEdBQUcsQ0FBQyxDQUFDLENBQUMsQ0FBQyxZQUFZLEdBQUcsSUFBSSxDQUFDLGdCQUFnQixDQUFDO1FBQ2hELElBQUksR0FBRyxDQUFDLE1BQU0sR0FBRyxDQUFDO1lBQ2QsR0FBRyxDQUFDLENBQUMsQ0FBQyxDQUFDLFlBQVksR0FBRyxJQUFJLENBQUMsa0JBQWtCLENBQUM7UUFFbEQsR0FBRyxDQUFDLE9BQU8sQ0FBQyxDQUFDLENBQUMsRUFBRSxDQUFDLENBQUMsQ0FBQyxJQUFJLEVBQUUsQ0FBQyxDQUFDO0lBQy9CLENBQUM7Q0FDSjtBQWpCRCxvQ0FpQkMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Advertisement/Templates/AdObjectActivator.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"objectToActivate","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"objectToDeactivate","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"AdObjectActivator","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 89518434b353028116713ef3c46309d1
+  onlyWriteTrigger: 0

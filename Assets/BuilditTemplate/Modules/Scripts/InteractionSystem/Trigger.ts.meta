@@ -1,0 +1,38 @@
+fileFormatVersion: 2
+guid: b0dc83a922d2e4e548bbf59f4229c042
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.TriggerBase = exports.TriggerType = void 0;\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst ZepetoEvent_1 = require(\"../Utility/ZepetoEvent\");\r\nvar
+    TriggerType;\r\n(function (TriggerType) {\r\n    TriggerType[TriggerType[\"None\"]
+    = 0] = \"None\";\r\n    TriggerType[TriggerType[\"Ad\"] = 1] = \"Ad\";\r\n   
+    TriggerType[TriggerType[\"Click\"] = 2] = \"Click\";\r\n    TriggerType[TriggerType[\"Collider\"]
+    = 3] = \"Collider\";\r\n})(TriggerType = exports.TriggerType || (exports.TriggerType
+    = {}));\r\nclass TriggerBase extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n   
+    constructor() {\r\n        super(...arguments);\r\n        this.callback = new
+    ZepetoEvent_1.ZepetoEvent1();\r\n    }\r\n    get type() { return TriggerType.None;
+    }\r\n    Fire() {\r\n        console.log(\"Trigger Fire\");\r\n        this.callback?.Invoke(this);\r\n   
+    }\r\n}\r\nexports.TriggerBase = TriggerBase;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHJpZ2dlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlRyaWdnZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQUEsaURBQXFEO0FBQ3JELHdEQUFzRDtBQUV0RCxJQUFZLFdBS1g7QUFMRCxXQUFZLFdBQVc7SUFDbkIsNkNBQUksQ0FBQTtJQUNKLHlDQUFFLENBQUE7SUFDRiwrQ0FBSyxDQUFBO0lBQ0wscURBQVEsQ0FBQTtBQUNaLENBQUMsRUFMVyxXQUFXLEdBQVgsbUJBQVcsS0FBWCxtQkFBVyxRQUt0QjtBQU9ELE1BQXNCLFdBQVksU0FBUSxxQ0FBcUI7SUFBL0Q7O1FBS1csYUFBUSxHQUE4QixJQUFJLDBCQUFZLEVBQWUsQ0FBQztJQU1qRixDQUFDO0lBVEcsSUFBVyxJQUFJLEtBQWtCLE9BQU8sV0FBVyxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUM7SUFLM0QsSUFBSTtRQUNBLE9BQU8sQ0FBQyxHQUFHLENBQUMsY0FBYyxDQUFDLENBQUM7UUFDNUIsSUFBSSxDQUFDLFFBQVEsRUFBRSxNQUFNLENBQUMsSUFBSSxDQUFDLENBQUM7SUFDaEMsQ0FBQztDQUNKO0FBWEQsa0NBV0MifQ==","assetPath":"Assets/BuilditTemplate/Modules/Scripts/InteractionSystem/Trigger.ts","manifest":{"properties":[],"name":"TriggerBase","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 4bc4aa4f181ae1ac2a0bbc52bacd7c87
+  onlyWriteTrigger: 0

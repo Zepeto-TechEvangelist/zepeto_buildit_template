@@ -1,0 +1,34 @@
+fileFormatVersion: 2
+guid: 2f3f5b2c04edf47e4bb70a18739e90e9
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ActionBase_1 = require(\"../ActionBase\");\r\nconst
+    ZEPETO_World_Gui_1 = require(\"ZEPETO.World.Gui\");\r\nconst ZEPETO_World_Gui_ZepetoToast_1
+    = require(\"ZEPETO.World.Gui.ZepetoToast\");\r\nclass AE_UI_ShowToast extends
+    ActionBase_1.ActionBase {\r\n    constructor() {\r\n        super(...arguments);\r\n       
+    this.toastType = ZEPETO_World_Gui_ZepetoToast_1.Type.None;\r\n    }\r\n    DoAction()
+    {\r\n        ZEPETO_World_Gui_1.ZepetoToast.Show(ZEPETO_World_Gui_ZepetoToast_1.Type.None,
+    this.message);\r\n    }\r\n}\r\nexports.default = AE_UI_ShowToast;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQUVfVUlfU2hvd1RvYXN0LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQUVfVUlfU2hvd1RvYXN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsOENBQTJDO0FBQzNDLHVEQUFnRjtBQUNoRiwrRUFBb0Q7QUFFcEQsTUFBcUIsZUFBZ0IsU0FBUSx1QkFBVTtJQUF2RDs7UUFHVyxjQUFTLEdBQVMsbUNBQUksQ0FBQyxJQUFJLENBQUM7SUFLdkMsQ0FBQztJQUhVLFFBQVE7UUFDWCw4QkFBVyxDQUFDLElBQUksQ0FBQyxtQ0FBSSxDQUFDLElBQUksRUFBRSxJQUFJLENBQUMsT0FBTyxDQUFDLENBQUM7SUFDOUMsQ0FBQztDQUNKO0FBUkQsa0NBUUMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Scripts/InteractionSystem/Actions/AE_UI_ShowToast.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"isLocalized","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"message","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"","name":"toastType","type":"ZEPETO.World.Gui.ZepetoToast.Type","isArray":false,"initValue":["None"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"scriptName","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"AE_UI_ShowToast","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: c6e056da44712cd00c5bb751cf73f1ef
+  onlyWriteTrigger: 0

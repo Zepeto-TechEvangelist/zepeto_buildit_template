@@ -1,0 +1,33 @@
+fileFormatVersion: 2
+guid: 177215e34264d41ee911f8b26ad33cb2
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst AE_UI_ShowToast_1 = require(\"../../Scripts/InteractionSystem/Actions/AE_UI_ShowToast\");\r\nconst
+    AdvertisementActionBase_1 = require(\"./AdvertisementActionBase\");\r\nclass
+    AdToastTrigger extends AdvertisementActionBase_1.AdvertisementActionBase {\r\n   
+    Start() {\r\n        super.Start();\r\n        let ae = this.GetComponentInChildren($typeof(AE_UI_ShowToast_1.default));\r\n       
+    ae.message = this.message;\r\n    }\r\n}\r\nexports.default = AdToastTrigger;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWRUb2FzdFRyaWdnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBZFRvYXN0VHJpZ2dlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUNBLDZGQUFzRjtBQUN0Rix1RUFBb0U7QUFFcEUsTUFBcUIsY0FBZSxTQUFRLGlEQUF1QjtJQUkvRCxLQUFLO1FBQ0QsS0FBSyxDQUFDLEtBQUssRUFBRSxDQUFDO1FBRWQsSUFBSSxFQUFFLEdBQUcsSUFBSSxDQUFDLHNCQUFzQixTQUFDLHlCQUFlLEVBQUcsQ0FBQztRQUN4RCxFQUFFLENBQUMsT0FBTyxHQUFHLElBQUksQ0FBQyxPQUFPLENBQUM7SUFFOUIsQ0FBQztDQUNKO0FBWEQsaUNBV0MifQ==","assetPath":"Assets/BuilditTemplate/Modules/Advertisement/Templates/AdToastTrigger.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"message","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"AdToastTrigger","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 05fddaa7b53cd7beca6fc22941cc4315
+  onlyWriteTrigger: 0

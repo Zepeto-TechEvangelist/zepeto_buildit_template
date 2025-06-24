@@ -1,0 +1,45 @@
+fileFormatVersion: 2
+guid: edcd7d5760e6f4403bed71ccbd6dcafb
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\n/** JSON\uC744 stringify \uB610\uB294
+    parse \uD560 \uB54C, Map\uACFC Set\uC744 \uC790\uB3D9\uC73C\uB85C \uCC98\uB9AC\uD574\uC8FC\uB294
+    \uC720\uD2F8 */\\r\\nclass JSONSerializer {\\r\\n    static Stringify(object)
+    {\\r\\n        return JSON.stringify(object, JSONSerializer.Replacer);\\r\\n   
+    }\\r\\n    static Parse(object) {\\r\\n        return JSON.parse(object, JSONSerializer.Reviver);\\r\\n   
+    }\\r\\n    static Replacer(key, value) {\\r\\n        if (value instanceof Map)
+    {\\r\\n            return {\\r\\n                dataType: JSONSerializer._keyForMap,\\r\\n               
+    value: Array.from(value.entries()),\\r\\n            };\\r\\n        }\\r\\n       
+    else if (value instanceof Set) {\\r\\n            return {\\r\\n               
+    dataType: JSONSerializer._keyForSet,\\r\\n                value: Array.from(value),\\r\\n           
+    };\\r\\n        }\\r\\n        else {\\r\\n            return value;\\r\\n       
+    }\\r\\n    }\\r\\n    static Reviver(key, value) {\\r\\n        if (typeof value
+    === \\\"object\\\" && value !== null) {\\r\\n            if (value.dataType ===
+    JSONSerializer._keyForMap) {\\r\\n                return new Map(value.value);\\r\\n           
+    }\\r\\n            else if (value.dataType === JSONSerializer._keyForSet) {\\r\\n               
+    return new Set(value.value);\\r\\n            }\\r\\n        }\\r\\n        return
+    value;\\r\\n    }\\r\\n}\\r\\nexports.default = JSONSerializer;\\r\\nJSONSerializer._keyForMap
+    = \\\"Map\\\";\\r\\nJSONSerializer._keyForSet = \\\"Set\\\";\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiSlNPTlNlcmlhbGl6ZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJKU09OU2VyaWFsaXplci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDREQUE0RDtBQUM1RCxNQUFxQixjQUFjO0lBSXhCLE1BQU0sQ0FBQyxTQUFTLENBQUMsTUFBVztRQUMvQixPQUFPLElBQUksQ0FBQyxTQUFTLENBQUMsTUFBTSxFQUFFLGNBQWMsQ0FBQyxRQUFRLENBQUMsQ0FBQztJQUMzRCxDQUFDO0lBRU0sTUFBTSxDQUFDLEtBQUssQ0FBSSxNQUFjO1FBQ2pDLE9BQU8sSUFBSSxDQUFDLEtBQUssQ0FBQyxNQUFNLEVBQUUsY0FBYyxDQUFDLE9BQU8sQ0FBTSxDQUFDO0lBQzNELENBQUM7SUFFTSxNQUFNLENBQUMsUUFBUSxDQUFDLEdBQVEsRUFBRSxLQUFVO1FBQ3ZDLElBQUksS0FBSyxZQUFZLEdBQUcsRUFBRTtZQUN0QixPQUFPO2dCQUNILFFBQVEsRUFBRSxjQUFjLENBQUMsVUFBVTtnQkFDbkMsS0FBSyxFQUFFLEtBQUssQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDLE9BQU8sRUFBRSxDQUFDO2FBQ3JDLENBQUM7U0FDTDthQUFNLElBQUksS0FBSyxZQUFZLEdBQUcsRUFBRTtZQUM3QixPQUFPO2dCQUNILFFBQVEsRUFBRSxjQUFjLENBQUMsVUFBVTtnQkFDbkMsS0FBSyxFQUFFLEtBQUssQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDO2FBQzNCLENBQUM7U0FDTDthQUFNO1lBQ0gsT0FBTyxLQUFLLENBQUM7U0FDaEI7SUFDTCxDQUFDO0lBRU0sTUFBTSxDQUFDLE9BQU8sQ0FBQyxHQUFRLEVBQUUsS0FBVTtRQUN0QyxJQUFJLE9BQU8sS0FBSyxLQUFLLFFBQVEsSUFBSSxLQUFLLEtBQUssSUFBSSxFQUFFO1lBQzdDLElBQUksS0FBSyxDQUFDLFFBQVEsS0FBSyxjQUFjLENBQUMsVUFBVSxFQUFFO2dCQUM5QyxPQUFPLElBQUksR0FBRyxDQUFDLEtBQUssQ0FBQyxLQUFLLENBQUMsQ0FBQzthQUMvQjtpQkFBTSxJQUFJLEtBQUssQ0FBQyxRQUFRLEtBQUssY0FBYyxDQUFDLFVBQVUsRUFBRTtnQkFDckQsT0FBTyxJQUFJLEdBQUcsQ0FBQyxLQUFLLENBQUMsS0FBSyxDQUFDLENBQUM7YUFDL0I7U0FDSjtRQUNELE9BQU8sS0FBSyxDQUFDO0lBQ2pCLENBQUM7O0FBckNMLGlDQXNDQztBQXJDMkIseUJBQVUsR0FBRyxLQUFLLENBQUM7QUFDbkIseUJBQVUsR0FBRyxLQUFLLENBQUMifQ==\",\"assetPath\":\"Assets/ClientModule/Scripts/Shared/Utilities/JSONSerializer.ts\",\"manifest\":{\"properties\":[],\"name\":\"JSONSerializer\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: 9e9aaacbceabd2af375df581b97c8fab
+  onlyWriteTrigger: 0

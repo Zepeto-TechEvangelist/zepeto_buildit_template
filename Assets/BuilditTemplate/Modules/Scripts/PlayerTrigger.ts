@@ -4,10 +4,12 @@ import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import {UnityEvent, UnityEvent$1} from "UnityEngine.Events";
 
 export interface PlayerTriggerInterface {
-    OnPlayerEnter(character: ZepetoCharacter, type: ZepetoCharacterType)
-    OnPlayerStay(character: ZepetoCharacter, type: ZepetoCharacterType)
-    OnPlayerExit(character: ZepetoCharacter, type: ZepetoCharacterType)
+    OnPlayerEnter?(character?: ZepetoCharacter, type?: ZepetoCharacterType)
+    OnPlayerStay?(character?: ZepetoCharacter, type?: ZepetoCharacterType)
+    OnPlayerExit?(character?: ZepetoCharacter, type?: ZepetoCharacterType)
 }
+export type IPlayerTrigger = PlayerTriggerInterface;
+
 
 export enum ZepetoCharacterType {
     LocalPlayer,
@@ -16,9 +18,11 @@ export enum ZepetoCharacterType {
 }
 
 export default class PlayerTrigger extends ZepetoScriptBehaviour {
-
+    
     public detectLocalPlayer: boolean;
+    
     public detectNetworkPlayer: boolean;
+    
     public detectNpc: boolean;
     
     // Interface -------------------------------------------------------//
@@ -65,21 +69,21 @@ export default class PlayerTrigger extends ZepetoScriptBehaviour {
     
     protected OnTriggerEnter(collider: Collider) {
         this._OnTrigger(collider, (character: ZepetoCharacter, type: ZepetoCharacterType) => {
-            this.delegate?.OnPlayerEnter(character, type);
+            if (this.delegate?.OnPlayerEnter) this.delegate?.OnPlayerEnter(character, type);
             this.OnPlayerEnter?.Invoke(character);
         });
     }
 
     protected OnTriggerStay(collider: Collider) {
         this._OnTrigger(collider, (character: ZepetoCharacter, type: ZepetoCharacterType) => {
-            this.delegate?.OnPlayerStay(character, type);
+            if (this.delegate?.OnPlayerStay) this.delegate?.OnPlayerStay(character, type);
             this.OnPlayerStay?.Invoke(character);
         });
     }
     
     protected OnTriggerExit(collider: Collider) {
-        this._OnTrigger(collider, (character: ZepetoCharacter, type: ZepetoCharacterType) => { 
-            this.delegate?.OnPlayerExit(character, type);
+        this._OnTrigger(collider, (character: ZepetoCharacter, type: ZepetoCharacterType) => {
+            if (this.delegate?.OnPlayerExit) this.delegate?.OnPlayerExit(character, type);
             this.OnPlayerExit?.Invoke(character);
         });
     }

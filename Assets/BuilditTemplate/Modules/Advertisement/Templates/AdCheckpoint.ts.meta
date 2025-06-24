@@ -1,0 +1,33 @@
+fileFormatVersion: 2
+guid: fab4244d3a62a44a4ae082ab86803817
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst AdvertisementActionBase_1 = require(\"./AdvertisementActionBase\");\r\nconst
+    AE_GameObject_SetActive_1 = require(\"../../Scripts/InteractionSystem/Actions/AE_GameObject_SetActive\");\r\nclass
+    AdCheckpoint extends AdvertisementActionBase_1.AdvertisementActionBase {\r\n   
+    Start() {\r\n        super.Start();\r\n        let aes = this.GetComponentsInChildren($typeof(AE_GameObject_SetActive_1.default));\r\n       
+    aes.forEach(x => x.Init());\r\n    }\r\n}\r\nexports.default = AdCheckpoint;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWRDaGVja3BvaW50LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQWRDaGVja3BvaW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsdUVBQW9FO0FBQ3BFLDZHQUFzRztBQUV0RyxNQUFxQixZQUFhLFNBQVEsaURBQXVCO0lBRTdELEtBQUs7UUFDRCxLQUFLLENBQUMsS0FBSyxFQUFFLENBQUM7UUFFZCxJQUFJLEdBQUcsR0FBRyxJQUFJLENBQUMsdUJBQXVCLFNBQUMsaUNBQXVCLEVBQUcsQ0FBQztRQUNsRSxHQUFHLENBQUMsT0FBTyxDQUFDLENBQUMsQ0FBQyxFQUFFLENBQUMsQ0FBQyxDQUFDLElBQUksRUFBRSxDQUFDLENBQUM7SUFDL0IsQ0FBQztDQUNKO0FBUkQsK0JBUUMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Advertisement/Templates/AdCheckpoint.ts","manifest":{"properties":[],"name":"AdCheckpoint","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 5e351fcc122a5b725eaa773b3dde10a4
+  onlyWriteTrigger: 0

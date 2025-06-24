@@ -23,8 +23,8 @@ ScriptedImporter:
   WrapperFilters: []
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nexports.ModifierType = void 0;\r\nconst ZEPETO_Character_Controller_1
-    = require(\"ZEPETO.Character.Controller\");\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nvar
+    { value: true });\r\nexports.ModifierType = void 0;\r\nconst ZEPETO_Script_1
+    = require(\"ZEPETO.Script\");\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nvar
     ModifierType;\r\n(function (ModifierType) {\r\n    /** Add the modifier to current
     value */\r\n    ModifierType[ModifierType[\"Additive\"] = 0] = \"Additive\";\r\n   
     /** Set a new flat value ignoring current value */\r\n    ModifierType[ModifierType[\"Flat\"]
@@ -35,36 +35,46 @@ ScriptedImporter:
     = ModifierType.Multiplicative;\r\n        this.jumpPower = 2;\r\n        this.modifyRun
     = ModifierType.Multiplicative;\r\n        this.runSpeed = 2;\r\n        this.modifyWalk
     = ModifierType.Multiplicative;\r\n        this.walkSpeed = 2;\r\n        this.modifyGravity
-    = ModifierType.Multiplicative;\r\n        this.gravity = 0.5;\r\n        // Tag
-    designating modifiers have been applied\r\n        this._modifiersApplied = false;\r\n       
-    /** -----------------------------------------------------------------------------------------------------------
-    */\r\n    }\r\n    /** -----------------------------------------------------------------------------------------------------------
+    = ModifierType.Multiplicative;\r\n        this.gravity = 0.5;\r\n        this.enableDoubleJump
+    = false;\r\n        this.modifierDuration = -1;\r\n        // Tag designating
+    modifiers have been applied\r\n        this._modifiersApplied = false;\r\n   
+    }\r\n    /** -----------------------------------------------------------------------------------------------------------
     */\r\n    /** -----------------------------------------------------------------------------------------------------------
     */\r\n    // Main code\r\n    SaveState(character) {\r\n        if (this._modifiersApplied)\r\n           
     return;\r\n        this._jumpPower = character.additionalJumpPower;\r\n       
-    this._runSpeed = character.additionalRunSpeed;\r\n        this._runSpeed = character.additionalWalkSpeed;\r\n       
-    this._gravity = character.motionState.gravity;\r\n    }\r\n    RestoreState(character)
+    this._runSpeed = character.additionalRunSpeed;\r\n        this._walkSpeed = character.additionalWalkSpeed;\r\n       
+    this._gravity = character.motionState.gravity;\r\n        // this._doubleJumpPower
+    = character.motionState.doubleJumpPower;\r\n        // this._enableDoubleJump
+    = SceneManager.instance.enableDoubleJump;\r\n    }\r\n    RestoreState(character)
     {\r\n        if (false == this._modifiersApplied)\r\n            return;\r\n       
     character.additionalJumpPower = this._jumpPower;\r\n        character.additionalRunSpeed
-    = this._runSpeed;\r\n        character.additionalWalkSpeed = this._runSpeed;\r\n       
-    character.motionState.gravity = this._gravity;\r\n        MotionModifier.ActiveModifier
-    = null;\r\n        this._modifiersApplied = false;\r\n    }\r\n    ApplyModifier(baseValue,
-    modifier, modifierType) {\r\n        var value = baseValue;\r\n        switch
-    (modifierType) {\r\n            case ModifierType.Additive:\r\n               
-    value += modifier;\r\n                break;\r\n            case ModifierType.Flat:\r\n               
-    value = modifier;\r\n                break;\r\n            case ModifierType.Multiplicative:\r\n               
-    value *= modifier;\r\n                break;\r\n        }\r\n        return value
-    - baseValue;\r\n    }\r\n    ApplyModifiers(character) {\r\n        if (this._modifiersApplied)\r\n           
-    return;\r\n        MotionModifier.ActiveModifier?.RestoreState(character);\r\n       
+    = this._runSpeed;\r\n        character.additionalWalkSpeed = this._walkSpeed;\r\n       
+    character.motionState.gravity = this._gravity;\r\n        // character.motionState.doubleJumpPower
+    = this._doubleJumpPower;\r\n        // SceneManager.instance.enableDoubleJump
+    = this._enableDoubleJump;\r\n        MotionModifier.ActiveModifier = null;\r\n       
+    this._modifiersApplied = false;\r\n    }\r\n    ApplyModifier(baseValue, modifier,
+    modifierType) {\r\n        let value = baseValue;\r\n        if (modifierType
+    == ModifierType.Additive)\r\n            value += modifier;\r\n        else if
+    (modifierType == ModifierType.Flat)\r\n            value = modifier;\r\n       
+    else if (modifierType == ModifierType.Multiplicative)\r\n            value *=
+    modifier;\r\n        return value - baseValue;\r\n    }\r\n    ApplyModifiers(character)
+    {\r\n        if (this._modifiersApplied)\r\n            return;\r\n        MotionModifier.ActiveModifier?.RestoreState(character);\r\n       
     this.SaveState(character);\r\n        // Jump\r\n        character.additionalJumpPower
     = this.ApplyModifier(character.JumpPower, this.jumpPower, this.modifyJump);\r\n       
     // Walk\r\n        character.additionalWalkSpeed = this.ApplyModifier(character.WalkSpeed,
     this.walkSpeed, this.modifyWalk);\r\n        // Run\r\n        character.additionalRunSpeed
     = this.ApplyModifier(character.RunSpeed, this.runSpeed, this.modifyRun);\r\n       
     // Gravity\r\n        character.motionState.gravity += this.ApplyModifier(character.motionState.gravity,
-    this.gravity, this.modifyGravity);\r\n        // Lock updates\r\n        MotionModifier.ActiveModifier
-    = this;\r\n        this._modifiersApplied = true;\r\n    }\r\n}\r\nexports.default
-    = MotionModifier;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTW90aW9uTW9kaWZpZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJNb3Rpb25Nb2RpZmllci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSw2RUFBOEQ7QUFDOUQsaURBQXNEO0FBRXRELElBQVksWUFPWDtBQVBELFdBQVksWUFBWTtJQUNwQix3Q0FBd0M7SUFDeEMsdURBQVEsQ0FBQTtJQUNSLGtEQUFrRDtJQUNsRCwrQ0FBSSxDQUFBO0lBQ0osaUNBQWlDO0lBQ2pDLG1FQUFjLENBQUE7QUFDbEIsQ0FBQyxFQVBXLFlBQVksR0FBWixvQkFBWSxLQUFaLG9CQUFZLFFBT3ZCO0FBRUQsTUFBcUIsY0FBZSxTQUFRLHFDQUFxQjtJQUFqRTs7UUFHVyxlQUFVLEdBQWlCLFlBQVksQ0FBQyxjQUFjLENBQUM7UUFFdkQsY0FBUyxHQUFVLENBQUMsQ0FBQztRQUdyQixjQUFTLEdBQWlCLFlBQVksQ0FBQyxjQUFjLENBQUM7UUFFdEQsYUFBUSxHQUFVLENBQUMsQ0FBQztRQUdwQixlQUFVLEdBQWlCLFlBQVksQ0FBQyxjQUFjLENBQUM7UUFFdkQsY0FBUyxHQUFVLENBQUMsQ0FBQztRQUdyQixrQkFBYSxHQUFpQixZQUFZLENBQUMsY0FBYyxDQUFDO1FBRTFELFlBQU8sR0FBVSxHQUFHLENBQUM7UUFRNUIsOENBQThDO1FBQ3RDLHNCQUFpQixHQUFZLEtBQUssQ0FBQztRQXVGM0Msa0hBQWtIO0lBRXRILENBQUM7SUEzRUcsa0hBQWtIO0lBR2xILGtIQUFrSDtJQUNsSCxZQUFZO0lBRUwsU0FBUyxDQUFDLFNBQTBCO1FBQ3ZDLElBQUksSUFBSSxDQUFDLGlCQUFpQjtZQUN0QixPQUFPO1FBRVgsSUFBSSxDQUFDLFVBQVUsR0FBRyxTQUFTLENBQUMsbUJBQW1CLENBQUM7UUFDaEQsSUFBSSxDQUFDLFNBQVMsR0FBRyxTQUFTLENBQUMsa0JBQWtCLENBQUM7UUFDOUMsSUFBSSxDQUFDLFNBQVMsR0FBRyxTQUFTLENBQUMsbUJBQW1CLENBQUM7UUFDL0MsSUFBSSxDQUFDLFFBQVEsR0FBRyxTQUFTLENBQUMsV0FBVyxDQUFDLE9BQU8sQ0FBQztJQUNsRCxDQUFDO0lBRU0sWUFBWSxDQUFDLFNBQTBCO1FBQzFDLElBQUksS0FBSyxJQUFJLElBQUksQ0FBQyxpQkFBaUI7WUFDL0IsT0FBTztRQUVYLFNBQVMsQ0FBQyxtQkFBbUIsR0FBRyxJQUFJLENBQUMsVUFBVSxDQUFDO1FBQ2hELFNBQVMsQ0FBQyxrQkFBa0IsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDO1FBQzlDLFNBQVMsQ0FBQyxtQkFBbUIsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDO1FBQy9DLFNBQVMsQ0FBQyxXQUFXLENBQUMsT0FBTyxHQUFHLElBQUksQ0FBQyxRQUFRLENBQUM7UUFFOUMsY0FBYyxDQUFDLGNBQWMsR0FBRyxJQUFJLENBQUM7UUFDckMsSUFBSSxDQUFDLGlCQUFpQixHQUFHLEtBQUssQ0FBQztJQUNuQyxDQUFDO0lBRU0sYUFBYSxDQUFDLFNBQWdCLEVBQUUsUUFBZSxFQUFFLFlBQTBCO1FBRTlFLElBQUksS0FBSyxHQUFHLFNBQVMsQ0FBQztRQUV0QixRQUFRLFlBQVksRUFBRTtZQUNsQixLQUFLLFlBQVksQ0FBQyxRQUFRO2dCQUN0QixLQUFLLElBQUksUUFBUSxDQUFDO2dCQUNsQixNQUFNO1lBQ1YsS0FBSyxZQUFZLENBQUMsSUFBSTtnQkFDbEIsS0FBSyxHQUFHLFFBQVEsQ0FBQztnQkFDakIsTUFBTTtZQUNWLEtBQUssWUFBWSxDQUFDLGNBQWM7Z0JBQzVCLEtBQUssSUFBSSxRQUFRLENBQUM7Z0JBQ2xCLE1BQU07U0FDYjtRQUVELE9BQU8sS0FBSyxHQUFHLFNBQVMsQ0FBQztJQUM3QixDQUFDO0lBRU0sY0FBYyxDQUFDLFNBQTBCO1FBRTVDLElBQUksSUFBSSxDQUFDLGlCQUFpQjtZQUN0QixPQUFPO1FBRVgsY0FBYyxDQUFDLGNBQWMsRUFBRSxZQUFZLENBQUMsU0FBUyxDQUFDLENBQUM7UUFDdkQsSUFBSSxDQUFDLFNBQVMsQ0FBQyxTQUFTLENBQUMsQ0FBQztRQUUxQixPQUFPO1FBQ1AsU0FBUyxDQUFDLG1CQUFtQixHQUFHLElBQUksQ0FBQyxhQUFhLENBQUMsU0FBUyxDQUFDLFNBQVMsRUFBRSxJQUFJLENBQUMsU0FBUyxFQUFHLElBQUksQ0FBQyxVQUFVLENBQUMsQ0FBQztRQUUxRyxPQUFPO1FBQ1AsU0FBUyxDQUFDLG1CQUFtQixHQUFHLElBQUksQ0FBQyxhQUFhLENBQUMsU0FBUyxDQUFDLFNBQVMsRUFBRSxJQUFJLENBQUMsU0FBUyxFQUFHLElBQUksQ0FBQyxVQUFVLENBQUMsQ0FBQztRQUUxRyxNQUFNO1FBQ04sU0FBUyxDQUFDLGtCQUFrQixHQUFHLElBQUksQ0FBQyxhQUFhLENBQUMsU0FBUyxDQUFDLFFBQVEsRUFBRSxJQUFJLENBQUMsUUFBUSxFQUFHLElBQUksQ0FBQyxTQUFTLENBQUMsQ0FBQztRQUV0RyxVQUFVO1FBQ1YsU0FBUyxDQUFDLFdBQVcsQ0FBQyxPQUFPLElBQUksSUFBSSxDQUFDLGFBQWEsQ0FBQyxTQUFTLENBQUMsV0FBVyxDQUFDLE9BQU8sRUFBRSxJQUFJLENBQUMsT0FBTyxFQUFFLElBQUksQ0FBQyxhQUFhLENBQUMsQ0FBQztRQUVySCxlQUFlO1FBQ2YsY0FBYyxDQUFDLGNBQWMsR0FBRyxJQUFJLENBQUM7UUFDckMsSUFBSSxDQUFDLGlCQUFpQixHQUFHLElBQUksQ0FBQztJQUNsQyxDQUFDO0NBSUo7QUF0SEQsaUNBc0hDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/MotionModifier.ts","manifest":{"properties":[{"assembly":"","name":"modifyJump","type":"ModifierType","isArray":false,"initValue":["Multiplicative"],"enumKeys":["Additive","Flat","Multiplicative"],"enumValues":["0","1","2"],"attributes":[{"name":"Tooltip","args":["\"The
+    this.gravity, this.modifyGravity);\r\n        // Double jump\r\n        // character.motionState.doubleJumpPower
+    = this.ApplyModifier(character.motionState.doubleJumpPower, this.jumpPower, this.modifyJump);\r\n       
+    // character.motionState.useDoubleJump = this.enableDoubleJump;\r\n        //
+    SceneManager.instance.enableDoubleJump = this.enableDoubleJump;\r\n        //
+    Lock updates\r\n        MotionModifier.ActiveModifier = this;\r\n        this._modifiersApplied
+    = true;\r\n        if (this.modifierDuration > 0) {\r\n            this.StartCoroutine(this.WaitRestoreState(character,
+    this.modifierDuration));\r\n        }\r\n    }\r\n    /** -----------------------------------------------------------------------------------------------------------
+    */\r\n    *WaitRestoreState(character, duration) {\r\n        yield new UnityEngine_1.WaitForSeconds(duration);\r\n       
+    this.RestoreState(character);\r\n    }\r\n}\r\nexports.default = MotionModifier;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTW90aW9uTW9kaWZpZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJNb3Rpb25Nb2RpZmllci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFDQSxpREFBc0Q7QUFFdEQsNkNBQXdEO0FBRXhELElBQVksWUFPWDtBQVBELFdBQVksWUFBWTtJQUNwQix3Q0FBd0M7SUFDeEMsdURBQVEsQ0FBQTtJQUNSLGtEQUFrRDtJQUNsRCwrQ0FBSSxDQUFBO0lBQ0osaUNBQWlDO0lBQ2pDLG1FQUFjLENBQUE7QUFDbEIsQ0FBQyxFQVBXLFlBQVksR0FBWixvQkFBWSxLQUFaLG9CQUFZLFFBT3ZCO0FBRUQsTUFBcUIsY0FBZSxTQUFRLHFDQUFxQjtJQUFqRTs7UUFJVyxlQUFVLEdBQWlCLFlBQVksQ0FBQyxjQUFjLENBQUM7UUFFdkQsY0FBUyxHQUFVLENBQUMsQ0FBQztRQUdyQixjQUFTLEdBQWlCLFlBQVksQ0FBQyxjQUFjLENBQUM7UUFFdEQsYUFBUSxHQUFVLENBQUMsQ0FBQztRQUdwQixlQUFVLEdBQWlCLFlBQVksQ0FBQyxjQUFjLENBQUM7UUFFdkQsY0FBUyxHQUFVLENBQUMsQ0FBQztRQUdyQixrQkFBYSxHQUFpQixZQUFZLENBQUMsY0FBYyxDQUFDO1FBRTFELFlBQU8sR0FBVSxHQUFHLENBQUM7UUFHRixxQkFBZ0IsR0FBWSxLQUFLLENBQUM7UUFHckQscUJBQWdCLEdBQVcsQ0FBQyxDQUFDLENBQUM7UUFPckMsOENBQThDO1FBQ3RDLHNCQUFpQixHQUFZLEtBQUssQ0FBQztJQTZHL0MsQ0FBQztJQXpGRyxrSEFBa0g7SUFHbEgsa0hBQWtIO0lBQ2xILFlBQVk7SUFFTCxTQUFTLENBQUMsU0FBMEI7UUFDdkMsSUFBSSxJQUFJLENBQUMsaUJBQWlCO1lBQ3RCLE9BQU87UUFFWCxJQUFJLENBQUMsVUFBVSxHQUFHLFNBQVMsQ0FBQyxtQkFBbUIsQ0FBQztRQUNoRCxJQUFJLENBQUMsU0FBUyxHQUFHLFNBQVMsQ0FBQyxrQkFBa0IsQ0FBQztR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","assetPath":"Assets/BuilditTemplate/Modules/Scripts/MotionModifier.ts","manifest":{"properties":[{"assembly":"","name":"modifyJump","type":"ModifierType","isArray":false,"initValue":["Multiplicative"],"enumKeys":["Additive","Flat","Multiplicative"],"enumValues":["0","1","2"],"attributes":[{"name":"Tooltip","args":["\"The
     type of modification applied to jump power\""]}]},{"assembly":"mscorlib","name":"jumpPower","type":"System.Single","isArray":false,"initValue":["2"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"The
     value of modification to \""]}]},{"assembly":"","name":"modifyRun","type":"ModifierType","isArray":false,"initValue":["Multiplicative"],"enumKeys":["Additive","Flat","Multiplicative"],"enumValues":["0","1","2"],"attributes":[{"name":"Tooltip","args":["\"The
     type of modification applied to run speed\""]}]},{"assembly":"mscorlib","name":"runSpeed","type":"System.Single","isArray":false,"initValue":["2"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"The
@@ -72,6 +82,8 @@ ScriptedImporter:
     type of modification applied to walk speed\""]}]},{"assembly":"mscorlib","name":"walkSpeed","type":"System.Single","isArray":false,"initValue":["2"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"The
     value of modification to walk speed\""]}]},{"assembly":"","name":"modifyGravity","type":"ModifierType","isArray":false,"initValue":["Multiplicative"],"enumKeys":["Additive","Flat","Multiplicative"],"enumValues":["0","1","2"],"attributes":[{"name":"Tooltip","args":["\"The
     type of modification applied to gravity\""]}]},{"assembly":"mscorlib","name":"gravity","type":"System.Single","isArray":false,"initValue":["0.5"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"The
-    value of modification to gravity\""]}]}],"name":"MotionModifier","description":"","hasAnimatorMove":false},"isCompiled":true}'
-  typescriptHash: 3959114fc9a540081740993bbf93dbe5
+    value of modification to gravity\""]}]},{"assembly":"mscorlib","name":"enableDoubleJump","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Enable
+    double jump\""]},{"name":"HideInInspector","args":[]}]},{"assembly":"mscorlib","name":"modifierDuration","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Duration
+    of applied modifiers, negative values for infinite duration\""]}]}],"name":"MotionModifier","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 01e57910dccf81e965d954e81ddd604c
   onlyWriteTrigger: 0

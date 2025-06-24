@@ -4,8 +4,10 @@ import { Button } from "UnityEngine.UI";
 import { UnityEvent } from "UnityEngine.Events";
 import { ZepetoPlayers } from "ZEPETO.Character.Controller";
 import AdvertisementManager from "./AdvertisementManager";
+import PlayerTrigger, { IPlayerTrigger } from "../Scripts/PlayerTrigger";
+import { ZepetoEvent, ZepetoEvent1 } from "../Scripts/Utility/ZepetoEvent";
 
-export default class AdvertisementController extends ZepetoScriptBehaviour {
+export default class AdvertisementController extends ZepetoScriptBehaviour implements IPlayerTrigger {
 
     public destination: Transform;
 
@@ -19,22 +21,39 @@ export default class AdvertisementController extends ZepetoScriptBehaviour {
     private _isDoneFirstTrig: boolean = false;
 
     @HideInInspector() public OnClickEvent: UnityEvent;
-
-    private OnTriggerEnter(coll: Collider) {
-        if (coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()) {
-            return;
-        }
-
+    
+    private _adViewEvent: ZepetoEvent = new ZepetoEvent();
+    public get OnViewAdEvent(): ZepetoEvent { return this._adViewEvent }
+    
+    
+    Start() {
+        this.GetComponentInChildren<PlayerTrigger>().delegate = this;
+    }
+    
+    OnPlayerEnter() {
         this.ShowIcon();
     }
-
-    private OnTriggerExit(coll: Collider) {
-        if (coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()) {
-            return;
-        }
-
+    
+    OnPlayerExit() {
         this.HideIcon();
     }
+    
+    // Obsolete code
+    // private OnTriggerEnter(coll: Collider) {
+    //     if (coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()) {
+    //         return;
+    //     }
+    //
+    //     this.ShowIcon();
+    // }
+    //
+    // private OnTriggerExit(coll: Collider) {
+    //     if (coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()) {
+    //         return;
+    //     }
+    //
+    //     this.HideIcon();
+    // }
 
     public ShowIcon() {
         if (!this._isDoneFirstTrig) {
@@ -43,6 +62,7 @@ export default class AdvertisementController extends ZepetoScriptBehaviour {
         }
         else
             this._canvas.gameObject.SetActive(true);
+        
         this._isIconActive = true;
     }
 
@@ -62,19 +82,21 @@ export default class AdvertisementController extends ZepetoScriptBehaviour {
         this._canvas.worldCamera = this._cachedWorldCamera;
 
         this._button.onClick.AddListener(() => {
-            //this.OnClickIcon();
-            AdvertisementManager.Instance.ReWardTeleport(this.destination.position, this.destination.rotation);
+            
+            // Debug
+            // this.OnViewAdEvent?.Invoke();
+
+            // Release
+            AdvertisementManager.Instance.ShowAd(() => {
+                this.OnViewAdEvent?.Invoke(); 
+            });
         });
     }
 
     private UpdateIconRotation() {
         this._canvas.transform.LookAt(this._cachedWorldCamera.transform);
     }
-
-    private OnClickIcon() {
-        this.OnClickEvent?.Invoke();
-    }
-
+    
     private Update() {
         if (this._isDoneFirstTrig && this._canvas?.gameObject.activeSelf)
             this.UpdateIconRotation();

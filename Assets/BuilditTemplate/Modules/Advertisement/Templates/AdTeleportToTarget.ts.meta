@@ -1,0 +1,33 @@
+fileFormatVersion: 2
+guid: 2e76dc9c889ad44e4affd69e200218a3
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst AdvertisementActionBase_1 = require(\"./AdvertisementActionBase\");\r\nconst
+    AE_Character_TeleportToTarget_1 = require(\"../../Scripts/InteractionSystem/Actions/AE_Character_TeleportToTarget\");\r\nclass
+    AdTeleportToTarget extends AdvertisementActionBase_1.AdvertisementActionBase
+    {\r\n    Start() {\r\n        super.Start();\r\n        let ae = this.GetComponentInChildren($typeof(AE_Character_TeleportToTarget_1.default));\r\n       
+    ae.targetObject = this.target;\r\n    }\r\n}\r\nexports.default = AdTeleportToTarget;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWRUZWxlcG9ydFRvVGFyZ2V0LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQWRUZWxlcG9ydFRvVGFyZ2V0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQ0EsdUVBQW9FO0FBQ3BFLHlIQUFrSDtBQUVsSCxNQUFxQixrQkFBbUIsU0FBUSxpREFBdUI7SUFJbkUsS0FBSztRQUNELEtBQUssQ0FBQyxLQUFLLEVBQUUsQ0FBQztRQUVkLElBQUksRUFBRSxHQUFHLElBQUksQ0FBQyxzQkFBc0IsU0FBQyx1Q0FBNkIsRUFBRyxDQUFDO1FBQ3RFLEVBQUUsQ0FBQyxZQUFZLEdBQUcsSUFBSSxDQUFDLE1BQU0sQ0FBQztJQUNsQyxDQUFDO0NBQ0o7QUFWRCxxQ0FVQyJ9","assetPath":"Assets/BuilditTemplate/Modules/Advertisement/Templates/AdTeleportToTarget.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"target","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"AdTeleportToTarget","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: ab77d55735cb7c795b8fe742d4c78cf4
+  onlyWriteTrigger: 0

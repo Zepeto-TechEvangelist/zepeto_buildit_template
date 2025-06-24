@@ -1,0 +1,33 @@
+fileFormatVersion: 2
+guid: 6d6074015ffa34bbfa88c825309ac811
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ActionBase_1 = require(\"../ActionBase\");\r\nclass
+    AE_GameObject_SetActive extends ActionBase_1.ActionBase {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.activeOption = true;\r\n   
+    }\r\n    Init() {\r\n        this.targetObject?.SetActive(!this.activeOption);\r\n   
+    }\r\n    DoAction() {\r\n        this.targetObject?.SetActive(this.activeOption);\r\n   
+    }\r\n}\r\nexports.default = AE_GameObject_SetActive;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQUVfR2FtZU9iamVjdF9TZXRBY3RpdmUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBRV9HYW1lT2JqZWN0X1NldEFjdGl2ZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDhDQUEyQztBQUczQyxNQUFxQix1QkFBd0IsU0FBUSx1QkFBVTtJQUEvRDs7UUFFVyxpQkFBWSxHQUFZLElBQUksQ0FBQztJQVN4QyxDQUFDO0lBUEcsSUFBSTtRQUNBLElBQUksQ0FBQyxZQUFZLEVBQUUsU0FBUyxDQUFDLENBQUMsSUFBSSxDQUFDLFlBQVksQ0FBQyxDQUFDO0lBQ3JELENBQUM7SUFFUSxRQUFRO1FBQ2IsSUFBSSxDQUFDLFlBQVksRUFBRSxTQUFTLENBQUMsSUFBSSxDQUFDLFlBQVksQ0FBQyxDQUFDO0lBQ3BELENBQUM7Q0FDSjtBQVhELDBDQVdDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/InteractionSystem/Actions/AE_GameObject_SetActive.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"targetObject","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"activeOption","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"scriptName","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"AE_GameObject_SetActive","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 1f07d8f387ce4a89ecf7fe392306a5a2
+  onlyWriteTrigger: 0
