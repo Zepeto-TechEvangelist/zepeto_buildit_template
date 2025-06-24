@@ -33,6 +33,7 @@ public class BuilditItemViewer : EditorWindow
         { "Prison", "ZepetoAssets_Prison" },
         { "School", "ZepetoAssets_School" },
         { "Snow", "ZepetoAssets_Snow_Village" },
+        { "Summer", "ZepetoAssets_Summer" },
         { "Subway", "ZepetoAssets_Subway" },
         { "Sugar", "ZepetoAssets_Sugarland" },
         { "Text", "ZepetoAssets_Text" },
