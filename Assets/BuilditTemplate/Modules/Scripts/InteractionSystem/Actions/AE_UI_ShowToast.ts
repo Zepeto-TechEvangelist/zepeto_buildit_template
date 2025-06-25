@@ -5,9 +5,13 @@ import { Type } from 'ZEPETO.World.Gui.ZepetoToast';
 export default class AE_UI_ShowToast extends ActionBase {
     public isLocalized: boolean;
     public message: string;
-    public toastType: Type = Type.None;
-
-    public DoAction(): void {
+    @HideInInspector() public toastType: Type = Type.None;
+    
+    public Init() {
+        
+    }
+    
+    override DoAction(): void {
         ZepetoToast.Show(Type.None, this.message);
     }
 }

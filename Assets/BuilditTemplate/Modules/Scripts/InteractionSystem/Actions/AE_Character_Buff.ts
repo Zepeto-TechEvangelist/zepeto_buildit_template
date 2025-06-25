@@ -6,8 +6,8 @@ export default class AE_Character_Buff extends ActionBase {
     
     public target?: ZepetoCharacter;
     @HideInInspector() public motionModifier?: MotionModifier;
-    
-    
+
+
     Init() {
         this.motionModifier ??= this.GetComponent<MotionModifier>();
     }

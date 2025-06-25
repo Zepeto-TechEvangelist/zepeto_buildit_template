@@ -24,17 +24,17 @@ export default class Action extends ActionBase {
         return this._actionElements;
     }
     
-    public Init() {
-
-        // Note: compilation issue
-        // this._actionElements = this.actionElements.flatMap<ActionBase>(x => {
-        //     return x.script.EnsureInstance(x.script.context) as ActionBase 
-        // });
-
-        // for (const action of this.elements) {
-        //     action.Init();
-        // }
-    }
+    public Init() {}
+    //
+    //     // Note: compilation issue
+    //     // this._actionElements = this.actionElements.flatMap<ActionBase>(x => {
+    //     //     return x.script.EnsureInstance(x.script.context) as ActionBase 
+    //     // });
+    //
+    //     // for (const action of this.elements) {
+    //     //     action.Init();
+    //     // }
+    // }
     
     public DoAction(action?: ActionBase) {
 
