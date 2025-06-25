@@ -2,14 +2,23 @@
   "Items": [
     {
       "Title": "Build It Plugin Core",
-      "Description": "Core module for Build It Plugin\n· Added an inventory feature that allows users to change outfits using items they already own within the World.\n· Improved the Selfie Camera for better usability and performance.\n· bugfix: advertisement object function\n· UI improvements",
+      "Description": "Core module for Build It Plugin\n\n  - New Advertisement objects",
       "Description_ko": "",
       "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
-      "LatestVersion": "1.0.6",
-      "Dependencies": ["Module Importer", "Multiplay Component", "Interaction", "Gesture", "ScreenShot", "Localization", "QuickChat"]
+      "LatestVersion": "1.0.7",
+      "Dependencies": ["Multiplay Component", "Interaction", "Gesture", "ScreenShot", "Localization", "QuickChat"]
     }
   ],
   "Themes": [
+    {
+      "Title": "Summer",
+      "Name": "asset.summer",
+      "Description": "Objects perfect for your summer vacation",
+      "Description_ko": "",
+      "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
+      "LatestVersion": "1.0.1",
+      "Dependencies": ["Window > Package Manager > Asset > Summer"]
+    },
     {
       "Title": "Animal",
       "Name": "asset.animals",
