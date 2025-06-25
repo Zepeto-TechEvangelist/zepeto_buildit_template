@@ -39,7 +39,7 @@ namespace BuilditTemplate.Editor
                     width = (int)(height * aspect_ratio);
                 }
 
-                texture = ScaleTexture(texture, width, height);
+                // texture = ScaleTexture(texture, width, height);
 
                 onTextureLoaded(texture);
             }

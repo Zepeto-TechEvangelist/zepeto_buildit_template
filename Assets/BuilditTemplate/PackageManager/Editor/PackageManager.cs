@@ -347,8 +347,10 @@ namespace BuilditTemplate.Editor
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             if (selectedData.previewImage)
-                GUILayout.Box(selectedData.previewImage, GUILayout.Width(selectedData.previewImage.width),
-                    GUILayout.Height(selectedData.previewImage.height));
+                GUILayout.Box(selectedData.previewImage
+                    ,GUILayout.Width( Constants.PREVIEW_MAX_WIDTH )
+                    , GUILayout.Height( (selectedData.previewImage.height / selectedData.previewImage.width) * Constants.PREVIEW_MAX_WIDTH)
+                    );
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }
@@ -364,6 +366,10 @@ namespace BuilditTemplate.Editor
                 {
                     EditorCoroutineUtility.StartCoroutine(LoadImageAsync(i), this);
                 }
+                for (var i = 0; i < contentList.Themes.Count; i++)
+                {
+                    EditorCoroutineUtility.StartCoroutine(LoadThemeImageAsync(i), this);
+                }
                 yield break;
             }
             
@@ -376,6 +382,10 @@ namespace BuilditTemplate.Editor
                 for (var i = 0; i < contentList.Items.Count; i++)
                 {
                     EditorCoroutineUtility.StartCoroutine(LoadImageAsync(i), this);
+                }
+                for (var i = 0; i < contentList.Themes.Count; i++)
+                {
+                    EditorCoroutineUtility.StartCoroutine(LoadThemeImageAsync(i), this);
                 }
             });
         }
@@ -393,6 +403,21 @@ namespace BuilditTemplate.Editor
                     contentList.Items[i].previewImage = texture;
             });
         }
+        
+        private IEnumerator LoadThemeImageAsync(int i)
+        {
+            var url = Path.Combine(
+                Constants.DOWNLOAD_PATH, 
+                GetRemoveSpace(contentList.Themes[i].Title),
+                "Preview.png");
+            
+            yield return NetworkingUtility.GetTextureAsync(url, (texture) =>
+            {
+                if (texture != null)
+                    contentList.Themes[i].previewImage = texture;
+            });
+        }
+        
 
         private void OpenLocalizeURL(string url)
         {

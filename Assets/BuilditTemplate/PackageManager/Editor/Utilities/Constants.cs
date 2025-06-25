@@ -28,6 +28,6 @@ namespace BuilditTemplate.Editor
 
         public const int PREVIEW_MAX_WIDTH = 550;
 
-        public const int PREVIEW_MAX_HEIGHT = 400;
+        public const int PREVIEW_MAX_HEIGHT = 550;
     }
 }
