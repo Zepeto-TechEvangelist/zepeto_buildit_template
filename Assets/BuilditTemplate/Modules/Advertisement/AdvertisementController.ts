@@ -27,7 +27,16 @@ export default class AdvertisementController extends ZepetoScriptBehaviour imple
     
     
     Start() {
-        this.GetComponentInChildren<PlayerTrigger>().delegate = this;
+        
+        let trigger = this.GetComponentInChildren<PlayerTrigger>();
+        if (trigger)
+            trigger.delegate = this;
+        
+        if (this.destination) {
+            this.OnViewAdEvent.add_handler(() => {
+                ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.Teleport(this.destination.position, this.destination.rotation);
+            });
+        }
     }
     
     OnPlayerEnter() {
@@ -39,21 +48,21 @@ export default class AdvertisementController extends ZepetoScriptBehaviour imple
     }
     
     // Obsolete code
-    // private OnTriggerEnter(coll: Collider) {
-    //     if (coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()) {
-    //         return;
-    //     }
-    //
-    //     this.ShowIcon();
-    // }
-    //
-    // private OnTriggerExit(coll: Collider) {
-    //     if (coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()) {
-    //         return;
-    //     }
-    //
-    //     this.HideIcon();
-    // }
+    private OnTriggerEnter(coll: Collider) {
+        if (coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()) {
+            return;
+        }
+
+        this.ShowIcon();
+    }
+
+    private OnTriggerExit(coll: Collider) {
+        if (coll != ZepetoPlayers.instance.LocalPlayer?.zepetoPlayer?.character.GetComponent<Collider>()) {
+            return;
+        }
+
+        this.HideIcon();
+    }
 
     public ShowIcon() {
         if (!this._isDoneFirstTrig) {
@@ -87,9 +96,9 @@ export default class AdvertisementController extends ZepetoScriptBehaviour imple
             // this.OnViewAdEvent?.Invoke();
 
             // Release
-            AdvertisementManager.Instance.ShowAd(() => {
-                this.OnViewAdEvent?.Invoke(); 
-            });
+           AdvertisementManager.Instance.ShowAd(() => {
+               this.OnViewAdEvent?.Invoke(); 
+           });
         });
     }
 
