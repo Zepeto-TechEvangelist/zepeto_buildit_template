@@ -3,7 +3,7 @@ import { Camera, Canvas, Collider, GameObject, Transform, Object } from "UnityEn
 import { Button } from "UnityEngine.UI";
 import { UnityEvent } from "UnityEngine.Events";
 import {ZepetoPlayers} from "ZEPETO.Character.Controller";
-import ScreenshotManager from "../../Screenshot/Scripts/ScreenshotManager";
+
 
 export default class InteractionIcon extends ZepetoScriptBehaviour {
     /* Icon */
@@ -14,10 +14,10 @@ export default class InteractionIcon extends ZepetoScriptBehaviour {
     /* Unity Event */    
     //@Header("[Unity Event]")
     @HideInInspector()
-    public OnClickEvent:UnityEvent;
+    public OnClickEvent: UnityEvent;
     
-    private OnTriggerEnterEvent:UnityEvent;
-    private OnTriggerExitEvent:UnityEvent;
+    private OnTriggerEnterEvent: UnityEvent;
+    private OnTriggerExitEvent: UnityEvent;
 
     private _button: Button;
     private _canvas: Canvas;    

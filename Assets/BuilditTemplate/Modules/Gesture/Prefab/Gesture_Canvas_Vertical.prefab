@@ -418,8 +418,8 @@ MonoBehaviour:
     - _duration
     - _loopInterval
     - loopEnabled
-    - _typeToggleGroup
-    - _closeButton
+    - vPadHorizontal
+    - vPadVertical
     unityValues:
     - {fileID: 1280291681600826429}
     - {fileID: 5726397593310087170, guid: be4c5779411af4ba19478deb1f57d7f1, type: 3}
@@ -427,8 +427,8 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 1280291681102403716}
+    - {fileID: 2310884277001569433, guid: db077ac12cecd4301857a97154f390e0, type: 3}
+    - {fileID: 8523051459139762370, guid: 4464f2fe9f4a241f096fabeb1d0c3f32, type: 3}
     values:
     - 
     - 
@@ -436,14 +436,9 @@ MonoBehaviour:
     - '{"type":"System.Single, mscorlib","value":"0"}'
     - '{"type":"System.Single, mscorlib","value":"0"}'
     - '{"type":"System.Boolean, mscorlib","value":"False"}'
-    - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":4,\"type\":\"UnityEngine.Object,
-      UnityEngine.CoreModule\",\"isUnity\":true}"}'
     - 
-    unityArrayValues:
-    - {fileID: 1280291681924750825}
-    - {fileID: 1280291681700482346}
-    - {fileID: 1280291680463050642}
-    - {fileID: 1280291680656966740}
+    - 
+    unityArrayValues: []
     arrayValues: []
 --- !u!1 &1280291680767751428
 GameObject:
@@ -477,6 +472,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1280291680740787464}
+  - {fileID: 1280291682297036064}
   - {fileID: 1280291680705485477}
   m_Father: {fileID: 1280291680355949900}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -524,7 +520,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 750, y: 1334}
-  m_ScreenMatchMode: 0
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -2076,8 +2072,8 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1334, y: 750}
-  m_ScreenMatchMode: 0
+  m_ReferenceResolution: {x: 750, y: 1334}
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -2783,6 +2779,70 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
+--- !u!1 &1280291682297036065
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1280291682297036064}
+  - component: {fileID: 1280291682297036067}
+  m_Layer: 0
+  m_Name: UIController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1280291682297036064
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280291682297036065}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -667, y: -375, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1280291680767751431}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1280291682297036067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280291682297036065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyRootMotion: 0
+  script:
+    script: {fileID: 4458252877524076426, guid: 56a43ef36b1e942fc80c98bba2d073aa, type: 3}
+    isExpaned: 0
+    keys:
+    - _typeToggleGroup
+    - _closeButton
+    unityValues:
+    - {fileID: 0}
+    - {fileID: 1280291681102403716}
+    values:
+    - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":4,\"type\":\"UnityEngine.Object,
+      UnityEngine.CoreModule\",\"isUnity\":true}"}'
+    - 
+    unityArrayValues:
+    - {fileID: 1280291681924750825}
+    - {fileID: 1280291681700482346}
+    - {fileID: 1280291680463050642}
+    - {fileID: 1280291680656966740}
+    arrayValues: []
 --- !u!1 &1280291682408965342
 GameObject:
   m_ObjectHideFlags: 0
