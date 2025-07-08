@@ -1,0 +1,53 @@
+fileFormatVersion: 2
+guid: 2ac3c3b68bd24a4bb135a7982241756c
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    PlayerTrigger_1 = require(\"../../PlayerTrigger\");\r\nclass InteractionIconController
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n       
+    super(...arguments);\r\n        this._isIconActive = false;\r\n    }\r\n    Start()
+    {\r\n        const trigger = this.GetComponent($typeof(PlayerTrigger_1.default))
+    ?? this.GetComponentInChildren($typeof(PlayerTrigger_1.default));\r\n       
+    trigger.OnPlayerEnter.AddListener((character) => { this.ShowIcon(); });\r\n       
+    trigger.OnPlayerExit.AddListener((character) => { this.HideIcon(); });\r\n   
+    }\r\n    Update() {\r\n        this.UpdateIconRotation();\r\n    }\r\n    ShowIcon()
+    {\r\n        if (this._isIconActive)\r\n            return;\r\n        this.CreateIcon();\r\n       
+    this._canvas.gameObject.SetActive(true);\r\n        this._isIconActive = true;\r\n   
+    }\r\n    HideIcon() {\r\n        if (!this._isIconActive)\r\n            return;\r\n       
+    this._canvas.gameObject.SetActive(false);\r\n        this._isIconActive = false;\r\n   
+    }\r\n    CreateIcon() {\r\n        if (this._canvas)\r\n            return;\r\n       
+    const instance = UnityEngine_1.GameObject.Instantiate(this.iconPrefab, this.iconPosition);\r\n       
+    this._canvas = instance.GetComponent($typeof(UnityEngine_1.Canvas));\r\n       
+    this._canvas.transform.position = this.iconPosition.position;\r\n        this._camera
+    ?? (this._camera = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.ZepetoCamera.camera);\r\n       
+    this._canvas.worldCamera = this._camera;\r\n        const button = instance.GetComponentInChildren($typeof(UnityEngine_UI_1.Button));\r\n       
+    button.onClick.AddListener(() => {\r\n            this.scriptObject.Invoke(this.functionName);\r\n       
+    });\r\n    }\r\n    UpdateIconRotation() {\r\n        if (!this._isIconActive)\r\n           
+    return;\r\n        this._canvas.transform.LookAt(this._camera.transform);\r\n   
+    }\r\n}\r\nexports.default = InteractionIconController;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiSW50ZXJhY3Rpb25JY29uQ29udHJvbGxlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIkludGVyYWN0aW9uSWNvbkNvbnRyb2xsZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBb0Y7QUFDcEYsNkNBQXNGO0FBQ3RGLG1EQUF3QztBQUV4Qyw2RUFBMEQ7QUFDMUQsdURBQWdEO0FBRWhELE1BQXFCLHlCQUEwQixTQUFRLHFDQUFxQjtJQUE1RTs7UUFhWSxrQkFBYSxHQUFhLEtBQUssQ0FBQztJQWdENUMsQ0FBQztJQTlDRyxLQUFLO1FBQ0QsTUFBTSxPQUFPLEdBQUcsSUFBSSxDQUFDLFlBQVksU0FBQyx1QkFBYSxFQUFHLElBQUksSUFBSSxDQUFDLHNCQUFzQixTQUFDLHVCQUFhLEVBQUcsQ0FBQztRQUNuRyxPQUFPLENBQUMsYUFBYSxDQUFDLFdBQVcsQ0FBRSxDQUFDLFNBQVMsRUFBRSxFQUFFLEdBQUcsSUFBSSxDQUFDLFFBQVEsRUFBRSxDQUFBLENBQUMsQ0FBQyxDQUFFLENBQUM7UUFDeEUsT0FBTyxDQUFDLFlBQVksQ0FBQyxXQUFXLENBQUUsQ0FBQyxTQUFTLEVBQUUsRUFBRSxHQUFHLElBQUksQ0FBQyxRQUFRLEVBQUUsQ0FBQSxDQUFDLENBQUMsQ0FBRSxDQUFDO0lBQzNFLENBQUM7SUFFTyxNQUFNO1FBQ1QsSUFBSSxDQUFDLGtCQUFrQixFQUFFLENBQUM7SUFDL0IsQ0FBQztJQUdNLFFBQVE7UUFDWCxJQUFJLElBQUksQ0FBQyxhQUFhO1lBQUUsT0FBTztRQUUvQixJQUFJLENBQUMsVUFBVSxFQUFFLENBQUM7UUFDbEIsSUFBSSxDQUFDLE9BQU8sQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxDQUFDO1FBQ3hDLElBQUksQ0FBQyxhQUFhLEdBQUcsSUFBSSxDQUFDO0lBQzlCLENBQUM7SUFFTSxRQUFRO1FBQ1gsSUFBSSxDQUFDLElBQUksQ0FBQyxhQUFhO1lBQUUsT0FBTztRQUVoQyxJQUFJLENBQUMsT0FBTyxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQUMsS0FBSyxDQUFDLENBQUM7UUFDekMsSUFBSSxDQUFDLGFBQWEsR0FBRyxLQUFLLENBQUM7SUFDL0IsQ0FBQztJQUVPLFVBQVU7UUFDZCxJQUFJLElBQUksQ0FBQyxPQUFPO1lBQUUsT0FBTztRQUV6QixNQUFNLFFBQVEsR0FBRyx3QkFBVSxDQUFDLFdBQVcsQ0FBQyxJQUFJLENBQUMsVUFBVSxFQUFFLElBQUksQ0FBQyxZQUFZLENBQWUsQ0FBQztRQUMxRixJQUFJLENBQUMsT0FBTyxHQUFHLFFBQVEsQ0FBQyxZQUFZLFNBQUMsb0JBQU0sRUFBRyxDQUFDO1FBRS9DLElBQUksQ0FBQyxPQUFPLENBQUMsU0FBUyxDQUFDLFFBQVEsR0FBRyxJQUFJLENBQUMsWUFBWSxDQUFDLFFBQVEsQ0FBQztRQUM3RCxJQUFJLENBQUMsT0FBTyxLQUFaLElBQUksQ0FBQyxPQUFPLEdBQUssMkNBQWEsQ0FBQyxRQUFRLENBQUMsWUFBWSxDQUFDLE1BQU0sRUFBQztRQUM1RCxJQUFJLENBQUMsT0FBTyxDQUFDLFdBQVcsR0FBRyxJQUFJLENBQUMsT0FBTyxDQUFDO1FBRXhDLE1BQU0sTUFBTSxHQUFHLFFBQVEsQ0FBQyxzQkFBc0IsU0FBQyx1QkFBTSxFQUFHLENBQUM7UUFDekQsTUFBTSxDQUFDLE9BQU8sQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQzVCLElBQUksQ0FBQyxZQUFZLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxZQUFZLENBQUMsQ0FBQztRQUNoRCxDQUFDLENBQUMsQ0FBQztJQUNQLENBQUM7SUFFTyxrQkFBa0I7UUFDdEIsSUFBSSxDQUFDLElBQUksQ0FBQyxhQUFhO1lBQUUsT0FBTztRQUNoQyxJQUFJLENBQUMsT0FBTyxDQUFDLFNBQVMsQ0FBQyxNQUFNLENBQUMsSUFBSSxDQUFDLE9BQU8sQ0FBQyxTQUFTLENBQUMsQ0FBQztJQUMxRCxDQUFDO0NBQ0o7QUE3REQsNENBNkRDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/InteractionSystem/Controllers/InteractionIconController.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"iconPrefab","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"[Icon]\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"iconPosition","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.Script","name":"scriptObject","type":"ZEPETO.Script.ZepetoScriptBehaviourComponent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"[ZepetoScript
+    Event]\""]}]},{"assembly":"mscorlib","name":"functionName","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"InteractionIconController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 3acd3d4768d770beb4740c768a6533d4
+  onlyWriteTrigger: 0

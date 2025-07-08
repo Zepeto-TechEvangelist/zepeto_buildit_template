@@ -1,0 +1,60 @@
+fileFormatVersion: 2
+guid: 979593076fde4b9bb8dfa3ade6ba576d
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UISelectionPopup_1 = require(\"./UISelectionPopup\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst UISelectableList_1 = require(\"./UISelectableList\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    ZepetoPlayersManager_1 = require(\"../../../../Zepeto Multiplay Component/ZepetoScript/Player/ZepetoPlayersManager\");\r\nconst
+    UIContentItem_1 = require(\"./UIContentItem\");\r\nconst ZEPETO_World_Gui_1 =
+    require(\"ZEPETO.World.Gui\");\r\nclass UIPlayerSelectionPopup extends UISelectionPopup_1.default
+    {\r\n    Show() {\r\n        super.Show();\r\n        this.Reload();\r\n    }\r\n   
+    Reload() {\r\n        this.selectable.Clear();\r\n        const players = ZepetoPlayersManager_1.default.instance.currentPlayers;\r\n       
+    players.forEach((player) => {\r\n            if (ZEPETO_Character_Controller_1.ZepetoPlayers.instance.HasPlayer(player.sessionId))
+    {\r\n                let zPlayer = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.GetPlayer(player.sessionId);\r\n               
+    if (zPlayer.isLocalPlayer) {\r\n                    return;\r\n               
+    }\r\n                let payload = new Payload();\r\n                payload.player
+    = zPlayer;\r\n                payload.title = zPlayer.name;\r\n               
+    payload.id = player.sessionId;\r\n                let item = UnityEngine_1.GameObject.Instantiate(this.itemPrefab,
+    this.selectable.transform);\r\n                let contentItem = item.GetComponent($typeof(UIContentItem_1.default));\r\n               
+    contentItem.item = payload;\r\n                item.GetComponentInChildren($typeof(ZEPETO_World_Gui_1.ZepetoText)).text
+    = payload.title;\r\n                item.SetActive(true);\r\n               
+    this.selectable.AddItem(contentItem);\r\n            }\r\n        });\r\n       
+    // Empty list\r\n        if (this.selectable.items.length == 0) {\r\n           
+    this.message.text = \"There are no other players in the room to teleport to\";\r\n           
+    this.actionButton.gameObject.SetActive(false);\r\n            this.cancelButton.gameObject.SetActive(true);\r\n       
+    }\r\n        else {\r\n            this.message.text = \"Select a player to teleport
+    to\";\r\n            this.actionButton.gameObject.SetActive(true);\r\n           
+    this.cancelButton.gameObject.SetActive(false);\r\n        }\r\n    }\r\n    OnAction()
+    {\r\n        let payload = this.selectable.selectedItem.item;\r\n        if (!payload
+    ||\r\n            !payload.player ||\r\n            // || (ZepetoPlayers.instance.HasPlayer(payload.id)
+    == false) \r\n            !payload.player.character) {\r\n            return;\r\n       
+    }\r\n        let target = payload.player.character.transform;\r\n        let
+    localCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n       
+    localCharacter.Teleport(target.position, target.rotation);\r\n        super.OnAction();\r\n   
+    }\r\n}\r\nexports.default = UIPlayerSelectionPopup;\r\nclass Payload extends
+    UnityEngine_1.Object {\r\n}\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVUlQbGF5ZXJTZWxlY3Rpb25Qb3B1cC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlVJUGxheWVyU2VsZWN0aW9uUG9wdXAudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSx5REFBa0Q7QUFDbEQsNkNBQXVFO0FBQ3ZFLHlEQUFrRDtBQUNsRCw2RUFBMEY7QUFDMUYsMEhBQW1IO0FBRW5ILG1EQUE0QztBQUM1Qyx1REFBOEM7QUFFOUMsTUFBcUIsc0JBQXVCLFNBQVEsMEJBQWdCO0lBRWhFLElBQUk7UUFDQSxLQUFLLENBQUMsSUFBSSxFQUFFLENBQUM7UUFFYixJQUFJLENBQUMsTUFBTSxFQUFFLENBQUM7SUFDbEIsQ0FBQztJQUVNLE1BQU07UUFFVCxJQUFJLENBQUMsVUFBVSxDQUFDLEtBQUssRUFBRSxDQUFDO1FBRXhCLE1BQU0sT0FBTyxHQUF3Qiw4QkFBb0IsQ0FBQyxRQUFRLENBQUMsY0FBYyxDQUFDO1FBRWxGLE9BQU8sQ0FBQyxPQUFPLENBQUMsQ0FBQyxNQUFjLEVBQUUsRUFBRTtZQUUvQixJQUFJLDJDQUFhLENBQUMsUUFBUSxDQUFDLFNBQVMsQ0FBQyxNQUFNLENBQUMsU0FBUyxDQUFDLEVBQUU7Z0JBQ3BELElBQUksT0FBTyxHQUFHLDJDQUFhLENBQUMsUUFBUSxDQUFDLFNBQVMsQ0FBQyxNQUFNLENBQUMsU0FBUyxDQUFDLENBQUM7Z0JBQ2pFLElBQUksT0FBTyxDQUFDLGFBQWEsRUFBRTtvQkFDdkIsT0FBTztpQkFDVjtnQkFFRCxJQUFJLE9BQU8sR0FBRyxJQUFJLE9BQU8sRUFBRSxDQUFDO2dCQUM1QixPQUFPLENBQUMsTUFBTSxHQUFHLE9BQU8sQ0FBQztnQkFDekIsT0FBTyxDQUFDLEtBQUssR0FBRyxPQUFPLENBQUMsSUFBSSxDQUFDO2dCQUM3QixPQUFPLENBQUMsRUFBRSxHQUFHLE1BQU0sQ0FBQyxTQUFTLENBQUM7Z0JBRzlCLElBQUksSUFBSSxHQUFHLHdCQUFVLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxVQUFVLEVBQUUsSUFBSSxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQWUsQ0FBQztnQkFFNUYsSUFBSSxXQUFXLEdBQUcsSUFBSSxDQUFDLFlBQVksU0FBQyx1QkFBYSxFQUFHLENBQUM7Z0JBQ3JELFdBQVcsQ0FBQyxJQUFJLEdBQUcsT0FBTyxDQUFDO2dCQUMzQixJQUFJLENBQUMsc0JBQXNCLFNBQUMsNkJBQVUsRUFBRyxDQUFDLElBQUksR0FBRyxPQUFPLENBQUMsS0FBSyxDQUFDO2dCQUUvRCxJQUFJLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxDQUFDO2dCQUNyQixJQUFJLENBQUMsVUFBVSxDQUFDLE9BQU8sQ0FBRSxXQUFXLENBQUUsQ0FBQzthQUMxQztRQUNMLENBQUMsQ0FBQyxDQUFDO1FBRUgsYUFBYTtRQUNiLElBQUksSUFBSSxDQUFDLFVBQVUsQ0FBQyxLQUFLLENBQUMsTUFBTSxJQUFJLENBQUMsRUFBRTtZQUNuQyxJQUFJLENBQUMsT0FBTyxDQUFDLElBQUksR0FBRyx1REFBdUQsQ0FBQztZQUM1RSxJQUFJLENBQUMsWUFBWSxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQUMsS0FBSyxDQUFDLENBQUM7WUFDOUMsSUFBSSxDQUFDLFlBQVksQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxDQUFDO1NBQ2hEO2FBQ0k7WUFDRCxJQUFJLENBQUMsT0FBTyxDQUFDLElBQUksR0FBRyxnQ0FBZ0MsQ0FBQztZQUNyRCxJQUFJLENBQUMsWUFBWSxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLENBQUM7WUFDN0MsSUFBSSxDQUFDLFlBQVksQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxDQUFDO1NBQ2pEO0lBRUwsQ0FBQztJQUVTLFFBQVE7UUFFZCxJQUFJLE9BQU8sR0FBRyxJQUFJLENBQUMsVUFBVSxDQUFDLFlBQVksQ0FBQyxJQUFlLENBQUM7UUFFM0QsSUFBSSxDQUFDLE9BQU87WUFDUixDQUFFLE9BQU8sQ0FBQyxNQUFNO1lBQ2hCLDhEQUE4RDtZQUM5RCxDQUFFLE9BQU8sQ0FBQyxNQUFNLENBQUMsU0FBUyxFQUFFO1lBRTVCLE9BQU87U0FDVjtRQUVELElBQUksTUFBTSxHQUFHLE9BQU8sQ0FBQyxNQUFNLENBQUMsU0FBUyxDQUFDLFNBQVMsQ0FBQztRQUNoRCxJQUFJLGNBQWMsR0FBRywyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxXQUFXLENBQUMsWUFBWSxDQUFDLFNBQVMsQ0FBQztRQUUvRSxjQUFjLENBQUMsUUFBUSxDQUFDLE1BQU0sQ0FBQyxRQUFRLEVBQUUsTUFBTSxDQUFDLFFBQVEsQ0FBQyxDQUFDO1FBRTFELEtBQUssQ0FBQyxRQUFRLEVBQUUsQ0FBQztJQUNyQixDQUFDO0NBRUo7QUF6RUQseUNBeUVDO0FBRUQsTUFBTSxPQUFRLFNBQVEsb0JBQU07Q0FJM0IifQ==","assetPath":"Assets/BuilditTemplate/Modules/UI/Scripts/UIPlayerSelectionPopup.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"itemPrefab","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"hidesActionButton","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"hidesCancelButton","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"_title","type":"UnityEngine.UI.Text","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Popup
+    Components\""]},{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"_message","type":"ZEPETO.World.Gui.ZepetoText","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"_actionButton","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"_cancelButton","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"showOnAwake","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Base\""]}]},{"assembly":"mscorlib","name":"isVisible","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"blockTouches","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"fitContent","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"enableCloseOnTouch","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"hidesCloseButton","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UIModule","name":"_canvas","type":"UnityEngine.Canvas","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_container","type":"UnityEngine.RectTransform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_content","type":"UnityEngine.RectTransform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_header","type":"UnityEngine.RectTransform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_footer","type":"UnityEngine.RectTransform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_closeButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"UIPlayerSelectionPopup","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 46c6ec0965c77ec19d2eb7a2e7947749
+  onlyWriteTrigger: 0

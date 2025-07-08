@@ -1,6 +1,7 @@
 import { ActionBase } from "../ActionBase";
 import {UnityEvent} from "UnityEngine.Events";
 import { PopupCommon, PopupCommonBuilder } from 'ZEPETO.World.Gui';
+import * as ZepetoWorld from 'ZEPETO.World';
 
 export default class AE_UI_ShowPopup extends ActionBase {
     public isLocalized: boolean;
@@ -10,7 +11,7 @@ export default class AE_UI_ShowPopup extends ActionBase {
     public buttonAction: UnityEvent;
     
     override DoAction(): void {
-        
+
         let popup = PopupCommon.CreateInstance();
         
         popup.Initialize(new PopupCommonBuilder()

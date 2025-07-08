@@ -1,0 +1,34 @@
+fileFormatVersion: 2
+guid: 3ab5a91f20e4472b9d8bc4ec9e9db194
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\n/**\r\n
+    * Represents content such as list items\r\n */\r\nclass UIContentItem extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    SetSelected(selected) {\r\n       
+    this.selected = selected;\r\n        if (selected)\r\n            this.outline.BorderWidth
+    = 1;\r\n        else {\r\n            this.outline.BorderWidth = 0;\r\n       
+    }\r\n    }\r\n}\r\nexports.default = UIContentItem;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVUlDb250ZW50SXRlbS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlVJQ29udGVudEl0ZW0udHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBb0Q7QUFDcEQsbURBQXNDO0FBQ3RDLDZDQUFtQztBQUduQzs7R0FFRztBQUNILE1BQXFCLGFBQWMsU0FBUSxxQ0FBcUI7SUFXckQsV0FBVyxDQUFDLFFBQWlCO1FBQ2hDLElBQUksQ0FBQyxRQUFRLEdBQUcsUUFBUSxDQUFDO1FBRXpCLElBQUssUUFBUTtZQUNULElBQUksQ0FBQyxPQUFPLENBQUMsV0FBVyxHQUFHLENBQUMsQ0FBQzthQUM1QjtZQUNELElBQUksQ0FBQyxPQUFPLENBQUMsV0FBVyxHQUFHLENBQUMsQ0FBQztTQUNoQztJQUNMLENBQUM7Q0FZSjtBQS9CRCxnQ0ErQkMifQ==","assetPath":"Assets/BuilditTemplate/Modules/UI/Scripts/UIContentItem.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"index","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"item","type":"UnityEngine.Object","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"selected","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"button","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"ZEPETO.World.Gui","name":"outline","type":"ZEPETO.World.Gui.RoundedRectangle","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"UIContentItem","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 743393d8d9fd839621816365d9e15422
+  onlyWriteTrigger: 0

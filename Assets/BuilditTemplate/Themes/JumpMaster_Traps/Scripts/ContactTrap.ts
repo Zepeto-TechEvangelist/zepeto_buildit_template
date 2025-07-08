@@ -9,7 +9,6 @@ export default class ContactTrap extends PlayerTrigger {
     Awake() {
         TrapManager.instance;
         
-        this.OnPlayerEnter = new UnityEvent$1<ZepetoCharacter>();
         this.OnPlayerEnter.AddListener((_) => { 
             TrapManager.instance.TeleportCharacter();
         });

@@ -1,0 +1,60 @@
+fileFormatVersion: 2
+guid: 503853d31d694b1687ec69a18ea62bf9
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.UIBase = void 0;\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst UnityEngine_Events_1
+    = require(\"UnityEngine.Events\");\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass
+    UIBase extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n       
+    super(...arguments);\r\n        this.showOnAwake = false;\r\n        this.isVisible
+    = false;\r\n        this.blockTouches = false;\r\n        this.fitContent = true;\r\n       
+    this.enableCloseOnTouch = false;\r\n        this.hidesCloseButton = true;\r\n   
+    }\r\n    get canvas() { return this._canvas; }\r\n    get container() { return
+    this._container; }\r\n    get content() { return this._content; }\r\n    get
+    header() { return this._header; }\r\n    get footer() { return this._footer;
+    }\r\n    get closeButton() { return this._closeButton; }\r\n    get onOpened()
+    { this.onOpenEvent ?? (this.onOpenEvent = new UnityEngine_Events_1.UnityEvent());
+    return this.onOpenEvent; }\r\n    get onClosed() { this.onCloseEvent ?? (this.onCloseEvent
+    = new UnityEngine_Events_1.UnityEvent()); return this.onCloseEvent; }\r\n   
+    get isInitialized() { return this._initialized; }\r\n    Awake() {\r\n       
+    this.OnInitUI();\r\n    }\r\n    OnInitUI() {\r\n        if (this.isInitialized)\r\n           
+    return;\r\n        this._initialized = true;\r\n        if (this.fitContent)
+    {\r\n            this.RebuildLayout();\r\n        }\r\n        this.closeButton.gameObject.SetActive(!this.hidesCloseButton);\r\n       
+    this.closeButton.onClick.AddListener(() => { this.Hide(); });\r\n        if (this.showOnAwake)
+    {\r\n            this.Show();\r\n        }\r\n        else {\r\n            this.Hide();\r\n       
+    }\r\n    }\r\n    /**\r\n     * Recalculate bounds and layout elements\r\n    
+    */\r\n    RebuildLayout() {\r\n        UnityEngine_UI_1.LayoutRebuilder.ForceRebuildLayoutImmediate(this.content);\r\n   
+    }\r\n    /**\r\n     * Show the UI\r\n     */\r\n    Show() {\r\n        if (!this.gameObject.activeInHierarchy)\r\n           
+    this.gameObject.SetActive(true);\r\n        else if (this.isVisible)\r\n           
+    return;\r\n        this.isVisible = true;\r\n        this.canvas.enabled = true;\r\n       
+    this.onOpenEvent?.Invoke();\r\n    }\r\n    /**\r\n     * Hide the UI\r\n    
+    */\r\n    Hide() {\r\n        // if (!this.gameObject.activeInHierarchy)\r\n       
+    //     this.gameObject.SetActive(true);\r\n        // else if (this.isVisible)\r\n       
+    //     return;\r\n        // if (!this.isVisible) return;\r\n        this.isVisible
+    = false;\r\n        this.canvas.enabled = false;\r\n        this.gameObject.SetActive(false);\r\n       
+    this.onCloseEvent?.Invoke();\r\n    }\r\n    SetVisible(visible) {\r\n       
+    this.canvas.enabled = visible;\r\n    }\r\n}\r\nexports.UIBase = UIBase;\r\n//
+    TODO: some content later\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVUkuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJVSS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSw2Q0FVcUI7QUFDckIsbURBQXVFO0FBQ3ZFLDJEQUEyRDtBQUMzRCxpREFBb0Q7QUFPcEQsTUFBYSxNQUFPLFNBQVEscUNBQXFCO0lBQWpEOztRQUlXLGdCQUFXLEdBQVksS0FBSyxDQUFDO1FBRTdCLGNBQVMsR0FBWSxLQUFLLENBQUM7UUFFM0IsaUJBQVksR0FBWSxLQUFLLENBQUM7UUFFOUIsZUFBVSxHQUFZLElBQUksQ0FBQztRQUUzQix1QkFBa0IsR0FBWSxLQUFLLENBQUM7UUFFcEMscUJBQWdCLEdBQVksSUFBSSxDQUFDO0lBcUc1QyxDQUFDO0lBbEdHLElBQVcsTUFBTSxLQUFhLE9BQU8sSUFBSSxDQUFDLE9BQU8sQ0FBQSxDQUFDLENBQUM7SUFHbkQsSUFBVyxTQUFTLEtBQW9CLE9BQU8sSUFBSSxDQUFDLFVBQVUsQ0FBQSxDQUFDLENBQUM7SUFHaEUsSUFBVyxPQUFPLEtBQW9CLE9BQU8sSUFBSSxDQUFDLFFBQVEsQ0FBQSxDQUFDLENBQUM7SUFHNUQsSUFBVyxNQUFNLEtBQW9CLE9BQU8sSUFBSSxDQUFDLE9BQU8sQ0FBQSxDQUFDLENBQUM7SUFHMUQsSUFBVyxNQUFNLEtBQW9CLE9BQU8sSUFBSSxDQUFDLE9BQU8sQ0FBQSxDQUFDLENBQUM7SUFHMUQsSUFBVyxXQUFXLEtBQWEsT0FBTyxJQUFJLENBQUMsWUFBWSxDQUFBLENBQUMsQ0FBQztJQU03RCxJQUFXLFFBQVEsS0FBaUIsSUFBSSxDQUFDLFdBQVcsS0FBaEIsSUFBSSxDQUFDLFdBQVcsR0FBSyxJQUFJLCtCQUFVLEVBQUUsRUFBQyxDQUFDLE9BQU8sSUFBSSxDQUFDLFdBQVcsQ0FBQyxDQUFDLENBQUM7SUFHckcsSUFBVyxRQUFRLEtBQWlCLElBQUksQ0FBQyxZQUFZLEtBQWpCLElBQUksQ0FBQyxZQUFZLEdBQUssSUFBSSwrQkFBVSxFQUFFLEVBQUMsQ0FBQyxPQUFPLElBQUksQ0FBQyxZQUFZLENBQUMsQ0FBQyxDQUFDO0lBR3ZHLElBQVcsYUFBYSxLQUFjLE9BQU8sSUFBSSxDQUFDLFlBQVksQ0FBQSxDQUFDLENBQUM7SUFFdEQsS0FBSztRQUNYLElBQUksQ0FBQyxRQUFRLEVBQUUsQ0FBQztJQUNwQixDQUFDO0lBRVMsUUFBUTtRQUNkLElBQUksSUFBSSxDQUFDLGFBQWE7WUFBRSxPQUFPO1FBQy9CLElBQUksQ0FBQyxZQUFZLEdBQUcsSUFBSSxDQUFDO1FBRXpCLElBQUksSUFBSSxDQUFDLFVBQVUsRUFBRTtZQUNqQixJQUFJLENBQUMsYUFBYSxFQUFFLENBQUM7U0FDeEI7UUFFRCxJQUFJLENBQUMsV0FBVyxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQUMsQ0FBQyxJQUFJLENBQUMsZ0JBQWdCLENBQUMsQ0FBQztRQUM5RCxJQUFJLENBQUMsV0FBVyxDQUFDLE9BQU8sQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFLEdBQUcsSUFBSSxDQUFDLElBQUksRUFBRSxDQUFBLENBQUMsQ0FBQyxDQUFDLENBQUM7UUFFNUQsSUFBSSxJQUFJLENBQUMsV0FBVyxFQUFFO1lBQ2xCLElBQUksQ0FBQyxJQUFJLEVBQUUsQ0FBQztTQUNmO2FBQ0k7WUFDRCxJQUFJLENBQUMsSUFBSSxFQUFFLENBQUM7U0FDZjtJQUNMLENBQUM7SUFFRDs7T0FFRztJQUNJLGFBQWE7UUFDaEIsZ0NBQWUsQ0FBQywyQkFBMkIsQ0FBQyxJQUFJLENBQUMsT0FBTyxDQUFDLENBQUM7SUFDOUQsQ0FBQztJQUVEOztPQUVHO0lBQ0ksSUFBSTtRQUVQLElBQUksQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLGlCQUFpQjtZQUNsQyxJQUFJLENBQUMsVUFBVSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsQ0FBQzthQUMvQixJQUFJLElBQUksQ0FBQyxTQUFTO1lBQ25CLE9BQU87UUFFWCxJQUFJLENBQUMsU0FBUyxHQUFHLElBQUksQ0FBQztRQUN0QixJQUFJLENBQUMsTUFBTSxDQUFDLE9BQU8sR0FBRyxJQUFJLENBQUM7UUFFM0IsSUFBSSxDQUFDLFdBQVcsRUFBRSxNQUFNLEVBQUUsQ0FBQztJQUMvQixDQUFDO0lBRUQ7O09BRUc7SUFDSSxJQUFJO1FBRVAsMENBQTBDO1FBQzFDLHVDQUF1QztRQUN2QywyQkFBMkI7UUFDM0IsY0FBYztRQUVkLCtCQUErQjtRQUMvQixJQUFJLENBQUMsU0FBUyxHQUFHLEtBQUssQ0FBQztRQUV2QixJQUFJLENBQUMsTUFBTSxDQUFDLE9BQU8sR0FBRyxLQUFLLENBQUM7UUFDNUIsSUFBSSxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQUMsS0FBSyxDQUFDLENBQUM7UUFFakMsSUFBSSxDQUFDLFlBQVksRUFBRSxNQUFNLEVBQUUsQ0FBQztJQUNoQyxDQUFDO0lBRU8sVUFBVSxDQUFDLE9BQWdCO1FBQy9CLElBQUksQ0FBQyxNQUFNLENBQUMsT0FBTyxHQUFHLE9BQU8sQ0FBQztJQUNsQyxDQUFDO0NBRUo7QUFuSEQsd0JBbUhDO0FBR0QsMkJBQTJCIn0=","assetPath":"Assets/BuilditTemplate/Modules/UI/Scripts/UI.ts","manifest":{"properties":[],"name":"UIBase","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 96294614062c5b871c9a44d1464182ed
+  onlyWriteTrigger: 0

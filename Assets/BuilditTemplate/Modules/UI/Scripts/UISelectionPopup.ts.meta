@@ -1,0 +1,33 @@
+fileFormatVersion: 2
+guid: a22b4648c3db4c6ca458c73c475abe2c
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UIPopup_1 = require(\"./UIPopup\");\r\nconst UISelectableList_1
+    = require(\"./UISelectableList\");\r\nclass UISelectionPopup extends UIPopup_1.default
+    {\r\n    Awake() {\r\n        super.Awake();\r\n        this.selectable = this.content.GetComponent($typeof(UISelectableList_1.default))
+    ?? this.content.GetComponentInChildren($typeof(UISelectableList_1.default));\r\n   
+    }\r\n}\r\nexports.default = UISelectionPopup;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVUlTZWxlY3Rpb25Qb3B1cC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlVJU2VsZWN0aW9uUG9wdXAudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSx1Q0FBZ0M7QUFDaEMseURBQWtEO0FBR2xELE1BQXFCLGdCQUFpQixTQUFRLGlCQUFPO0lBTWpELEtBQUs7UUFDRCxLQUFLLENBQUMsS0FBSyxFQUFFLENBQUM7UUFFZCxJQUFJLENBQUMsVUFBVSxHQUFHLElBQUksQ0FBQyxPQUFPLENBQUMsWUFBWSxTQUFDLDBCQUFnQixFQUFHLElBQUksSUFBSSxDQUFDLE9BQU8sQ0FBQyxzQkFBc0IsU0FBQywwQkFBZ0IsRUFBRyxDQUFDO0lBQy9ILENBQUM7Q0FHSjtBQWJELG1DQWFDIn0=","assetPath":"Assets/BuilditTemplate/Modules/UI/Scripts/UISelectionPopup.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"itemPrefab","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"hidesActionButton","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"hidesCancelButton","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"_title","type":"UnityEngine.UI.Text","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Popup
+    Components\""]},{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"_message","type":"ZEPETO.World.Gui.ZepetoText","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"_actionButton","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"_cancelButton","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"showOnAwake","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Base\""]}]},{"assembly":"mscorlib","name":"isVisible","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"blockTouches","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"fitContent","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"enableCloseOnTouch","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"hidesCloseButton","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UIModule","name":"_canvas","type":"UnityEngine.Canvas","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_container","type":"UnityEngine.RectTransform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_content","type":"UnityEngine.RectTransform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_header","type":"UnityEngine.RectTransform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_footer","type":"UnityEngine.RectTransform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_closeButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"UISelectionPopup","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: e34ff5a2f9f911309233a5d7f6d07a7f
+  onlyWriteTrigger: 0

@@ -1,0 +1,34 @@
+fileFormatVersion: 2
+guid: ce760d0901b843918fb97984c2c3380f
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst AE_Object_Spawner_1 = require(\"../../Scripts/InteractionSystem/Actions/AE_Object_Spawner\");\r\nconst
+    AdvertisementActionBase_1 = require(\"./AdvertisementActionBase\");\r\nclass
+    AdVehicleSpawner extends AdvertisementActionBase_1.AdvertisementActionBase {\r\n   
+    Start() {\r\n        super.Start();\r\n        let ae = this.GetComponentInChildren($typeof(AE_Object_Spawner_1.default));\r\n       
+    ae.targetObject = this.vehiclePrefab;\r\n        ae.targetLocation = this.spawnPoint;\r\n       
+    ae.duration = this.lifeTime;\r\n    }\r\n}\r\nexports.default = AdVehicleSpawner;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWRWZWhpY2xlU3Bhd25lci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIkFkVmVoaWNsZVNwYXduZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFDQSxpR0FBeUY7QUFDekYsdUVBQW9FO0FBRXBFLE1BQXFCLGdCQUFpQixTQUFRLGlEQUF1QjtJQU1qRSxLQUFLO1FBQ0QsS0FBSyxDQUFDLEtBQUssRUFBRSxDQUFDO1FBRWQsSUFBSSxFQUFFLEdBQUcsSUFBSSxDQUFDLHNCQUFzQixTQUFDLDJCQUFnQixFQUFHLENBQUM7UUFDekQsRUFBRSxDQUFDLFlBQVksR0FBRyxJQUFJLENBQUMsYUFBYSxDQUFDO1FBQ3JDLEVBQUUsQ0FBQyxjQUFjLEdBQUcsSUFBSSxDQUFDLFVBQVUsQ0FBQztRQUNwQyxFQUFFLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQyxRQUFRLENBQUM7SUFDaEMsQ0FBQztDQUNKO0FBZEQsbUNBY0MifQ==","assetPath":"Assets/BuilditTemplate/Modules/Advertisement/Templates/AdVehicleSpawner.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"vehiclePrefab","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"spawnPoint","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"lifeTime","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"AdVehicleSpawner","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: a9a4a30e2738f41fa72e852e1e151dea
+  onlyWriteTrigger: 0

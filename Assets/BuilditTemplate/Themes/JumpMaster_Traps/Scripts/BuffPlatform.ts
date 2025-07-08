@@ -43,13 +43,9 @@ export default class BuffPlatform extends ZepetoScriptBehaviour
         
         // Animation triggered playback
         this._animator = this.GetComponentInChildren<Animation>();
-        var enterEvent = new UnityEvent$1<ZepetoCharacter>();
-        enterEvent.AddListener((character) => { this._animator.Play(); });
-        this._zone.trigger.OnPlayerEnter = enterEvent;
 
-        var exitEvent = new UnityEvent$1<ZepetoCharacter>();
-        exitEvent.AddListener((character) => { this._animator.Stop(); });
-        this._zone.trigger.OnPlayerExit = exitEvent;
+        this._zone.trigger.OnPlayerEnter.AddListener((character) => { this._animator.Play(); });
+        this._zone.trigger.OnPlayerExit.AddListener((character) => { this._animator.Stop(); });
     }
     
 

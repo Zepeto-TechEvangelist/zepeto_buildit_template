@@ -1,0 +1,44 @@
+fileFormatVersion: 2
+guid: 4dcb0e520a3b4f7faa6a2af495387106
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UIContentItem_1 = require(\"./UIContentItem\");\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nclass
+    UISelectableList extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this._items = [];\r\n        this.selectedIndex
+    = -1;\r\n    }\r\n    get items() { return this._items; }\r\n    get selectedItem()
+    { return this._items[this.selectedIndex]; }\r\n    Start() {\r\n        this._items
+    = this.GetComponentsInChildren($typeof(UIContentItem_1.default));\r\n       
+    for (let i = 0; i < this._items.length; i++) {\r\n            let item = this._items[i];\r\n           
+    item.index = i;\r\n            item.button.onClick.AddListener(() => { this.SelectItem(item);
+    });\r\n        }\r\n    }\r\n    AddItem(item) {\r\n        this._items.push(item);\r\n       
+    item.index = this._items.length - 1;\r\n        item.button.onClick.AddListener(()
+    => { this.SelectItem(item); });\r\n    }\r\n    Clear() {\r\n        while (this._items.length)
+    {\r\n            let item = this._items.pop();\r\n            UnityEngine_1.Object.Destroy(item.gameObject);\r\n       
+    }\r\n        this._items = [];\r\n    }\r\n    SelectItem(item) {\r\n       
+    if (this.selectedIndex != -1)\r\n            this._items[this.selectedIndex].SetSelected(false);\r\n       
+    this.selectedIndex = item.index;\r\n        item.SetSelected(true);\r\n    }\r\n}\r\nexports.default
+    = UISelectableList;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVUlTZWxlY3RhYmxlTGlzdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlVJU2VsZWN0YWJsZUxpc3QudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBb0Q7QUFDcEQsbURBQTRDO0FBQzVDLDZDQUFxQztBQUVyQyxNQUFxQixnQkFBaUIsU0FBUSxxQ0FBcUI7SUFBbkU7O1FBRVksV0FBTSxHQUFvQixFQUFFLENBQUM7UUFHOUIsa0JBQWEsR0FBVyxDQUFDLENBQUMsQ0FBQztJQW1DdEMsQ0FBQztJQXJDRyxJQUFXLEtBQUssS0FBc0IsT0FBTyxJQUFJLENBQUMsTUFBTSxDQUFDLENBQUMsQ0FBQztJQUczRCxJQUFXLFlBQVksS0FBb0IsT0FBTyxJQUFJLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxhQUFhLENBQUMsQ0FBQSxDQUFDLENBQUM7SUFFbkYsS0FBSztRQUNELElBQUksQ0FBQyxNQUFNLEdBQUcsSUFBSSxDQUFDLHVCQUF1QixTQUFDLHVCQUFhLEVBQUcsQ0FBQztRQUU1RCxLQUFLLElBQUksQ0FBQyxHQUFHLENBQUMsRUFBRSxDQUFDLEdBQUcsSUFBSSxDQUFDLE1BQU0sQ0FBQyxNQUFNLEVBQUUsQ0FBQyxFQUFFLEVBQUU7WUFDekMsSUFBSSxJQUFJLEdBQUcsSUFBSSxDQUFDLE1BQU0sQ0FBQyxDQUFDLENBQUMsQ0FBQztZQUMxQixJQUFJLENBQUMsS0FBSyxHQUFHLENBQUMsQ0FBQztZQUNmLElBQUksQ0FBQyxNQUFNLENBQUMsT0FBTyxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUUsR0FBRyxJQUFJLENBQUMsVUFBVSxDQUFDLElBQUksQ0FBQyxDQUFBLENBQUMsQ0FBQyxDQUFDLENBQUM7U0FDcEU7SUFDTCxDQUFDO0lBRUQsT0FBTyxDQUFDLElBQW1CO1FBQ3ZCLElBQUksQ0FBQyxNQUFNLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxDQUFDO1FBQ3ZCLElBQUksQ0FBQyxLQUFLLEdBQUcsSUFBSSxDQUFDLE1BQU0sQ0FBQyxNQUFNLEdBQUcsQ0FBQyxDQUFDO1FBQ3BDLElBQUksQ0FBQyxNQUFNLENBQUMsT0FBTyxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUUsR0FBRyxJQUFJLENBQUMsVUFBVSxDQUFDLElBQUksQ0FBQyxDQUFBLENBQUMsQ0FBQyxDQUFDLENBQUM7SUFDckUsQ0FBQztJQUVELEtBQUs7UUFDRCxPQUFPLElBQUksQ0FBQyxNQUFNLENBQUMsTUFBTSxFQUFFO1lBQ3ZCLElBQUksSUFBSSxHQUFHLElBQUksQ0FBQyxNQUFNLENBQUMsR0FBRyxFQUFFLENBQUM7WUFDN0Isb0JBQU0sQ0FBQyxPQUFPLENBQUMsSUFBSSxDQUFDLFVBQVUsQ0FBQyxDQUFDO1NBQ25DO1FBQ0QsSUFBSSxDQUFDLE1BQU0sR0FBRyxFQUFFLENBQUM7SUFDckIsQ0FBQztJQUVELFVBQVUsQ0FBQyxJQUFtQjtRQUMxQixJQUFJLElBQUksQ0FBQyxhQUFhLElBQUksQ0FBQyxDQUFDO1lBQ3hCLElBQUksQ0FBQyxNQUFNLENBQUMsSUFBSSxDQUFDLGFBQWEsQ0FBQyxDQUFDLFdBQVcsQ0FBQyxLQUFLLENBQUMsQ0FBQztRQUV2RCxJQUFJLENBQUMsYUFBYSxHQUFHLElBQUksQ0FBQyxLQUFLLENBQUM7UUFDaEMsSUFBSSxDQUFDLFdBQVcsQ0FBQyxJQUFJLENBQUMsQ0FBQztJQUMzQixDQUFDO0NBRUo7QUF4Q0QsbUNBd0NDIn0=","assetPath":"Assets/BuilditTemplate/Modules/UI/Scripts/UISelectableList.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"selectedIndex","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"UISelectableList","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 902ac33b4a2adaa94a4682638dde49a7
+  onlyWriteTrigger: 0
