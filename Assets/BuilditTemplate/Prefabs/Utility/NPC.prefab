@@ -9,8 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 363121860711503808}
+  - component: {fileID: 2396374058988988166}
   - component: {fileID: 363121860711503811}
   - component: {fileID: 8767183375340297470}
+  - component: {fileID: 4156118467968780841}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -33,6 +35,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2396374058988988166
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363121860711503810}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 0.1, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &363121860711503811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56,11 +79,29 @@ MonoBehaviour:
     - speechBubbleYOffset
     - hasSpeechBubble
     - randomizeDialogue
+    - speechBubbleTextDuration
+    - idleAnimation
+    - minMoveDistance
+    - maxMoveDistance
+    - minIdleTime
+    - maxIdleTime
+    - movementArea
+    - enableMovement
+    - dialogueAnimations
     unityValues:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 1726349219771241084, guid: 5abd49ae982ea4c36b8a9bea12c4f982, type: 3}
     - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 7400000, guid: dd0408f906f6d4455bfcdea4f2c36bc0, type: 2}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 2396374058988988166}
     - {fileID: 0}
     - {fileID: 0}
     values:
@@ -71,9 +112,20 @@ MonoBehaviour:
     - '{"type":"System.Single, mscorlib","value":"0.5"}'
     - '{"type":"System.Boolean, mscorlib","value":"True"}'
     - '{"type":"System.Boolean, mscorlib","value":"False"}'
-    unityArrayValues: []
+    - '{"type":"System.Single, mscorlib","value":"2"}'
+    - 
+    - '{"type":"UnityEngine.Vector2, UnityEngine.CoreModule","value":"{\"x\":0.0,\"y\":0.0}"}'
+    - '{"type":"UnityEngine.Vector2, UnityEngine.CoreModule","value":"{\"x\":5.0,\"y\":5.0}"}'
+    - '{"type":"System.Single, mscorlib","value":"0"}'
+    - '{"type":"System.Single, mscorlib","value":"0"}'
+    - 
+    - '{"type":"System.Boolean, mscorlib","value":"True"}'
+    - '{"type":"ZEPETO.Script.ZepetoScriptSerializer+ArrayInfo, ZEPETO.Script","value":"{\"offset\":0,\"length\":1,\"type\":\"UnityEngine.Object,
+      UnityEngine.CoreModule\",\"isUnity\":true}"}'
+    unityArrayValues:
+    - {fileID: 7400000, guid: 3ac870d7ab2c84c5bad2ade6d493ac0a, type: 2}
     arrayValues:
-    - Hello, I'm NPC
+    - Hello I am NPC.
 --- !u!135 &8767183375340297470
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -95,3 +147,33 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4156118467968780841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363121860711503810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyRootMotion: 0
+  script:
+    script: {fileID: 4458252877524076426, guid: 973c8a88d8394c46ba42dec5fb29cb09, type: 3}
+    isExpaned: 0
+    keys:
+    - detectLocalPlayer
+    - detectNetworkPlayer
+    - detectNpc
+    unityValues:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    values:
+    - '{"type":"System.Boolean, mscorlib","value":"True"}'
+    - '{"type":"System.Boolean, mscorlib","value":"False"}'
+    - '{"type":"System.Boolean, mscorlib","value":"False"}'
+    unityArrayValues: []
+    arrayValues: []

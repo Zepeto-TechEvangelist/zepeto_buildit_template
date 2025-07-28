@@ -1,31 +1,52 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
-import { KnowSockets, SpawnInfo, ZepetoCharacter, ZepetoCharacterCreator, ZepetoPlayers } from 'ZEPETO.Character.Controller';
-import {Canvas, Camera, Vector3, Object, GameObject, Collider, Random} from 'UnityEngine';
+import {
+    CharacterMoveState,
+    CharacterState, CustomMotionData,
+    KnowSockets,
+    SpawnInfo,
+    ZepetoCharacter,
+    ZepetoCharacterCreator,
+    ZepetoPlayers
+} from 'ZEPETO.Character.Controller';
+import {Coroutine, Canvas, Camera, Quaternion, Vector2, Vector3, Object, GameObject, BoxCollider, Collider, Random, AnimationClip, WaitForSeconds, Time, WaitForEndOfFrame, Bounds} from 'UnityEngine';
 import { Text } from 'UnityEngine.UI';
+import PlayerTrigger, { IPlayerTrigger } from "../../Scripts/PlayerTrigger";
 
-export default class NPCManager extends ZepetoScriptBehaviour {
+
+export default class NPCManager extends ZepetoScriptBehaviour implements IPlayerTrigger {
 
     // ZEPETO ID of the NPC
     @SerializeField()
     private zepetoId: string = "zepeto";
-    
+
+
+    @Header("Dialogue")
+
     @SerializeField()
+    @Tooltip("Master switch for enablind dialogue speech bubble")
     private hasSpeechBubble: bool = true;
 
     @SerializeField()
     private speechBubbleText: string[];
 
+    @Tooltip("Enable random order for speech bubble rather than sequential")
     public randomizeDialogue: bool = true;
-    
+
+    @Tooltip("Duration for each speech bubble text")
+    public speechBubbleTextDuration: float = 5;
+
     private _dialogueIndex: int = 0;
+
 
     // Prefab of the speech bubble canvas game object
     @SerializeField()
     private speechBubblePrefab: GameObject;
-    
+
     // y-axis offset value of the speech bubble canvas game object
     @SerializeField()
     private speechBubbleYOffset: number;
+
+    private _speechBubbleActive : boolean = false;
 
     // Local character object
     private _zepetoCharacter: ZepetoCharacter;
@@ -39,60 +60,142 @@ export default class NPCManager extends ZepetoScriptBehaviour {
     private _canvas: Canvas;
     // World Camera
     private _cachedWorldCamera: Camera;
-    
+
+    private _gestureCoroutine?: Coroutine;
+    private _moveCoroutine?: Coroutine;
+
+
+
+    @Header("Animations")
+
+    @Tooltip("Animation played while showing a speech bubble, if multiple animations are set each text will corespond to the animation with same index.")
+    public dialogueAnimations: AnimationClip[];
+
+    @Tooltip("Animation played while standing still, only available if enableMovement is false")
+    public idleAnimation: AnimationClip;
+
+
+
+    @Header("Movement")
+
+    @Tooltip("Enable or disable player movement")
+    public enableMovement = true;
+
+    @Tooltip("NPC movement area is determined by the Box Collider. Adjust it's Size and Position to customize the area.")
+    public movementArea: BoxCollider;
+
+    private _moveArea: Bounds;
+
+    @Tooltip("Opposite direction movement area")
+    @HideInInspector() public minMoveDistance: Vector2;
+
+    @Tooltip("Forward direction movement area")
+    @HideInInspector() public maxMoveDistance: Vector2;
+
+    @Tooltip("Minimum idle time after movement")
+    public minIdleTime: float;
+
+    @Tooltip("Maximum idle time after movement")
+    public maxIdleTime: float;
+
+    private _initialPosition: Vector3;
+    private _initialRotation: Quaternion;
+    private _currentPosition: Vector3;
+
+    Awake() {
+
+        if (this.speechBubbleTextDuration < .5)
+            this.speechBubbleTextDuration = .5;
+
+        this._initialPosition = this.transform.position;
+        this._initialRotation = this.transform.rotation;
+        
+        this.dialogueAnimations ??= [];
+
+        if (this.movementArea) {
+            const box = this.movementArea.bounds;
+
+            this.minMoveDistance = new Vector2(box.center.x - box.size.x / 2, box.center.z - box.size.z / 2);
+            this.maxMoveDistance = new Vector2(box.center.x + box.size.x / 2, box.center.z + box.size.z / 2);
+
+            // 2D comparison for bounds
+            if (false == box.Contains( this.transform.position )) {
+                this._initialPosition = box.center;
+            }
+
+            this._moveArea = this.movementArea.bounds;
+        }
+        else
+            this.enableMovement = false;
+
+        // Cleanup
+        let box = this.GetComponent<BoxCollider>();
+        if (this.movementArea == box)
+            this.movementArea = null;
+        Object.Destroy(box);
+    }
+
     Start() {
-        // Create a new instance of SpawnInfo and set its position and rotation based on the object's transform
         const spawnInfo = new SpawnInfo();
-        spawnInfo.position = this.transform.position;
-        spawnInfo.rotation = this.transform.rotation;
-        
-        // Use ZepetoCharacterCreator to create a new character by ZEPETO ID and assign it to _npc variable
-        ZepetoCharacterCreator.CreateByZepetoId(this.zepetoId, spawnInfo, (character: ZepetoCharacter) => {
-            this._npc = character;
-            
-            // Set the speech bubble
-            this.SetBubble();
-        })
+        spawnInfo.position = this._initialPosition;
+        spawnInfo.rotation = this._initialRotation;
 
-        ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(() => {
-            this._zepetoCharacter = ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;
-        });
+        ZepetoCharacterCreator.CreateByZepetoId(this.zepetoId, spawnInfo,
+            (character: ZepetoCharacter) => {
+
+                this._npc = character;
+
+                this.transform.SetParent(this._npc.transform);
+                this.transform.localPosition = Vector3.zero;
+                this.transform.localRotation = Quaternion.identity;
+
+                if (this.hasSpeechBubble) {
+                    this.InstantiateSpeechBubble();
+                    this.GetComponent<PlayerTrigger>().delegate = this;
+                }
+
+                this.StartMoving();
+            })
     }
 
-    // Check if Player character enter collider
-    OnTriggerEnter(collider: Collider) {
-        if (this._zepetoCharacter == null || collider.gameObject != this._zepetoCharacter.gameObject || !this.hasSpeechBubble || this._speechBubbleObject == null) {
-            return;
-        }
-        
-        if (this._speechBubbleObject.activeSelf == false)
-            this.SetDialogue();
-        
+
+    OnPlayerEnter() {
+        if (this._speechBubbleActive) return;   // single lock
+        this._speechBubbleActive = true;
+
         this._speechBubbleObject.SetActive(true);
+
+        this.StopMoving();
+
+        this.StartGesture();
     }
 
-    OnTriggerExit(collider: Collider) {
-        if (this._zepetoCharacter == null || collider.gameObject != this._zepetoCharacter.gameObject || !this.hasSpeechBubble) {
-            return;
-        }
+    OnPlayerExit() {
+        this._speechBubbleActive = false;
         this._speechBubbleObject.SetActive(false);
+
+        this.StopGesture();
+
+        this.StartMoving()
     }
-    
-    // Set the speech bubble
-    SetBubble() {
+
+
+    InstantiateSpeechBubble() {
+        if (this._speechBubbleObject)
+            return;
 
         // Dynamically create the speech bubble canvas game object
         this._speechBubbleObject = Object.Instantiate(this.speechBubblePrefab) as GameObject;
 
         // Set the parent of the  speech bubble canvas game object transform to be the NPC transform.
         this._speechBubbleObject.transform.SetParent(this._npc.transform);
-        
+
         // Set the position of the speech bubble canvas game object above the NPC's head
         this._speechBubbleObject.transform.position = Vector3.op_Addition(this._npc.GetSocket(KnowSockets.HEAD_UPPER).position, new Vector3(0, this.speechBubbleYOffset,0));
 
         // Set the text inside the speech bubble
         this._speechBubbleText = this._speechBubbleObject.GetComponentInChildren<Text>();
-        
+
         this._canvas = this._speechBubbleObject.GetComponent<Canvas>();
         this._cachedWorldCamera ??= ZepetoPlayers.instance.ZepetoCamera.camera;
         this._canvas.worldCamera = this._cachedWorldCamera;
@@ -100,26 +203,110 @@ export default class NPCManager extends ZepetoScriptBehaviour {
     }
 
     SetDialogue() {
-        if (this.speechBubbleText.length == 0) 
+        if (false == this._speechBubbleActive)
             return;
+
+        if (this.speechBubbleText.length == 0)
+            return;
+
+        let textIndex: number;
         
         if (this.randomizeDialogue) {
-            this._speechBubbleText.text = this.speechBubbleText[Math.floor(Random.Range(0, this.speechBubbleText.length))];
+            textIndex = Math.floor(Random.Range(0, this.speechBubbleText.length));
         }
         else {
-            this._speechBubbleText.text = this.speechBubbleText[this._dialogueIndex];
+            textIndex = this._dialogueIndex;
+            
             this._dialogueIndex++;
             this._dialogueIndex %= this.speechBubbleText.length;
         }
+
+        this._npc.CancelGesture();
+
+        this._speechBubbleText.text = this.speechBubbleText[textIndex];
+        
+        // Check for coresponding animation
+        if (this.dialogueAnimations.length > textIndex)
+            this._npc.SetGesture(this.dialogueAnimations[textIndex]);
+        else if (this.dialogueAnimations.length > 0)
+            this._npc.SetGesture(this.dialogueAnimations[0]);
     }
-    
+
+
+    private *DialogueSequencer() {
+        while (this._speechBubbleActive) {
+            this.SetDialogue()
+            yield new WaitForSeconds(this.speechBubbleTextDuration);
+        }
+    }
+
+    private StartGesture() {
+        if (this._gestureCoroutine == null)
+            this._gestureCoroutine = this.StartCoroutine(this.DialogueSequencer());
+    }
+
+    private StartMoving() {
+        if (false == this.enableMovement) {
+            this._npc.CancelGesture();
+            this._npc.SetGesture(this.idleAnimation);
+        }
+        else if (this._moveCoroutine == null)
+            this._moveCoroutine = this.StartCoroutine(this.MoveStep());
+    }
+
+    private StopGesture() {
+        this.StopCoroutine(this._gestureCoroutine);
+        this._gestureCoroutine = null;
+        this._npc.CancelGesture();
+    }
+
+    private StopMoving() {
+        this.StopCoroutine(this._moveCoroutine);
+        this._moveCoroutine = null;
+        this._npc.StopMoving();
+    }
+
+    private *MoveStep() {
+        while (this._speechBubbleActive == false) {
+
+            const idleTime = this.minIdleTime + Math.random() * (this.maxIdleTime - this.minIdleTime);
+
+            const x = this._initialPosition.x + (Math.random() - 0.5) * (this.maxMoveDistance.x - this.minMoveDistance.x);
+            const y = this._npc.transform.position.y;
+            const z = this._initialPosition.z + (Math.random() - 0.5) * (this.maxMoveDistance.y - this.minMoveDistance.y);
+
+            const start = this._npc.transform.position;
+            const end = new Vector3(x, y, z);
+            const step = 0.3;
+
+            const direction = (end - start).normalized * step;
+            let progress = 0;
+            let moveVec = new Vector2(direction.x, direction.z);
+
+            // Ensure gesture is not being played
+            this._npc.CancelGesture();
+
+            while (progress < 10) {  // max movement time
+                this._npc.Move( moveVec );
+                progress += Time.deltaTime;
+
+                if (Vector3.Distance(end, this._npc.transform.position) < 0.1)
+                    break;
+
+                yield new WaitForEndOfFrame();
+            }
+            this._npc.StopMoving();
+
+            yield new WaitForSeconds(idleTime);
+        }
+    }
+
     private Update() {
-        if (this._canvas != null) {
+        if (this._speechBubbleActive) {
             this.UpdateCanvasRotation();
         }
     }
 
-    // Update the rotation of the speech bubble canvas to face the camera
     private UpdateCanvasRotation() {
         this._canvas.transform.LookAt(this._cachedWorldCamera.transform);
         this._canvas.transform.Rotate(0, 180, 0);
