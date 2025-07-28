@@ -77,10 +77,6 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
     protected OnShowUI() {
     }
 
-    // protected OnChangeScreenMode() {
-    //     this.ChangeRectByScreenMode(mode, this.panelRect, this._panelScreenInfo);
-    // }
-
     protected OnHideUI(isFromInit?: boolean) {
     }
 
@@ -110,6 +106,7 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
         if (this._menuVisible) return;
         this._menuVisible = true;
         
+        this.transform.GetChild(0).gameObject.SetActive(true);
         this.GetComponent<Canvas>().enabled = true;
         
         this.closeButton?.onClick.RemoveAllListeners();
@@ -127,23 +124,11 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
         // let forwardAngle = ZepetoPlayers.instance.ZepetoCamera.cameraParent.transform.localEulerAngles.y - 180;  // 180 is zero state angle
         // let v = Quaternion.AngleAxis(forwardAngle, Vector3.up) * this.cameraOffsetAdjustment;
         // ZepetoPlayers.instance.ZepetoCamera.additionalOffset = v;
-
-
+        
         this.open?.Invoke();
         
         //this._isVisible = true;
-
-        // this.StartCoroutine(this.SetTitlePanelPosition());
-        // this.StartCoroutine(this.SetTouchDetection());
     }
-    
-    // private *SetTitlePanelPosition() {
-    //     yield WaitPool.endOfFrame;
-    //
-    //     const topItemPosY: number = this._itemInstances[0].gameObject.GetComponent<RectTransform>().anchoredPosition.y;
-    //     const titlePanelPosY: number = topItemPosY + 70; // 최상단 아이템과 타이틀 사이의 간격
-    //     this.titlePanel.anchoredPosition = new Vector2(this.titlePanel.anchoredPosition.x, titlePanelPosY);
-    // }
 }
 
 export enum Direction {

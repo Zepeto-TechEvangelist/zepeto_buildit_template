@@ -79,6 +79,7 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
     
     // When the scene starts, create a player with the provided user ID and begin fetching and displaying the items.
     Start() {
+        this.transform.GetChild(0).gameObject.SetActive(true);
         this.emptyListIndicator?.SetActive(false);
         
         // Hide the prefabs
