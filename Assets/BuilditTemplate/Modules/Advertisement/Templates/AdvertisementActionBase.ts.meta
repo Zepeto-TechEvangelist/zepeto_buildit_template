@@ -23,15 +23,14 @@ ScriptedImporter:
   WrapperFilters: []
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nexports.AdvertisementActionBase = void 0;\r\nconst ZEPETO_Character_Controller_1
-    = require(\"ZEPETO.Character.Controller\");\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
-    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst Action_1 = require(\"../../Scripts/InteractionSystem/Action\");\r\nconst
+    { value: true });\r\nexports.AdvertisementActionBase = void 0;\r\nconst ZEPETO_Script_1
+    = require(\"ZEPETO.Script\");\r\nconst Action_1 = require(\"../../Scripts/InteractionSystem/Action\");\r\nconst
     AdvertisementController_1 = require(\"../AdvertisementController\");\r\nclass
     AdvertisementActionBase extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n   
     Start() {\r\n        this._action = this.GetComponentInChildren($typeof(Action_1.default));\r\n       
     this._adController = this.GetComponentInChildren($typeof(AdvertisementController_1.default));\r\n       
     this._adController.OnViewAdEvent.add_handler(() => {\r\n            this._action?.DoAction();\r\n       
     });\r\n    }\r\n}\r\nexports.AdvertisementActionBase = AdvertisementActionBase;\r\n//#
-    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWR2ZXJ0aXNlbWVudEFjdGlvbkJhc2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBZHZlcnRpc2VtZW50QWN0aW9uQmFzZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSw2RUFBNkU7QUFDN0UsNkNBQTRGO0FBQzVGLGlEQUFxRDtBQUVyRCxtRUFBNEQ7QUFDNUQsd0VBQWlFO0FBRWpFLE1BQXNCLHVCQUF3QixTQUFRLHFDQUFxQjtJQUl2RSxLQUFLO1FBQ0QsSUFBSSxDQUFDLE9BQU8sR0FBRyxJQUFJLENBQUMsc0JBQXNCLFNBQUMsZ0JBQU0sRUFBRyxDQUFDO1FBQ3JELElBQUksQ0FBQyxhQUFhLEdBQUcsSUFBSSxDQUFDLHNCQUFzQixTQUFDLGlDQUF1QixFQUFHLENBQUM7UUFFNUUsSUFBSSxDQUFDLGFBQWEsQ0FBQyxhQUFhLENBQUMsV0FBVyxDQUFDLEdBQUcsRUFBRTtZQUM5QyxJQUFJLENBQUMsT0FBTyxFQUFFLFFBQVEsRUFBRSxDQUFBO1FBQzVCLENBQUMsQ0FBQyxDQUFDO0lBQ1AsQ0FBQztDQUNKO0FBWkQsMERBWUMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Advertisement/Templates/AdvertisementActionBase.ts","manifest":{"properties":[],"name":"AdvertisementActionBase","description":"","hasAnimatorMove":false},"isCompiled":true}'
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWR2ZXJ0aXNlbWVudEFjdGlvbkJhc2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBZHZlcnRpc2VtZW50QWN0aW9uQmFzZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFFQSxpREFBcUQ7QUFFckQsbUVBQTREO0FBQzVELHdFQUFpRTtBQUVqRSxNQUFzQix1QkFBd0IsU0FBUSxxQ0FBcUI7SUFJdkUsS0FBSztRQUNELElBQUksQ0FBQyxPQUFPLEdBQUcsSUFBSSxDQUFDLHNCQUFzQixTQUFDLGdCQUFNLEVBQUcsQ0FBQztRQUNyRCxJQUFJLENBQUMsYUFBYSxHQUFHLElBQUksQ0FBQyxzQkFBc0IsU0FBQyxpQ0FBdUIsRUFBRyxDQUFDO1FBRTVFLElBQUksQ0FBQyxhQUFhLENBQUMsYUFBYSxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7WUFDOUMsSUFBSSxDQUFDLE9BQU8sRUFBRSxRQUFRLEVBQUUsQ0FBQTtRQUM1QixDQUFDLENBQUMsQ0FBQztJQUNQLENBQUM7Q0FDSjtBQVpELDBEQVlDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Advertisement/Templates/AdvertisementActionBase.ts","manifest":{"properties":[],"name":"AdvertisementActionBase","description":"","hasAnimatorMove":false},"isCompiled":true}'
   typescriptHash: a04364ad3a86b82da2440e749700b8c7
   onlyWriteTrigger: 0

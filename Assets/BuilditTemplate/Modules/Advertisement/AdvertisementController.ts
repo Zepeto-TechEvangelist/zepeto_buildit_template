@@ -93,12 +93,12 @@ export default class AdvertisementController extends ZepetoScriptBehaviour imple
         this._button.onClick.AddListener(() => {
             
             // Debug
-            this.OnViewAdEvent?.Invoke();
+            // this.OnViewAdEvent?.Invoke();
 
             // Release
-           // AdvertisementManager.Instance.ShowAd(() => {
-           //     this.OnViewAdEvent?.Invoke(); 
-           // });
+            AdvertisementManager.Instance.ShowAd(() => {
+               this.OnViewAdEvent?.Invoke(); 
+            });
         });
     }
 

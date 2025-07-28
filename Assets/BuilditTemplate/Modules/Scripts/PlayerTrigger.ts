@@ -110,4 +110,11 @@ export default class PlayerTrigger extends ZepetoScriptBehaviour {
     }
 
     // ---------------------------------------------------------------- //
+
+    // Start() {
+    //     // automatic binding
+    //     if (!this.delegate) {
+    //         this.delegate = this.GetComponent<IPlayerTrigger>();
+    //     }
+    // }
 }
