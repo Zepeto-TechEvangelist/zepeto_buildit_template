@@ -255,13 +255,15 @@ export default class NPCManager extends ZepetoScriptBehaviour implements IPlayer
     }
 
     private StopGesture() {
-        this.StopCoroutine(this._gestureCoroutine);
+        if (this._gestureCoroutine)
+            this.StopCoroutine(this._gestureCoroutine);
         this._gestureCoroutine = null;
         this._npc.CancelGesture();
     }
 
     private StopMoving() {
-        this.StopCoroutine(this._moveCoroutine);
+        if (this._moveCoroutine)
+            this.StopCoroutine(this._moveCoroutine);
         this._moveCoroutine = null;
         this._npc.StopMoving();
     }
