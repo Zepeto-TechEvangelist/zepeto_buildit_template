@@ -2,14 +2,23 @@
   "Items": [
     {
       "Title": "Build It Plugin Core",
-      "Description": "Core module for Build It Plugin\n\n- New Advertisement Object: Teleport to User\n- NPC Module Enhancements : NPCs are now more lifelike with improved behavior and interaction logic\n- Gestures can now be set to play in a continuous loop\n- Fixed an issue where Quick Chat messages were not displaying correctly in Thai.",
+      "Description": "Core module for Build It Plugin\n\nSmarter NPCs\n - NPCs now move more naturally with improved area awareness\n - If they slip or fall out of bounds, they’ll teleport back safely\n - Navigation on rough terrain, like stairs and uneven ground, is smoother than ever\n",
       "Description_ko": "",
       "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
-      "LatestVersion": "1.0.8",
+      "LatestVersion": "1.0.9",
       "Dependencies": ["Multiplay Component", "Interaction", "Gesture", "ScreenShot", "Localization", "QuickChat"]
     }
   ],
   "Themes": [
+    {
+      "Title": "Hunters",
+      "Name": "asset.hunter",
+      "Description": "A brand-new theme has arrived, created in collaboration with our amazing creator community, bringing a fresh and adventurous style to your world!",
+      "Description_ko": "",
+      "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
+      "LatestVersion": "1.0.0",
+      "Dependencies": ["Build It Plugin Core 1.0.9"]
+    },
     {
       "Title": "Summer",
       "Name": "asset.summer",
