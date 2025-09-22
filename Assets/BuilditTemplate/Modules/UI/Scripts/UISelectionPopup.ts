@@ -10,8 +10,10 @@ export default class UISelectionPopup extends UIPopup {
     
     Awake() {
         super.Awake();
-        
-        this.selectable = this.content.GetComponent<UISelectableList>() ?? this.content.GetComponentInChildren<UISelectableList>();
+    }
+    
+    Start() {
+        this.selectable = this.content.GetComponent<UISelectableList>() ?? this.content.GetComponentInChildren<UISelectableList>(true);
     }
     
     

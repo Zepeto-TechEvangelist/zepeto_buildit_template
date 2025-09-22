@@ -1,0 +1,87 @@
+fileFormatVersion: 2
+guid: 8db6319553db4fb9a982fac4d2ed5d55
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.EngineAudioOptions = void 0;\r\nconst UnityEngine_1
+    = require(\"UnityEngine\");\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nvar
+    EngineAudioOptions;\r\n(function (EngineAudioOptions) {\r\n    EngineAudioOptions[EngineAudioOptions[\"Simple\"]
+    = 0] = \"Simple\";\r\n    EngineAudioOptions[EngineAudioOptions[\"FourChannel\"]
+    = 1] = \"FourChannel\"; // four Channel audio\r\n})(EngineAudioOptions = exports.EngineAudioOptions
+    // Options for the engine audio\r\n || (exports.EngineAudioOptions // Options
+    for the engine audio\r\n = {}));\r\n/**\r\n * Component that controls the vehicle
+    object state, including animations blending and effects.\r\n * It provides a
+    configuration for a vehicle object so it is usually attached to the verhicle
+    root.\r\n */\r\nclass VehicleAudio extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        // This script reads some of the car''s current
+    properties and plays sounds accordingly.\r\n        // The engine sound can be
+    a simple single clip which is looped and pitched, or it\r\n        // can be
+    a crossfaded blend of four clips which represent the timbre of the engine\r\n       
+    // at different RPM and Throttle state.\r\n        super(...arguments);\r\n       
+    // the engine clips should all be a steady pitch, not rising or falling.\r\n       
+    // when using four channel engine crossfading, the four clips should be:\r\n       
+    // lowAccelClip : The engine at low revs, with throttle open (i.e. begining acceleration
+    at very low speed)\r\n        // highAccelClip : Thenengine at high revs, with
+    throttle open (i.e. accelerating, but almost at max speed)\r\n        // lowDecelClip
+    : The engine at low revs, with throttle at minimum (i.e. idling or engine-braking
+    at very low speed)\r\n        // highDecelClip : Thenengine at high revs, with
+    throttle at minimum (i.e. engine-braking at very high speed)\r\n        // For
+    proper crossfading, the clips pitches should all match, with an octave offset
+    between low and high.\r\n        this.engineSoundStyle = EngineAudioOptions.Simple;
+    // Set the default audio options to be four channel\r\n        this.pitchMultiplier
+    = 1; // Used for altering the pitch of audio clips\r\n        this.lowPitchMin
+    = 1; // The lowest possible pitch for the low sounds\r\n        this.lowPitchMax
+    = 6; // The highest possible pitch for the low sounds\r\n        this.highPitchMultiplier
+    = 0.25; // Used for altering the pitch of high sounds\r\n        this.maxRolloffDistance
+    = 500; // The maximum distance where rollof starts to take place\r\n        this.dopplerLevel
+    = 1; // The mount of doppler effect used in the audio\r\n        this.useDoppler
+    = true; // Toggle for using doppler\r\n    }\r\n    StartSound() {\r\n       
+    if (this.m_StartedSound)\r\n            return;\r\n        // setup the simple
+    audio source\r\n        this.m_HighAccel = this.SetUpEngineAudioSource(this.highAccelClip);\r\n       
+    // flag that we have started the sounds playing\r\n        this.m_StartedSound
+    = true;\r\n    }\r\n    StopSound() {\r\n        UnityEngine_1.Object.Destroy(this.m_HighAccel);\r\n       
+    this.m_HighAccel = null;\r\n        this.m_StartedSound = false;\r\n    }\r\n   
+    // Update is called once per frame\r\n    SpeedUpdate(value) {\r\n        if
+    (!this.m_StartedSound && value > 0) {\r\n            this.StartSound();\r\n       
+    }\r\n        // Different triggers here, based on speed etc\r\n        if (this.m_StartedSound)
+    {\r\n            // Speed value\r\n            // The pitch is interpolated between
+    the min and max values, according to the car''s revs.\r\n            var pitch
+    = VehicleAudio.ULerp(this.lowPitchMin, this.lowPitchMax, value);\r\n           
+    pitch = Math.min(this.lowPitchMax, pitch);\r\n            this.m_HighAccel.pitch
+    = pitch * this.pitchMultiplier * this.highPitchMultiplier;\r\n            this.m_HighAccel.dopplerLevel
+    = this.useDoppler ? this.dopplerLevel : 0;\r\n            this.m_HighAccel.volume
+    = 1;\r\n        }\r\n    }\r\n    // sets up and adds new audio source to the
+    gane object\r\n    SetUpEngineAudioSource(clip) {\r\n        // create the new
+    audio source component on the game object and set up its properties\r\n       
+    const source = this.gameObject.AddComponent($typeof(UnityEngine_1.AudioSource));\r\n       
+    source.clip = clip;\r\n        source.volume = 0;\r\n        source.spatialBlend
+    = 0; //1;\r\n        source.loop = true;\r\n        // start the clip from a
+    random point\r\n        source.time = UnityEngine_1.Random.Range(0, clip.length);\r\n       
+    source.Play();\r\n        source.minDistance = 5;\r\n        source.maxDistance
+    = 5.1; //this.maxRolloffDistance;\r\n        source.dopplerLevel = 0;\r\n       
+    return source;\r\n    }\r\n    // unclamped versions of Lerp and Inverse Lerp,
+    to allow value to exceed the from-to range\r\n    static ULerp(from, to, value)
+    {\r\n        return (1.0 - value) * from + value * to;\r\n    }\r\n}\r\nexports.default
+    = VehicleAudio;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVmVoaWNsZUF1ZGlvLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiVmVoaWNsZUF1ZGlvLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLDZDQWFvQjtBQUNwQixpREFBbUQ7QUFJbkQsSUFBWSxrQkFJWDtBQUpELFdBQVksa0JBQWtCO0lBRTFCLCtEQUFNLENBQUE7SUFDTix5RUFBVyxDQUFBLENBQUMscUJBQXFCO0FBQ3JDLENBQUMsRUFKVyxrQkFBa0IsR0FBbEIsMEJBQWtCLENBQUMsK0JBQStCO0tBQWxELDBCQUFrQixDQUFDLCtCQUErQjtRQUk3RDtBQUVEOzs7R0FHRztBQUNILE1BQXFCLFlBQWEsU0FBUSxxQ0FBcUI7SUFBL0Q7UUFFSSx1RkFBdUY7UUFDdkYsa0ZBQWtGO1FBQ2xGLG1GQUFtRjtRQUNuRix1Q0FBdUM7O1FBRXZDLHdFQUF3RTtRQUV4RSx3RUFBd0U7UUFDeEUsMkdBQTJHO1FBQzNHLDJHQUEyRztRQUMzRyxvSEFBb0g7UUFDcEgsNkdBQTZHO1FBRTdHLDBHQUEwRztRQUdsRyxxQkFBZ0IsR0FBdUIsa0JBQWtCLENBQUMsTUFBTSxDQUFDLENBQUssbURBQW1EO1FBS3pILG9CQUFlLEdBQVUsQ0FBQyxDQUFDLENBQTBDLDZDQUE2QztRQUNsSCxnQkFBVyxHQUFVLENBQUMsQ0FBQyxDQUE4QywrQ0FBK0M7UUFDcEgsZ0JBQVcsR0FBVSxDQUFDLENBQUMsQ0FBOEMsZ0RBQWdEO1FBQ3JILHdCQUFtQixHQUFVLElBQUksQ0FBQyxDQUFtQyw2Q0FBNkM7UUFDbEgsdUJBQWtCLEdBQVUsR0FBRyxDQUFDLENBQXNDLHlEQUF5RDtRQUMvSCxpQkFBWSxHQUFVLENBQUMsQ0FBQyxDQUE4QyxnREFBZ0Q7UUFDdEgsZUFBVSxHQUFTLElBQUksQ0FBQyxDQUE4QywyQkFBMkI7SUFrRjdHLENBQUM7SUF6RVUsVUFBVTtRQUViLElBQUksSUFBSSxDQUFDLGNBQWM7WUFDbkIsT0FBTztRQUVYLGdDQUFnQztRQUNoQyxJQUFJLENB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","assetPath":"Assets/BuilditTemplate/Modules/Vehicle/Scripts/VehicleAudio.ts","manifest":{"properties":[{"assembly":"UnityEngine.AudioModule","name":"lowAccelClip","type":"UnityEngine.AudioClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"UnityEngine.AudioModule","name":"lowDecelClip","type":"UnityEngine.AudioClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"UnityEngine.AudioModule","name":"highAccelClip","type":"UnityEngine.AudioClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AudioModule","name":"highDecelClip","type":"UnityEngine.AudioClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"mscorlib","name":"pitchMultiplier","type":"System.Single","isArray":false,"initValue":["1"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"lowPitchMin","type":"System.Single","isArray":false,"initValue":["1"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"lowPitchMax","type":"System.Single","isArray":false,"initValue":["6"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"highPitchMultiplier","type":"System.Single","isArray":false,"initValue":["0.25"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"maxRolloffDistance","type":"System.Single","isArray":false,"initValue":["500"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"dopplerLevel","type":"System.Single","isArray":false,"initValue":["1"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"useDoppler","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"VehicleAudio","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: f1756074a9c20acb3ecce184b6a993c3
+  onlyWriteTrigger: 0

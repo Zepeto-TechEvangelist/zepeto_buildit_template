@@ -1,0 +1,48 @@
+fileFormatVersion: 2
+guid: 3d75a4d8a7ce4adcac2b08a1a27b1559
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ActionBase_1 = require(\"../ActionBase\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst VehicleAttachController_1
+    = require(\"../../../Vehicle/Scripts/VehicleAttachController\");\r\nconst VehicleManager_1
+    = require(\"../../../Vehicle/Scripts/VehicleManager\");\r\nconst ZEPETO_Character_Controller_1
+    = require(\"ZEPETO.Character.Controller\");\r\nclass AE_Vehicle_Spawner extends
+    ActionBase_1.ActionBase {\r\n    constructor() {\r\n        super(...arguments);\r\n       
+    this.duration = -1;\r\n    }\r\n    DoAction() {\r\n        const instance =
+    VehicleManager_1.default.instance.CreateVehicle(this.targetObject, this.targetLocation.position,
+    this.targetLocation.rotation);\r\n        this.StartCoroutine(this.ObjectDestroyer(instance,
+    this.duration));\r\n    }\r\n    *ObjectDestroyer(obj, timeout) {\r\n       
+    this.attacher = obj.transform.GetComponentInChildren($typeof(VehicleAttachController_1.default));\r\n       
+    console.log(\"Checking attacher set destroy :\" + this.attacher);\r\n       
+    if (this.attacher)\r\n            this.attacher.destroyOnLeave = true;\r\n       
+    yield new UnityEngine_1.WaitForSeconds(0.1);\r\n        this.attacher ?? (this.attacher
+    = obj.transform.GetComponentInChildren($typeof(VehicleAttachController_1.default)));\r\n       
+    console.log(\"Sending Local Player Get In\");\r\n        // Get in player used
+    to not signal multiplay room\r\n        this.attacher?.GetInPlayer(ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer);\r\n       
+    if (this.duration > 0) {\r\n            yield new UnityEngine_1.WaitForSeconds(timeout);\r\n           
+    if (obj && this.attacher && this.attacher.isAttached) {\r\n                this.attacher?.GetOut();\r\n           
+    }\r\n        }\r\n    }\r\n}\r\nexports.default = AE_Vehicle_Spawner;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQUVfVmVoaWNsZV9TcGF3bmVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQUVfVmVoaWNsZV9TcGF3bmVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsOENBQTJDO0FBQzNDLDZDQUFxRjtBQUNyRiw4RkFBdUY7QUFDdkYsNEVBQXFFO0FBQ3JFLDZFQUE0RDtBQUU1RCxNQUFxQixrQkFBbUIsU0FBUSx1QkFBVTtJQUExRDs7UUFHVyxhQUFRLEdBQVcsQ0FBQyxDQUFDLENBQUM7SUFtQ2pDLENBQUM7SUEvQlksUUFBUTtRQUViLE1BQU0sUUFBUSxHQUFlLHdCQUFjLENBQUMsUUFBUSxDQUFDLGFBQWEsQ0FBQyxJQUFJLENBQUMsWUFBMEIsRUFDOUYsSUFBSSxDQUFDLGNBQWMsQ0FBQyxRQUFRLEVBQzVCLElBQUksQ0FBQyxjQUFjLENBQUMsUUFBUSxDQUFDLENBQUM7UUFDbEMsSUFBSSxDQUFDLGNBQWMsQ0FBQyxJQUFJLENBQUMsZUFBZSxDQUFDLFFBQVEsRUFBRSxJQUFJLENBQUMsUUFBUSxDQUFDLENBQUMsQ0FBQztJQUN2RSxDQUFDO0lBRU8sQ0FBQyxlQUFlLENBQUMsR0FBZSxFQUFFLE9BQWU7UUFFckQsSUFBSSxDQUFDLFFBQVEsR0FBRyxHQUFHLENBQUMsU0FBUyxDQUFDLHNCQUFzQixTQUFDLGlDQUF1QixFQUFHLENBQUM7UUFDaEYsT0FBTyxDQUFDLEdBQUcsQ0FBQyxpQ0FBaUMsR0FBRyxJQUFJLENBQUMsUUFBUSxDQUFDLENBQUE7UUFDOUQsSUFBSSxJQUFJLENBQUMsUUFBUTtZQUNiLElBQUksQ0FBQyxRQUFRLENBQUMsY0FBYyxHQUFHLElBQUksQ0FBQztRQUV4QyxNQUFNLElBQUksNEJBQWMsQ0FBQyxHQUFHLENBQUMsQ0FBQztRQUU5QixJQUFJLENBQUMsUUFBUSxLQUFiLElBQUksQ0FBQyxRQUFRLEdBQUssR0FBRyxDQUFDLFNBQVMsQ0FBQyxzQkFBc0IsU0FBQyxpQ0FBdUIsRUFBRyxFQUFDO1FBRWxGLE9BQU8sQ0FBQyxHQUFHLENBQUMsNkJBQTZCLENBQUMsQ0FBQTtRQUMxQyxrREFBa0Q7UUFDbEQsSUFBSSxDQUFDLFFBQVEsRUFBRSxXQUFXLENBQUMsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxDQUFDO1FBRTVFLElBQUksSUFBSSxDQUFDLFFBQVEsR0FBRyxDQUFDLEVBQUU7WUFDbkIsTUFBTSxJQUFJLDRCQUFjLENBQUMsT0FBTyxDQUFDLENBQUM7WUFDbEMsSUFBSSxHQUFHLElBQUksSUFBSSxDQUFDLFFBQVEsSUFBSSxJQUFJLENBQUMsUUFBUSxDQUFDLFVBQVUsRUFBRTtnQkFDbEQsSUFBSSxDQUFDLFFBQVEsRUFBRSxNQUFNLEVBQUUsQ0FBQzthQUMzQjtTQUNKO0lBQ0wsQ0FBQztDQUVKO0FBdENELHFDQXNDQyJ9","assetPath":"Assets/BuilditTemplate/Modules/Scripts/InteractionSystem/Actions/AE_Vehicle_Spawner.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"targetObject","type":"UnityEngine.Object","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"targetLocation","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"duration","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"scriptName","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"AE_Vehicle_Spawner","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 6d17607a94e9bbb39e01f9fe81e9e723
+  onlyWriteTrigger: 0

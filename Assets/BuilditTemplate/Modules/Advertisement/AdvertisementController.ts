@@ -65,6 +65,9 @@ export default class AdvertisementController extends ZepetoScriptBehaviour imple
     }
 
     public ShowIcon() {
+        if (AdvertisementController.interactionEnabled == false)
+            return;
+        
         if (!this._isDoneFirstTrig) {
             this.CreateIcon();
             this._isDoneFirstTrig = true;
@@ -92,14 +95,19 @@ export default class AdvertisementController extends ZepetoScriptBehaviour imple
 
         this._button.onClick.AddListener(() => {
             
+            if (AdvertisementController.interactionEnabled == false)
+                return;
+            
             // Debug
-            // this.OnViewAdEvent?.Invoke();
+            this.OnViewAdEvent?.Invoke();
 
             // Release
-            AdvertisementManager.Instance.ShowAd(() => {
-               this.OnViewAdEvent?.Invoke(); 
-            });
+            // AdvertisementManager.Instance.ShowAd(() => {
+            //    this.OnViewAdEvent?.Invoke(); 
+            // });
         });
+
+        AdvertisementController.allInstances.push(this);
     }
 
     private UpdateIconRotation() {
@@ -111,4 +119,12 @@ export default class AdvertisementController extends ZepetoScriptBehaviour imple
             this.UpdateIconRotation();
     }
 
+    public static allInstances: AdvertisementController[] = [];
+    public static interactionEnabled: boolean = true;
+    
+    Destroy() {
+        const index = AdvertisementController.allInstances.indexOf(this);
+        AdvertisementController.allInstances.splice(index, 1);
+    }
+    
 }

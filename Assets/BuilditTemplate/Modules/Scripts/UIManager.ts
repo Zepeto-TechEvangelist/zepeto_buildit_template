@@ -11,6 +11,11 @@ export default class UIManager extends ZepetoScriptBehaviour {
     public wardrobeToggle: Button;
     public wardrobe: GameObject;
     
+    public gestureMenu: GameObject;
+    public gestureToggle: Button;
+    
+    // public menus: GameObject[] = [];
+    
     /* Singleton */
     private static m_instance: UIManager = null;
 
@@ -44,6 +49,10 @@ export default class UIManager extends ZepetoScriptBehaviour {
         let wardrobeMenu = this.wardrobe.GetComponent<UIMenuController>();
         
         this.wardrobeToggle.onClick.AddListener(() => { wardrobeMenu.ToggleMenu(); });
-        
     }
+    
+    public SetVisible(visible: boolean) {
+        this.gameObject.SetActive(visible);
+    }
+    
 }

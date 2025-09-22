@@ -1,0 +1,163 @@
+fileFormatVersion: 2
+guid: 69c11b058b554615a6d385abfb7f9323
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_Character_Controller_1
+    = require(\"ZEPETO.Character.Controller\");\r\nconst VehicleAttachController_1
+    = require(\"./VehicleAttachController\");\r\n// Multiplay Sync\r\nconst Types_1
+    = require(\"./Types\");\r\nconst MultiplayManager_1 = require(\"../../../../Zepeto
+    Multiplay Component/ZepetoScript/Common/MultiplayManager\");\r\nconst ApplicationUtilities_1
+    = require(\"../../Scripts/Utility/ApplicationUtilities\");\r\nclass VehicleManager
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n       
+    super(...arguments);\r\n        this.ObjectCache = [];\r\n        this.localPlayerAttachedVehicle
+    = null;\r\n        /** -------------------------------------------------------------------------------------------------------
+    */\r\n        this._room = null;\r\n        this.sync_initialized = false;\r\n       
+    this.initial_sync_completed = false;\r\n        /** -------------------------------------------------------------------------------------------------------
+    */\r\n    }\r\n    get isLocalPlayerDriving() { return this.localPlayerAttachedVehicle
+    !== null; }\r\n    GetController(id, searchByName = true) {\r\n        const
+    cached = this.ObjectCache.find(x => x.syncObj.id == id);\r\n        if (cached)\r\n           
+    return cached;\r\n        if (searchByName)\r\n            return UnityEngine_1.GameObject.Find(id)?.GetComponentInChildren($typeof(VehicleAttachController_1.default));\r\n       
+    return null;\r\n    }\r\n    RegisterController(controller) {\r\n        this.ObjectCache.push(controller);\r\n   
+    }\r\n    UnregisterController(controller) {\r\n        this.ObjectCache.splice(this.ObjectCache.indexOf(controller),
+    1);\r\n    }\r\n    /**\r\n     * The LocalPlayer session id\r\n     */\r\n   
+    get SessionId() { return this.room === null ? null : this.room.SessionId; }\r\n   
+    get room() {\r\n        if (!this._room)\r\n            this._room = MultiplayManager_1.default.instance.room;\r\n       
+    return this._room;\r\n    }\r\n    Start() {\r\n        const multiplay = MultiplayManager_1.default.instance.multiplay;\r\n       
+    if (this.room != null) {\r\n            this.StartCoroutine(this.Bind());\r\n       
+    }\r\n        else {\r\n            multiplay.add_RoomJoined(room => {\r\n               
+    this._room = room;\r\n                this.StartCoroutine(this.Bind());\r\n           
+    });\r\n        }\r\n    }\r\n    *Bind() {\r\n        // Make sure room ownership
+    is established (not required)\r\n        yield new UnityEngine_1.WaitUntil(()
+    => this.SessionId != null);\r\n        yield new UnityEngine_1.WaitUntil(() =>
+    ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer != null);\r\n       
+    yield new UnityEngine_1.WaitForSeconds(1.5);\r\n        const IsMaster = MultiplayManager_1.default.instance.IsMaster;\r\n       
+    this.InitializeMultiplaySync(); // Callbacks\r\n        const controllers = UnityEngine_1.GameObject.FindObjectsOfType($typeof(VehicleAttachController_1.default),
+    true);\r\n        var i = 0;\r\n        for (const controller of controllers)
+    {\r\n            let i = 0;\r\n            let suffix = \"\";\r\n           
+    while (this.GetController(controller.vehicleObj.name + suffix, false)) {\r\n               
+    if (ApplicationUtilities_1.ApplicationUtilities.isEditor)\r\n                   
+    console.warn(`Duplicate vehicle [${controller.vehicleObj.name + suffix}], please
+    use unique object names`);\r\n                suffix = `_${i++}`;\r\n           
+    }\r\n            const syncObj = this.CreateSyncObject(controller, suffix);\r\n           
+    controller.syncObj = syncObj;\r\n            controller.vehicleObj.name = syncObj.id;\r\n           
+    this.RegisterController(controller);\r\n            this.InstantiateVehicle(controller);\r\n       
+    }\r\n        yield new UnityEngine_1.WaitForSeconds(1);\r\n        this.room.Send(Types_1.MESSAGE.VehicleSync,
+    null);\r\n    }\r\n    SendControllers() {\r\n    }\r\n    ReceiveControllers(syncObjects)
+    {\r\n        for (const obj of syncObjects) {\r\n            let attach = this.GetController(obj.id);\r\n           
+    if (!attach)\r\n                attach = this.SyncCreateVehicle(obj);\r\n           
+    else\r\n                attach?.SyncState(obj);\r\n        }\r\n    }\r\n   
+    /**\r\n     *  Set up multiplay message handler callbacks\r\n     */\r\n    InitializeMultiplaySync()
+    {\r\n        if (this.sync_initialized)\r\n            return;\r\n        this.sync_initialized
+    = true;\r\n        const room = MultiplayManager_1.default.instance.room;\r\n       
+    const multiplay = MultiplayManager_1.default.instance.multiplay;\r\n        room.AddMessageHandler(Types_1.MESSAGE.VehicleSync,
+    (message) => {\r\n            this.ReceiveControllers(message.cache);\r\n           
+    // Find objects in the cache etc\r\n            this.initial_sync_completed =
+    true;\r\n        });\r\n        room.AddMessageHandler(Types_1.MESSAGE.VehicleGetIn,
+    (message) => {\r\n            const player = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.GetPlayer(message.ownerId);\r\n           
+    let attachController = this.GetController(message.id);\r\n            if (!attachController)\r\n               
+    attachController = this.SyncCreateVehicle(message);\r\n            attachController?.GetInPlayer(player);\r\n       
+    });\r\n        room.AddMessageHandler(Types_1.MESSAGE.VehicleGetOut, (message)
+    => {\r\n            const player = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.GetPlayer(message.ownerId);\r\n           
+    const attachController = player.character.transform.GetComponentInChildren($typeof(VehicleAttachController_1.default));\r\n           
+    attachController?.GetOutPlayer(player);\r\n        });\r\n        room.AddMessageHandler(Types_1.MESSAGE.VehicleAction,
+    (message) => {\r\n            const player = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.GetPlayerWithUserId(message.player);\r\n           
+    const attachController = player.character.transform.GetComponentInChildren($typeof(VehicleAttachController_1.default));\r\n           
+    attachController?.VehicleAction(message.action);\r\n        });\r\n        room.AddMessageHandler(Types_1.MESSAGE.VehicleInstantiate,
+    (message) => {\r\n            const baseAssetPath = \"Vehicle/Prefabs/\";\r\n           
+    const asset = UnityEngine_1.Resources.Load(baseAssetPath + message.assetId);\r\n           
+    const spawnPosition = message.spawnPosition ? new UnityEngine_1.Vector3(message.spawnPosition.x,
+    message.spawnPosition.y, message.spawnPosition.z) : asset.transform.position;\r\n           
+    const spawnRotation = message.spawnRotation ? new UnityEngine_1.Quaternion(message.spawnRotation.x,
+    message.spawnRotation.y, message.spawnRotation.z, message.spawnRotation.w) :
+    asset.transform.rotation;\r\n            const instance = UnityEngine_1.Object.Instantiate(asset,
+    spawnPosition, spawnRotation);\r\n            instance.name = message.id;\r\n           
+    const attach = instance.GetComponentInChildren($typeof(VehicleAttachController_1.default));\r\n           
+    attach.syncObj = message;\r\n            this.RegisterController(attach);\r\n           
+    const player = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.GetPlayer(message.ownerId);\r\n           
+    attach?.GetInPlayer(player);\r\n        });\r\n        room.AddMessageHandler(Types_1.MESSAGE.VehicleDestroy,
+    (message) => {\r\n            const attach = this.GetController(message.id);\r\n           
+    this.UnregisterController(attach);\r\n            UnityEngine_1.Object.Destroy(attach.vehicleObj);\r\n       
+    });\r\n    }\r\n    SyncCreateVehicle(message) {\r\n        const baseAssetPath
+    = \"Vehicle/Prefabs/\";\r\n        const asset = UnityEngine_1.Resources.Load(baseAssetPath
+    + message.assetId);\r\n        const spawnPosition = message.spawnPosition ?
+    new UnityEngine_1.Vector3(message.spawnPosition.x, message.spawnPosition.y, message.spawnPosition.z)
+    : asset.transform.position;\r\n        const spawnRotation = message.spawnRotation
+    ? new UnityEngine_1.Quaternion(message.spawnRotation.x, message.spawnRotation.y,
+    message.spawnRotation.z, message.spawnRotation.w) : asset.transform.rotation;\r\n       
+    if (asset === null) // Missing asset\r\n            return null;\r\n        const
+    instance = UnityEngine_1.Object.Instantiate(asset, spawnPosition, spawnRotation);\r\n       
+    instance.name = message.id;\r\n        const attach = instance.GetComponentInChildren($typeof(VehicleAttachController_1.default));\r\n       
+    attach.syncObj = message;\r\n        this.RegisterController(attach);\r\n       
+    return attach;\r\n    }\r\n    CreateSyncObject(attacher, index = \"\") {\r\n       
+    const position = attacher.vehicleObj.transform.position;\r\n        const rotation
+    = attacher.vehicleObj.transform.rotation;\r\n        const vo = {\r\n           
+    id: attacher.vehicleObj.name + index,\r\n            assetId: attacher.vehicleSettings.targetObject.assetKey,\r\n           
+    ownerId: null,\r\n            spawnPosition: {\r\n                x: position.x,\r\n               
+    y: position.y,\r\n                z: position.z\r\n            },\r\n           
+    spawnRotation: {\r\n                x: rotation.x,\r\n                y: rotation.y,\r\n               
+    z: rotation.z,\r\n                w: rotation.w\r\n            }\r\n        };\r\n       
+    return vo;\r\n    }\r\n    UpdateSyncObject(attacher) {\r\n        const position
+    = attacher.vehicleObj.transform.position;\r\n        const rotation = attacher.vehicleObj.transform.rotation;\r\n       
+    attacher.syncObj.spawnPosition = {\r\n            x: position.x,\r\n           
+    y: position.y,\r\n            z: position.z\r\n        };\r\n        attacher.syncObj.spawnRotation
+    = {\r\n            x: rotation.x,\r\n            y: rotation.y,\r\n           
+    z: rotation.z,\r\n            w: rotation.w\r\n        };\r\n    }\r\n    /**\r\n    
+    * Creates a Vehicle object and returns the instance\r\n     * @param asset\r\n    
+    * @param position\r\n     * @param rotation\r\n     */\r\n    CreateVehicle(asset,
+    position = UnityEngine_1.Vector3.zero, rotation = UnityEngine_1.Quaternion.identity)
+    {\r\n        const instance = UnityEngine_1.Object.Instantiate(asset, position,
+    rotation);\r\n        const attacher = instance.transform.GetComponentInChildren($typeof(VehicleAttachController_1.default));\r\n       
+    const syncObject = this.CreateSyncObject(attacher);\r\n        syncObject.ownerId
+    = this.SessionId;\r\n        attacher.syncObj = syncObject;\r\n        this.RegisterController(attacher);\r\n       
+    MultiplayManager_1.default.instance.room.Send(Types_1.MESSAGE.VehicleInstantiate,
+    syncObject);\r\n        return instance;\r\n    }\r\n    /**\r\n     * Get in
+    Vehicle action (Local Player)\r\n     * @param attach\r\n     */\r\n    GetInVehicle(attach)
+    {\r\n        const message = attach.syncObj;\r\n        message.ownerId = this.SessionId;\r\n       
+    this.localPlayerAttachedVehicle = attach;\r\n        this.room?.Send(Types_1.MESSAGE.VehicleGetIn,
+    message);\r\n    }\r\n    /**\r\n     * Get out Vehicle action (Local Player)\r\n    
+    * @param attach\r\n     */\r\n    GetOutVehicle(attach) {\r\n        const message
+    = attach.syncObj;\r\n        // message.ownerId = null;\r\n        this.UpdateSyncObject(attach);\r\n       
+    this.localPlayerAttachedVehicle = null;\r\n        this.room?.Send(Types_1.MESSAGE.VehicleGetOut,
+    message);\r\n        message.ownerId = null;\r\n    }\r\n    /**\r\n     * Miscelanious
+    Vehicle action (Local Player)\r\n     * @param attach\r\n     * @param action\r\n    
+    */\r\n    VehicleAction(attach, action) {\r\n        const message = {\r\n           
+    id: attach.syncObj.id,\r\n            action: action,\r\n            player:
+    \"\",\r\n            seat: 0\r\n        };\r\n        this.room?.Send(Types_1.MESSAGE.VehicleAction,
+    message);\r\n    }\r\n    /**\r\n     * Synchronize a vehicle object Instantiation\r\n    
+    * @param attach\r\n     */\r\n    InstantiateVehicle(attach) {\r\n        MultiplayManager_1.default.instance.room.Send(Types_1.MESSAGE.VehicleInstantiate,
+    attach.syncObj);\r\n    }\r\n    /**\r\n     * Synchronize a vehicle object Destruction\r\n    
+    * @param attach\r\n     */\r\n    DestroyVehicle(attach) {\r\n        MultiplayManager_1.default.instance.room.Send(Types_1.MESSAGE.VehicleDestroy,
+    attach.syncObj);\r\n    }\r\n    static get instance() {\r\n        if (this.m_instance
+    === null) {\r\n            this.m_instance = UnityEngine_1.GameObject.FindObjectOfType($typeof(VehicleManager));\r\n           
+    if (this.m_instance === null) {\r\n                this.m_instance = new UnityEngine_1.GameObject(VehicleManager.name).AddComponent($typeof(VehicleManager));\r\n           
+    }\r\n        }\r\n        return this.m_instance;\r\n    }\r\n    Awake() {\r\n       
+    if (VehicleManager.m_instance !== null && VehicleManager.m_instance !== this)
+    {\r\n            UnityEngine_1.GameObject.Destroy(this.gameObject);\r\n       
+    }\r\n        else {\r\n            VehicleManager.m_instance = this;\r\n           
+    if (this.transform.parent === null)\r\n                UnityEngine_1.GameObject.DontDestroyOnLoad(this.gameObject);\r\n       
+    }\r\n    }\r\n}\r\nexports.default = VehicleManager;\r\n/** -------------------------------------------------------------------------------------------------------
+    */\r\n/** Singleton */\r\nVehicleManager.m_instance = null;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVmVoaWNsZU1hbmFnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJWZWhpY2xlTWFuYWdlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLGlEQUFvRDtBQUNwRCw2Q0FBMEc7QUFDMUcsNkVBQTBEO0FBQzFELHVFQUFnRTtBQUVoRSxpQkFBaUI7QUFDakIsbUNBQTZGO0FBSTdGLGtIQUEyRztBQUMzRyxxRkFBa0Y7QUFFbEYsTUFBcUIsY0FBZSxTQUFRLHFDQUFxQjtJQUFqRTs7UUFFWSxnQkFBVyxHQUE4QixFQUFFLENBQUM7UUFFN0MsK0JBQTBCLEdBQTRCLElBQUksQ0FBQztRQTZCbEUsOEdBQThHO1FBRXRHLFVBQUssR0FBYSxJQUFJLENBQUM7UUFPdkIscUJBQWdCLEdBQUcsS0FBSyxDQUFDO1FBQ3pCLDJCQUFzQixHQUFHLEtBQUssQ0FBQztRQThUdkMsOEdBQThHO0lBQ2xILENBQUM7SUFwV0csSUFBVyxvQkFBb0IsS0FBYyxPQUFPLElBQUksQ0FBQywwQkFBMEIsS0FBSyxJQUFJLENBQUEsQ0FBQyxDQUFDO0lBR3ZGLGFBQWEsQ0FBQyxFQUFVLEVBQUUsZUFBd0IsSUFBSTtRQUN6RCxNQUFNLE1BQU0sR0FBRyxJQUFJLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUMsRUFBRSxDQUFDLENBQUMsQ0FBQyxPQUFPLENBQUMsRUFBRSxJQUFJLEVBQUUsQ0FBQyxDQUFDO1FBQzlELElBQUksTUFBTTtZQUNOLE9BQU8sTUFBTSxDQUFDO1FBRWxCLElBQUksWUFBWTtZQUNaLE9BQU8sd0JBQVUsQ0FBQyxJQUFJLENBQUMsRUFBRSxDQUFDLEVBQUUsc0JBQXNCLFNBQUMsaUNBQXVCLEVBQUcsQ0FBQztRQUVsRixPQUFPLElBQUksQ0FBQztJQUNoQixDQUFDO0lBRU0sa0JBQWtCLENBQUMsVUFBbUM7UUFDekQsSUFBSSxDQUFDLFdBQVcsQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUM7SUFDdEMsQ0FBQztJQUVN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","assetPath":"Assets/BuilditTemplate/Modules/Vehicle/Scripts/VehicleManager.ts","manifest":{"properties":[{"assembly":"","name":"localPlayerAttachedVehicle","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Vehicle/Scripts/VehicleAttachController.default","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"VehicleManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 6576588dd62ca255bee3ed86006dcaf8
+  onlyWriteTrigger: 0

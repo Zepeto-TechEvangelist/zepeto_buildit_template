@@ -1,0 +1,51 @@
+fileFormatVersion: 2
+guid: 018786caee5048a89651112330eaabd6
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UISelectionPopup_1 = require(\"../../UI/Scripts/UISelectionPopup\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_Character_Controller_1
+    = require(\"ZEPETO.Character.Controller\");\r\nconst VehicleManager_1 = require(\"./VehicleManager\");\r\nconst
+    VehicleAttachController_1 = require(\"./VehicleAttachController\");\r\nclass
+    UISelectVehicleSpawner extends UISelectionPopup_1.default {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        /**\r\n         * Duration of the
+    spawned vehicle, negative value for infinite\r\n         */\r\n        this.duration
+    = -1;\r\n        /**\r\n         * Should the vehicle be destroyed when getting
+    out\r\n         */\r\n        this.destroyOnLeave = true;\r\n    }\r\n    OnAction()
+    {\r\n        // Cancel action if already driving\r\n        if (VehicleManager_1.default.instance.isLocalPlayerDriving)\r\n           
+    return;\r\n        // console.log(this.selectable);\r\n        // console.log(this.selectable.selectedItem);\r\n       
+    const asset = this.selectable.selectedItem.item;\r\n        const instance =
+    VehicleManager_1.default.instance.CreateVehicle(asset, this.spawnLocation.position,
+    this.spawnLocation.rotation);\r\n        let attacher = instance.transform.GetComponentInChildren($typeof(VehicleAttachController_1.default));\r\n       
+    attacher.StartCoroutine(this.ObjectDestroyer(attacher, this.duration));\r\n       
+    super.OnAction();\r\n    }\r\n    *ObjectDestroyer(attacher, timeout) {\r\n       
+    if (attacher)\r\n            attacher.destroyOnLeave = this.destroyOnLeave;\r\n       
+    yield new UnityEngine_1.WaitForSeconds(0.1);\r\n        // Get in player used
+    to not signal multiplay room\r\n        attacher?.GetInPlayer(ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer);\r\n       
+    if (this.duration > 0) {\r\n            yield new UnityEngine_1.WaitForSeconds(timeout);\r\n           
+    if (attacher && attacher.isAttached)\r\n                attacher?.GetOut();\r\n           
+    else\r\n                attacher?.DestroyVehicle();\r\n        }\r\n    }\r\n}\r\nexports.default
+    = UISelectVehicleSpawner;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVUlTZWxlY3RWZWhpY2xlU3Bhd25lci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlVJU2VsZWN0VmVoaWNsZVNwYXduZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSx3RUFBaUU7QUFDakUsNkNBQWtFO0FBQ2xFLDZFQUEwRDtBQUMxRCxxREFBOEM7QUFDOUMsdUVBQWdFO0FBRWhFLE1BQXFCLHNCQUF1QixTQUFRLDBCQUFnQjtJQUFwRTs7UUFPSTs7V0FFRztRQUNJLGFBQVEsR0FBVyxDQUFDLENBQUMsQ0FBQztRQUU3Qjs7V0FFRztRQUNJLG1CQUFjLEdBQVksSUFBSSxDQUFDO0lBK0MxQyxDQUFDO0lBNUNhLFFBQVE7UUFFZCxtQ0FBbUM7UUFDbkMsSUFBSSx3QkFBYyxDQUFDLFFBQVEsQ0FBQyxvQkFBb0I7WUFDNUMsT0FBTztRQUVYLGdDQUFnQztRQUNoQyw2Q0FBNkM7UUFFN0MsTUFBTSxLQUFLLEdBQUcsSUFBSSxDQUFDLFVBQVUsQ0FBQyxZQUFZLENBQUMsSUFBa0IsQ0FBQztRQUU5RCxNQUFNLFFBQVEsR0FBZSx3QkFBYyxDQUFDLFFBQVEsQ0FBQyxhQUFhLENBQUMsS0FBSyxFQUNwRSxJQUFJLENBQUMsYUFBYSxDQUFDLFFBQVEsRUFDM0IsSUFBSSxDQUFDLGFBQWEsQ0FBQyxRQUFRLENBQUMsQ0FBQztRQUVqQyxJQUFJLFFBQVEsR0FBRyxRQUFRLENBQUMsU0FBUyxDQUFDLHNCQUFzQixTQUFDLGlDQUF1QixFQUFHLENBQUM7UUFFcEYsUUFBUSxDQUFDLGNBQWMsQ0FBQyxJQUFJLENBQUMsZUFBZSxDQUFDLFFBQVEsRUFBRSxJQUFJLENBQUMsUUFBUSxDQUFDLENBQUMsQ0FBQztRQUV2RSxLQUFLLENBQUMsUUFBUSxFQUFFLENBQUM7SUFDckIsQ0FBQztJQUVPLENBQUMsZUFBZSxDQUFDLFFBQWlDLEVBQUUsT0FBZTtRQUV2RSxJQUFJLFFBQVE7WUFDUixRQUFRLENBQUMsY0FBYyxHQUFHLElBQUksQ0FBQyxjQUFjLENBQUM7UUFFbEQsTUFBTSxJQUFJLDRCQUFjLENBQUMsR0FBRyxDQUFDLENBQUM7UUFFOUIsa0RBQWtEO1FBQ2xELFFBQVEsRUFBRSxXQUFXLENBQUMsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxDQUFDO1FBRXZFLElBQUksSUFBSSxDQUFDLFFBQVEsR0FBRyxDQUFDLEVBQUU7WUFDbkIsTUFBTSxJQUFJLDRCQUFjLENBQUMsT0FBTyxDQUFDLENBQUM7WUFFbEMsSUFBSSxRQUFRLElBQUksUUFBUSxDQUFDLFVBQVU7Z0JBQy9CLFFBQVEsRUFBRSxNQUFNLEVBQUUsQ0FBQzs7Z0JBRW5CLFFBQVEsRUFBRSxjQUFjLEVBQUUsQ0FBQztTQUNsQztJQUdMLENBQUM7Q0FFSjtBQTlERCx5Q0E4REMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Vehicle/Scripts/UISelectVehicleSpawner.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"spawnLocation","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"duration","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"destroyOnLeave","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"itemPrefab","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"hidesActionButton","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"hidesCancelButton","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"_title","type":"UnityEngine.UI.Text","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Popup
+    Components\""]},{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"_message","type":"ZEPETO.World.Gui.ZepetoText","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"_actionButton","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"ZEPETO.World.Gui","name":"_cancelButton","type":"ZEPETO.World.Gui.RoundedRectangleButton","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"mscorlib","name":"showOnAwake","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Base\""]}]},{"assembly":"mscorlib","name":"isVisible","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"blockTouches","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"fitContent","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"enableCloseOnTouch","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"hidesCloseButton","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UIModule","name":"_canvas","type":"UnityEngine.Canvas","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_container","type":"UnityEngine.RectTransform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_content","type":"UnityEngine.RectTransform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_header","type":"UnityEngine.RectTransform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"_footer","type":"UnityEngine.RectTransform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"_closeButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"UISelectVehicleSpawner","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: da2c4781fdc24652db02e501345b0d10
+  onlyWriteTrigger: 0

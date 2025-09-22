@@ -1,0 +1,58 @@
+fileFormatVersion: 2
+guid: 05a7bd4a675ac46a7a6128ae84146ed4
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.VehicleCategory = void 0;\r\nconst UnityEngine_1
+    = require(\"UnityEngine\");\r\nvar VehicleCategory;\r\n(function (VehicleCategory)
+    {\r\n    VehicleCategory[VehicleCategory[\"Ground\"] = 0] = \"Ground\";\r\n   
+    VehicleCategory[VehicleCategory[\"Fly\"] = 1] = \"Fly\";\r\n    VehicleCategory[VehicleCategory[\"Water\"]
+    = 2] = \"Water\";\r\n})(VehicleCategory = exports.VehicleCategory || (exports.VehicleCategory
+    = {}));\r\nclass VehicleObjectSettings {\r\n    constructor() {\r\n        this.isInputRotate
+    = true;\r\n        this.targetBone = UnityEngine_1.HumanBodyBones.LastBone;\r\n       
+    this.characterHeight = 1;\r\n        this.rotateAnglePerFrame = 2;\r\n       
+    this.accSpeedPerFrame = .07;\r\n        this.decreaseSpeedPerFrame = .01;\r\n       
+    this.magnification = 1.5;\r\n        this.backMagnification = -.5;\r\n       
+    this.boostMagnification = 1.5;\r\n        this.boostDuration = 1;\r\n       
+    this.isSlope = false;\r\n        this.isHorn = false;\r\n        this.isHeadlight
+    = false;\r\n        this.isJump = false;\r\n        this.isBoost = false;\r\n       
+    this.isAction = false;\r\n    }\r\n}\r\nexports.default = VehicleObjectSettings;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVmVoaWNsZU9iamVjdFNldHRpbmdzLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiVmVoaWNsZU9iamVjdFNldHRpbmdzLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLDZDQUFrRTtBQUdsRSxJQUFZLGVBSVg7QUFKRCxXQUFZLGVBQWU7SUFDdkIseURBQU0sQ0FBQTtJQUNOLG1EQUFHLENBQUE7SUFDSCx1REFBSyxDQUFBO0FBQ1QsQ0FBQyxFQUpXLGVBQWUsR0FBZix1QkFBZSxLQUFmLHVCQUFlLFFBSTFCO0FBRUQsTUFBcUIscUJBQXFCO0lBQTFDO1FBV1csa0JBQWEsR0FBUyxJQUFJLENBQUM7UUFJM0IsZUFBVSxHQUFtQiw0QkFBYyxDQUFDLFFBQVEsQ0FBQztRQUVyRCxvQkFBZSxHQUFVLENBQUMsQ0FBQztRQTBCM0Isd0JBQW1CLEdBQVUsQ0FBQyxDQUNwQztRQUVNLHFCQUFnQixHQUFVLEdBQUcsQ0FDbkM7UUFFTSwwQkFBcUIsR0FBVSxHQUFHLENBQ3hDO1FBRU0sa0JBQWEsR0FBVSxHQUFHLENBQ2hDO1FBRU0sc0JBQWlCLEdBQVUsQ0FBQyxFQUFFLENBQ3BDO1FBS00sdUJBQWtCLEdBQVUsR0FBRyxDQUFDO1FBR2hDLGtCQUFhLEdBQVUsQ0FBQyxDQUFDO1FBSXpCLFlBQU8sR0FBUyxLQUFLLENBQUM7UUFLdEIsV0FBTSxHQUFTLEtBQUssQ0FBQztRQUVyQixnQkFBVyxHQUFTLEtBQUssQ0FBQztRQUUxQixXQUFNLEdBQVMsS0FBSyxDQUFDO1FBRXJCLFlBQU8sR0FBUyxLQUFLLENBQUM7UUFFdEIsYUFBUSxHQUFTLEtBQUssQ0FBQztJQUNsQyxDQUFDO0NBQUE7QUFsRkQsd0NBa0ZDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Vehicle/Scripts/VehicleObjectSettings.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"icon","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"assetKey","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"hornAssetKey","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"","name":"category","type":"VehicleCategory","isArray":false,"initValue":[],"enumKeys":["Ground","Fly","Water"],"enumValues":["0","1","2"],"attributes":[]},{"assembly":"mscorlib","name":"attaches","type":"System.String[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Attach\""]}]},{"assembly":"mscorlib","name":"isInputRotate","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Input\""]}]},{"assembly":"UnityEngine.AnimationModule","name":"targetBone","type":"UnityEngine.HumanBodyBones","isArray":false,"initValue":["LastBone"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Bone\""]},{"name":"Tooltip","args":["\"Default
+    is LastBone\""]}]},{"assembly":"mscorlib","name":"characterHeight","type":"System.Single","isArray":false,"initValue":["1"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"idle_left_zepeto","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Animations
+    - Zepeto\""]}]},{"assembly":"UnityEngine.AnimationModule","name":"idle_right_zepeto","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"idle_zepeto","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"run_left_zepeto","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"run_right_zepeto","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"run_zepeto","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"horn_zepeto","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"jump_zepeto","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"passenger_zepeto","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"land_zepeto","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"fall_zepeto","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"action_zepeto","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"handle","type":"UnityEngine.Texture","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Handle
+    Sprite\""]}]},{"assembly":"mscorlib","name":"localKey","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Local
+    Name\""]}]},{"assembly":"mscorlib","name":"rotateAnglePerFrame","type":"System.Single","isArray":false,"initValue":["2"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Speed\""]},{"name":"Tooltip","args":["\"Rate
+    of angular movement sensitivity\""]}]},{"assembly":"mscorlib","name":"accSpeedPerFrame","type":"System.Single","isArray":false,"initValue":["0.07"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Rate
+    of speed acceleration for forward movement\""]}]},{"assembly":"mscorlib","name":"decreaseSpeedPerFrame","type":"System.Single","isArray":false,"initValue":["0.01"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Rate
+    of speed deceleration\""]}]},{"assembly":"mscorlib","name":"magnification","type":"System.Single","isArray":false,"initValue":["1.5"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Global
+    speed modifier\""]}]},{"assembly":"mscorlib","name":"backMagnification","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Modifier
+    applied for backwards movement (negative value)\""]}]},{"assembly":"mscorlib","name":"boostMagnification","type":"System.Single","isArray":false,"initValue":["1.5"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Boost\""]},{"name":"Tooltip","args":["\"Speed
+    multiplier for boost\""]}]},{"assembly":"mscorlib","name":"boostDuration","type":"System.Single","isArray":false,"initValue":["1"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Duration
+    of the speed boost in seconds\""]}]},{"assembly":"mscorlib","name":"isSlope","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Apply\""]}]},{"assembly":"mscorlib","name":"isHorn","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Option\""]},{"name":"Tooltip","args":["\"Horn
+    option enabled\""]}]},{"assembly":"mscorlib","name":"isHeadlight","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Headlight
+    option enabled\""]}]},{"assembly":"mscorlib","name":"isJump","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Jump
+    option enabled\""]}]},{"assembly":"mscorlib","name":"isBoost","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Boost
+    option enabled\""]}]},{"assembly":"mscorlib","name":"isAction","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Action
+    option enabled\""]}]}],"name":"VehicleObjectSettings","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 996aef030a5ecf07e1386513fa3d0f7a
+  onlyWriteTrigger: 0

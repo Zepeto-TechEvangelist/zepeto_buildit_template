@@ -25,6 +25,8 @@ export default class InteractionIcon extends ZepetoScriptBehaviour {
     private _isIconActive : boolean = false;
     private _isDoneFirstTrig : boolean = false;
     
+    public static allInstances: InteractionIcon[] = [];
+    public static interactionEnabled: boolean = true;
     
     private Update(){
         if(this._isDoneFirstTrig && this._canvas?.gameObject.activeSelf)
@@ -50,7 +52,10 @@ export default class InteractionIcon extends ZepetoScriptBehaviour {
     }
     
     public ShowIcon(){
-        if(!this._isDoneFirstTrig){
+        if (InteractionIcon.interactionEnabled == false)
+            return;
+            
+            if(!this._isDoneFirstTrig){
             this.CreateIcon();
             this._isDoneFirstTrig = true;
         }
@@ -74,9 +79,12 @@ export default class InteractionIcon extends ZepetoScriptBehaviour {
         this._cachedWorldCamera ??= ZepetoPlayers.instance.ZepetoCamera.camera;
         this._canvas.worldCamera = this._cachedWorldCamera;
 
-        this._button.onClick.AddListener(()=>{
-            this.OnClickIcon();
+        this._button.onClick.AddListener(()=> {
+            if (InteractionIcon.interactionEnabled)
+                this.OnClickIcon();
         });
+        
+        InteractionIcon.allInstances.push(this);
     }
     
     private UpdateIconRotation() {
@@ -85,5 +93,10 @@ export default class InteractionIcon extends ZepetoScriptBehaviour {
 
     private OnClickIcon() {
         this.OnClickEvent?.Invoke();
+    }
+    
+    Destroy() {
+        const index = InteractionIcon.allInstances.indexOf(this);
+        InteractionIcon.allInstances.splice(index, 1);
     }
 }

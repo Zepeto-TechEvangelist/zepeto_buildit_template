@@ -1,0 +1,60 @@
+fileFormatVersion: 2
+guid: 6db10c77f00140acb9f051a0511238b5
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst UIControllerTracker_1
+    = require(\"../../Gesture/ZepetoScript/UIControllerTracker\");\r\nconst UIManager_1
+    = require(\"../../Scripts/UIManager\");\r\nclass VehicleUIController extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    static get instance() {\r\n       
+    if (this.m_instance === null) {\r\n            this.m_instance = UnityEngine_1.GameObject.FindObjectOfType($typeof(VehicleUIController));\r\n           
+    // if (this.m_instance === null) {\r\n            //     this.m_instance = new
+    GameObject(GroupManager.name).AddComponent<GroupManager>();\r\n            //
+    }\r\n        }\r\n        return this.m_instance;\r\n    }\r\n    Awake() {\r\n       
+    VehicleUIController.m_instance = this;\r\n        // if (VehicleUIController.m_instance
+    !== null && VehicleUIController.m_instance !== this) {\r\n        //     GameObject.Destroy(this.gameObject);\r\n       
+    // } else {\r\n        //     VehicleUIController.m_instance = this;\r\n       
+    //     if (this.transform.parent === null)\r\n        //         GameObject.DontDestroyOnLoad(this.gameObject);\r\n       
+    // }\r\n    }\r\n    Start() {\r\n        this.gestureInputTracker = this.GetComponent($typeof(UIControllerTracker_1.default));\r\n       
+    this.SetCharacterMode(); // default setup\r\n    }\r\n    SetDriveMode(boostEnabled
+    = true, hornEnabled = true, lightsEnabled = true) {\r\n        this.moveHandle.sprite
+    = this.vehicleImage;\r\n        this.getOutButton.gameObject.SetActive(true);\r\n       
+    this.jumpButton.gameObject.SetActive(false);\r\n        this.boostButton.gameObject.SetActive(boostEnabled);\r\n       
+    this.hornButton.gameObject.SetActive(hornEnabled);\r\n        this.lightsButton.gameObject.SetActive(lightsEnabled);\r\n       
+    this.gestureInputTracker.enabled = false;\r\n        this.HideAllMenus();\r\n   
+    }\r\n    SetPassengerMode() {\r\n        this.moveHandle.sprite = this.vehicleImage;\r\n       
+    this.moveHandle.gameObject.SetActive(false);\r\n        this.getOutButton.gameObject.SetActive(true);\r\n       
+    this.jumpButton.gameObject.SetActive(false);\r\n        this.hornButton.gameObject.SetActive(false);\r\n       
+    this.lightsButton.gameObject.SetActive(false);\r\n    }\r\n    SetCharacterMode()
+    {\r\n        this.moveHandle.sprite = this.normalImage;\r\n        this.moveHandle.gameObject.SetActive(true);\r\n       
+    this.jumpButton.gameObject.SetActive(true);\r\n        this.getOutButton.gameObject.SetActive(false);\r\n       
+    this.boostButton.gameObject.SetActive(false);\r\n        this.hornButton.gameObject.SetActive(false);\r\n       
+    this.lightsButton.gameObject.SetActive(false);\r\n        this.boostButton.onClick.RemoveAllListeners();\r\n       
+    this.hornButton.onClick.RemoveAllListeners();\r\n        this.lightsButton.onClick.RemoveAllListeners();\r\n       
+    this.gestureInputTracker.enabled = true;\r\n    }\r\n    HideAllMenus() {\r\n       
+    // Gesture\r\n        UIManager_1.default.instance.gestureMenu?.SetActive(false);\r\n   
+    }\r\n}\r\nexports.default = VehicleUIController;\r\n/* Singleton */\r\nVehicleUIController.m_instance
+    = null;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVmVoaWNsZVVJQ29udHJvbGxlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlZlaGljbGVVSUNvbnRyb2xsZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSw2Q0FBK0M7QUFFL0MsaURBQW9EO0FBQ3BELHdGQUFpRjtBQUNqRix1REFBZ0Q7QUFFaEQsTUFBcUIsbUJBQW9CLFNBQVEscUNBQXFCO0lBa0IzRCxNQUFNLEtBQUssUUFBUTtRQUN0QixJQUFJLElBQUksQ0FBQyxVQUFVLEtBQUssSUFBSSxFQUFFO1lBQzFCLElBQUksQ0FBQyxVQUFVLEdBQUcsd0JBQVUsQ0FBQyxnQkFBZ0IsU0FBQyxtQkFBbUIsRUFBRyxDQUFDO1lBRXJFLGtDQUFrQztZQUNsQyx3RkFBd0Y7WUFDeEYsSUFBSTtTQUNQO1FBQ0QsT0FBTyxJQUFJLENBQUMsVUFBVSxDQUFDO0lBQzNCLENBQUM7SUFDTyxLQUFLO1FBQ1QsbUJBQW1CLENBQUMsVUFBVSxHQUFHLElBQUksQ0FBQztRQUV0Qyw0RkFBNEY7UUFDNUYsMkNBQTJDO1FBQzNDLFdBQVc7UUFDWCw2Q0FBNkM7UUFDN0MsMENBQTBDO1FBQzFDLHlEQUF5RDtRQUN6RCxJQUFJO0lBQ1IsQ0FBQztJQUVELEtBQUs7UUFDRCxJQUFJLENBQUMsbUJBQW1CLEdBQUcsSUFBSSxDQUFDLFlBQVksU0FBQyw2QkFBbUIsRUFBRyxDQUFDO1FBRXBFLElBQUksQ0FBQyxnQkFBZ0IsRUFBRSxDQUFDLENBQUksZ0JBQWdCO0lBQ2hELENBQUM7SUFHTSxZQUFZLENBQUMsZUFBd0IsSUFBSSxFQUFFLGNBQXVCLElBQUksRUFBRSxnQkFBeUIsSUFBSTtRQUN4RyxJQUFJLENBQUMsVUFBVSxDQUFDLE1BQU0sR0FBRyxJQUFJLENBQUMsWUFBWSxDQUFDO1FBQzNDLElBQUksQ0FBQyxZQUFZLENBQUMsVUFBVSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsQ0FBQztRQUM3QyxJQUFJLENBQUMsVUFBVSxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQUMsS0FBSyxDQUFDLENBQUM7UUFDNUMsSUFBSSxDQUFDLFdBQVcsQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLFlBQVksQ0FBQyxDQUFDO1FBQ3BELElBQUksQ0FBQyxVQUFVLENBQUMsVUFBVSxDQUFDLFNBQVMsQ0FBQyxXQUFXLENBQUMsQ0FBQztRQUNsRCxJQUFJLENBQUMsWUFBWSxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQUMsYUFBYSxDQUFDLENBQUM7UUFFdEQsSUFBSSxDQUFDLG1CQUFtQixDQUFDLE9BQU8sR0FBRyxLQUFLLENBQUM7UUFDekMsSUFBSSxDQUFDLFlBQVksRUFBRSxDQUFDO0lBQ3hCLENBQUM7SUFFTSxnQkFBZ0I7UUFDbkIsSUFBSSxDQUFDLFVBQVUsQ0FBQyxNQUFNLEdBQUcsSUFBSSxDQUFDLFlBQVksQ0FBQztRQUMzQyxJQUFJLENBQUMsVUFBVSxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQUMsS0FBSyxDQUFDLENBQUM7UUFDNUMsSUFBSSxDQUFDLFlBQVksQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxDQUFDO1FBQzdDLElBQUksQ0FBQyxVQUFVLENBQUMsVUFBVSxDQUFDLFNBQVMsQ0FBQyxLQUFLLENBQUMsQ0FBQztRQUM1QyxJQUFJLENBQUMsVUFBVSxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQUMsS0FBSyxDQUFDLENBQUM7UUFDNUMsSUFBSSxDQUFDLFlBQVksQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxDQUFDO0lBQ2xELENBQUM7SUFFTSxnQkFBZ0I7UUFDbkIsSUFBSSxDQUFDLFVBQVUsQ0FBQyxNQUFNLEdBQUcsSUFBSSxDQUFDLFdBQVcsQ0FBQztRQUMxQyxJQUFJLENBQUMsVUFBVSxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLENBQUM7UUFDM0MsSUFBSSxDQUFDLFVBQVUsQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxDQUFDO1FBQzNDLElBQUksQ0FBQyxZQUFZLENBQUMsVUFBVSxDQUFDLFNBQVMsQ0FBQyxLQUFLLENBQUMsQ0FBQztRQUM5QyxJQUFJLENBQUMsV0FBVyxDQUFDLFVBQVUsQ0FBQyxTQUFTLENBQUMsS0FBSyxDQUFDLENBQUM7UUFDN0MsSUFBSSxDQUFDLFVBQVUsQ0FBQyxVQUFVLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxDQUFDO1FBQzVDLElBQUksQ0FBQyxZQUFZLENBQUMsVUFBVSxDQUFDLFNBQVMsQ0FBQyxLQUFLLENBQUMsQ0FBQztRQUU5QyxJQUFJLENBQUMsV0FBVyxDQUFDLE9BQU8sQ0FBQyxrQkFBa0IsRUFBRSxDQUFDO1FBQzlDLElBQUksQ0FBQyxVQUFVLENBQUMsT0FBTyxDQUFDLGtCQUFrQixFQUFFLENBQUM7UUFDN0MsSUFBSSxDQUFDLFlBQVksQ0FBQyxPQUFPLENBQUMsa0JBQWtCLEVBQUUsQ0FBQztRQUUvQyxJQUFJLENBQUMsbUJBQW1CLENBQUMsT0FBTyxHQUFHLElBQUksQ0FBQztJQUM1QyxDQUFDO0lBR00sWUFBWTtRQUVmLFVBQVU7UUFDVixtQkFBUyxDQUFDLFFBQVEsQ0FBQyxXQUFXLEVBQUUsU0FBUyxDQUFDLEtBQUssQ0FBQyxDQUFDO0lBQ3JELENBQUM7O0FBekZMLHNDQTJGQztBQTNFRyxlQUFlO0FBQ0EsOEJBQVUsR0FBd0IsSUFBSSxDQUFDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Vehicle/Scripts/VehicleUIController.ts","manifest":{"properties":[{"assembly":"UnityEngine.UI","name":"moveHandle","type":"UnityEngine.UI.Image","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"vehicleImage","type":"UnityEngine.Sprite","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"normalImage","type":"UnityEngine.Sprite","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"jumpButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"boostButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"getOutButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"hornButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"lightsButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"VehicleUIController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: c939676f34c63b7657e318279b19f162
+  onlyWriteTrigger: 0

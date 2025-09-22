@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FxT_KittyTrail_01
+  m_Shader: {fileID: 4800000, guid: e88516865895013488c85161757f8784, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Distortion_Texture:
+        m_Texture: {fileID: 2800000, guid: 9a51df0cb708be948a0123eb16e49e05, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: c7698eb8337709843bd1f9437d0c4913, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Main_Texture:
+        m_Texture: {fileID: 2800000, guid: 3ce642fbc85d2204c900e57cb1b019c7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask_Texture:
+        m_Texture: {fileID: 2800000, guid: 0d2590065288c604a9dd1f4749a111be, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex3coord3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Burn: 3
+    - _Dissolve: 3
+    - _Dissolve_Sharpness: 5.696
+    - _Distortion_Intensity: 0.1
+    - _Distortion_U_Panning: 0
+    - _Distortion_U_Tiling: 5
+    - _Distortion_V_Panning: -0.2
+    - _Distortion_V_Tiling: 5
+    - _MainTex_U_Panning: -3
+    - _MainTex_V_Panning: 0
+    - _Main_U_Tiling: 1
+    - _Main_V_Tiling: 1
+    - _Use_CustomData: 0
+    - __dirty: 1
+    m_Colors: []

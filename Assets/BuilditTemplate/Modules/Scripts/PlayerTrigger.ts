@@ -59,8 +59,10 @@ export default class PlayerTrigger extends ZepetoScriptBehaviour {
     // ---------------------------------------------------------------- //
     
     protected CheckForCharacter(character: ZepetoCharacter): ZepetoCharacterType {
+        if (!ZepetoPlayers.instance.LocalPlayer)
+            return ZepetoCharacterType.NPC;
+        
         if (ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character === character)
-        // if (character.gameObject.tag == "LocalPlayer")
             return ZepetoCharacterType.LocalPlayer;
 
         return ZepetoCharacterType.NetworkPlayer;
@@ -68,7 +70,7 @@ export default class PlayerTrigger extends ZepetoScriptBehaviour {
     
     protected _OnTrigger(collider: Collider, execute: (character: ZepetoCharacter, type: ZepetoCharacterType) => void ) {
         var character: ZepetoCharacter = collider.GetComponent<ZepetoCharacter>();
-        if (character /*collider.TryGetComponent<ZepetoCharacter>( $ref(character) )*/) {
+        if (character) {
             
             switch (this.CheckForCharacter(character)) {
                 case ZepetoCharacterType.LocalPlayer:

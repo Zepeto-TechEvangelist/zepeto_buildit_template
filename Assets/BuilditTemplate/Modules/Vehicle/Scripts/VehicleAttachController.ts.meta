@@ -1,0 +1,195 @@
+fileFormatVersion: 2
+guid: f2e007bdf19394c498284830da2a83d8
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst ZEPETO_Character_Controller_1
+    = require(\"ZEPETO.Character.Controller\");\r\nconst UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst
+    VehicleObjectSettings_1 = require(\"./VehicleObjectSettings\");\r\nconst VehicleStateController_1
+    = require(\"./VehicleStateController\");\r\nconst VehicleMovementController_1
+    = require(\"./VehicleMovementController\");\r\nconst VehicleUIController_1 =
+    require(\"./VehicleUIController\");\r\nconst UIManager_1 = require(\"../../Scripts/UIManager\");\r\n//
+    UI control\r\nconst InteractionIcon_1 = require(\"../../Interaction/ZepetoScript/InteractionIcon\");\r\nconst
+    InteractionIconController_1 = require(\"../../Scripts/InteractionSystem/Controllers/InteractionIconController\");\r\nconst
+    AdvertisementController_1 = require(\"../../Advertisement/AdvertisementController\");\r\nconst
+    Types_1 = require(\"./Types\");\r\nconst VehicleManager_1 = require(\"./VehicleManager\");\r\n/**\r\n
+    * Component responsible for attaching the vehicle object to a character.\r\n
+    * It provides a communication layer between.\r\n * The basic interface functions
+    are GetIn and GetOut.\r\n */\r\nclass VehicleAttachController extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.destroyOnLeave
+    = false;\r\n        // Character\r\n        this.characters = [];\r\n       
+    this.bodyBone = UnityEngine_1.HumanBodyBones.Hips;\r\n    }\r\n    Awake() {\r\n       
+    this.characters ?? (this.characters = []);\r\n        this.vehicleObj ?? (this.vehicleObj
+    = this.transform.parent.gameObject);\r\n        this._stateController ?? (this._stateController
+    = this.vehicleObj.GetComponent($typeof(VehicleStateController_1.default)));\r\n       
+    this._getInButton ?? (this._getInButton = this.GetComponentInChildren($typeof(InteractionIconController_1.default),
+    true));\r\n    }\r\n    Start() {\r\n        if (ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer)
+    {\r\n            this.LateInit();\r\n        }\r\n        else {\r\n           
+    ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n                this.LateInit();\r\n            });\r\n        }\r\n       
+    this.AttachVehicleStateController();\r\n    }\r\n    Destroy() {\r\n        VehicleManager_1.default.instance.UnregisterController(this);\r\n   
+    }\r\n    LateInit() {\r\n        this._localCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n       
+    this._characterController = UnityEngine_1.Object.FindObjectOfType($typeof(VehicleMovementController_1.default),
+    true);\r\n        if (this.syncObj === null) {\r\n            this.syncObj =
+    VehicleManager_1.default.instance.CreateSyncObject(this);\r\n        }\r\n   
+    }\r\n    GetIn() {\r\n        if (!this.characters)\r\n            this.characters
+    = [];\r\n        if (VehicleManager_1.default.instance.isLocalPlayerDriving ||
+    this.isAttached)\r\n            return;\r\n        const player = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer;\r\n       
+    this.GetInPlayer(player.zepetoPlayer);\r\n        VehicleManager_1.default.instance.GetInVehicle(this);\r\n   
+    }\r\n    GetOut() {\r\n        const player = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer;\r\n       
+    VehicleManager_1.default.instance.GetOutVehicle(this);\r\n        this.GetOutPlayer(player.zepetoPlayer);\r\n       
+    if (this.destroyOnLeave) {\r\n            this.DestroyVehicle();\r\n        }\r\n   
+    }\r\n    _VehicleAction(action) {\r\n        VehicleManager_1.default.instance.VehicleAction(this,
+    action);\r\n        this.VehicleAction(action);\r\n    }\r\n    VehicleAction(action)
+    {\r\n        if (action == Types_1.VehicleAction.Horn) {\r\n            let audioClip
+    = UnityEngine_1.Resources.Load(\"Vehicle/Audio/\" + this.vehicleSettings.targetObject.hornAssetKey);\r\n           
+    this._stateController.audioSource.PlayOneShot(audioClip);\r\n        }\r\n       
+    else if (action == Types_1.VehicleAction.Lights) {\r\n            // To be implemented\r\n       
+    }\r\n    }\r\n    GetInPlayer(player, seat = 0) {\r\n        if ((player ===
+    ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer)
+    &&\r\n            VehicleManager_1.default.instance.isLocalPlayerDriving)\r\n           
+    return;\r\n        this.StartCoroutine(this._GetInPlayer(player, seat));\r\n   
+    }\r\n    *_GetInPlayer(player, seat = 0) {\r\n        yield new UnityEngine_1.WaitForSeconds(0.1);\r\n       
+    this.GetInCharacter(player.character);\r\n    }\r\n    GetOutPlayer(player, seat
+    = 0) {\r\n        this.GetOutCharacter(player.character);\r\n    }\r\n    GetInCharacter(character,
+    seat = 0) {\r\n        if (this.characters[seat] || this.isAttached)\r\n           
+    return;\r\n        this.characters[seat] = character;\r\n        this._GetIn();\r\n   
+    }\r\n    GetOutCharacter(character, seat = 0) {\r\n        if (!this.characters[seat])\r\n           
+    return;\r\n        this._GetOut();\r\n        this.characters[seat] = null;\r\n   
+    }\r\n    // public GetInPassenger(character: ZepetoCharacter, seat: int = 0)
+    {\r\n    //\r\n    //     // const player = ZepetoPlayers.instance.LocalPlayer;\r\n   
+    //     // const character = player.zepetoPlayer.character;\r\n    //     // const
+    camera = character player.zepetoCamera;\r\n    //     let vehicleSettings: VehicleObjectSettings
+    = this.vehicleSettings.targetObject;\r\n    //     const passenger: Transform
+    = this._stateController.passenger[seat];\r\n    //    \r\n    //     // 1. Character\r\n   
+    //     this.s_characterHeight = character.characterController.height;\r\n   
+    //     character.characterController.height = vehicleSettings.characterHeight;\r\n   
+    //\r\n    //     // Switch character movement controllers\r\n    //     let defaultController
+    = Object.FindObjectOfType<UIZepetoPlayerControl>();\r\n    //     defaultController.enabled
+    = false;\r\n    //    \r\n    //    \r\n    //     character.Teleport(passenger.position,
+    passenger.rotation);\r\n    //\r\n    //     character.transform.position = passenger.position;\r\n   
+    //     character.transform.rotation = passenger.rotation;\r\n    //     character.StateMachine.constraintStateAnimation
+    = true;\r\n    //\r\n    //     // camera.LockXAxis = true;\r\n    //     //
+    camera.cameraParent.rotation = Quaternion.identity;\r\n    //     // camera.enabled
+    = false;\r\n    //\r\n    //     // const cameraControl = Object.FindObjectOfType<ZepetoCameraControl>();\r\n   
+    //     // cameraControl.Enable = false;\r\n    //\r\n    //     // Activate Vehicle
+    Layer\r\n    //     this._animator.SetLayerWeight(1, 1);\r\n    //     this._animator.SetLayerWeight(0,
+    0);\r\n    //\r\n    //     // this.AttachVehicleMovementController();\r\n   
+    //\r\n    //     VehicleUIController.instance.SetPassengerMode();\r\n    // }\r\n   
+    AttachVehicleStateController() {\r\n        const settings = this.vehicleSettings.targetObject;\r\n       
+    if (settings.run_left_zepeto)\r\n            this._stateController.clipLeft =
+    settings.run_left_zepeto;\r\n        if (settings.run_right_zepeto)\r\n           
+    this._stateController.clipRight = settings.run_right_zepeto;\r\n        this._stateController.clipMove
+    = settings.run_zepeto;\r\n        this._stateController.BindAnimator();\r\n   
+    }\r\n    /**\r\n     *  Perform attach between the movement controller component
+    and the attach component\r\n     */\r\n    AttachVehicleMovementController(driver,
+    isMe) {\r\n        // Change the hierarchy of the vehicle object\r\n        this.s_vehicleParent
+    = this.vehicleObj.transform.parent;\r\n        // this.vehicleObj.transform.parent
+    = this._localCharacter.transform;\r\n        this.vehicleObj.transform.SetParent(driver.transform,
+    true);\r\n        if (isMe) {\r\n            // Communication to movement controller\r\n           
+    this._characterController.GetIn(this.vehicleObj.transform, this._stateController);\r\n           
+    // Additional controls\r\n            this._characterController.getOutButton.OnPointDownEvent.AddListener(()
+    => {\r\n                this.GetOut();\r\n            });\r\n        }\r\n   
+    }\r\n    DetachVehicle() {\r\n        // All other reverse operations\r\n       
+    this.vehicleObj.transform.SetParent(this.s_vehicleParent, true);\r\n    }\r\n   
+    _GetIn() {\r\n        this.isAttached = true;\r\n        this.SetGetInEnabled(false);\r\n       
+    // -------------------------------------------------------------------------------------------------
+    //\r\n        const character = this.characters[0];\r\n        const isMe = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character
+    == character;\r\n        let vehicleSettings = this.vehicleSettings.targetObject;\r\n       
+    // Save character height\r\n        if (character.characterController) {\r\n           
+    this.s_characterHeight = character.characterController.height;\r\n           
+    character.characterController.height = vehicleSettings.characterHeight;\r\n       
+    }\r\n        else {\r\n            console.log(\"Missing character controller\");\r\n       
+    }\r\n        // -------------------------------------------------------------------------------------------------
+    //\r\n        character.Teleport(this._stateController.driver.position, this._stateController.driver.rotation);\r\n       
+    const driver = this._stateController.driver;\r\n        character.transform.position
+    = driver.position;\r\n        character.transform.rotation = driver.rotation;\r\n       
+    character.StateMachine.constraintStateAnimation = true;\r\n        // Activate
+    Vehicle Layer\r\n        character.ZepetoAnimator.SetLayerWeight(1, 1);\r\n       
+    character.ZepetoAnimator.SetLayerWeight(0, 0);\r\n        this.AttachVehicleMovementController(character,
+    isMe);\r\n        // -------------------------------------------------------------------------------------------------
+    /\r\n        if (isMe) {\r\n            this.SetInteractionEnabled(false); //
+    Global interaction\r\n            const camera = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.ZepetoCamera;\r\n           
+    const cameraControl = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_Character_Controller_1.ZepetoCameraControl));\r\n           
+    cameraControl.Enable = false;\r\n            camera.LockXAxis = true;\r\n           
+    camera.cameraParent.rotation = UnityEngine_1.Quaternion.identity;\r\n           
+    camera.enabled = false;\r\n            // Switch character movement controllers\r\n           
+    let defaultController = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_Character_Controller_1.UIZepetoPlayerControl));\r\n           
+    defaultController.enabled = false;\r\n            this._characterController.vehicleSettings
+    = vehicleSettings;\r\n            this._characterController.enabled = true;\r\n           
+    // Input Handling (disable keyboard)\r\n            const playerControl = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_Character_Controller_1.ZepetoPlayerControl));\r\n           
+    playerControl.Enable = false;\r\n            VehicleUIController_1.default.instance.SetDriveMode(vehicleSettings.isBoost,
+    vehicleSettings.isHorn, vehicleSettings.isHeadlight);\r\n            VehicleUIController_1.default.instance.hornButton.onClick.AddListener(()
+    => {\r\n                this._VehicleAction(Types_1.VehicleAction.Horn);\r\n           
+    });\r\n            VehicleUIController_1.default.instance.lightsButton.onClick.AddListener(()
+    => {\r\n                this._VehicleAction(Types_1.VehicleAction.Lights);\r\n           
+    });\r\n            VehicleUIController_1.default.instance.boostButton.onClick.AddListener(()
+    => {\r\n                this._characterController.TryVehicleBoost();\r\n           
+    });\r\n        }\r\n    }\r\n    _GetOut() {\r\n        this.isAttached = false;\r\n       
+    const character = this.characters[0];\r\n        const isMe = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character
+    == character;\r\n        // Restore original height\r\n        character.characterController.height
+    = this.s_characterHeight;\r\n        this.DetachVehicle();\r\n        character.Teleport(this._stateController.exitPoints[0].position,
+    this._stateController.exitPoints[0].rotation);\r\n        // Activate Default
+    Layer\r\n        character.ZepetoAnimator.SetLayerWeight(0, 1);\r\n        character.ZepetoAnimator.SetLayerWeight(1,
+    0);\r\n        character.StateMachine.constraintStateAnimation = false;\r\n       
+    if (isMe) {\r\n            const camera = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoCamera;\r\n           
+    const uiplayerControl = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_Character_Controller_1.UIZepetoPlayerControl),
+    true);\r\n            const cameraControl = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_Character_Controller_1.ZepetoCameraControl),
+    true);\r\n            const playerControl = UnityEngine_1.Object.FindObjectOfType($typeof(ZEPETO_Character_Controller_1.ZepetoPlayerControl),
+    true);\r\n            camera.LockXAxis = false;\r\n            camera.enabled
+    = true;\r\n            uiplayerControl.enabled = true;\r\n            cameraControl.Enable
+    = true;\r\n            playerControl.Enable = true;\r\n            // Reset camera
+    position\r\n            const cam = camera.camera.transform;\r\n            cam.position
+    = UnityEngine_1.Vector3.zero;\r\n            cam.rotation = UnityEngine_1.Quaternion.identity;\r\n           
+    this._characterController.GetOut();\r\n            VehicleUIController_1.default.instance.SetCharacterMode();\r\n           
+    this.SetInteractionEnabled(true);\r\n            this._stateController?.Reset();\r\n       
+    }\r\n        this.SetGetInEnabled(true);\r\n    }\r\n    SetGetInEnabled(enable)
+    {\r\n        try {\r\n            if (this._getInButton && this._getInButton.gameObject)\r\n               
+    this._getInButton.gameObject.SetActive(enable);\r\n            if (enable ==
+    false) {\r\n                this._getInButton?.HideIcon();\r\n            }\r\n       
+    }\r\n        catch (e) {\r\n        }\r\n    }\r\n    /**\r\n     * Global interaction
+    enable/disable\r\n     */\r\n    SetInteractionEnabled(enable) {\r\n        InteractionIcon_1.default.interactionEnabled
+    = enable;\r\n        InteractionIconController_1.default.interactionEnabled =
+    enable;\r\n        AdvertisementController_1.default.interactionEnabled = enable;\r\n       
+    UIManager_1.default.instance.SetVisible(enable);\r\n        if (!enable) {\r\n           
+    InteractionIcon_1.default.allInstances?.forEach(x => x.HideIcon());\r\n           
+    InteractionIconController_1.default.allInstances?.forEach(x => x.HideIcon());\r\n           
+    AdvertisementController_1.default.allInstances?.forEach(x => x.HideIcon());\r\n       
+    }\r\n    }\r\n    /**\r\n     * Destroy the Vehicle\r\n     */\r\n    DestroyVehicle()
+    {\r\n        const vehicleObject = this.vehicleObj;\r\n        VehicleManager_1.default.instance.DestroyVehicle(this);\r\n       
+    if (vehicleObject)\r\n            UnityEngine_1.Object.Destroy(vehicleObject);\r\n   
+    }\r\n    /** ------------------------------------------------------------------------------------------
+    */\r\n    get id() { return this.syncObj.id; }\r\n    get isOwned() { return
+    this.syncObj && this.syncObj.ownerId == VehicleManager_1.default.instance.SessionId;
+    }\r\n    ;\r\n    SyncState(sync) {\r\n        this.vehicleObj.transform.position
+    = new UnityEngine_1.Vector3(sync.spawnPosition.x, sync.spawnPosition.y, sync.spawnPosition.z);\r\n       
+    this.vehicleObj.transform.rotation = new UnityEngine_1.Quaternion(sync.spawnRotation.x,
+    sync.spawnRotation.y, sync.spawnRotation.z, sync.spawnRotation.w);\r\n       
+    this.vehicleObj.gameObject.name = sync.id;\r\n        this.syncObj = sync;\r\n       
+    if (sync.ownerId) {\r\n            // this.GetInPlayer( ZepetoPlayers.instance.GetPlayer(sync.ownerId)
+    );\r\n            const player = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.GetPlayer(sync.ownerId);\r\n           
+    if (player)\r\n                this.StartCoroutine(this._GetInPlayer(player));\r\n       
+    }\r\n    }\r\n}\r\nexports.default = VehicleAttachController;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVmVoaWNsZUF0dGFjaENvbnRyb2xsZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJWZWhpY2xlQXR0YWNoQ29udHJvbGxlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQVVxQjtBQUNyQixpREFBNEU7QUFDNUUsNkVBQTBKO0FBQzFKLG1EQUFzQztBQUN0QyxtRUFBNEQ7QUFDNUQscUVBQThEO0FBQzlELDJFQUFvRTtBQUNwRSwrREFBd0Q7QUFDeEQsdURBQWdEO0FBRWhELGFBQWE7QUFDYixvRkFBNkU7QUFDN0UscUhBQThHO0FBQzlHLHlGQUFrRjtBQUVsRixtQ0FBdUQ7QUFDdkQscURBQThDO0FBRzlDOzs7O0dBSUc7QUFDSCxNQUFxQix1QkFBd0IsU0FBUSxxQ0FBcUI7SUFBMUU7O1FBa0JXLG1CQUFjLEdBQVMsS0FBSyxDQUFDO1FBV3BDLFlBQVk7UUFDYyxlQUFVLEdBQXNCLEVBQUUsQ0FBQztRQUtyRCxhQUFRLEdBQW1CLDRCQUFjLENBQUMsSUFBSSxDQUFDO0lBb1kzRCxDQUFDO0lBM1hHLEtBQUs7UUFDRCxJQUFJLENBQUMsVUFBVSxLQUFmLElBQUksQ0FBQyxVQUFVLEdBQUssRUFBRSxFQUFDO1FBQ3ZCLElBQUksQ0FBQyxVQUFVLEtBQWYsSUFBSSxDQUFDLFVBQVUsR0FBSyxJQUFJLENBQUMsU0FBUyxDQUFDLE1BQU0sQ0FBQyxVQUFVLEVBQUM7UUFDckQsSUFBSSxDQUFDLGdCQUFnQixLQUFyQixJQUFJLENBQUMsZ0JBQWdCLEdBQUssSUFBSSxDQUFDLFVBQVUsQ0FBQyxZQUFZLFNBQUMsZ0NBQXNCLEVBQUcsRUFBQztRQUNqRixJQUFJLENBQUMsWUFBWSxLQUFqQixJQUFJLENBQUMsWUFBWSxHQUFLLElBQUksQ0FBQyxzQkFBc0IsU0FBQyxtQ0FBeUIsR0FBRSxJQUFJLENBQUMsRUFBQztJQUN2RixDQUFDO0lBRUQsS0FBSztRQUVELElBQUksMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxFQUFFO1lBQ3BD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","assetPath":"Assets/BuilditTemplate/Modules/Vehicle/Scripts/VehicleAttachController.ts","manifest":{"properties":[{"assembly":"ZEPETO.Script","name":"vehicleSettings","type":"ZEPETO.Script.ZepetoScriptableObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"isAttached","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"destroyOnLeave","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"vehicleObj","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"ZEPETO.Character.Controller","name":"characters","type":"ZEPETO.Character.Controller.ZepetoCharacter[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"","name":"syncObj","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Vehicle/Scripts/Types.VehicleObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"VehicleAttachController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: c1cf9cf50cc67a2ffd7e1635ad69e4ec
+  onlyWriteTrigger: 0

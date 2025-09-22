@@ -96,6 +96,10 @@ export default class MultiplayManager extends ZepetoScriptBehaviour {
         });
     }
 
+    public IsMaster(): boolean {
+        return this._masterSessionId == this.room.SessionId;
+    }
+    
     // This function is used to instantiate a new object in the game. It sends a message to the server requesting the creation of the object, 
     // and waits for the server to respond with the necessary information to create it.
     private GetInstantiate(){

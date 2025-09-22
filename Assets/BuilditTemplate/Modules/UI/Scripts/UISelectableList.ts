@@ -11,7 +11,7 @@ export default class UISelectableList extends ZepetoScriptBehaviour {
     public get selectedItem(): UIContentItem { return this._items[this.selectedIndex] }
     
     Start() {
-        this._items = this.GetComponentsInChildren<UIContentItem>();
+        this._items = this.GetComponentsInChildren<UIContentItem>(true);
 
         for (let i = 0; i < this._items.length; i++) {
             let item = this._items[i];

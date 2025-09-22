@@ -1,0 +1,96 @@
+fileFormatVersion: 2
+guid: c5494a62306b949d9a2673e2b5566967
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.State = void 0;\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst VehicleAudio_1 = require(\"./VehicleAudio\");\r\nvar
+    State;\r\n(function (State) {\r\n    State[State[\"Idle\"] = 0] = \"Idle\";\r\n   
+    State[State[\"Move\"] = 1] = \"Move\";\r\n    State[State[\"Back\"] = 2] = \"Back\";\r\n   
+    State[State[\"MaxSpeed\"] = 3] = \"MaxSpeed\";\r\n    State[State[\"Boost\"]
+    = 4] = \"Boost\";\r\n    State[State[\"None\"] = 5] = \"None\";\r\n})(State =
+    exports.State || (exports.State = {}));\r\n/**\r\n * Component that controls
+    the vehicle object state, including animations blending and effects.\r\n * It
+    provides a configuration for a vehicle object so it is usually attached to the
+    verhicle root.\r\n */\r\nclass VehicleStateController extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.prevState
+    = State.None;\r\n    }\r\n    OnUpdateState(prev, next) {\r\n        if (next
+    == State.None) {\r\n            // Stop audio\r\n            this._vehicleAudio?.StopSound();\r\n       
+    }\r\n        else if (prev == State.None) {\r\n            this._vehicleAudio?.StartSound();\r\n       
+    }\r\n    }\r\n    OnInit() {\r\n        // Intentionall left blank\r\n    }\r\n   
+    GetLandingFxKey() {\r\n        return null;\r\n    }\r\n    Awake() {\r\n       
+    this.cameraFPS ?? (this.cameraFPS = this.transform.Find(\"cameraFPS\"));\r\n       
+    this.cameraTPS ?? (this.cameraTPS = this.transform.Find(\"cameraTPS\") ?? this.transform.Find(\"camearTPS\"));\r\n       
+    const positions = this.transform.Find(\"Positions\");\r\n        this.driver
+    ?? (this.driver = positions.Find(\"Driver\"));\r\n        this.exitPoints ??
+    (this.exitPoints = []);\r\n        if (this.exitPoints.length == 0)\r\n           
+    this.exitPoints.push(this.transform.Find(\"/Exits/Exit_1\") ?? this.transform.Find(\"Exit_1\"))
+    ?? positions.Find(\"Exit_1\");\r\n        this.body ?? (this.body = this.transform.GetChild(this.transform.childCount
+    - 1));\r\n        this.animator ?? (this.animator = this.body.GetComponentInChildren($typeof(UnityEngine_1.Animator)));\r\n       
+    this.audioSource = this.gameObject.AddComponent($typeof(UnityEngine_1.AudioSource));\r\n       
+    this.audioSource.playOnAwake = false;\r\n        this._vehicleAudio = this.GetComponent($typeof(VehicleAudio_1.default))
+    ?? this.GetComponentInChildren($typeof(VehicleAudio_1.default), true);\r\n   
+    }\r\n    Start() {\r\n        this.BindAnimator();\r\n        this.SetupCameras();\r\n   
+    }\r\n    SetupCameras() {\r\n        // Static position binding for camera\r\n       
+    this.cameraTPS.localPosition = UnityEngine_1.Vector3.op_Addition(this.cameraTPS.localPosition,
+    new UnityEngine_1.Vector3(0, 1.3, -4));\r\n        // if (true /*this.cameraTPS.localPosition.x
+    == 0 && this.cameraTPS.localPosition.y == 0 && this.cameraTPS.localPosition.z
+    == 0*/) {\r\n        //     this.cameraTPS.localPosition.Set(\r\n        //        
+    VehicleStateController.defaultCameraTPSPosition[0], \r\n        //         VehicleStateController.defaultCameraTPSPosition[1],
+    \r\n        //         VehicleStateController.defaultCameraTPSPosition[2]);\r\n       
+    // }\r\n    }\r\n    BindAnimator() {\r\n        if (this.animator != null &&
+    this.clipMove) {\r\n            this.animator.runtimeAnimatorController = UnityEngine_1.Object.Instantiate(this.animatorController);\r\n           
+    let _animatorController = this.animator.runtimeAnimatorController;\r\n           
+    let SetAnimationClip = (key, clip) => {\r\n                // _animatorController[key]
+    = clip != null ? clip : this.clipMove;\r\n                _animatorController.set_Item(key,
+    clip);\r\n            };\r\n            SetAnimationClip(\"Vehicle_Move\", this.clipMove);\r\n           
+    SetAnimationClip(\"Vehicle_Left\", this.clipLeft ?? this.clipMove);\r\n           
+    SetAnimationClip(\"Vehicle_Right\", this.clipRight ?? this.clipMove);\r\n       
+    }\r\n    }\r\n    OnDestroy() {\r\n        if (this.animator != null) {\r\n           
+    this.animator.runtimeAnimatorController = null;\r\n        }\r\n    }\r\n   
+    Init(vehicleId, hornAssetKey) {\r\n        // passenger.ForEach((p, index) =>
+    {\r\n        //     p.VehicleId = vehicleId;\r\n        //     p.Seat = (index
+    + 1).ToString();\r\n        //     });\r\n        this.vehicleId = vehicleId;\r\n       
+    this.hornAssetKey = hornAssetKey;\r\n        this.UpdateState(State.None);\r\n       
+    this.UpdateBlend(0);\r\n        this.UpdateSpeed(0);\r\n        this.OnInit();\r\n   
+    }\r\n    Reset() {\r\n        this.UpdateState(State.None);\r\n        this.UpdateBlend(0);\r\n       
+    this.UpdateSpeed(0);\r\n        this._vehicleAudio?.StopSound();\r\n    }\r\n   
+    GetArea(seat) {\r\n        if (seat > 0 && this.passenger.length >= seat) {\r\n           
+    return this.passenger[seat - 1];\r\n        }\r\n        return null;\r\n   
+    }\r\n    UpdateState(state) {\r\n        if (this.prevState == state)\r\n           
+    return;\r\n        this.OnUpdateState(this.prevState, state);\r\n        this.prevState
+    = state;\r\n    }\r\n    UpdateBlend(blend) {\r\n        if (this.animator !=
+    null)\r\n            this.animator.SetFloat(\"Blend\", blend);\r\n    }\r\n   
+    UpdateSpeed(speed) {\r\n        if (this.animator != null)\r\n            this.animator.SetFloat(\"Speed\",
+    speed);\r\n        this._vehicleAudio.SpeedUpdate(speed);\r\n    }\r\n}\r\nexports.default
+    = VehicleStateController;\r\nclass Setter {\r\n    constructor() {\r\n       
+    // {\r\n        //     get; private set;\r\n        // }\r\n        this._isOn
+    = true;\r\n    }\r\n    get IsOn() {\r\n        return this._isOn;\r\n    }\r\n   
+    set IsOn(value) {\r\n        this.target?.SetActive(value);\r\n        this._isOn
+    = value;\r\n    }\r\n    Setter(key, parent) {\r\n    }\r\n    Dispose() {\r\n       
+    if (UnityEngine_1.Object.op_Inequality(this.target, null)) {\r\n            //
+    CommonObjectPool.instance.ReturnObject(target);\r\n            this.target =
+    null;\r\n        }\r\n    }\r\n}\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVmVoaWNsZVN0YXRlQ29udHJvbGxlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlZlaGljbGVTdGF0ZUNvbnRyb2xsZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQUEsNkNBYW9CO0FBQ3BCLGlEQUFvRDtBQUVwRCxpREFBMEM7QUFFMUMsSUFBWSxLQU9YO0FBUEQsV0FBWSxLQUFLO0lBQ2IsaUNBQUksQ0FBQTtJQUNKLGlDQUFJLENBQUE7SUFDSixpQ0FBSSxDQUFBO0lBQ0oseUNBQVEsQ0FBQTtJQUNSLG1DQUFLLENBQUE7SUFDTCxpQ0FBSSxDQUFBO0FBQ1IsQ0FBQyxFQVBXLEtBQUssR0FBTCxhQUFLLEtBQUwsYUFBSyxRQU9oQjtBQUVEOzs7R0FHRztBQUNILE1BQXFCLHNCQUF1QixTQUFRLHFDQUFxQjtJQUF6RTs7UUFtQ1ksY0FBUyxHQUFVLEtBQUssQ0FBQyxJQUFJLENBQUM7SUEwSTFDLENBQUM7SUF2SWEsYUFBYSxDQUFDLElBQVcsRUFBRSxJQUFXO1FBRTVDLElBQUksSUFBSSxJQUFJLEtBQUssQ0FBQyxJQUFJLEVBQUU7WUFDcEIsYUFBYTtZQUNiLElBQUksQ0FBQyxhQUFhLEVBQUUsU0FBUyxFQUFFLENBQUM7U0FDbkM7YUFDSSxJQUFJLElBQUksSUFBSSxLQUFLLENBQUMsSUFBSSxFQUFFO1lBQ3pCLElBQUksQ0FBQyxhQUFhLEVBQUUsVUFBVSxFQUFFLENBQUM7U0FDcEM7SUFFTCxDQUFDO0lBRVMsTUFBTTtRQUNaLDBCQUEwQjtJQUM5QixDQUFDO0lBRU0sZUFBZTtRQUNsQixPQUFPLElBQUksQ0FBQTtJQUNmLENBQUM7SUFFRCxLQUFLO1FBQ0QsSUFBSSxDQUFDLFNBQVMsS0FBZCxJQUFJLENBQUMsU0FBUyxHQUFLLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLFdBQVcsQ0FBQyxFQUFDO1FBQ3BELElBQUksQ0FBQyxTQUFTLEtBQWQsSUFBSSxDQUFDLFNBQVMsR0FBSyxJQUFJLENBQUMsU0FBUyxD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","assetPath":"Assets/BuilditTemplate/Modules/Vehicle/Scripts/VehicleStateController.ts","manifest":{"properties":[{"assembly":"UnityEngine.AnimationModule","name":"clipMove","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Animations\""]}]},{"assembly":"UnityEngine.AnimationModule","name":"clipLeft","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"clipRight","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AudioModule","name":"audioSource","type":"UnityEngine.AudioSource","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Audio\""]}]},{"assembly":"UnityEngine.CoreModule","name":"driver","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Functional
+    Anchor Points\""]}]},{"assembly":"UnityEngine.CoreModule","name":"passenger","type":"UnityEngine.Transform[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"exitPoints","type":"UnityEngine.Transform[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"cameraFPS","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"cameraTPS","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"animatorController","type":"UnityEngine.RuntimeAnimatorController","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Model\""]}]},{"assembly":"UnityEngine.CoreModule","name":"body","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"animator","type":"UnityEngine.Animator","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.PhysicsModule","name":"boundCollider","type":"UnityEngine.MeshCollider","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"bound","type":"UnityEngine.Transform[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"vehicleId","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Miscelanious\""]}]},{"assembly":"mscorlib","name":"hornAssetKey","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"VehicleStateController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 06da55376ffa82635ceec6e07d642737
+  onlyWriteTrigger: 0

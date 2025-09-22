@@ -3,6 +3,8 @@ import { Player } from "ZEPETO.Multiplay.Schema";
 import { IModule } from "./ServerModule/IModule";
 import SyncComponentModule from "./ServerModule/Modules/SyncComponentModule";
 
+import VehicleModule from "./ServerModule/Modules/VehicleModule";
+
 export default class extends Sandbox {
 
     private readonly _modules: IModule[] = [];
@@ -10,6 +12,7 @@ export default class extends Sandbox {
 
     async onCreate(options: SandboxOptions) {
         this._modules.push(new SyncComponentModule(this));
+        this._modules.push(new VehicleModule(this));
         for (const module of this._modules) {
             await module.OnCreate();
         }

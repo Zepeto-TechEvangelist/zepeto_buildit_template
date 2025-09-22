@@ -59,6 +59,62 @@ MonoBehaviour:
     - '{"type":"System.String, mscorlib","value":"0"}'
     unityArrayValues: []
     arrayValues: []
+--- !u!1 &549115602243040092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5468088627739974787}
+  - component: {fileID: 3560401310264855426}
+  m_Layer: 0
+  m_Name: VehicleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5468088627739974787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549115602243040092}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1208793003501927399}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3560401310264855426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549115602243040092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1673316429, guid: 921f0445823004a16a499d629dd566a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyRootMotion: 0
+  script:
+    script: {fileID: 4458252877524076426, guid: 69c11b058b554615a6d385abfb7f9323, type: 3}
+    isExpaned: 0
+    keys:
+    - localPlayerAttachedVehicle
+    unityValues:
+    - {fileID: 0}
+    values:
+    - 
+    unityArrayValues: []
+    arrayValues: []
 --- !u!1 &797689821331933039
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,7 +204,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 31
     shadow: {fileID: 1025544020809228, guid: 4512418b2a1844f42961867ad8421ab8, type: 3}
-    animatorController: {fileID: 9100000, guid: c896d1245291c4b65bd1b401e99ee9ad, type: 2}
+    animatorController: {fileID: 9100000, guid: 5ed9c34a38f644da680173fb5b1384fa, type: 2}
     walkSpeed: 2
     runSpeed: 4
     jumpPower: 13
@@ -246,7 +302,7 @@ MonoBehaviour:
     useDefaultVirtualController: 1
     useDefaultInputController: 1
     verticalController: {fileID: 8523051459139762370, guid: 4464f2fe9f4a241f096fabeb1d0c3f32, type: 3}
-    horizontalController: {fileID: 2310884277001569433, guid: db077ac12cecd4301857a97154f390e0, type: 3}
+    horizontalController: {fileID: 7720620526356705296, guid: 94cb9c3837fb540bca7485fdb84fe906, type: 3}
     verticalDefaultController: {fileID: 8523051459139762370, guid: 33446b9369e354b00a7ab43885afbe88, type: 3}
     horizontalDefaultController: {fileID: 2787167779785370926, guid: 9b7a03709461140b4b3fc85aa8c5d741, type: 3}
     controlMode: 0
@@ -548,6 +604,7 @@ Transform:
   - {fileID: 6913916814231132971}
   - {fileID: 3990786422954006794}
   - {fileID: 3479943129151395490}
+  - {fileID: 5468088627739974787}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &760995838919257012
@@ -1201,10 +1258,16 @@ MonoBehaviour:
     keys:
     - wardrobeToggle
     - wardrobe
+    - gestureMenu
+    - gestureToggle
     unityValues:
     - {fileID: 7063682640413670546}
     - {fileID: 6622297343299596543}
+    - {fileID: 3071380041505255730}
+    - {fileID: 0}
     values:
+    - 
+    - 
     - 
     - 
     unityArrayValues: []

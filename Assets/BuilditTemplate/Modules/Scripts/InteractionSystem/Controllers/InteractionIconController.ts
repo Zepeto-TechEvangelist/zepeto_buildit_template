@@ -20,6 +20,9 @@ export default class InteractionIconController extends ZepetoScriptBehaviour {
     private _camera : Camera;
     private _isIconActive : boolean = false;
 
+    public static allInstances: InteractionIconController[] = [];
+    public static interactionEnabled: boolean = true;
+    
     Start() {
         const trigger = this.GetComponent<PlayerTrigger>() ?? this.GetComponentInChildren<PlayerTrigger>();
         trigger.OnPlayerEnter.AddListener( (character) => { this.ShowIcon() } );
@@ -32,17 +35,18 @@ export default class InteractionIconController extends ZepetoScriptBehaviour {
     
 
     public ShowIcon(){
-        if (this._isIconActive) return;
+        if (InteractionIconController.interactionEnabled == false || this._isIconActive) return;
         
         this.CreateIcon();
-        this._canvas.gameObject.SetActive(true);
+        if (this._canvas)
+            this._canvas.gameObject.SetActive(true);
         this._isIconActive = true;
     }
 
     public HideIcon(){
         if (!this._isIconActive) return;
-        
-        this._canvas.gameObject.SetActive(false);
+        if (this._canvas)
+            this._canvas.gameObject.SetActive(false);
         this._isIconActive = false;
     }
 
@@ -58,8 +62,11 @@ export default class InteractionIconController extends ZepetoScriptBehaviour {
 
         const button = instance.GetComponentInChildren<Button>();
         button.onClick.AddListener(() => {
-            this.scriptObject.Invoke(this.functionName);
+            if (InteractionIconController.interactionEnabled)
+                this.scriptObject.Invoke(this.functionName);
         });
+
+        InteractionIconController.allInstances.push(this);
     }
 
     private UpdateIconRotation() {

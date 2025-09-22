@@ -19,7 +19,6 @@ export default class UISelectObjSpawner extends UISelectionPopup {
         
         let instance = Object.Instantiate(object,  this.spawnLocation.position, this.spawnLocation.rotation);
         
-        
         super.OnAction();
     }
     
