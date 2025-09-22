@@ -1,0 +1,60 @@
+fileFormatVersion: 2
+guid: ec66b01149cd4a55977b4fcc329613b1
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst RootNamespace_1 = require(\"RootNamespace\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    UnityEngine_Events_1 = require(\"UnityEngine.Events\");\r\n/* Keyboard input
+    */\r\nclass KeyboardControl extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n   
+    constructor() {\r\n        super(...arguments);\r\n        this._inputControl
+    = new RootNamespace_1.ZepetoInputControl();\r\n        this._isMoving = false;\r\n       
+    this._moveDir = UnityEngine_1.Vector3.zero;\r\n        this._character = null;\r\n   
+    }\r\n    get inputControl() {\r\n        return this._inputControl;\r\n    }\r\n   
+    get isMoving() {\r\n        return this._isMoving;\r\n    }\r\n    Update() {\r\n       
+    if (!this._isMoving) {\r\n            return;\r\n        }\r\n        const horizontalInput
+    = UnityEngine_1.Input.GetAxis(\"Horizontal\");\r\n        const verticalInput
+    = UnityEngine_1.Input.GetAxis(\"Vertical\");\r\n        this._moveDir.x = horizontalInput;\r\n       
+    this._moveDir.y = 0;\r\n        this._moveDir.z = verticalInput;\r\n        this.OnMove?.Invoke(new
+    UnityEngine_1.Vector2(horizontalInput, verticalInput));\r\n    }\r\n    Init()
+    {\r\n        this._character = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer;\r\n       
+    this._inputControl.Enable();\r\n        // Keyboard actions\r\n        this._inputControl.UI.Navigate.add_started(this.StartMoving.bind(this));\r\n       
+    this._inputControl.UI.Navigate.add_canceled(this.StopMoving.bind(this));\r\n       
+    this.OnStartMoving ?? (this.OnStartMoving = new UnityEngine_Events_1.UnityEvent());\r\n       
+    this.OnMove ?? (this.OnMove = new ($generic(UnityEngine_Events_1.UnityEvent$1,
+    UnityEngine_1.Vector2))());\r\n        this.OnStopMoving ?? (this.OnStopMoving
+    = new UnityEngine_Events_1.UnityEvent());\r\n    }\r\n    Release() {\r\n       
+    this._inputControl.UI.Navigate.remove_started(this.StartMoving.bind(this));\r\n       
+    this._inputControl.UI.Navigate.remove_canceled(this.StopMoving.bind(this));\r\n       
+    this.OnStartMoving?.RemoveAllListeners();\r\n        this.OnMove?.RemoveAllListeners();\r\n       
+    this.OnStopMoving?.RemoveAllListeners();\r\n        this._character = null;\r\n   
+    }\r\n    StartMoving(context) {\r\n        this._isMoving = true;\r\n       
+    this.OnStartMoving?.Invoke();\r\n    }\r\n    StopMoving(context) {\r\n       
+    this._isMoving = false;\r\n        this._moveDir.x = 0;\r\n        this._moveDir.y
+    = 0;\r\n        this._moveDir.z = 0;\r\n        this.OnStopMoving?.Invoke();\r\n   
+    }\r\n    SetMoveDirection(context) {\r\n        const dir = context.ReadValueAsObject();\r\n       
+    this._moveDir.x = dir.x;\r\n        this._moveDir.y = 0;\r\n        this._moveDir.z
+    = dir.y;\r\n    }\r\n}\r\nexports.default = KeyboardControl;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiS2V5Ym9hcmRDb250cm9sLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiS2V5Ym9hcmRDb250cm9sLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQW1EO0FBQ25ELDZDQUFnRTtBQUVoRSxpREFBc0Q7QUFDdEQsNkVBQXVGO0FBQ3ZGLDJEQUE4RDtBQUU5RCxvQkFBb0I7QUFDcEIsTUFBcUIsZUFBZ0IsU0FBUSxxQ0FBcUI7SUFBbEU7O1FBQ3FCLGtCQUFhLEdBQUcsSUFBSSxrQ0FBa0IsRUFBRSxDQUFDO1FBRWxELGNBQVMsR0FBWSxLQUFLLENBQUM7UUFDM0IsYUFBUSxHQUFZLHFCQUFPLENBQUMsSUFBSSxDQUFDO1FBQ2pDLGVBQVUsR0FBZ0IsSUFBSSxDQUFDO0lBNkUzQyxDQUFDO0lBM0VHLElBQVcsWUFBWTtRQUNuQixPQUFPLElBQUksQ0FBQyxhQUFhLENBQUM7SUFDOUIsQ0FBQztJQUNELElBQVcsUUFBUTtRQUNmLE9BQU8sSUFBSSxDQUFDLFNBQVMsQ0FBQztJQUMxQixDQUFDO0lBT0QsTUFBTTtRQUNGLElBQUksQ0FBQyxJQUFJLENBQUMsU0FBUyxFQUFFO1lBQ2pCLE9BQU87U0FDVjtRQUVELE1BQU0sZUFBZSxHQUFHLG1CQUFLLENBQUMsT0FBTyxDQUFDLFlBQVksQ0FBQyxDQUFDO1FBQ3BELE1BQU0sYUFBYSxHQUFHLG1CQUFLLENBQUMsT0FBTyxDQUFDLFVBQVUsQ0FBQyxDQUFDO1FBRWhELElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQyxHQUFHLGVBQWUsQ0FBQztRQUNsQyxJQUFJLENBQUMsUUFBUSxDQUFDLENBQUMsR0FBRyxDQUFDLENBQUM7UUFDcEIsSUFBSSxDQUFDLFFBQVEsQ0FBQyxDQUFDLEdBQUcsYUFBYSxDQUFDO1FBRWhDLElBQUksQ0FBQyxNQUFNLEVBQUUsTUFBTSxDQUFDLElBQUkscUJBQU8sQ0FBQyxlQUFlLEVBQUUsYUFBYSxDQUFDLENBQUMsQ0FBQztJQUNyRSxDQUFDO0lBRU0sSUFBSTtRQUNQLElBQUksQ0FBQyxVQUFVLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDO1FBQ3JELElBQUksQ0FBQyxhQUFhLENBQUMsTUFBTSxFQUFFLENBQUM7UUFFNUIsbUJBQW1CO1FBQ25CLElBQUksQ0FBQyxhQUFhLENBQUMsRUFBRSxDQUFDLFFBQVEsYUFBWSxJQUFJLENBQUMsV0FBVyxhQUFDO1FBQzNELElBQUksQ0FBQyxhQUFhLENBQUMsRUFBRSxDQUFDLFFBQVEsY0FBYSxJQUFJLENBQUMsVUFBVSxhQUFDO1FBRTNELElBQUksQ0FBQyxhQUFhLEtBQWxCLElBQUksQ0FBQyxhQUFhLEdBQUssSUFBSSwrQkFBVSxFQUFFLEVBQUM7UUFDeEMsSUFBSSxDQUFDLE1BQU0sS0FBWCxJQUFJLENBQUMsTUFBTSxpQkFBUyxpQ0FBWSxFQUFDLHFCQUFPLE1BQUk7UUFDNUMsSUFBSSxDQUFDLFlBQVksS0FBakIsSUFBSSxDQUFDLFlBQVksR0FBSyxJQUFJLCtCQUFVLEVBQUUsRUFBQztJQUMzQyxDQUFDO0lBRU0sT0FBTztRQUVWLElBQUksQ0FBQyxhQUFhLENBQUMsRUFBRSxDQUFDLFFBQVEsQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLFdBQVcsQ0FBQyxJQUFJLENBQUMsSUFBSSxDQUFDLENBQUMsQ0FBQztRQUMzRSxJQUFJLENBQUMsYUFBYSxDQUFDLEVBQUUsQ0FBQyxRQUFRLENBQUMsZUFBZSxDQUFDLElBQUksQ0FBQyxVQUFVLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUM7UUFFM0UsSUFBSSxDQUFDLGFBQWEsRUFBRSxrQkFBa0IsRUFBRSxDQUFDO1FBQ3pDLElBQUksQ0FBQyxNQUFNLEVBQUUsa0JBQWtCLEVBQUUsQ0FBQztRQUNsQyxJQUFJLENBQUMsWUFBWSxFQUFFLGtCQUFrQixFQUFFLENBQUM7UUFFeEMsSUFBSSxDQUFDLFVBQVUsR0FBRyxJQUFJLENBQUM7SUFDM0IsQ0FBQztJQUVPLFdBQVcsQ0FBQyxPQUF3QjtRQUN4QyxJQUFJLENBQUMsU0FBUyxHQUFHLElBQUksQ0FBQztRQUV0QixJQUFJLENBQUMsYUFBYSxFQUFFLE1BQU0sRUFBRSxDQUFDO0lBQ2pDLENBQUM7SUFFTyxVQUFVLENBQUMsT0FBd0I7UUFDdkMsSUFBSSxDQUFDLFNBQVMsR0FBRyxLQUFLLENBQUM7UUFDdkIsSUFBSSxDQUFDLFFBQVEsQ0FBQyxDQUFDLEdBQUcsQ0FBQyxDQUFDO1FBQ3BCLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQyxHQUFHLENBQUMsQ0FBQztRQUNwQixJQUFJLENBQUMsUUFBUSxDQUFDLENBQUMsR0FBRyxDQUFDLENBQUM7UUFFcEIsSUFBSSxDQUFDLFlBQVksRUFBRSxNQUFNLEVBQUUsQ0FBQztJQUNoQyxDQUFDO0lBRU8sZ0JBQWdCLENBQUMsT0FBd0I7UUFDN0MsTUFBTSxHQUFHLEdBQVksT0FBTyxDQUFDLGlCQUFpQixFQUFhLENBQUM7UUFDNUQsSUFBSSxDQUFDLFFBQVEsQ0FBQyxDQUFDLEdBQUcsR0FBRyxDQUFDLENBQUMsQ0FBQztRQUN4QixJQUFJLENBQUMsUUFBUSxDQUFDLENBQUMsR0FBRyxDQUFDLENBQUM7UUFDcEIsSUFBSSxDQUFDLFFBQVEsQ0FBQyxDQUFDLEdBQUcsR0FBRyxDQUFDLENBQUMsQ0FBQztJQUU1QixDQUFDO0NBRUo7QUFsRkQsa0NBa0ZDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Vehicle/Scripts/KeyboardControl.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"OnStartMoving","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"","name":"OnMove","type":"UnityEngine.Events.UnityEvent$1","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"OnStopMoving","type":"UnityEngine.Events.UnityEvent","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"KeyboardControl","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 9f8c53f58c96b3b533e999c6970be7df
+  onlyWriteTrigger: 0

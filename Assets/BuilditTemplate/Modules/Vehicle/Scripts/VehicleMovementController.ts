@@ -1,10 +1,12 @@
-import {Quaternion, Vector3, HumanBodyBones, Vector2, Camera, Transform, Rigidbody, Time, Coroutine, CharacterController, WaitForSeconds} from 'UnityEngine'
+import {Object, Quaternion, Vector3, HumanBodyBones, Vector2, Camera, Transform, Rigidbody, Time, Coroutine, CharacterController, WaitForSeconds} from 'UnityEngine'
 import {ZepetoScriptBehaviour, ZepetoScriptableObject} from 'ZEPETO.Script'
 import VehicleStateController, {State} from "./VehicleStateController";
 import VehicleObjectSettings from "./VehicleObjectSettings";
 import { ZepetoPlayers, ZepetoPlayer, LocalPlayer, ZepetoScreenTouchpad, ZepetoPlayerControl, ZepetoScreenButton } from "ZEPETO.Character.Controller";
 import VehicleUIController from "./VehicleUIController";
 import SceneManager from "../../Scripts/SceneManager";
+import KeyboardControl from "./KeyboardControl";
+import { ApplicationUtilities } from "../../Scripts/Utility/ApplicationUtilities";
 
 /**
  * Component that replaces ZepetoCharacterController when driving a Vehicle object.
@@ -92,6 +94,23 @@ export default class VehicleMovementController extends ZepetoScriptBehaviour {
         touchpad.OnDragEvent.AddListener(delta => { this.Move(delta) });
         touchpad.OnPointerUpEvent.AddListener(() => { this.StopMoving() });
         
+        
+        // PC Keyboard attach
+        if (ApplicationUtilities.isMobile == false) {
+            const keyboard = this.gameObject.GetComponent<KeyboardControl>() ?? this.gameObject.AddComponent<KeyboardControl>();
+            keyboard.Init();
+
+            keyboard.OnStartMoving.AddListener(() => {
+                this.StartMoving()
+            });
+            keyboard.OnMove.AddListener(delta => {
+                this.Move(delta)
+            });
+            keyboard.OnStopMoving.AddListener(() => {
+                this.StopMoving()
+            });
+        }
+        
         this.isAttached = true;
     }
     
@@ -103,6 +122,12 @@ export default class VehicleMovementController extends ZepetoScriptBehaviour {
         touchpad.OnDragEvent.RemoveAllListeners();
         touchpad.OnPointerUpEvent.RemoveAllListeners();
         
+        const keyboard = this.GetComponent<KeyboardControl>();
+        if (keyboard !== null) {
+            keyboard?.Release();
+            Object.Destroy(keyboard);
+        }
+        
         this.isAttached = false;
     }
     
@@ -113,7 +138,7 @@ export default class VehicleMovementController extends ZepetoScriptBehaviour {
         this.tpCamera = this.localPlayer.zepetoCamera.camera;
         
         this.characterController = this.localPlayer.zepetoPlayer.character.characterController;
-        
+
         this.AttachTouchpad();
         this.OnCreateVehicle();
     }
@@ -193,7 +218,7 @@ export default class VehicleMovementController extends ZepetoScriptBehaviour {
             this.localPlayer.zepetoPlayer.character.constraintRotation = true;
             this.localPlayer.zepetoPlayer.character.transform.rotation = Quaternion.Euler(this.currRotation);
             this.localPlayer.Move(currentVelocity);
-            // this.localPlayer.m   // maybe adjust character speed
+
             
             if (this.speedPercent > 1)
                 return State.Boost;
