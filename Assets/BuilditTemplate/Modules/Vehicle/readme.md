@@ -8,12 +8,29 @@ This document explains how to configure and use vehicle objects, including adver
 ---
 
 ## Contents
-
+* [Vehicles](#vehicles)
 * [AdVehicleSpawner](#advehiclespawner)
 * [Vehicle Vendor](#vehicle-vendor)
 * [Vehicle Settings](#vehicle-settings)
 
 ---
+
+## Vehicles
+
+These objects will be provided with themes and available via the Buildit Asset Browser. They contain full integrated components:
+
+- Player interaction
+- Vehicle drive system
+- Custom movement controls
+- Multiplay synchronization
+
+> `Note`: Using unique names for the vehicle objects ensures full multiplay capabilities. When testing your game you might get a warning to let you know which vehicle it is.
+```Duplicate vehicle [vehicle_object_name], please use unique object names``` 
+
+
+The vehicle objects are more complex and customization is recomended only for some parameters (see [Vehicle Settings](#vehicle-settings)).
+
+
 
 ## AdVehicleSpawner
 
