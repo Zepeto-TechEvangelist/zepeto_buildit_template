@@ -2,14 +2,23 @@
   "Items": [
     {
       "Title": "Build It Plugin Core",
-      "Description": "Core module for Build It Plugin\n\nSmarter NPCs\n - NPCs now move more naturally with improved area awareness\n - If they slip or fall out of bounds, they’ll teleport back safely\n - Navigation on rough terrain, like stairs and uneven ground, is smoother than ever\n",
+      "Description": "Core module for Build It Plugin\n\n\nWhat's new:\n\nIntroducing an all-new driving experience and brand-new ways to get on the road.\n\n·  Vehicle Driving Module – a completely new system that lets you get in and drive vehicles\n·  AdVehicleSpawner (new) – advertisement object that let's you instantly receive a temporary vehicle as your reward\n·  VehicleVendor (new) – interactable booth to browse and select from available vehicles\n",
       "Description_ko": "",
       "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
-      "LatestVersion": "1.0.9",
+      "LatestVersion": "1.0.10",
       "Dependencies": ["Multiplay Component", "Interaction", "Gesture", "ScreenShot", "Localization", "QuickChat"]
     }
   ],
   "Themes": [
+    {
+      "Title": "Vehicle",
+      "Name": "asset.vehicle",
+      "Description": "Vehicle Theme\n\nWe’ve added a complete set of 24 vehicles designed to work seamlessly with the new driving system. They’re ready to drop straight into your project so you can start creating right away!",
+      "Description_ko": "",
+      "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
+      "LatestVersion": "1.0.0",
+      "Dependencies": ["Build It Plugin Core 1.0.10"]
+    },
     {
       "Title": "Hunters",
       "Name": "asset.hunter",
