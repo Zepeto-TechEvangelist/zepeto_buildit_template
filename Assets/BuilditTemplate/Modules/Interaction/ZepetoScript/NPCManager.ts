@@ -102,6 +102,9 @@ export default class NPCManager extends ZepetoScriptBehaviour implements IPlayer
     private _initialRotation: Quaternion;
     private _currentPosition: Vector3;
 
+    private enableTeleport = true;
+    private debug: boolean = false;
+    
     Awake() {
 
         if (this.speechBubbleTextDuration < .5)
@@ -269,40 +272,96 @@ export default class NPCManager extends ZepetoScriptBehaviour implements IPlayer
     }
 
     private *MoveStep() {
-        while (this._speechBubbleActive == false) {
+        const t_bounds_timeout = 0.25;
+        const t_max_move_timeout = 5;
 
+        let CheckBounds = (pos: &Vector3, box: &Bounds) => {
+            if (box.min.y - pos.y > 3) return -1;
+            pos.y = box.center.y;
+            return box.Contains(pos) ? 1 : 0;
+        };
+        
+        while (this._speechBubbleActive == false) {
+            
+            if (this.debug) {
+
+                const x = this._moveArea.min.x + Math.random() * (this._moveArea.max.x - this._moveArea.min.x);
+                const z = this._moveArea.min.z + Math.random() * (this._moveArea.max.z - this._moveArea.min.z);
+                const y = this._npc.transform.position.y;
+                // const x1 = this._moveArea.min.x;
+                // const z1 = this._moveArea.min.z;
+                // const x2 = this._moveArea.max.x;
+                // const z2 = this._moveArea.max.z;
+                // const c1 = new Vector3(x1, y, z1);
+                // const c2 = new Vector3(x1, y, z2);
+                // const c3 = new Vector3(x2, y, z2);
+                // const c4 = new Vector3(x2, y, z1);
+
+                const start = this._npc.transform.position;
+                const end = new Vector3(x, y, z);
+               
+                this._npc.CancelGesture();
+
+                this._npc.Teleport( end , Quaternion.identity );
+                yield new WaitForSeconds(0.2);
+                
+                continue;    
+            }
+            
             const idleTime = this.minIdleTime + Math.random() * (this.maxIdleTime - this.minIdleTime);
 
-            const x = this._initialPosition.x + (Math.random() - 0.5) * (this.maxMoveDistance.x - this.minMoveDistance.x);
+            const x = this._moveArea.min.x + Math.random() * (this._moveArea.max.x - this._moveArea.min.x);
+            const z = this._moveArea.min.z + Math.random() * (this._moveArea.max.z - this._moveArea.min.z);
             const y = this._npc.transform.position.y;
-            const z = this._initialPosition.z + (Math.random() - 0.5) * (this.maxMoveDistance.y - this.minMoveDistance.y);
 
             const start = this._npc.transform.position;
             const end = new Vector3(x, y, z);
             const step = 0.3;
 
+            
             const direction = (end - start).normalized * step;
-            let progress = 0;
-            let moveVec = new Vector2(direction.x, direction.z);
+            
+            let t_max_move = t_max_move_timeout;
+            let t_bounds = t_bounds_timeout;
+            const moveDirection = new Vector2(direction.x, direction.z);
 
             // Ensure gesture is not being played
             this._npc.CancelGesture();
 
-            while (progress < 10) {  // max movement time
-                this._npc.Move( moveVec );
-                progress += Time.deltaTime;
+            while (t_max_move > 0) {  // max movement time
+                this._npc.Move( moveDirection );
+                t_max_move -= Time.deltaTime;
+                t_bounds -= Time.deltaTime;
+                
+                if (t_bounds < 0) {
+                    t_bounds = t_bounds_timeout;
+                    
+                    const check = CheckBounds(this._npc.transform.position, this._moveArea);
+                    if (check == -1) {
+                        this.ResetNPCPosition();
+                        break;
+                    }
+                    else if (check == 0)
+                        break;
+                }
 
                 if (Vector3.Distance(end, this._npc.transform.position) < 0.1)
                     break;
-
+                
                 yield new WaitForEndOfFrame();
             }
+            
             this._npc.StopMoving();
 
             yield new WaitForSeconds(idleTime);
         }
     }
-
+    
+    private ResetNPCPosition() {
+        if (this.enableTeleport)
+            this._npc.Teleport(this._initialPosition, this._initialRotation );
+    }
+    
     private Update() {
         if (this._speechBubbleActive) {
             this.UpdateCanvasRotation();
