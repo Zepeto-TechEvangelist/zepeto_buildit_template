@@ -12,29 +12,29 @@ import MultiplayManager from '../../../../Zepeto Multiplay Component/ZepetoScrip
 import { ApplicationUtilities } from "../../Scripts/Utility/ApplicationUtilities";
 
 export default class VehicleManager extends ZepetoScriptBehaviour {
-    
+
     private ObjectCache: VehicleAttachController[] = [];
 
     public localPlayerAttachedVehicle: VehicleAttachController = null;
-    
+
     public get isLocalPlayerDriving(): boolean { return this.localPlayerAttachedVehicle !== null }
-    
+
 
     public GetController(id: string, searchByName: boolean = true): VehicleAttachController | null {
         const cached = this.ObjectCache.find(x => x.syncObj.id == id);
         if (cached)
             return cached;
-        
+
         if (searchByName)
             return GameObject.Find(id)?.GetComponentInChildren<VehicleAttachController>();
-        
+
         return null;
     }
-    
+
     public RegisterController(controller: VehicleAttachController) {
         this.ObjectCache.push(controller);
     }
-    
+
     public UnregisterController(controller: VehicleAttachController) {
         this.ObjectCache.splice(this.ObjectCache.indexOf(controller), 1);
     }
@@ -43,7 +43,7 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
      * The LocalPlayer session id
      */
     public get SessionId(): string { return this.room === null ? null : this.room.SessionId }
-    
+
     /** ------------------------------------------------------------------------------------------------------- */
 
     private _room: RoomBase = null;
@@ -52,12 +52,12 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
             this._room = MultiplayManager.instance.room;
         return this._room;
     }
-    
+
     private sync_initialized = false;
     private initial_sync_completed = false;
 
     Start() {
-        
+
         const multiplay = MultiplayManager.instance.multiplay;
 
         if (this.room != null) {
@@ -65,7 +65,7 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
         } else {
             multiplay.RoomJoined += room => {
                 this._room = room;
-                
+
                 this.StartCoroutine(this.Bind());
             };
         }
@@ -77,51 +77,52 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
         yield new WaitUntil(() => this.SessionId != null);
 
         yield new WaitUntil(() => ZepetoPlayers.instance.LocalPlayer != null);
-        
+
         yield new WaitForSeconds(1.5);
-        
-        
+
+
         const IsMaster = MultiplayManager.instance.IsMaster;
-        
+
         this.InitializeMultiplaySync(); // Callbacks
-        
+
         const controllers: VehicleAttachController[] = GameObject.FindObjectsOfType<VehicleAttachController>(true);
-        
+
         var i = 0;
         for (const controller of controllers) {
-            
+
             let i = 0;
             let suffix = "";
             while (this.GetController(controller.vehicleObj.name + suffix, false)) {
 
                 if (ApplicationUtilities.isEditor)
                     console.warn(`Duplicate vehicle [${controller.vehicleObj.name + suffix}], please use unique object names`);
-                
+
                 suffix = `_${i++}`;
             }
-            
+
             const syncObj = this.CreateSyncObject(controller, suffix);
             controller.syncObj = syncObj;
             controller.vehicleObj.name = syncObj.id;
-            
+
             this.RegisterController(controller);
-            
+
             this.InstantiateVehicle(controller);
         }
 
         yield new WaitForSeconds(1);
-        
+
         this.room.Send(MESSAGE.VehicleSync, null);
     }
-    
+
     private SendControllers() {
-        
+
     }
-    
+
     private ReceiveControllers(syncObjects: VehicleObject[]) {
-        
-        for (const obj of syncObjects) {
-            
+        if (!syncObjects || !Array.isArray(syncObjects)) return;
+
+        for (let obj of syncObjects) {
+
             let attach = this.GetController(obj.id);
 
             if (!attach)
@@ -142,7 +143,7 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
 
         const room = MultiplayManager.instance.room;
         const multiplay = MultiplayManager.instance.multiplay;
-        
+
         room.AddMessageHandler(MESSAGE.VehicleSync, (message: VehicleSync) => {
             this.ReceiveControllers(message.cache);
             // Find objects in the cache etc
@@ -154,7 +155,7 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
             let attachController = this.GetController(message.id);
             if (!attachController)
                 attachController = this.SyncCreateVehicle(message);
-            
+
             attachController?.GetInPlayer(player);
         });
 
@@ -164,7 +165,7 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
 
             attachController?.GetOutPlayer(player);
         });
-        
+
         room.AddMessageHandler(MESSAGE.VehicleAction, (message: VehicleMessage) => {
             const player = ZepetoPlayers.instance.GetPlayerWithUserId(message.player);
             const attachController =  player.character.transform.GetComponentInChildren<VehicleAttachController>();
@@ -173,7 +174,7 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
         });
 
         room.AddMessageHandler(MESSAGE.VehicleInstantiate, (message: VehicleObject) => {
-            
+
             const baseAssetPath = "Vehicle/Prefabs/";
             const asset = Resources.Load(baseAssetPath + message.assetId) as GameObject;
             const spawnPosition = message.spawnPosition ? new Vector3(message.spawnPosition.x, message.spawnPosition.y, message.spawnPosition.z) : asset.transform.position;
@@ -192,13 +193,13 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
         });
 
         room.AddMessageHandler(MESSAGE.VehicleDestroy, (message: VehicleObject) => {
-            
+
             const attach = this.GetController(message.id);
             this.UnregisterController(attach);
             Object.Destroy(attach.vehicleObj);
         });
     }
-    
+
     private SyncCreateVehicle(message: VehicleObject): VehicleAttachController {
         const baseAssetPath = "Vehicle/Prefabs/";
         const asset = Resources.Load(baseAssetPath + message.assetId) as GameObject;
@@ -207,7 +208,7 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
 
         if (asset === null) // Missing asset
             return null;
-        
+
         const instance: GameObject = Object.Instantiate(asset, spawnPosition, spawnRotation) as GameObject;
         instance.name = message.id;
 
@@ -218,12 +219,12 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
 
         return attach;
     }
-    
+
     public CreateSyncObject(attacher: VehicleAttachController, index: string = ""): VehicleObject {
 
         const position = attacher.vehicleObj.transform.position;
         const rotation = attacher.vehicleObj.transform.rotation;
-        
+
         const vo: VehicleObject = {
             id: attacher.vehicleObj.name + index,
             assetId: attacher.vehicleSettings.targetObject.assetKey,
@@ -240,12 +241,12 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
                 w: rotation.w
             }
         };
-        
+
         return vo;
     }
-    
+
     public UpdateSyncObject(attacher: VehicleAttachController) {
-        
+
         const position = attacher.vehicleObj.transform.position;
         const rotation = attacher.vehicleObj.transform.rotation;
 
@@ -261,7 +262,7 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
             w: rotation.w
         };
     }
-    
+
     /**
      * Creates a Vehicle object and returns the instance
      * @param asset
@@ -269,11 +270,11 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
      * @param rotation
      */
     public CreateVehicle(asset: GameObject, position: Vector3 = Vector3.zero, rotation: Quaternion = Quaternion.identity): GameObject {
-        
+
         const instance = Object.Instantiate(asset, position, rotation) as GameObject;
-        
+
         const attacher = instance.transform.GetComponentInChildren<VehicleAttachController>();
-        
+
         const syncObject = this.CreateSyncObject(attacher);
         syncObject.ownerId = this.SessionId;
         attacher.syncObj = syncObject;
@@ -290,12 +291,12 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
      * @param attach
      */
     public GetInVehicle(attach: VehicleAttachController) {
-        
+
         const message = attach.syncObj;
         message.ownerId = this.SessionId;
-        
+
         this.localPlayerAttachedVehicle = attach;
-        
+
         this.room?.Send(MESSAGE.VehicleGetIn, message);
     }
 
@@ -304,15 +305,15 @@ export default class VehicleManager extends ZepetoScriptBehaviour {
      * @param attach
      */
     public GetOutVehicle(attach: VehicleAttachController) {
-        
+
         const message = attach.syncObj;
         // message.ownerId = null;
         this.UpdateSyncObject(attach);
-        
+
         this.localPlayerAttachedVehicle = null;
-        
+
         this.room?.Send(MESSAGE.VehicleGetOut, message);
-        
+
         message.ownerId = null;
     }
 
