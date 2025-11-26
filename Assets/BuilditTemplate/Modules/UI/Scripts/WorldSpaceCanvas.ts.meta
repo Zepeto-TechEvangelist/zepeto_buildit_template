@@ -1,0 +1,47 @@
+fileFormatVersion: 2
+guid: 229556f914703491fa021ca54ef87f98
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_Character_Controller_1
+    = require(\"ZEPETO.Character.Controller\");\r\nclass WorldSpaceCanvas extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n        super(...arguments);\r\n       
+    this.stabilizeRotation = true;\r\n        this.useLateUpdate = true;\r\n       
+    this._isInitialized = false;\r\n    }\r\n    Start() {\r\n        this.Initialize();\r\n   
+    }\r\n    Update() {\r\n        if (!this.useLateUpdate)\r\n            this.UpdateIconRotation();\r\n   
+    }\r\n    LateUpdate() {\r\n        if (this.useLateUpdate)\r\n            this.UpdateIconRotation();\r\n   
+    }\r\n    Initialize() {\r\n        if (this._canvas)\r\n            return;\r\n       
+    this._canvas = this.GetComponent($typeof(UnityEngine_1.Canvas));\r\n        this._camera
+    ?? (this._camera = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.ZepetoCamera.camera);\r\n       
+    this._canvas.worldCamera = this._camera;\r\n        this._isInitialized = true;\r\n   
+    }\r\n    UpdateIconRotation() {\r\n        if (!this._isInitialized)\r\n           
+    return;\r\n        let transform = this._canvas.transform;\r\n        transform.position
+    = UnityEngine_1.Vector3.op_Addition(this.followTransform.position, this.positionOffset);\r\n       
+    transform.LookAt(this._camera.transform);\r\n        if (this.stabilizeRotation)
+    {\r\n            let angles = transform.rotation.eulerAngles;\r\n           
+    this._canvas.transform.rotation = UnityEngine_1.Quaternion.Euler(angles.x, angles.y,
+    0);\r\n        }\r\n    }\r\n}\r\nexports.default = WorldSpaceCanvas;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiV29ybGRTcGFjZUNhbnZhcy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIldvcmxkU3BhY2VDYW52YXMudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBb0Y7QUFDcEYsNkNBQWlHO0FBQ2pHLDZFQUEwRDtBQUUxRCxNQUFxQixnQkFBaUIsU0FBUSxxQ0FBcUI7SUFBbkU7O1FBRVcsc0JBQWlCLEdBQVMsSUFBSSxDQUFDO1FBQy9CLGtCQUFhLEdBQVMsSUFBSSxDQUFDO1FBUTFCLG1CQUFjLEdBQWEsS0FBSyxDQUFDO0lBMEM3QyxDQUFDO0lBeENHLEtBQUs7UUFDRCxJQUFJLENBQUMsVUFBVSxFQUFFLENBQUM7SUFDdEIsQ0FBQztJQUVPLE1BQU07UUFDVixJQUFJLENBQUMsSUFBSSxDQUFDLGFBQWE7WUFDbkIsSUFBSSxDQUFDLGtCQUFrQixFQUFFLENBQUM7SUFDbEMsQ0FBQztJQUVPLFVBQVU7UUFDZCxJQUFJLElBQUksQ0FBQyxhQUFhO1lBQ2xCLElBQUksQ0FBQyxrQkFBa0IsRUFBRSxDQUFDO0lBQ2xDLENBQUM7SUFFTyxVQUFVO1FBQ2QsSUFBSSxJQUFJLENBQUMsT0FBTztZQUFFLE9BQU87UUFFekIsSUFBSSxDQUFDLE9BQU8sR0FBRyxJQUFJLENBQUMsWUFBWSxTQUFDLG9CQUFNLEVBQUcsQ0FBQztRQUUzQyxJQUFJLENBQUMsT0FBTyxLQUFaLElBQUksQ0FBQyxPQUFPLEdBQUssMkNBQWEsQ0FBQyxRQUFRLENBQUMsWUFBWSxDQUFDLE1BQU0sRUFBQztRQUM1RCxJQUFJLENBQUMsT0FBTyxDQUFDLFdBQVcsR0FBRyxJQUFJLENBQUMsT0FBTyxDQUFDO1FBRXhDLElBQUksQ0FBQyxjQUFjLEdBQUcsSUFBSSxDQUFDO0lBQy9CLENBQUM7SUFFTyxrQkFBa0I7UUFDdEIsSUFBSSxDQUFDLElBQUksQ0FBQyxjQUFjO1lBQ3BCLE9BQU87UUFFWCxJQUFJLFNBQVMsR0FBRyxJQUFJLENBQUMsT0FBTyxDQUFDLFNBQVMsQ0FBQztRQUV2QyxTQUFTLENBQUMsUUFBUSxHQUFHLHFCQUFPLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxlQUFlLENBQUMsUUFBUSxFQUFFLElBQUksQ0FBQyxjQUFjLENBQUMsQ0FBQztRQUU3RixTQUFTLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxPQUFPLENBQUMsU0FBUyxDQUFDLENBQUM7UUFFekMsSUFBSSxJQUFJLENBQUMsaUJBQWlCLEVBQUU7WUFDeEIsSUFBSSxNQUFNLEdBQUcsU0FBUyxDQUFDLFFBQVEsQ0FBQyxXQUFXLENBQUM7WUFDNUMsSUFBSSxDQUFDLE9BQU8sQ0FBQyxTQUFTLENBQUMsUUFBUSxHQUFHLHdCQUFVLENBQUMsS0FBSyxDQUFDLE1BQU0sQ0FBQyxDQUFDLEVBQUUsTUFBTSxDQUFDLENBQUMsRUFBRSxDQUFDLENBQUMsQ0FBQztTQUM3RTtJQUNMLENBQUM7Q0FDSjtBQXJERCxtQ0FxREMifQ==","assetPath":"Assets/BuilditTemplate/Modules/UI/Scripts/WorldSpaceCanvas.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"stabilizeRotation","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"useLateUpdate","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"followTransform","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"positionOffset","type":"UnityEngine.Vector3","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"WorldSpaceCanvas","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: ab679968a0f231cc24667175f30eb860
+  onlyWriteTrigger: 0

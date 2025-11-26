@@ -5,7 +5,8 @@ export enum TriggerType {
     None,
     Ad,
     Click,
-    Collider
+    Collider,
+    Donation,
 }
 
 export interface ITrigger {

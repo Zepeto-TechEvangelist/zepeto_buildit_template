@@ -1,0 +1,44 @@
+fileFormatVersion: 2
+guid: 8396e4e435764801ad3c1104d871bd62
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ActionBase_1 = require(\"../ActionBase\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst WardrobeController_1 = require(\"../../../Wardrobe/Scripts/WardrobeController\");\r\nclass
+    AE_Character_Wardrobe_Clear extends ActionBase_1.ActionBase {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.duration = -1;\r\n    }\r\n   
+    Init() {\r\n    }\r\n    DoAction() {\r\n        this.target ?? (this.target
+    = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character);\r\n       
+    // Wardrobe manager so to say\r\n        this.wardrobe = UnityEngine_1.GameObject.FindObjectOfType($typeof(WardrobeController_1.default),
+    true);\r\n        this.wardrobe.ClearCharacterItem(this.category, () => { });\r\n       
+    this.StartCoroutine(this.DelayReset(this.target, this.duration));\r\n    }\r\n   
+    *DelayReset(character, timeout = -1) {\r\n        if (!character)\r\n           
+    return;\r\n        var hasTimeout = timeout > 0 ? true : false;\r\n        //
+    Waiting for action loop\r\n        while (true) {\r\n            // Timeout interrupt\r\n           
+    if (hasTimeout) {\r\n                timeout -= UnityEngine_1.Time.deltaTime;\r\n               
+    if (timeout <= 0)\r\n                    break;\r\n            }\r\n           
+    yield;\r\n        }\r\n        this.wardrobe.ResetCharacterItems();\r\n    }\r\n}\r\nexports.default
+    = AE_Character_Wardrobe_Clear;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQUVfQ2hhcmFjdGVyX1dhcmRyb2JlX0NsZWFyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQUVfQ2hhcmFjdGVyX1dhcmRyb2JlX0NsZWFyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsOENBQTJDO0FBQzNDLDZFQUF5RztBQUN6Ryw2Q0FBdUQ7QUFFdkQscUZBQThFO0FBRzlFLE1BQXFCLDJCQUE0QixTQUFRLHVCQUFVO0lBQW5FOztRQUlXLGFBQVEsR0FBUSxDQUFDLENBQUMsQ0FBQztJQXVDOUIsQ0FBQztJQW5DRyxJQUFJO0lBQ0osQ0FBQztJQUVRLFFBQVE7UUFDYixJQUFJLENBQUMsTUFBTSxLQUFYLElBQUksQ0FBQyxNQUFNLEdBQUssMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxTQUFTLEVBQUM7UUFFMUUsNkJBQTZCO1FBQzdCLElBQUksQ0FBQyxRQUFRLEdBQUcsd0JBQVUsQ0FBQyxnQkFBZ0IsU0FBQyw0QkFBa0IsR0FBRSxJQUFJLENBQUMsQ0FBQztRQUN0RSxJQUFJLENBQUMsUUFBUSxDQUFDLGtCQUFrQixDQUFDLElBQUksQ0FBQyxRQUFRLEVBQUUsR0FBRyxFQUFFLEdBQUUsQ0FBQyxDQUFDLENBQUM7UUFFMUQsSUFBSSxDQUFDLGNBQWMsQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLElBQUksQ0FBQyxNQUFNLEVBQUUsSUFBSSxDQUFDLFFBQVEsQ0FBQyxDQUFDLENBQUM7SUFDckUsQ0FBQztJQUVPLENBQUMsVUFBVSxDQUFDLFNBQTBCLEVBQUUsVUFBaUIsQ0FBQyxDQUFDO1FBRS9ELElBQUksQ0FBQyxTQUFTO1lBQ1YsT0FBTztRQUVYLElBQUksVUFBVSxHQUFTLE9BQU8sR0FBRyxDQUFDLENBQUMsQ0FBQyxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUMsS0FBSyxDQUFDO1FBRWxELDBCQUEwQjtRQUMxQixPQUFPLElBQUksRUFBRTtZQUVULG9CQUFvQjtZQUNwQixJQUFJLFVBQVUsRUFBRTtnQkFDWixPQUFPLElBQUksa0JBQUksQ0FBQyxTQUFTLENBQUM7Z0JBQzFCLElBQUksT0FBTyxJQUFJLENBQUM7b0JBQ1osTUFBTTthQUNiO1lBRUQsS0FBSyxDQUFDO1NBQ1Q7UUFFRCxJQUFJLENBQUMsUUFBUSxDQUFDLG1CQUFtQixFQUFFLENBQUM7SUFDeEMsQ0FBQztDQUNKO0FBM0NELDhDQTJDQyJ9","assetPath":"Assets/BuilditTemplate/Modules/Scripts/InteractionSystem/Actions/AE_Character_Wardrobe_Clear.ts","manifest":{"properties":[{"assembly":"ZEPETO.Character.Controller","name":"target","type":"ZEPETO.Character.Controller.ZepetoCharacter","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"","name":"category","type":"WardrobeItemKeyword","isArray":false,"initValue":[],"enumKeys":["hair","onepiece","top","outwear","pants","skirt","socks","footwear","headwear","eyewear","jewelry","makeup","accessory","bodyfigure"],"enumValues":["1","2","3","4","5","6","7","8","9","10","11","12","13","14"],"attributes":[]},{"assembly":"mscorlib","name":"duration","type":"System.Int32","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"scriptName","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"AE_Character_Wardrobe_Clear","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: f8440311fccfb1f6de0e30896ec17cc7
+  onlyWriteTrigger: 0

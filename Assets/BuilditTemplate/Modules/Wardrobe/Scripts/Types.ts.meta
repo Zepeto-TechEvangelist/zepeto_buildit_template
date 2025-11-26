@@ -1,0 +1,92 @@
+fileFormatVersion: 2
+guid: cae467bb1bf944f58df790c62c1d4cbb
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.WardrobeKeywordToZepetoPropertyFlag = exports.WardrobeItemKeyword
+    = void 0;\r\nconst Zepeto_1 = require(\"Zepeto\");\r\n// export enum WardrobeItemKeyword
+    {\r\n//     outwear = ItemKeyword.outwear,\r\n//     top = ItemKeyword.top,\r\n//    
+    pants = ItemKeyword.pants,\r\n//     skirt = ItemKeyword.skirt,\r\n//     onepiece
+    = ItemKeyword.onepiece,\r\n//     footwear = ItemKeyword.footwear,\r\n//    
+    accesory = ItemKeyword.accessory,\r\n//     jewelry = ItemKeyword.jewelry,\r\n//    
+    headwear = ItemKeyword.headwear,\r\n//     eyewear = ItemKeyword.eyewear,\r\n//    
+    socks = ItemKeyword.socks,\r\n//     makeup = ItemKeyword.makeup,\r\n//     hair
+    = ItemKeyword.hair,\r\n//     bodyfigure = ItemKeyword.bodyfigure\r\n// }\r\n/**\r\n
+    * Values corespond to ItemKeyword\r\n */\r\nvar WardrobeItemKeyword;\r\n(function
+    (WardrobeItemKeyword) {\r\n    /**\r\n     * Hair\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"hair\"]
+    = 1] = \"hair\";\r\n    /**\r\n     * Dress\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"onepiece\"]
+    = 2] = \"onepiece\";\r\n    /**\r\n     * Top\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"top\"]
+    = 3] = \"top\";\r\n    /**\r\n     * All\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"outwear\"]
+    = 4] = \"outwear\";\r\n    /**\r\n     * Pants\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"pants\"]
+    = 5] = \"pants\";\r\n    /**\r\n     * Skirt\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"skirt\"]
+    = 6] = \"skirt\";\r\n    /**\r\n     * Socks\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"socks\"]
+    = 7] = \"socks\";\r\n    /**\r\n     * Footwear\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"footwear\"]
+    = 8] = \"footwear\";\r\n    /**\r\n     * Headwear\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"headwear\"]
+    = 9] = \"headwear\";\r\n    /**\r\n     * Eyewear\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"eyewear\"]
+    = 10] = \"eyewear\";\r\n    /**\r\n     * Jewelry\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"jewelry\"]
+    = 11] = \"jewelry\";\r\n    /**\r\n     * Makeup\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"makeup\"]
+    = 12] = \"makeup\";\r\n    /**\r\n     * Accessory\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"accessory\"]
+    = 13] = \"accessory\";\r\n    /**\r\n     * Body Type\r\n     */\r\n    WardrobeItemKeyword[WardrobeItemKeyword[\"bodyfigure\"]
+    = 14] = \"bodyfigure\";\r\n})(WardrobeItemKeyword = exports.WardrobeItemKeyword
+    || (exports.WardrobeItemKeyword = {}));\r\n//\r\n// interface WardrobeItemKeyToZepetoPropertyMap
+    {\r\n//     [key: WardrobeItemKeyword]: ZepetoPropertyFlag;\r\n// }\r\n// type
+    WardrobeZepetoProperty = {\r\n//     [Keyword in WardrobeItemKeyword]: {\r\n//        
+    name: F;\r\n//     };\r\n// };\r\nconst wardrobePropertyMap = {\r\n    [WardrobeItemKeyword.hair]:
+    [Zepeto_1.ZepetoPropertyFlag.Hair],\r\n    /**\r\n     * Dress\r\n     */\r\n   
+    [WardrobeItemKeyword.onepiece]: [Zepeto_1.ZepetoPropertyFlag.ClothesDress],\r\n   
+    /**\r\n     * Top\r\n     */\r\n    [WardrobeItemKeyword.top]: [Zepeto_1.ZepetoPropertyFlag.ClothesTop],\r\n   
+    /**\r\n     * All\r\n     */\r\n    [WardrobeItemKeyword.outwear]: [Zepeto_1.ZepetoPropertyFlag.ClothesCape],\r\n   
+    /**\r\n     * Pants\r\n     */\r\n    [WardrobeItemKeyword.pants]: [Zepeto_1.ZepetoPropertyFlag.ClothesBottom],\r\n   
+    /**\r\n     * Skirt\r\n     */\r\n    [WardrobeItemKeyword.skirt]: [Zepeto_1.ZepetoPropertyFlag.ClothesDress],\r\n   
+    /**\r\n     * Socks\r\n     */\r\n    [WardrobeItemKeyword.socks]: [Zepeto_1.ZepetoPropertyFlag.ClothesSocks],\r\n   
+    /**\r\n     * Footwear\r\n     */\r\n    [WardrobeItemKeyword.footwear]: [Zepeto_1.ZepetoPropertyFlag.ClothesShoes],\r\n   
+    /**\r\n     * Headwear\r\n     */\r\n    [WardrobeItemKeyword.headwear]: [Zepeto_1.ZepetoPropertyFlag.AccessoryHeadwear],\r\n   
+    /**\r\n     * Eyewear\r\n     */\r\n    [WardrobeItemKeyword.eyewear]: [Zepeto_1.ZepetoPropertyFlag.ClothesGlasses],\r\n   
+    /**\r\n     * Jewelry\r\n     */\r\n    [WardrobeItemKeyword.jewelry]: [Zepeto_1.ZepetoPropertyFlag.None],\r\n   
+    /**\r\n     * Makeup\r\n     */\r\n    [WardrobeItemKeyword.makeup]: [Zepeto_1.ZepetoPropertyFlag.EyeShadow,
+    Zepeto_1.ZepetoPropertyFlag.EyeLiner, Zepeto_1.ZepetoPropertyFlag.EyeLash, Zepeto_1.ZepetoPropertyFlag.Blusher,
+    Zepeto_1.ZepetoPropertyFlag.MakeupSet, Zepeto_1.ZepetoPropertyFlag.NailArt, Zepeto_1.ZepetoPropertyFlag.FacePainting,
+    Zepeto_1.ZepetoPropertyFlag.FaceContouring, Zepeto_1.ZepetoPropertyFlag.SkinDetail],\r\n   
+    /**\r\n     * Accessory\r\n     */\r\n    [WardrobeItemKeyword.accessory]: [Zepeto_1.ZepetoPropertyFlag.AccessoryWing,
+    Zepeto_1.ZepetoPropertyFlag.AccessoryHeadwear],\r\n    /**\r\n     * Body Type\r\n    
+    */\r\n    [WardrobeItemKeyword.bodyfigure]: [Zepeto_1.ZepetoPropertyFlag.None],\r\n};\r\nfunction
+    WardrobeKeywordToZepetoPropertyFlag(keyword) {\r\n    return wardrobePropertyMap[keyword]
+    || [];\r\n}\r\nexports.WardrobeKeywordToZepetoPropertyFlag = WardrobeKeywordToZepetoPropertyFlag;\r\n//
+    EyeShadow = 10, EyeLiner = 11, EyeLash = 12, Blusher\r\n// enum ZepetoPropertyFlag
+    { None = 0, Skin = 1, SkinTone = 2, SkinDetail = 3, Face = 4, Eye = 5, EyeLens
+    = 6, Eyebrow = 7, Beard = 8, Mustache = 9, EyeShadow = 10, EyeLiner = 11, EyeLash
+    = 12, Blusher = 13, Nose = 14, Mouth = 15, Lips = 16, Hair = 17, ClothesGlasses
+    = 18, ClothesTop = 19, ClothesBottom = 20, ClothesShoes = 21, ClothesDress =
+    22, Background = 23, RoomWallpaper = 24, RoomFloor = 25, RoomBottom = 26, RoomTopLeft
+    = 27, RoomTopRight = 28, RoomMiddleLeft = 29, RoomMiddleRight = 30, Point = 31,
+    Freckles = 32, FaceHair = 33, DoubleEyelid = 34, NailArt = 35, ClothesSocks =
+    36, ClothesGlove = 37, AccessoryBracelet = 38, AccessoryNecklace = 39, AccessoryEarring
+    = 40, AccessoryRing = 41, AccessoryHeadwear = 42, AccessoryPiercing = 43, BoothBackground
+    = 44, LUT = 45, AccessoryMask = 46, FacePainting = 47, AccessoryBag = 48, AccessoryWing
+    = 49, ClothesCape = 50, ClothesExtra = 51, MannequinFace = 52, WrinkleForehead
+    = 53, WrinkleEye = 54, WrinkleMouth = 55, DoubleEyelidBottom = 56, WrinkleMongo
+    = 57, AccessoryTail = 58, AccessoryEffect = 59, ClothesDeform = 60, HairExtensions
+    = 61, MakeupSet = 62, FaceContouring = 63, BaseModel = 64, CreatorLens = 65,
+    BaseDeformer = 66 }\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHlwZXMuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJUeXBlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSxtQ0FBMEM7QUFFMUMsb0NBQW9DO0FBQ3BDLHFDQUFxQztBQUNyQyw2QkFBNkI7QUFDN0IsaUNBQWlDO0FBQ2pDLGlDQUFpQztBQUNqQyx1Q0FBdUM7QUFDdkMsdUNBQXVDO0FBQ3ZDLHdDQUF3QztBQUN4QyxxQ0FBcUM7QUFDckMsdUNBQXVDO0FBQ3ZDLHFDQUFxQztBQUNyQyxpQ0FBaUM7QUFDakMsbUNBQW1DO0FBQ25DLCtCQUErQjtBQUMvQiwwQ0FBMEM7QUFDMUMsSUFBSTtBQUVKOztHQUVHO0FBQ0gsSUFBWSxtQkEwRFg7QUExREQsV0FBWSxtQkFBbUI7SUFFM0I7O09BRUc7SUFDSCw2REFBUSxDQUFBO0lBQ1I7O09BRUc7SUFDSCxxRUFBWSxDQUFBO0lBQ1o7O09BRUc7SUFDSCwyREFBTyxDQUFBO0lBQ1A7O09BRUc7SUFDSCxtRUFBVyxDQUFBO0lBQ1g7O09BRUc7SUFDSCwrREFBUyxDQUFBO0lBQ1Q7O09BRUc7SUFDSCwrREFBUyxDQUFBO0lBQ1Q7O09BRUc7SUFDSCwrREFBUyxDQUFBO0lBQ1Q7O09BRUc7SUFDSCxxRUFBWSxDQUFBO0lBQ1o7O09BRUc7SUFDSCxxRUFBWSxDQUFBO0lBQ1o7O09BRUc7SUFDSCxvRUFBWSxDQUFBO0lBQ1o7O09BRUc7SUFDSCxvRUFBWSxDQUFBO0lBQ1o7O09BRUc7SUFDSCxrRUFBVyxDQUFBO0lBQ1g7O09BRUc7SUFDSCx3RUFBYyxDQUFBO0lBQ2Q7O09BRUc7SUFDSCwwRUFBZSxDQUFBO0FBQ25CLENBQUMsRUExRFcsbUJBQW1CLEdBQW5CLDJCQUFtQixLQUFuQiwyQkFBbUIsUUEwRDlCO0FBQ0QsRUFBRTtBQUNGLGlEQUFpRDtBQUNqRCxzREFBc0Q7QUFDdEQsSUFBSTtBQUVKLGtDQUFrQztBQUNsQywwQ0FBMEM7QUFDMUMsbUJBQW1CO0FBQ25CLFNBQVM7QUFDVCxLQUFLO0FBRUwsTUFBTSxtQkFBbUIsR0FBc0Q7SUFDM0UsQ0FBQyxtQkFBbUIsQ0FBQyxJQUFJLENBQUMsRUFBRSxDQUFDLDJCQUFrQixDQUFDLElBQUksQ0FBQztJQUNyRDs7T0FFRztJQUNILENBQUMsbUJBQW1CLENBQUMsUUFBUSxDQUFDLEVBQUUsQ0FBQywyQkFBa0IsQ0FBQyxZQUFZLENBQUM7SUFDakU7O09BRUc7SUFDSCxDQUFDLG1CQUFtQixDQUFDLEdBQUcsQ0FBQyxFQUFFLENBQUMsMkJBQWtCLENBQUMsVUFBVSxDQUFDO0lBQzFEOztPQUVHO0lBQ0gsQ0FBQyxtQkFBbUIsQ0FBQyxPQUFPLENBQUMsRUFBRSxDQUFDLDJCQUFrQixDQUFDLFdBQVcsQ0FBQztJQUMvRDs7T0FFRztJQUNILENBQUMsbUJBQW1CLENBQUMsS0FBSyxDQUFDLEVBQUUsQ0FBQywyQkFBa0IsQ0FBQyxhQUFhLENBQUM7SUFDL0Q7O09BRUc7SUFDSCxDQUFDLG1CQUFtQixDQUFDLEtBQUssQ0FBQyxFQUFFLENBQUMsMkJBQWtCLENBQUMsWUFBWSxDQUFDO0lBQzlEOztPQUVHO0lBQ0gsQ0FBQyxtQkFBbUIsQ0FBQyxLQUFLLENBQUMsRUFBRSxDQUFDLDJCQUFrQixDQUFDLFlBQVksQ0FBQztJQUM5RDs7T0FFRztJQUNILENBQUMsbUJBQW1CLENBQUMsUUFBUSxDQUFDLEVBQUUsQ0FBQywyQkFBa0IsQ0FBQyxZQUFZLENBQUM7SUFDakU7O09BRUc7SUFDSCxDQUFDLG1CQUFtQixDQUFDLFFBQVEsQ0FBQyxFQUFFLENBQUMsMkJBQWtCLENBQUMsaUJBQWlCLENBQUM7SUFDdEU7O09BRUc7SUFDSCxDQUFDLG1CQUFtQixDQUFDLE9BQU8sQ0FBQyxFQUFFLENBQUMsMkJBQWtCLENBQUMsY0FBYyxDQUFDO0lBQ2xFOztPQUVHO0lBQ0gsQ0FBQyxtQkFBbUIsQ0FBQyxPQUFPLENBQUMsRUFBRSxDQUFDLDJCQUFrQixDQUFDLElBQUksQ0FBQztJQUN4RDs7T0FFRztJQUNILENBQUMsbUJBQW1CLENBQUMsTUFBTSxDQUFDLEVBQUUsQ0FBQywyQkFBa0IsQ0FBQyxTQUFTLEVBQUUsMkJBQWtCLENBQUMsUUFBUSxFQUFFLDJCQUFrQixDQUFDLE9BQU8sRUFBRSwyQkFBa0IsQ0FBQyxPQUFPLEVBQUUsMkJBQWtCLENBQUMsU0FBUyxFQUFFLDJCQUFrQixDQUFDLE9BQU8sRUFBRSwyQkFBa0IsQ0FBQyxZQUFZLEVBQUUsMkJBQWtCLENBQUMsY0FBYyxFQUFFLDJCQUFrQixDQUFDLFVBQVUsQ0FBQztJQUM5Uzs7T0FFRztJQUNILENBQUMsbUJBQW1CLENBQUMsU0FBUyxDQUFDLEVBQUUsQ0FBQywyQkFBa0IsQ0FBQyxhQUFhLEVBQUUsMkJBQWtCLENBQUMsaUJBQWlCLENBQUM7SUFDekc7O09BRUc7SUFDSCxDQUFDLG1CQUFtQixDQUFDLFVBQVUsQ0FBQyxFQUFFLENBQUMsMkJBQWtCLENBQUMsSUFBSSxDQUFDO0NBQzlELENBQUM7QUFFRixTQUFnQixtQ0FBbUMsQ0FBQyxPQUE0QjtJQUM1RSxPQUFPLG1CQUFtQixDQUFDLE9BQU8sQ0FBQyxJQUFJLEVBQUUsQ0FBQztBQUM5QyxDQUFDO0FBRkQsa0ZBRUM7QUFFRCx1REFBdUQ7QUFDdkQseXFDQUF5cUMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Wardrobe/Scripts/Types.ts","manifest":{"properties":[],"name":"Types","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: c234c36021cdf96394b21246c7753920
+  onlyWriteTrigger: 0

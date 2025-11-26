@@ -1,0 +1,35 @@
+fileFormatVersion: 2
+guid: 9cac16c18eb44f668a917fdb3a8e8f7e
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.CurrencyType = exports.DonationActionSettings =
+    exports.DonationSettings = void 0;\r\nclass DonationSettings {\r\n    constructor()
+    {\r\n        this.actions = [];\r\n    }\r\n}\r\nexports.DonationSettings = DonationSettings;\r\nclass
+    DonationActionSettings {\r\n    constructor(id, amount, text) {\r\n        this.id
+    = id;\r\n        this.amount = amount;\r\n        this.text = text;\r\n    }\r\n}\r\nexports.DonationActionSettings
+    = DonationActionSettings;\r\nvar CurrencyType;\r\n(function (CurrencyType) {\r\n   
+    CurrencyType[\"zem\"] = \"zem\";\r\n    CurrencyType[\"coin\"] = \"coin\";\r\n})(CurrencyType
+    = exports.CurrencyType || (exports.CurrencyType = {}));\r\n;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVHlwZXMuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJUeXBlcy50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFLQSxNQUFhLGdCQUFnQjtJQUE3QjtRQUNJLFlBQU8sR0FBNkIsRUFBRSxDQUFDO0lBQzNDLENBQUM7Q0FBQTtBQUZELDRDQUVDO0FBRUQsTUFBYSxzQkFBc0I7SUFLL0IsWUFBWSxFQUFVLEVBQUUsTUFBVyxFQUFFLElBQVk7UUFDN0MsSUFBSSxDQUFDLEVBQUUsR0FBRyxFQUFFLENBQUM7UUFDYixJQUFJLENBQUMsTUFBTSxHQUFHLE1BQU0sQ0FBQztRQUNyQixJQUFJLENBQUMsSUFBSSxHQUFHLElBQUksQ0FBQztJQUNyQixDQUFDO0NBQ0o7QUFWRCx3REFVQztBQUVELElBQVksWUFHWDtBQUhELFdBQVksWUFBWTtJQUNwQiwyQkFBVyxDQUFBO0lBQ1gsNkJBQWEsQ0FBQTtBQUNqQixDQUFDLEVBSFcsWUFBWSxHQUFaLG9CQUFZLEtBQVosb0JBQVksUUFHdkI7QUFBQSxDQUFDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/Types.ts","manifest":{"properties":[],"name":"DonationSettings","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 8e0f5565aa20d66eaccc50a5e7b3cb70
+  onlyWriteTrigger: 0

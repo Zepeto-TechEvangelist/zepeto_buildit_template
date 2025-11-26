@@ -1,0 +1,44 @@
+fileFormatVersion: 2
+guid: 271eea27ca4944089b15497b5fe58130
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.DonationTimedActionBase = exports.DonationActionBase
+    = void 0;\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst Action_1
+    = require(\"../../Scripts/InteractionSystem/Action\");\r\nconst DonationController_1
+    = require(\"./DonationController\");\r\nclass DonationActionBase extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    get action() {\r\n        if (this._action === null)\r\n           
+    this._action = this.GetComponentInChildren($typeof(Action_1.default));\r\n       
+    return this._action;\r\n    }\r\n    get controller() {\r\n        if (this._controller
+    === null)\r\n            this._controller = this.GetComponentInChildren($typeof(DonationController_1.default));\r\n       
+    return this._controller;\r\n    }\r\n    Awake() {\r\n        this._action ??
+    (this._action = this.GetComponentInChildren($typeof(Action_1.default)));\r\n       
+    this._controller ?? (this._controller = this.GetComponentInChildren($typeof(DonationController_1.default)));\r\n       
+    // Indirect binding\r\n        this._controller.Initialize(this);\r\n    }\r\n   
+    Start() {\r\n    }\r\n    DoAction(data) {\r\n        this._action?.DoAction();\r\n   
+    }\r\n}\r\nexports.DonationActionBase = DonationActionBase;\r\n/**\r\n * Donation
+    action base with a duration component\r\n */\r\nclass DonationTimedActionBase
+    extends DonationActionBase {\r\n}\r\nexports.DonationTimedActionBase = DonationTimedActionBase;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRG9uYXRpb25BY3Rpb25CYXNlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiRG9uYXRpb25BY3Rpb25CYXNlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLGlEQUFxRDtBQUNyRCxtRUFBNEQ7QUFFNUQsNkRBQXNEO0FBSXRELE1BQXNCLGtCQUFtQixTQUFRLHFDQUFxQjtJQWtCbEUsSUFBVyxNQUFNO1FBRWIsSUFBSSxJQUFJLENBQUMsT0FBTyxLQUFLLElBQUk7WUFDckIsSUFBSSxDQUFDLE9BQU8sR0FBRyxJQUFJLENBQUMsc0JBQXNCLFNBQUMsZ0JBQU0sRUFBRyxDQUFDO1FBRXpELE9BQU8sSUFBSSxDQUFDLE9BQU8sQ0FBQztJQUN4QixDQUFDO0lBR0QsSUFBVyxVQUFVO1FBRWpCLElBQUksSUFBSSxDQUFDLFdBQVcsS0FBSyxJQUFJO1lBQ3pCLElBQUksQ0FBQyxXQUFXLEdBQUcsSUFBSSxDQUFDLHNCQUFzQixTQUFDLDRCQUFrQixFQUFHLENBQUM7UUFFekUsT0FBTyxJQUFJLENBQUMsV0FBVyxDQUFDO0lBQzVCLENBQUM7SUFFRCxLQUFLO1FBQ0QsSUFBSSxDQUFDLE9BQU8sS0FBWixJQUFJLENBQUMsT0FBTyxHQUFLLElBQUksQ0FBQyxzQkFBc0IsU0FBQyxnQkFBTSxFQUFHLEVBQUM7UUFDdkQsSUFBSSxDQUFDLFdBQVcsS0FBaEIsSUFBSSxDQUFDLFdBQVcsR0FBSyxJQUFJLENBQUMsc0JBQXNCLFNBQUMsNEJBQWtCLEVBQUcsRUFBQztRQUV2RSxtQkFBbUI7UUFDbkIsSUFBSSxDQUFDLFdBQVcsQ0FBQyxVQUFVLENBQUMsSUFBSSxDQUFDLENBQUM7SUFDdEMsQ0FBQztJQUVELEtBQUs7SUFFTCxDQUFDO0lBRUQsUUFBUSxDQUFDLElBQXdCO1FBQzdCLElBQUksQ0FBQyxPQUFPLEVBQUUsUUFBUSxFQUFFLENBQUM7SUFDN0IsQ0FBQztDQUNKO0FBbERELGdEQWtEQztBQVFEOztHQUVHO0FBQ0gsTUFBc0IsdUJBQXdCLFNBQVEsa0JBQWtCO0NBR3ZFO0FBSEQsMERBR0MifQ==","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/DonationActionBase.ts","manifest":{"properties":[],"name":"DonationActionBase","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: fc53a9f8ba6884d85276a8828f49e14c
+  onlyWriteTrigger: 0

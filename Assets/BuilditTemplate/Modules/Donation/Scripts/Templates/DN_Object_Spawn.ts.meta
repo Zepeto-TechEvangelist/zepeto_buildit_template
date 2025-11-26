@@ -1,0 +1,39 @@
+fileFormatVersion: 2
+guid: 98c484f9ff714ac7bfd961d849338ce8
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst DonationActionBase_1 = require(\"../DonationActionBase\");\r\nconst
+    AE_Object_Spawner_1 = require(\"../../../Scripts/InteractionSystem/Actions/AE_Object_Spawner\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nclass
+    DN_Object_Spawn extends DonationActionBase_1.DonationTimedActionBase {\r\n   
+    Start() {\r\n        super.Start();\r\n        this.ae = this.GetComponentInChildren($typeof(AE_Object_Spawner_1.default));\r\n       
+    this.ae.targetObject = this.targetObject;\r\n        this.ae.targetLocation =
+    this.spawnLocation;\r\n        this.ae.duration = this.duration;\r\n        this.ae.Init();\r\n   
+    }\r\n    DoAction(data) {\r\n        super.DoAction();\r\n    }\r\n}\r\nexports.default
+    = DN_Object_Spawn;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRE5fT2JqZWN0X1NwYXduLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiRE5fT2JqZWN0X1NwYXduLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsOERBQStEO0FBRS9ELG9HQUE2RjtBQUc3Riw2RUFBNEQ7QUFFNUQsTUFBcUIsZUFBZ0IsU0FBUSw0Q0FBdUI7SUFRaEUsS0FBSztRQUNELEtBQUssQ0FBQyxLQUFLLEVBQUUsQ0FBQztRQUNkLElBQUksQ0FBQyxFQUFFLEdBQUcsSUFBSSxDQUFDLHNCQUFzQixTQUFDLDJCQUFpQixFQUFHLENBQUM7UUFFM0QsSUFBSSxDQUFDLEVBQUUsQ0FBQyxZQUFZLEdBQUcsSUFBSSxDQUFDLFlBQVksQ0FBQztRQUN6QyxJQUFJLENBQUMsRUFBRSxDQUFDLGNBQWMsR0FBRyxJQUFJLENBQUMsYUFBYSxDQUFDO1FBQzVDLElBQUksQ0FBQyxFQUFFLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQyxRQUFRLENBQUM7UUFFakMsSUFBSSxDQUFDLEVBQUUsQ0FBQyxJQUFJLEVBQUUsQ0FBQztJQUNuQixDQUFDO0lBRUQsUUFBUSxDQUFDLElBQXVCO1FBQzVCLEtBQUssQ0FBQyxRQUFRLEVBQUUsQ0FBQztJQUNyQixDQUFDO0NBQ0o7QUF0QkQsa0NBc0JDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/Templates/DN_Object_Spawn.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"targetObject","type":"UnityEngine.Object","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"spawnLocation","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"duration","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Action
+    duration(sec), infinite if value is 0 or lower\""]}]},{"assembly":"mscorlib","name":"id","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Basic
+    Configuration\""]},{"name":"Tooltip","args":["\"Main advertisement identifier\""]}]},{"assembly":"mscorlib","name":"amount","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Donation
+    amount for triggering the action\""]}]},{"assembly":"","name":"settings","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Donation/Scripts/Types.DonationActionSettings","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"DN_Object_Spawn","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 9ca55b8811e813932dbcd19f98726ea7
+  onlyWriteTrigger: 0

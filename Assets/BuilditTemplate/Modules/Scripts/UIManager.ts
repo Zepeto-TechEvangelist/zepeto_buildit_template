@@ -5,16 +5,15 @@ import { UnityEvent } from "UnityEngine.Events";
 import { Button } from 'UnityEngine.UI';
 import WardrobeController from '../Wardrobe/Scripts/WardrobeController';
 import UIMenuController from '../Wardrobe/Scripts/UIMenuController';
+import DonationManager from "../Donation/Scripts/DonationManager";
 
 export default class UIManager extends ZepetoScriptBehaviour {
 
     public wardrobeToggle: Button;
     public wardrobe: GameObject;
-    
     public gestureMenu: GameObject;
     public gestureToggle: Button;
-    
-    // public menus: GameObject[] = [];
+    public donationToggle: Button;
     
     /* Singleton */
     private static m_instance: UIManager = null;
@@ -49,10 +48,15 @@ export default class UIManager extends ZepetoScriptBehaviour {
         let wardrobeMenu = this.wardrobe.GetComponent<UIMenuController>();
         
         this.wardrobeToggle.onClick.AddListener(() => { wardrobeMenu.ToggleMenu(); });
+        
+        if (DonationManager.DonationEnabled) {
+            this.donationToggle.gameObject.SetActive(true);
+            this.donationToggle.onClick.AddListener(() => { DonationManager.instance.board.Show(); });
+            DonationManager.instance.board?.Hide();
+        }
     }
-    
+
     public SetVisible(visible: boolean) {
         this.gameObject.SetActive(visible);
     }
-    
 }

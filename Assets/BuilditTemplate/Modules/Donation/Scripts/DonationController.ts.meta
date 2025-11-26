@@ -1,0 +1,55 @@
+fileFormatVersion: 2
+guid: bcbc47be72c94ee6b59261eceb9b3432
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst DonationManager_1 = require(\"./DonationManager\");\r\nconst
+    DonationTrigger_1 = require(\"./DonationTrigger\");\r\nconst Action_1 = require(\"../../Scripts/InteractionSystem/Action\");\r\nconst
+    ZepetoEvent_1 = require(\"../../Scripts/Utility/ZepetoEvent\");\r\n/**\r\n *
+    Controller used for donation objects,\r\n */\r\nclass DonationController extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    get id() { return this?._action.id;
+    }\r\n    /**\r\n     * The event target\r\n     */\r\n    get Action() {\r\n       
+    return this._action;\r\n    }\r\n    set Action(value) {\r\n        this._action
+    = value;\r\n    }\r\n    /**\r\n     * The trigger connected with the controller\r\n    
+    * @public\r\n     */\r\n    get Trigger() { return this._trigger; }\r\n    ;\r\n   
+    set Trigger(value) { this._trigger = value; }\r\n    ;\r\n    /**\r\n     * 
+    Event connected with the trigger, it is executed when the trigger is fired\r\n    
+    *  @public\r\n     */\r\n    get OnTrigger() {\r\n        if (this._onTrigger
+    === null)\r\n            this._onTrigger = new ZepetoEvent_1.ZepetoEvent();\r\n       
+    return this._onTrigger;\r\n    }\r\n    /**\r\n     *  Does the controller have
+    a trigger\r\n     */\r\n    get HasTrigger() { return this._trigger !== null;
+    }\r\n    /**\r\n     *  Does the controller have a OnTrigger event\r\n     */\r\n   
+    get HasEvent() { return this._onTrigger !== null; }\r\n    /**\r\n     *  Does
+    the controller have an Action\r\n     */\r\n    get HasAction() { return this._action
+    !== null; }\r\n    /**\r\n     *  Is the controller initialized and connected\r\n    
+    */\r\n    get IsInitialized() { return this.HasTrigger && (this.HasEvent || this.HasAction);
+    }\r\n    // Start() {\r\n    //     this.Initialize();\r\n    // }\r\n    Initialize(action)
+    {\r\n        this._action = action;\r\n        // Internal on Trigger\r\n       
+    DonationManager_1.default.instance.RegisterController(this);\r\n        // Use
+    default if not set by manager\r\n        this.Trigger ?? (this.Trigger = new
+    DonationTrigger_1.DonationTrigger());\r\n        this.Trigger.callback.add_handler((trigger,
+    data) => {\r\n            this._action?.DoAction(data);\r\n            this._onTrigger?.Invoke();\r\n       
+    });\r\n    }\r\n}\r\nexports.default = DonationController;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRG9uYXRpb25Db250cm9sbGVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiRG9uYXRpb25Db250cm9sbGVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXNEO0FBQ3RELDZDQUE0RDtBQUU1RCx1REFBZ0Q7QUFDaEQsdURBQW9EO0FBR3BELG1FQUE0RDtBQUM1RCxtRUFBNEY7QUFHNUY7O0dBRUc7QUFDSCxNQUFxQixrQkFBbUIsU0FBUSxxQ0FBcUI7SUFFakUsSUFBVyxFQUFFLEtBQWEsT0FBTyxJQUFJLEVBQUUsT0FBTyxDQUFDLEVBQUUsQ0FBQSxDQUFDLENBQUM7SUFRbkQ7O09BRUc7SUFDSCxJQUFXLE1BQU07UUFFYixPQUFPLElBQUksQ0FBQyxPQUFPLENBQUE7SUFDdkIsQ0FBQztJQUVELElBQVcsTUFBTSxDQUFDLEtBQTBCO1FBRXhDLElBQUksQ0FBQyxPQUFPLEdBQUcsS0FBSyxDQUFBO0lBQ3hCLENBQUM7SUFTRDs7O09BR0c7SUFDSCxJQUFXLE9BQU8sS0FBMkIsT0FBTyxJQUFJLENBQUMsUUFBUSxDQUFBLENBQUMsQ0FBQztJQUFBLENBQUM7SUFFcEUsSUFBVyxPQUFPLENBQUMsS0FBc0IsSUFBSSxJQUFJLENBQUMsUUFBUSxHQUFHLEtBQUssQ0FBQSxDQUFDLENBQUM7SUFBQSxDQUFDO0lBR3JFOzs7T0FHRztJQUNILElBQVcsU0FBUztRQUNoQixJQUFJLElBQUksQ0FBQyxVQUFVLEtBQUssSUFBSTtZQUN4QixJQUFJLENBQUMsVUFBVSxHQUFHLElBQUkseUJBQVcsRUFBRSxDQUFDO1FBRXhDLE9BQU8sSUFBSSxDQUFDLFVBQVUsQ0FBQztJQUMzQixDQUFDO0lBUUQ7O09BRUc7SUFDSCxJQUFXLFVBQVUsS0FBYyxPQUFPLElBQUksQ0FBQyxRQUFRLEtBQUssSUFBSSxDQUFBLENBQUMsQ0FBQztJQUVsRTs7T0FFRztJQUNILElBQVcsUUFBUSxLQUFjLE9BQU8sSUFBSSxDQUFDLFVBQVUsS0FBSyxJQUFJLENBQUEsQ0FBQyxDQUFDO0lBRWxFOztPQUVHO0lBQ0gsSUFBVyxTQUFTLEtBQWMsT0FBTyxJQUFJLENBQUMsT0FBTyxLQUFLLElBQUksQ0FBQSxDQUFDLENBQUM7SUFFaEU7O09BRUc7SUFDSCxJQUFXLGFBQWEsS0FBYyxPQUFPLElBQUksQ0FBQyxVQUFVLElBQUksQ0FBQyxJQUFJLENBQUMsUUFBUSxJQUFJLElBQUksQ0FBQyxTQUFTLENBQUMsQ0FBQSxDQUFDLENBQUM7SUFHbkcsWUFBWTtJQUNaLHlCQUF5QjtJQUN6QixJQUFJO0lBRUcsVUFBVSxDQUFDLE1BQTJCO1FBRXpDLElBQUksQ0FBQyxPQUFPLEdBQUcsTUFBTSxDQUFDO1FBRXRCLHNCQUFzQjtRQUN0Qix5QkFBZSxDQUFDLFFBQVEsQ0FBQyxrQkFBa0IsQ0FBQyxJQUFJLENBQUMsQ0FBQztRQUVsRCxvQ0FBb0M7UUFDcEMsSUFBSSxDQUFDLE9BQU8sS0FBWixJQUFJLENBQUMsT0FBTyxHQUFLLElBQUksaUNBQWUsRUFBRSxFQUFDO1FBRXZDLElBQUksQ0FBQyxPQUFPLENBQUMsUUFBUSxDQUFDLFdBQVcsQ0FBQyxDQUFDLE9BQU8sRUFBRSxJQUFJLEVBQUUsRUFBRTtZQUVoRCxJQUFJLENBQUMsT0FBTyxFQUFFLFFBQVEsQ0FBQyxJQUFJLENBQUMsQ0FBQztZQUM3QixJQUFJLENBQUMsVUFBVSxFQUFFLE1BQU0sRUFBRSxDQUFDO1FBQzlCLENBQUMsQ0FBQyxDQUFDO0lBQ1AsQ0FBQztDQUNKO0FBakdELHFDQWlHQyJ9","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/DonationController.ts","manifest":{"properties":[],"name":"DonationController","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 52bb9f3a3ff370d061f65052c65c7b49
+  onlyWriteTrigger: 0

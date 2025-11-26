@@ -17,7 +17,7 @@ import {ZepetoPlayers, ZepetoCharacter} from 'ZEPETO.Character.Controller';
 import {Item} from 'ZEPETO.Module.Content';
 import UIMenuController from './UIMenuController';
 import WardrobeItemController from './WardrobeItemController';
-import {InventoryRecord, InventoryService} from 'ZEPETO.Inventory';
+import { InventoryRecord, InventoryService } from 'ZEPETO.Inventory';
 import { UnityEvent, UnityAction } from 'UnityEngine.Events';
 
 import {
@@ -28,7 +28,7 @@ import {
     MannequinInteractable,
     MannequinPreviewer
 } from "ZEPETO.Mannequin";
-
+import { WardrobeItemKeyword, WardrobeKeywordToZepetoPropertyFlag } from './Types';
 
 
 export default class WardrobeController extends ZepetoScriptBehaviour {
@@ -257,7 +257,28 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
             this.StartCoroutine(this.CoWaitForMetadataSet(onItemsLoaded));
         }
     }
+    
+    public SetCharacterItemsIds(itemIds: string[], onItemsLoaded?: UnityAction) {
+        
+        // Find out property for items
+        
+    }
 
+    public ClearCharacterItem(category: number, onItemLoaded?: UnityAction): Map<number, string> {
+        // Category to property
+        const cat: WardrobeItemKeyword = category as WardrobeItemKeyword;
+        let flags = WardrobeKeywordToZepetoPropertyFlag(cat);
+        
+        let current: Map<number, string> = new Map<number, string>();
+        for (const f of flags) {
+            current.set(f, this._originalItems[f]);
+            this.SetCharacterItem(f, "", onItemLoaded);
+        }
+        
+        // Return current items
+        return current;
+    }
+    
     public ResetCharacterItems(onFinished?: Action) {
         if (this._originalItems.size < 1) {
             return;
@@ -297,8 +318,13 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
         for (let i = ZepetoPropertyFlag.AccessoryTail; i <= ZepetoPropertyFlag.AccessoryEffect; ++i) {
             this.RegisterOriginalItemFromContext(i, this.owner.Context);
         }
+        // Makeup related
+        for (let i = ZepetoPropertyFlag.EyeShadow; i <= ZepetoPropertyFlag.Blusher; ++i) {
+            this.RegisterOriginalItemFromContext(i, this.owner.Context);
+        }
 
-        let additional = [ZepetoPropertyFlag.ClothesGlasses, ZepetoPropertyFlag.Hair, ZepetoPropertyFlag.EyeLens];
+        let additional = [ZepetoPropertyFlag.ClothesGlasses, ZepetoPropertyFlag.Hair, ZepetoPropertyFlag.EyeLens, 
+            ZepetoPropertyFlag.FacePainting, ZepetoPropertyFlag.FaceContouring];
         for (let property of additional) {
             this.RegisterOriginalItemFromContext(property, this.owner.Context);
         }
@@ -322,8 +348,13 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
         for (let i = ZepetoPropertyFlag.AccessoryTail; i <= ZepetoPropertyFlag.AccessoryEffect; ++i) {
             this._currentItems.set(i, this.owner.Context.Metadata.Get(i));
         }
-
-        let additional = [ZepetoPropertyFlag.ClothesGlasses, ZepetoPropertyFlag.Hair, ZepetoPropertyFlag.EyeLens];
+        // Makeup related
+        for (let i = ZepetoPropertyFlag.EyeShadow; i <= ZepetoPropertyFlag.Blusher; ++i) {
+            this._currentItems.set(i, this.owner.Context.Metadata.Get(i));
+        }
+        
+        let additional = [ZepetoPropertyFlag.ClothesGlasses, ZepetoPropertyFlag.Hair, ZepetoPropertyFlag.EyeLens, 
+            ZepetoPropertyFlag.FacePainting, ZepetoPropertyFlag.FaceContouring];
         for (let property of additional) {
             this._currentItems.set(property, this.owner.Context.Metadata.Get(property));
         }

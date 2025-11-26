@@ -1,0 +1,39 @@
+fileFormatVersion: 2
+guid: 158cfc0b3a73426b8d8521c9c75576a8
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst DonationActionBase_1 = require(\"../DonationActionBase\");\r\nconst
+    AE_UI_ShowToast_1 = require(\"../../../Scripts/InteractionSystem/Actions/AE_UI_ShowToast\");\r\nclass
+    DN_Toast extends DonationActionBase_1.DonationActionBase {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.message = \"You just got ${amount}
+    ZEM\";\r\n    }\r\n    Start() {\r\n        super.Start();\r\n        this.ae
+    = this.GetComponentInChildren($typeof(AE_UI_ShowToast_1.default));\r\n    }\r\n   
+    DoAction(data) {\r\n        const amount = data.amount;\r\n        this.ae.message
+    = this.message.replace(\"${amount}\", \"\" + amount);\r\n        super.DoAction();\r\n   
+    }\r\n}\r\nexports.default = DN_Toast;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRE5fVG9hc3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJETl9Ub2FzdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDhEQUEwRDtBQUUxRCxnR0FBeUY7QUFHekYsTUFBcUIsUUFBUyxTQUFRLHVDQUFrQjtJQUF4RDs7UUFFVyxZQUFPLEdBQVcsNEJBQTRCLENBQUM7SUFnQjFELENBQUM7SUFiRyxLQUFLO1FBQ0QsS0FBSyxDQUFDLEtBQUssRUFBRSxDQUFDO1FBRWQsSUFBSSxDQUFDLEVBQUUsR0FBRyxJQUFJLENBQUMsc0JBQXNCLFNBQUMseUJBQWUsRUFBRyxDQUFDO0lBQzdELENBQUM7SUFFRCxRQUFRLENBQUMsSUFBdUI7UUFFNUIsTUFBTSxNQUFNLEdBQUcsSUFBSSxDQUFDLE1BQU0sQ0FBQztRQUUzQixJQUFJLENBQUMsRUFBRSxDQUFDLE9BQU8sR0FBRyxJQUFJLENBQUMsT0FBTyxDQUFDLE9BQU8sQ0FBQyxXQUFXLEVBQUUsRUFBRSxHQUFHLE1BQU0sQ0FBQyxDQUFDO1FBQ2pFLEtBQUssQ0FBQyxRQUFRLEVBQUUsQ0FBQztJQUNyQixDQUFDO0NBQ0o7QUFsQkQsMkJBa0JDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/Templates/DN_Toast.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"message","type":"System.String","isArray":false,"initValue":["You
+    just got ${amount} ZEM"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"id","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Basic
+    Configuration\""]},{"name":"Tooltip","args":["\"Main advertisement identifier\""]}]},{"assembly":"mscorlib","name":"amount","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Donation
+    amount for triggering the action\""]}]},{"assembly":"","name":"settings","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Donation/Scripts/Types.DonationActionSettings","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"DN_Toast","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: a33b337d4a0ad262ac4a94a1d3e24f1e
+  onlyWriteTrigger: 0

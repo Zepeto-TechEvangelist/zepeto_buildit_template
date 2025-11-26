@@ -1,0 +1,46 @@
+fileFormatVersion: 2
+guid: f1d907f443b74507951d88c6202cfdb4
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ActionBase_1 = require(\"../ActionBase\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nclass AE_Character_Gesture extends
+    ActionBase_1.ActionBase {\r\n    constructor() {\r\n        super(...arguments);\r\n       
+    this.duration = -1;\r\n        this.isInterruptable = true;\r\n    }\r\n    Init()
+    {\r\n    }\r\n    DoAction() {\r\n        this.target ?? (this.target = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character);\r\n       
+    // Play gesture on the caharcter\r\n        this.target.ZepetoAnimator.speed
+    = 1;\r\n        this.target.SetGesture(this.gesture);\r\n        this.StartCoroutine(this.WaitForExit(this.target,
+    this.isInterruptable, this.duration));\r\n    }\r\n    // TODO: Gesture player
+    class\r\n    *WaitForExit(character, interruptable = true, timeout = -1) {\r\n       
+    if (!character)\r\n            return;\r\n        var hasTimeout = timeout >
+    0 ? true : false;\r\n        console.log(`AE_Gesture [interrupt]${interruptable}
+    [timeout]${hasTimeout}:${timeout}`);\r\n        // Waiting for action loop\r\n       
+    while (true) {\r\n            // Input interrupt\r\n            if (interruptable
+    && (character.tryJump || character.tryMove))\r\n                break;\r\n           
+    // Timeout interrupt\r\n            if (hasTimeout) {\r\n                timeout
+    -= UnityEngine_1.Time.deltaTime;\r\n                if (timeout <= 0)\r\n                   
+    break;\r\n            }\r\n            yield;\r\n        }\r\n        character.CancelGesture();\r\n   
+    }\r\n}\r\nexports.default = AE_Character_Gesture;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQUVfQ2hhcmFjdGVyX0dlc3R1cmUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBRV9DaGFyYWN0ZXJfR2VzdHVyZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDhDQUEyQztBQUMzQyw2RUFBeUc7QUFDekcsNkNBQWtEO0FBRWxELE1BQXFCLG9CQUFxQixTQUFRLHVCQUFVO0lBQTVEOztRQU1XLGFBQVEsR0FBUSxDQUFDLENBQUMsQ0FBQztRQUNuQixvQkFBZSxHQUFTLElBQUksQ0FBQztJQTJDeEMsQ0FBQztJQXpDRyxJQUFJO0lBQ0osQ0FBQztJQUVRLFFBQVE7UUFDYixJQUFJLENBQUMsTUFBTSxLQUFYLElBQUksQ0FBQyxNQUFNLEdBQUssMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxTQUFTLEVBQUM7UUFFMUUsZ0NBQWdDO1FBQ2hDLElBQUksQ0FBQyxNQUFNLENBQUMsY0FBYyxDQUFDLEtBQUssR0FBRyxDQUFDLENBQUM7UUFDckMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxVQUFVLENBQUMsSUFBSSxDQUFDLE9BQU8sQ0FBQyxDQUFDO1FBQ3JDLElBQUksQ0FBQyxjQUFjLENBQUUsSUFBSSxDQUFDLFdBQVcsQ0FBQyxJQUFJLENBQUMsTUFBTSxFQUFFLElBQUksQ0FBQyxlQUFlLEVBQUUsSUFBSSxDQUFDLFFBQVEsQ0FBQyxDQUFFLENBQUM7SUFDOUYsQ0FBQztJQUVELDZCQUE2QjtJQUNyQixDQUFDLFdBQVcsQ0FBQyxTQUEwQixFQUFFLGdCQUFzQixJQUFJLEVBQUUsVUFBaUIsQ0FBQyxDQUFDO1FBRTVGLElBQUksQ0FBQyxTQUFTO1lBQ1YsT0FBTztRQUVYLElBQUksVUFBVSxHQUFTLE9BQU8sR0FBRyxDQUFDLENBQUMsQ0FBQyxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUMsS0FBSyxDQUFDO1FBRWxELE9BQU8sQ0FBQyxHQUFHLENBQUMseUJBQXlCLGFBQWEsYUFBYSxVQUFVLElBQUksT0FBTyxFQUFFLENBQUMsQ0FBQztRQUV4RiwwQkFBMEI7UUFDMUIsT0FBTyxJQUFJLEVBQUU7WUFFVCxrQkFBa0I7WUFDbEIsSUFBSSxhQUFhLElBQUksQ0FBQyxTQUFTLENBQUMsT0FBTyxJQUFJLFNBQVMsQ0FBQyxPQUFPLENBQUM7Z0JBQ3pELE1BQU07WUFFVixvQkFBb0I7WUFDcEIsSUFBSSxVQUFVLEVBQUU7Z0JBQ1osT0FBTyxJQUFJLGtCQUFJLENBQUMsU0FBUyxDQUFDO2dCQUMxQixJQUFJLE9BQU8sSUFBSSxDQUFDO29CQUNaLE1BQU07YUFDYjtZQUVELEtBQUssQ0FBQztTQUNUO1FBRUQsU0FBUyxDQUFDLGFBQWEsRUFBRSxDQUFDO0lBQzlCLENBQUM7Q0FDSjtBQWxERCx1Q0FrREMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Scripts/InteractionSystem/Actions/AE_Character_Gesture.ts","manifest":{"properties":[{"assembly":"ZEPETO.Character.Controller","name":"target","type":"ZEPETO.Character.Controller.ZepetoCharacter","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"gestureName","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.AnimationModule","name":"gesture","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"duration","type":"System.Int32","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"isInterruptable","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"scriptName","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"AE_Character_Gesture","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 735b8484b9e2530c41e6fc59079a500b
+  onlyWriteTrigger: 0

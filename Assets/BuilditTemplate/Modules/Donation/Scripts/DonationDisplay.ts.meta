@@ -1,0 +1,43 @@
+fileFormatVersion: 2
+guid: b70a95e22bf440719c5621af4f5bc12e
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst DonationManager_1 = require(\"./DonationManager\");\r\n/**\r\n
+    * Controller used for donation objects,\r\n */\r\nclass DonationDisplay extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n        super(...arguments);\r\n       
+    this._gems = 0;\r\n        this._coins = 0;\r\n    }\r\n    get gems() { return
+    this._gems; }\r\n    set gems(value) {\r\n        this._gems = value;\r\n       
+    this.UpdateDisplay();\r\n    }\r\n    get coins() { return this._coins; }\r\n   
+    set coins(value) {\r\n        this._coins = value;\r\n        this.UpdateDisplay();\r\n   
+    }\r\n    UpdateDisplay() {\r\n        this.textGem.text = `${this.gems}`;\r\n       
+    this.textCoin.text = `${this.coins}`;\r\n    }\r\n    OnDonationEvent(event)
+    {\r\n        if (event.currency_type == \"zem\")\r\n            this._gems +=
+    Number(event.amount);\r\n        else\r\n            this._coins += Number(event.amount);
+    // TODO: Concern about big int\r\n        this.UpdateDisplay();\r\n    }\r\n   
+    Start() {\r\n        // TODO: Conditional binding\r\n        DonationManager_1.default.instance.display
+    = this;\r\n        this.UpdateDisplay();\r\n    }\r\n}\r\nexports.default = DonationDisplay;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRG9uYXRpb25EaXNwbGF5LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiRG9uYXRpb25EaXNwbGF5LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXNEO0FBQ3RELDZDQUE0RDtBQUU1RCx1REFBZ0Q7QUFLaEQ7O0dBRUc7QUFDSCxNQUFxQixlQUFnQixTQUFRLHFDQUFxQjtJQUFsRTs7UUFJWSxVQUFLLEdBQVcsQ0FBQyxDQUFDO1FBT2xCLFdBQU0sR0FBVyxDQUFDLENBQUM7SUEwQi9CLENBQUM7SUFoQ0csSUFBVyxJQUFJLEtBQVUsT0FBTyxJQUFJLENBQUMsS0FBSyxDQUFBLENBQUMsQ0FBQztJQUM1QyxJQUFXLElBQUksQ0FBQyxLQUFVO1FBQ3RCLElBQUksQ0FBQyxLQUFLLEdBQUcsS0FBSyxDQUFDO1FBQ25CLElBQUksQ0FBQyxhQUFhLEVBQUUsQ0FBQztJQUN6QixDQUFDO0lBR0QsSUFBVyxLQUFLLEtBQVUsT0FBTyxJQUFJLENBQUMsTUFBTSxDQUFBLENBQUMsQ0FBQztJQUM5QyxJQUFXLEtBQUssQ0FBQyxLQUFVO1FBQ3ZCLElBQUksQ0FBQyxNQUFNLEdBQUcsS0FBSyxDQUFDO1FBQ3BCLElBQUksQ0FBQyxhQUFhLEVBQUUsQ0FBQztJQUN6QixDQUFDO0lBRU0sYUFBYTtRQUNoQixJQUFJLENBQUMsT0FBTyxDQUFDLElBQUksR0FBRyxHQUFHLElBQUksQ0FBQyxJQUFJLEVBQUUsQ0FBQztRQUNuQyxJQUFJLENBQUMsUUFBUSxDQUFDLElBQUksR0FBRyxHQUFHLElBQUksQ0FBQyxLQUFLLEVBQUUsQ0FBQztJQUN6QyxDQUFDO0lBRU0sZUFBZSxDQUFDLEtBQXdCO1FBQzNDLElBQUksS0FBSyxDQUFDLGFBQWEsSUFBSSxLQUFLO1lBQzVCLElBQUksQ0FBQyxLQUFLLElBQUksTUFBTSxDQUFDLEtBQUssQ0FBQyxNQUFNLENBQUMsQ0FBQzs7WUFFbkMsSUFBSSxDQUFDLE1BQU0sSUFBSSxNQUFNLENBQUMsS0FBSyxDQUFDLE1BQU0sQ0FBQyxDQUFDLENBQUksOEJBQThCO1FBRTFFLElBQUksQ0FBQyxhQUFhLEVBQUUsQ0FBQztJQUN6QixDQUFDO0lBRUQsS0FBSztRQUNELDRCQUE0QjtRQUM1Qix5QkFBZSxDQUFDLFFBQVEsQ0FBQyxPQUFPLEdBQUcsSUFBSSxDQUFDO1FBQ3hDLElBQUksQ0FBQyxhQUFhLEVBQUUsQ0FBQztJQUN6QixDQUFDO0NBQ0o7QUFyQ0Qsa0NBcUNDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/DonationDisplay.ts","manifest":{"properties":[{"assembly":"ZEPETO.World.Gui","name":"textGem","type":"ZEPETO.World.Gui.ZepetoText","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"ZEPETO.World.Gui","name":"textCoin","type":"ZEPETO.World.Gui.ZepetoText","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"DonationDisplay","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 438f0391be6d73d5b41bdce47e0d711e
+  onlyWriteTrigger: 0

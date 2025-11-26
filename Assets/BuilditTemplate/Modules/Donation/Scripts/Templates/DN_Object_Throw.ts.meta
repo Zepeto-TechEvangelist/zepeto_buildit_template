@@ -1,0 +1,80 @@
+fileFormatVersion: 2
+guid: 87ed72aa779c40108e8eb90b41ff66ba
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst DonationActionBase_1 = require(\"../DonationActionBase\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst AE_Object_Spawner_1 = require(\"../../../Scripts/InteractionSystem/Actions/AE_Object_Spawner\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nclass
+    DN_Object_Throw extends DonationActionBase_1.DonationTimedActionBase {\r\n   
+    constructor() {\r\n        super(...arguments);\r\n        this.throwTarget =
+    UnityEngine_1.HumanBodyBones.Head;\r\n        this.throwForce = 2.2;\r\n    }\r\n   
+    get targetBoneTransform() {\r\n        return ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character\r\n           
+    .ZepetoAnimator.GetBoneTransform(this.throwTarget);\r\n    }\r\n    Start() {\r\n       
+    super.Start();\r\n        this.ae = this.GetComponentInChildren($typeof(AE_Object_Spawner_1.default));\r\n       
+    this.ae.onCreate = (object) => {\r\n            this.StartCoroutine(this.OnCreate(object));\r\n       
+    };\r\n        this.throwForce = 2.2;\r\n        this.ae.Init();\r\n    }\r\n   
+    *OnCreate(instance) {\r\n        yield new UnityEngine_1.WaitForEndOfFrame();\r\n       
+    const sourcePoint = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoCamera.camera.transform;\r\n       
+    instance.name = \"ThrownObject\";\r\n        instance.transform.position = sourcePoint.position;\r\n       
+    yield new UnityEngine_1.WaitForEndOfFrame(); // Wait for update\r\n        var
+    rb = instance.GetComponent($typeof(UnityEngine_1.Rigidbody)) ?? instance.AddComponent($typeof(UnityEngine_1.Rigidbody));\r\n       
+    const targetTransform = this.targetBoneTransform;\r\n        if (rb != null)
+    {\r\n            // Force adjustment\r\n            const source = sourcePoint.position;\r\n           
+    const target = UnityEngine_1.Vector3.op_Addition(targetTransform.position, this.positionOffset);\r\n           
+    const direction = UnityEngine_1.Vector3.op_Subtraction(target, source);\r\n           
+    const distance = direction.magnitude;\r\n            var throwDirection;\r\n           
+    if (targetTransform != null) {\r\n                throwDirection = (UnityEngine_1.Vector3.op_Addition(UnityEngine_1.Vector3.op_Subtraction(UnityEngine_1.Vector3.op_Addition(targetTransform.position,
+    this.positionOffset), sourcePoint.position), new UnityEngine_1.Vector3(0, 1.0,
+    0))).normalized;\r\n                //this.calcBallisticVelocityVector(sourcePoint.position,
+    targetTransform.position + this.positionOffset, this.throwForce);\r\n           
+    }\r\n            else {\r\n                throwDirection = sourcePoint.forward;\r\n           
+    }\r\n            // Force adjustment\r\n            // const source = sourcePoint.position;\r\n           
+    // const target = targetTransform.position + this.positionOffset;\r\n           
+    // const direction: Vector3 = target - source;\r\n            // const distance:
+    float = direction.magnitude;\r\n            // rb.velocity = throwDirection;\r\n           
+    rb.AddForce(UnityEngine_1.Vector3.op_Multiply(throwDirection, (this.throwForce
+    * distance)), UnityEngine_1.ForceMode.Impulse);\r\n        }\r\n    }\r\n   
+    // Internal calculations\r\n    calcBallisticVelocityVector(source, target, angle)
+    {\r\n        var direction = UnityEngine_1.Vector3.op_Subtraction(target, source);
+    // get target direction\r\n        const h = direction.y; // Displacement Y for
+    angle\r\n        direction.y = 0; // remove height\r\n        let distance =
+    direction.magnitude; // get horizontal distance\r\n        let a = angle * (Math.PI
+    / 180.0); // Convert angle to radians\r\n        direction.y = distance * Math.tan(a);
+    // Set direction to elevation angle\r\n        distance += h / Math.tan(a); //
+    Correction for small height differences\r\n        // calculate velocity\r\n       
+    var velocity = Math.sqrt(distance * UnityEngine_1.Physics.gravity.magnitude /
+    Math.sin(2 * a));\r\n        return UnityEngine_1.Vector3.op_Multiply(velocity,
+    direction.normalized);\r\n    }\r\n    DoAction(data) {\r\n        this.ae.targetObject
+    = this.sourceObject;\r\n        this.ae.targetLocation = this.spawnParent;\r\n       
+    this.ae.duration = this.duration;\r\n        super.DoAction();\r\n    }\r\n}\r\nexports.default
+    = DN_Object_Throw;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRE5fT2JqZWN0X1Rocm93LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiRE5fT2JqZWN0X1Rocm93LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsOERBQTZEO0FBQzdELDZDQVVxQjtBQUNyQixvR0FBNkY7QUFFN0YsNkVBQXVFO0FBR3ZFLE1BQXFCLGVBQWdCLFNBQVEsNENBQXVCO0lBQXBFOztRQU1XLGdCQUFXLEdBQW1CLDRCQUFjLENBQUMsSUFBSSxDQUFDO1FBU2pELGVBQVUsR0FBVyxHQUFHLENBQUM7SUErRnJDLENBQUM7SUEzRkcsSUFBWSxtQkFBbUI7UUFDM0IsT0FBTywyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxXQUFXLENBQUMsWUFBWSxDQUFDLFNBQVM7YUFDM0QsY0FBYyxDQUFDLGdCQUFnQixDQUFDLElBQUksQ0FBQyxXQUFXLENBQUMsQ0FBQTtJQUMxRCxDQUFDO0lBR0QsS0FBSztRQUNELEtBQUssQ0FBQyxLQUFLLEVBQUUsQ0FBQztRQUNkLElBQUksQ0FBQyxFQUFFLEdBQUcsSUFBSSxDQUFDLHNCQUFzQixTQUFDLDJCQUFpQixFQUFHLENBQUM7UUFFM0QsSUFBSSxDQUFDLEVBQUUsQ0FBQyxRQUFRLEdBQUcsQ0FBQyxNQUFjLEVBQUUsRUFBRTtZQUNsQyxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUMsTUFBb0IsQ0FBQyxDQUFDLENBQUM7UUFFN0QsQ0FBQyxDQUFDO1FBRUYsSUFBSSxDQUFDLFVBQVUsR0FBRyxHQUFHLENBQUM7UUFFdEIsSUFBSSxDQUFDLEVBQUUsQ0FBQyxJQUFJLEVBQUUsQ0FBQztJQUNuQixDQUFDO0lBRUQsQ0FBQyxRQUFRLENBQUMsUUFBb0I7UUFFMUIsTUFBTSxJQUFJLCtCQUFpQixFQUFFLENBQUM7UUFFOUIsTUFBTSxXQUFXLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxNQUFNLENBQUMsU0FBUyxDQUFDO1FBRXJGLFFBQVEs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","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/Templates/DN_Object_Throw.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"sourceObject","type":"UnityEngine.Object","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Prefab
+    of the thrown object\""]}]},{"assembly":"UnityEngine.AnimationModule","name":"throwTarget","type":"UnityEngine.HumanBodyBones","isArray":false,"initValue":["Head"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Parent
+    object for new instances\""]}]},{"assembly":"UnityEngine.CoreModule","name":"positionOffset","type":"UnityEngine.Vector3","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Position
+    offset from the target\""]}]},{"assembly":"UnityEngine.CoreModule","name":"spawnParent","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Parent
+    object for new instances\""]}]},{"assembly":"mscorlib","name":"duration","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Action
+    duration(sec), infinite if value is 0 or lower\""]}]},{"assembly":"mscorlib","name":"id","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Basic
+    Configuration\""]},{"name":"Tooltip","args":["\"Main advertisement identifier\""]}]},{"assembly":"mscorlib","name":"amount","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Donation
+    amount for triggering the action\""]}]},{"assembly":"","name":"settings","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Donation/Scripts/Types.DonationActionSettings","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"DN_Object_Throw","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: cf28d6bfb697d3e7e1bad43ad0aa3870
+  onlyWriteTrigger: 0

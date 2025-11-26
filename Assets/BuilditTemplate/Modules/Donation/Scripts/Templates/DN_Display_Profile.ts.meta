@@ -1,0 +1,54 @@
+fileFormatVersion: 2
+guid: dfdad0c9168849c6baf2ce5e34e876ae
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst DonationActionBase_1 = require(\"../DonationActionBase\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst AE_Object_Spawner_1 = require(\"../../../Scripts/InteractionSystem/Actions/AE_Object_Spawner\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst WorldSpaceCanvas_1 =
+    require(\"../../../UI/Scripts/WorldSpaceCanvas\");\r\nclass DN_Display_Profile
+    extends DonationActionBase_1.DonationTimedActionBase {\r\n    constructor() {\r\n       
+    super(...arguments);\r\n        this.positionOffset = new UnityEngine_1.Vector3(0,
+    1, 0);\r\n    }\r\n    Start() {\r\n        super.Start();\r\n        this.ae
+    = this.GetComponentInChildren($typeof(AE_Object_Spawner_1.default));\r\n       
+    this.ae.onCreate = (object) => {\r\n            this.StartCoroutine(this.OnCreate(object));\r\n       
+    };\r\n        this.ae.Init();\r\n    }\r\n    *OnCreate(instance) {\r\n       
+    const animator = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.ZepetoAnimator;\r\n       
+    const bone = animator.GetBoneTransform(UnityEngine_1.HumanBodyBones.Head);\r\n       
+    instance.transform.localPosition = this.positionOffset;\r\n        instance.GetComponentInChildren($typeof(UnityEngine_UI_1.Text)).text
+    = this.text;\r\n        let wc = instance.GetComponent($typeof(WorldSpaceCanvas_1.default));\r\n       
+    wc.positionOffset = this.positionOffset;\r\n        wc.followTransform = bone;\r\n       
+    yield new UnityEngine_1.WaitForEndOfFrame();\r\n    }\r\n    DoAction(data) {\r\n       
+    this.text = data.sender_nickname;\r\n        // Full donation messsage\r\n       
+    //DonationLocalization.ReceiveNotification(data.sender_nickname, data.amount,
+    \"\");\r\n        const animator = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character.ZepetoAnimator;\r\n       
+    const bone = animator.GetBoneTransform(UnityEngine_1.HumanBodyBones.Head);\r\n       
+    this.ae.targetObject = this.targetObject;\r\n        this.ae.targetLocation =
+    this.spawnLocation;\r\n        this.ae.duration = this.duration;\r\n        super.DoAction();\r\n   
+    }\r\n}\r\nexports.default = DN_Display_Profile;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRE5fRGlzcGxheV9Qcm9maWxlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiRE5fRGlzcGxheV9Qcm9maWxlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsOERBQTZEO0FBQzdELDZDQUFnSDtBQUNoSCxvR0FBNkY7QUFFN0YsNkVBQTBEO0FBRTFELG1EQUFzQztBQUN0QywyRUFBb0U7QUFFcEUsTUFBcUIsa0JBQW1CLFNBQVEsNENBQXVCO0lBQXZFOztRQU1XLG1CQUFjLEdBQVksSUFBSSxxQkFBTyxDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxDQUFDLENBQUM7SUE4QzFELENBQUM7SUExQ0csS0FBSztRQUNELEtBQUssQ0FBQyxLQUFLLEVBQUUsQ0FBQztRQUNkLElBQUksQ0FBQyxFQUFFLEdBQUcsSUFBSSxDQUFDLHNCQUFzQixTQUFDLDJCQUFpQixFQUFHLENBQUM7UUFFM0QsSUFBSSxDQUFDLEVBQUUsQ0FBQyxRQUFRLEdBQUcsQ0FBQyxNQUFjLEVBQUUsRUFBRTtZQUNsQyxJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUMsTUFBb0IsQ0FBQyxDQUFDLENBQUM7UUFFN0QsQ0FBQyxDQUFDO1FBRUYsSUFBSSxDQUFDLEVBQUUsQ0FBQyxJQUFJLEVBQUUsQ0FBQztJQUNuQixDQUFDO0lBRUQsQ0FBQyxRQUFRLENBQUMsUUFBb0I7UUFFMUIsTUFBTSxRQUFRLEdBQWEsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxTQUFTLENBQUMsY0FBYyxDQUFDO1FBQ3BHLE1BQU0sSUFBSSxHQUFjLFFBQVEsQ0FBQyxnQkFBZ0IsQ0FBQyw0QkFBYyxDQUFDLElBQUksQ0FBQyxDQUFDO1FBRXZFLFFBQVEsQ0FBQyxTQUFTLENBQUMsYUFBYSxHQUFHLElBQUksQ0FBQyxjQUFjLENBQUM7UUFDdkQsUUFBUSxDQUFDLHNCQUFzQixTQUFDLHFCQUFJLEVBQUcsQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDLElBQUksQ0FBQztRQUN6RCxJQUFJLEVBQUUsR0FBRyxRQUFRLENBQUMsWUFBWSxTQUFDLDBCQUFnQixFQUFHLENBQUM7UUFDbkQsRUFBRSxDQUFDLGNBQWMsR0FBRyxJQUFJLENBQUMsY0FBYyxDQUFDO1FBQ3hDLEVBQUUsQ0FBQyxlQUFlLEdBQUcsSUFBSSxDQUFDO1FBRTFCLE1BQU0sSUFBSSwrQkFBaUIsRUFBRSxDQUFDO0lBQ2xDLENBQUM7SUFHRCxRQUFRLENBQUMsSUFBdUI7UUFFNUIsSUFBSSxDQUFDLElBQUksR0FBRyxJQUFJLENBQUMsZUFBZSxDQUFDO1FBQ2pDLHlCQUF5QjtRQUN6QixrRkFBa0Y7UUFFbEYsTUFBTSxRQUFRLEdBQWEsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxTQUFTLENBQUMsY0FBYyxDQUFDO1FBQ3BHLE1BQU0sSUFBSSxHQUFjLFFBQVEsQ0FBQyxnQkFBZ0IsQ0FBQyw0QkFBYyxDQUFDLElBQUksQ0FBQyxDQUFDO1FBRXZFLElBQUksQ0FBQyxFQUFFLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQyxZQUFZLENBQUM7UUFDekMsSUFBSSxDQUFDLEVBQUUsQ0FBQyxjQUFjLEdBQUcsSUFBSSxDQUFDLGFBQWEsQ0FBQztRQUM1QyxJQUFJLENBQUMsRUFBRSxDQUFDLFFBQVEsR0FBRyxJQUFJLENBQUMsUUFBUSxDQUFDO1FBRWpDLEtBQUssQ0FBQyxRQUFRLEVBQUUsQ0FBQztJQUNyQixDQUFDO0NBQ0o7QUFwREQscUNBb0RDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/Templates/DN_Display_Profile.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"targetObject","type":"UnityEngine.Object","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"spawnLocation","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"positionOffset","type":"UnityEngine.Vector3","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"duration","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Action
+    duration(sec), infinite if value is 0 or lower\""]}]},{"assembly":"mscorlib","name":"id","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Basic
+    Configuration\""]},{"name":"Tooltip","args":["\"Main advertisement identifier\""]}]},{"assembly":"mscorlib","name":"amount","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Donation
+    amount for triggering the action\""]}]},{"assembly":"","name":"settings","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Donation/Scripts/Types.DonationActionSettings","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"DN_Display_Profile","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: d61edeaa6d911862ffb909721a5d5005
+  onlyWriteTrigger: 0

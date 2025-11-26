@@ -1,0 +1,94 @@
+fileFormatVersion: 2
+guid: 3b7e6b8ad0fb46dcadcd906ddab563a7
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_World_Gui_1 = require(\"ZEPETO.World.Gui\");\r\nconst
+    ZEPETO_World_Gui_ZepetoToast_1 = require(\"ZEPETO.World.Gui.ZepetoToast\");\r\nconst
+    Types_1 = require(\"./Types\");\r\nconst DonationController_1 = require(\"./DonationController\");\r\nconst
+    ZEPETO_Module_LiveDonation_1 = require(\"ZEPETO.Module.LiveDonation\");\r\nconst
+    DonationDisplay_1 = require(\"./DonationDisplay\");\r\nconst DonationControlBoard_1
+    = require(\"./DonationControlBoard\");\r\nconst Localization_1 = require(\"../../Localization/ZepetoScript/Localization\");\r\nconst
+    Localization_2 = require(\"./Localization\");\r\n/**\r\n * Donation Manager\r\n
+    * high level class that handles live stream donation events and connects to\r\n
+    * behaviours in the world.\r\n */\r\nclass DonationManager extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.settings
+    = new Types_1.DonationSettings();\r\n        this.controllers = [];\r\n    }\r\n   
+    static get DonationEnabled() { return this._managerInitialized; /* config related
+    property */ }\r\n    get Controllers() { return this.controllers; }\r\n    /**
+    --------------------------------------------------------------------------------------------------------
+    */\r\n    /**\r\n     * Donation event handler\r\n     * @param event\r\n    
+    * @constructor\r\n     */\r\n    Donate(event) {\r\n        this.display?.OnDonationEvent(event);\r\n       
+    if (event.currency_type == \"zem\") {\r\n            // TODO: Detailed Logic\r\n           
+    const action = this.settings.actions.find(x => x.amount <= event.amount);\r\n           
+    if (action) {\r\n                const controller = this.controllers.find(x =>
+    x.HasAction && x.Action.id == action.id);\r\n                controller.Trigger.data
+    = event;\r\n                controller.Trigger.Fire();\r\n            }\r\n           
+    const notificationText = Localization_2.DonationLocalization.ReceiveNotification(event.sender_nickname,
+    event.amount, action.text ?? \"\");\r\n            ZEPETO_World_Gui_1.ZepetoToast.Show(ZEPETO_World_Gui_ZepetoToast_1.Type.None,
+    notificationText);\r\n        }\r\n    }\r\n    OnMyLiveDonationEvent(message)
+    {\r\n        const event = {\r\n            sender: \"\",\r\n            sender_nickname:
+    message.sender_nickname,\r\n            sender_profile: message.sender_profile,\r\n           
+    currency_type: message.currency_type,\r\n            amount: message.amount\r\n       
+    };\r\n        this.Donate(event);\r\n    }\r\n    Initialize() {\r\n        ZEPETO_Module_LiveDonation_1.LiveDonationEventHandler.OnLiveDonationEvent.AddListener((message)
+    => {\r\n            // Intentionally left blank\r\n        });\r\n        ZEPETO_Module_LiveDonation_1.LiveDonationEventHandler.OnMyLiveDonationEvent.AddListener((message)
+    => { this.OnMyLiveDonationEvent(message); });\r\n        // Initialized status\r\n       
+    DonationManager._managerInitialized = true;\r\n    }\r\n    /** --------------------------------------------------------------------------------------------------------
+    */\r\n    /**\r\n     * Register a controller for donation events\r\n     * @param
+    controller\r\n     * @constructor\r\n     */\r\n    RegisterController(controller)
+    {\r\n        if (this.controllers.find(x => x === controller))\r\n           
+    return;\r\n        // Add the controller to the pool\r\n        this.controllers.push(controller);\r\n       
+    // Add the action to the pool\r\n        const id = controller.Action.id;\r\n       
+    const amount = controller.Action.amount;\r\n        const actionSettings = new
+    Types_1.DonationActionSettings(id, amount, id);\r\n        this.settings.actions.push(actionSettings);\r\n       
+    // Notify changes\r\n        this.board?.UpdateState();\r\n    }\r\n    /**\r\n    
+    * Unregister a controller from receiving donation events\r\n     * @param controller\r\n    
+    * @constructor\r\n     */\r\n    UnregisterController(controller) {\r\n       
+    let index = this.controllers.findIndex(x => x === controller);\r\n        if
+    (index == -1)\r\n            return;\r\n        this.controllers.splice(index,
+    1);\r\n        index = this.settings.actions.findIndex(x => x.id == controller.id);\r\n       
+    this.settings.actions.splice(index, 1);\r\n        // Notify changes\r\n       
+    this.board?.UpdateState();\r\n    }\r\n    static get instance() {\r\n       
+    if (this.m_instance === null) {\r\n            this.m_instance = UnityEngine_1.GameObject.FindObjectOfType($typeof(DonationManager));\r\n           
+    if (this.m_instance === null) {\r\n                this.m_instance = new UnityEngine_1.GameObject(DonationManager.name).AddComponent($typeof(DonationManager));\r\n           
+    }\r\n        }\r\n        return this.m_instance;\r\n    }\r\n    Awake() {\r\n       
+    if (DonationManager.m_instance !== null && DonationManager.m_instance !== this)
+    {\r\n            UnityEngine_1.GameObject.Destroy(this.gameObject);\r\n       
+    }\r\n        else {\r\n            DonationManager.m_instance = this;\r\n           
+    UnityEngine_1.GameObject.DontDestroyOnLoad(this.gameObject);\r\n        }\r\n       
+    this.Initialize();\r\n    }\r\n    Destroy() {\r\n        // Clear events\r\n       
+    ZEPETO_Module_LiveDonation_1.LiveDonationEventHandler.OnMyLiveDonationEvent.RemoveAllListeners();
+    // RemoveListener(this.OnMyLiveDonationEvent);\r\n    }\r\n    /** --------------------------------------------------------------------------------------------------------
+    */\r\n    // Tests\r\n    TestDonation10() {\r\n        this.TestDonation(10);\r\n   
+    }\r\n    TestDonation50() {\r\n        this.TestDonation(50);\r\n    }\r\n   
+    TestDonation100() {\r\n        this.TestDonation(100);\r\n    }\r\n    TestDonation500()
+    {\r\n        this.TestDonation(500);\r\n    }\r\n    TestDonation1000() {\r\n       
+    this.TestDonation(1000);\r\n    }\r\n    TestDonation(amount) {\r\n        const
+    eventdata = {\r\n            sender: \"\",\r\n            sender_nickname: \"Buildit
+    Tester\",\r\n            currency_type: \"zem\",\r\n            amount: BigInt(amount)\r\n       
+    };\r\n        this.Donate(eventdata);\r\n    }\r\n}\r\nexports.default = DonationManager;\r\nDonationManager._managerInitialized
+    = false;\r\n/** --------------------------------------------------------------------------------------------------------
+    */\r\n/** Singleton */\r\nDonationManager.m_instance = null;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRG9uYXRpb25NYW5hZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiRG9uYXRpb25NYW5hZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQTRFO0FBQzVFLDZDQUF1QztBQUN2Qyx1REFBNkM7QUFDN0MsK0VBQWtEO0FBQ2xELG1DQUFvRjtBQUNwRiw2REFBc0Q7QUFDdEQsMkVBQThGO0FBRTlGLHVEQUFnRDtBQUNoRCxpRUFBMkQ7QUFDM0QsK0VBQXdFO0FBRXhFLGlEQUFzRDtBQUV0RDs7OztHQUlHO0FBQ0gsTUFBcUIsZUFBZ0IsU0FBUSxxQ0FBcUI7SUFBbEU7O1FBV1csYUFBUSxHQUFxQixJQUFJLHdCQUFnQixFQUFFLENBQUM7UUFVbkQsZ0JBQVcsR0FBeUIsRUFBRSxDQUFDO0lBcUtuRCxDQUFDO0lBeExVLE1BQU0sS0FBSyxlQUFlLEtBQVcsT0FBTyxJQUFJLENBQUMsbUJBQW1CLENBQUEsQ0FBQyw2QkFBNkIsQ0FBQyxDQUFDO0lBcUIzRyxJQUFXLFdBQVcsS0FBMkIsT0FBTyxJQUFJLENBQUMsV0FBVyxDQUFBLENBQUMsQ0FBQztJQUcxRSwrR0FBK0c7SUFFL0c7Ozs7T0FJRztJQUNJLE1BQU0sQ0FBQyxLQUF3QjtRQUNsQyxJQUFJLENBQUMsT0FBTyxFQUFFLGVBQWUsQ0FBQyxLQUFLLENBQUMsQ0FBQztRQUVyQyxJQUFJLEtBQUssQ0FBQyxhQUFhLElBQUksS0FBSyxFQUFFO1lBRTlCLHVCQUF1QjtZQUN2QixNQUFNLE1BQU0sR0FBRyxJQUFJLENBQUMsUUFBUSxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsQ0FBQyxDQUFDLEVBQUUsQ0FBQyxDQUFDLENBQUMsTUFBTSxJQUFJLEtBQUssQ0FBQyxNQUFNLENBQUMsQ0FBQztZQUV6RSxJQUFJLE1BQU0sRUFBRTtnQkFDUixNQUFNLFVBQVUsR0FBRyxJQUFJLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUMsRUFBRSxDQUFDLENBQUMsQ0FBQyxT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","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/DonationManager.ts","manifest":{"properties":[{"assembly":"ZEPETO.Script","name":"configuration","type":"ZEPETO.Script.ZepetoScriptableObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"","name":"settings","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Donation/Scripts/Types.DonationSettings","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"","name":"display","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Donation/Scripts/DonationDisplay.default","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]},{"assembly":"","name":"board","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Donation/Scripts/DonationControlBoard.default","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"DonationManager","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: fc39b0a18e6192b66d4052098540258a
+  onlyWriteTrigger: 0

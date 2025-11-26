@@ -1,0 +1,42 @@
+fileFormatVersion: 2
+guid: 531eee580b0b42878a2a22316e10f433
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.DonationLocalization = void 0;\r\nconst Localization_1
+    = require(\"../../Localization/ZepetoScript/Localization\");\r\n// export namespace
+    Donation {\r\nvar Keys;\r\n(function (Keys) {\r\n    Keys[\"amount\"] = \"{amount}\";\r\n   
+    Keys[\"sender\"] = \"{sender}\";\r\n    Keys[\"currencyType\"] = \"{type}\";\r\n   
+    Keys[\"action\"] = \"{action}\";\r\n    Keys[\"zem\"] = \"BP_Desc_Zem\";\r\n   
+    Keys[\"coin\"] = \"BP_Desc_Coin\";\r\n    Keys[\"receivedNotification\"] = \"BP_DN_ReceiveNoti\";\r\n   
+    Keys[\"wrongAmount\"] = \"\";\r\n    //...\r\n})(Keys || (Keys = {}));\r\nclass
+    DonationLocalization {\r\n    static get Coin() { return Localization_1.default.instance.GetLocalizedText(Keys.coin);
+    }\r\n    static get Zem() { return Localization_1.default.instance.GetLocalizedText(Keys.zem);
+    }\r\n    static ReceiveNotification(sender, amount, action) {\r\n        return
+    Localization_1.default.instance.GetLocalizedText(Keys.receivedNotification)\r\n           
+    .replace(Keys.sender, sender)\r\n            .replace(Keys.amount, amount.toString())\r\n           
+    .replace(Keys.currencyType, this.Zem)\r\n            .replace(Keys.action, action);\r\n   
+    }\r\n}\r\nexports.DonationLocalization = DonationLocalization;\r\n// }\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTG9jYWxpemF0aW9uLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiTG9jYWxpemF0aW9uLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUVBLCtFQUF3RTtBQUV4RSw4QkFBOEI7QUFFMUIsSUFBSyxJQVVKO0FBVkQsV0FBSyxJQUFJO0lBQ0wsMkJBQW1CLENBQUE7SUFDbkIsMkJBQW1CLENBQUE7SUFDbkIsK0JBQXVCLENBQUE7SUFDdkIsMkJBQW1CLENBQUE7SUFDbkIsMkJBQW1CLENBQUE7SUFDbkIsNkJBQXFCLENBQUE7SUFDckIsa0RBQTBDLENBQUE7SUFDMUMsd0JBQWdCLENBQUE7SUFDaEIsS0FBSztBQUNULENBQUMsRUFWSSxJQUFJLEtBQUosSUFBSSxRQVVSO0FBRUQsTUFBYSxvQkFBb0I7SUFFdEIsTUFBTSxLQUFLLElBQUksS0FBYSxPQUFPLHNCQUFZLENBQUMsUUFBUSxDQUFDLGdCQUFnQixDQUFDLElBQUksQ0FBQyxJQUFJLENBQUMsQ0FBQSxDQUFDLENBQUM7SUFFdEYsTUFBTSxLQUFLLEdBQUcsS0FBYSxPQUFPLHNCQUFZLENBQUMsUUFBUSxDQUFDLGdCQUFnQixDQUFDLElBQUksQ0FBQyxHQUFHLENBQUMsQ0FBQSxDQUFDLENBQUM7SUFFcEYsTUFBTSxDQUFDLG1CQUFtQixDQUFDLE1BQWMsRUFBRSxNQUFjLEVBQUUsTUFBYztRQUM1RSxPQUFPLHNCQUFZLENBQUMsUUFBUSxDQUFDLGdCQUFnQixDQUFDLElBQUksQ0FBQyxvQkFBb0IsQ0FBQzthQUNuRSxPQUFPLENBQUMsSUFBSSxDQUFDLE1BQU0sRUFBRSxNQUFNLENBQUM7YUFDNUIsT0FBTyxDQUFDLElBQUksQ0FBQyxNQUFNLEVBQUUsTUFBTSxDQUFDLFFBQVEsRUFBRSxDQUFDO2FBQ3ZDLE9BQU8sQ0FBQyxJQUFJLENBQUMsWUFBWSxFQUFFLElBQUksQ0FBQyxHQUFHLENBQUM7YUFDcEMsT0FBTyxDQUFDLElBQUksQ0FBQyxNQUFNLEVBQUUsTUFBTSxDQUFDLENBQUE7SUFDckMsQ0FBQztDQUNKO0FBYkQsb0RBYUM7QUFDTCxJQUFJIn0=","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/Localization.ts","manifest":{"properties":[],"name":"DonationLocalization","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: b11d3579f9e123577206b62eb38ba565
+  onlyWriteTrigger: 0
