@@ -13,6 +13,7 @@ import Localization from '../../Localization/ZepetoScript/Localization';
         coin = "BP_Desc_Coin",
         receivedNotification = "BP_DN_ReceiveNoti",
         wrongAmount = "",
+        actionPrefix = "bp_action_"
         //...
     }
     
@@ -21,6 +22,8 @@ import Localization from '../../Localization/ZepetoScript/Localization';
         public static get Coin(): string { return Localization.instance.GetLocalizedText(Keys.coin) }
         
         public static get Zem(): string { return Localization.instance.GetLocalizedText(Keys.zem) }
+        
+        public static ActionDisplayName(id: string) { return Localization.instance.GetLocalizedText(Keys.actionPrefix + id.toLowerCase()) }
         
         public static ReceiveNotification(sender: string, amount: bigint, action: string): string { 
             return Localization.instance.GetLocalizedText(Keys.receivedNotification)

@@ -85,7 +85,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &5968995893993659698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,17 +117,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   applyRootMotion: 0
   script:
-    script: {fileID: 4458252877524076426, guid: caca02a1cd7f414f97f340ba03298e42, type: 3}
+    script: {fileID: 4458252877524076426, guid: 229556f914703491fa021ca54ef87f98, type: 3}
     isExpaned: 0
     keys:
     - stabilizeRotation
     - useLateUpdate
+    - followTransform
+    - positionOffset
     unityValues:
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     values:
     - '{"type":"System.Boolean, mscorlib","value":"True"}'
     - '{"type":"System.Boolean, mscorlib","value":"True"}'
+    - 
+    - '{"type":"UnityEngine.Vector3, UnityEngine.CoreModule","value":"{\"x\":0.0,\"y\":0.0,\"z\":0.0}"}'
     unityArrayValues: []
     arrayValues: []
 --- !u!1 &2996272002507591413
@@ -164,8 +170,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 84.25, y: -17.5}
-  m_SizeDelta: {x: 148.5, y: 26.5}
+  m_AnchoredPosition: {x: 10, y: -17.5}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6613318194653350448
 CanvasRenderer:
@@ -196,7 +202,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+    m_Font: {fileID: 0}
     m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0

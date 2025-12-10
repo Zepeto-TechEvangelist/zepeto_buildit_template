@@ -16,6 +16,7 @@ import {ZepetoToast} from "ZEPETO.World.Gui";
 import {Type} from "ZEPETO.World.Gui.ZepetoToast";
 
 export enum BoardState {
+    Hidden,
     Display,
     Edit
 }
@@ -25,7 +26,10 @@ export enum BoardState {
  */
 export default class DonationControlBoard extends ZepetoScriptBehaviour {
 
-    public state: BoardState = BoardState.Display;
+    public state: BoardState = BoardState.Hidden;
+    
+    public displayContentWidth: int;
+    public editContentWidth: int;
     
     private popup: UIPopup;
     private gridLayout: GridLayoutGroup;
@@ -46,19 +50,25 @@ export default class DonationControlBoard extends ZepetoScriptBehaviour {
     private items: DonationBoardContentItem[] = [];
     
     public Show() {
-
-        if (this.state == BoardState.Edit) return;
+        if (this.state == BoardState.Edit)
+            this.state = BoardState.Display;
+        else if (this.state == BoardState.Hidden)
+            this.state = BoardState.Edit;
+        else
+            this.state = BoardState.Hidden;
         
-        this.state = BoardState.Edit;
         this.UpdateState();
     }
     
     public Hide() {
-        // Hide Header + Footer
+        if (this.state == BoardState.Hidden) return;
+        
+        this.state = BoardState.Hidden;
+        this.UpdateState();
     }
     
     Start() {
-        DonationManager.instance.board = this;
+        
         
         this.popup = this.GetComponentInChildren<UIPopup>();
         this.gridLayout = this.popup.content.GetComponent<GridLayoutGroup>();
@@ -111,8 +121,9 @@ export default class DonationControlBoard extends ZepetoScriptBehaviour {
             this.state = BoardState.Display;
             this.UpdateState();
         });
-        
-        this.UpdateState();
+
+        DonationManager.instance.RegisterBoard(this);
+        // this.UpdateState();  Manager responsible
         
         this.StartCoroutine(this.LazyInit());
     }
@@ -125,24 +136,8 @@ export default class DonationControlBoard extends ZepetoScriptBehaviour {
     
     Initialize() {
         
-        
         this.settings = DonationManager.instance.settings;
-
-        // var ids = ["DN_TOAST"/*, "DN_CHECKPOINT", "DN_ACTION_2", "DN_ACTION_3", "DN_ACTION_4", "DN_TELEPORT_1"*/];
-        //
-        // for (let id of ids) {
-        //
-        //     const config = new  DonationActionSettings(id, 10, id);
-        //     this.settings.actions.push(config);
-        //
-        //     let instance = Object.Instantiate(this.itemPrefab, this.popup.content) as GameObject;
-        //
-        //     const item = instance.GetComponent<DonationBoardContentItem>();
-        //     item.SetContent(config);
-        //     this.items.push(item);
-        //     instance.SetActive(true);
-        // }
-        
+ 
         for (const config of this.settings.actions) {
 
             let instance = Object.Instantiate(this.itemPrefab, this.popup.content) as GameObject;
@@ -154,6 +149,10 @@ export default class DonationControlBoard extends ZepetoScriptBehaviour {
         }
     }
     
+    public SetState(state: BoardState) {
+        this.state = state;
+        this.UpdateState();
+    }
     
     public UpdateState() {
 
@@ -162,18 +161,24 @@ export default class DonationControlBoard extends ZepetoScriptBehaviour {
             this.popup.header.gameObject.SetActive(false);
             this.popup.footer.gameObject.SetActive(false);
             this.gridLayout.constraintCount = 2;
-            this.gridLayout.cellSize = new Vector2(220, 30);
+            this.gridLayout.cellSize = new Vector2(this.displayContentWidth, 30);
             
             this.items.forEach(x => x.SetEditMode(false));
         } 
         else if (this.state == BoardState.Edit) {
             this.popup.header.gameObject.SetActive(true);
             this.popup.footer.gameObject.SetActive(true);
-            this.gridLayout.cellSize = new Vector2(320, 30);
+            this.gridLayout.cellSize = new Vector2(this.editContentWidth, 30);
             this.gridLayout.constraintCount = 1;
 
             this.items.forEach(x => x.SetEditMode(true));
         }
+        
+        if (this.state == BoardState.Hidden) {
+            this.popup.Hide();
+        }
+        else 
+            this.popup.Show();
     }
     
 }

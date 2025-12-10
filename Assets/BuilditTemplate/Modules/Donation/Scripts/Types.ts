@@ -2,9 +2,11 @@
  * Settings used to configure donation system
  */
 import { LiveDonationEventMessage } from "ZEPETO.Module.LiveDonation";
+import type DonationConfig from "./DonationConfig";
 
 export class DonationSettings {
-    actions: DonationActionSettings[] = []; 
+    actions: DonationActionSettings[] = [];
+    config: DonationConfig;
 }
 
 export class DonationActionSettings {

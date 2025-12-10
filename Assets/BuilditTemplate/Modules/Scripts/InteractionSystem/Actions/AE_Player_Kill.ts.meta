@@ -1,0 +1,33 @@
+fileFormatVersion: 2
+guid: 201c8d4a86aa04b3d84bfddd43cf92a7
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ActionBase_1 = require(\"../ActionBase\");\r\nconst
+    TrapManager_1 = require(\"../../../../Themes/JumpMaster_Traps/Scripts/TrapManager\");\r\nclass
+    AE_Player_Kill extends ActionBase_1.ActionBase {\r\n    Awake() {\r\n       
+    // Note: To avoid a static instance in the scene, created for SpawnPoint\r\n       
+    TrapManager_1.default.instance;\r\n    }\r\n    DoAction() {\r\n        TrapManager_1.default.instance.TeleportCharacter();\r\n   
+    }\r\n}\r\nexports.default = AE_Player_Kill;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQUVfUGxheWVyX0tpbGwuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJBRV9QbGF5ZXJfS2lsbC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDhDQUEyQztBQUczQyx5RkFBa0Y7QUFFbEYsTUFBcUIsY0FBZSxTQUFRLHVCQUFVO0lBRWxELEtBQUs7UUFDRCx3RUFBd0U7UUFDeEUscUJBQVcsQ0FBQyxRQUFRLENBQUM7SUFDekIsQ0FBQztJQUVRLFFBQVE7UUFDYixxQkFBVyxDQUFDLFFBQVEsQ0FBQyxpQkFBaUIsRUFBRSxDQUFDO0lBQzdDLENBQUM7Q0FDSjtBQVZELGlDQVVDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Scripts/InteractionSystem/Actions/AE_Player_Kill.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"scriptName","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"AE_Player_Kill","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 1343cb71b4b7adc41019244a9d2294b1
+  onlyWriteTrigger: 0

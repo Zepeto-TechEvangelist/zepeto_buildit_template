@@ -1,0 +1,43 @@
+fileFormatVersion: 2
+guid: a5868f437a99741579acfb0fc867e0e7
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst DonationActionBase_1 = require(\"../DonationActionBase\");\r\nconst
+    AE_Character_Buff_1 = require(\"../../../Scripts/InteractionSystem/Actions/AE_Character_Buff\");\r\nclass
+    DN_Buff extends DonationActionBase_1.DonationTimedActionBase {\r\n    Start()
+    {\r\n        super.Start();\r\n        this.ae = this.GetComponentInChildren($typeof(AE_Character_Buff_1.default));\r\n       
+    this.ae.Init();\r\n    }\r\n    DoAction(data) {\r\n        const modifier =
+    this.ae.motionModifier;\r\n        modifier.jumpPower = this.jumpPowerMultiplier;\r\n       
+    modifier.runSpeed = this.moveSpeedMultiplier;\r\n        modifier.walkSpeed =
+    this.moveSpeedMultiplier;\r\n        modifier.modifierDuration = this.duration;\r\n       
+    super.DoAction();\r\n    }\r\n}\r\nexports.default = DN_Buff;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRE5fQnVmZi5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIkROX0J1ZmYudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSw4REFBK0Q7QUFFL0Qsb0dBQTZGO0FBSTdGLE1BQXFCLE9BQVEsU0FBUSw0Q0FBdUI7SUFXeEQsS0FBSztRQUNELEtBQUssQ0FBQyxLQUFLLEVBQUUsQ0FBQztRQUVkLElBQUksQ0FBQyxFQUFFLEdBQUcsSUFBSSxDQUFDLHNCQUFzQixTQUFDLDJCQUFpQixFQUFHLENBQUM7UUFDM0QsSUFBSSxDQUFDLEVBQUUsQ0FBQyxJQUFJLEVBQUUsQ0FBQztJQUNuQixDQUFDO0lBRUQsUUFBUSxDQUFDLElBQXVCO1FBRTVCLE1BQU0sUUFBUSxHQUFHLElBQUksQ0FBQyxFQUFFLENBQUMsY0FBYyxDQUFDO1FBRXhDLFFBQVEsQ0FBQyxTQUFTLEdBQUcsSUFBSSxDQUFDLG1CQUFtQixDQUFDO1FBQzlDLFFBQVEsQ0FBQyxRQUFRLEdBQUcsSUFBSSxDQUFDLG1CQUFtQixDQUFDO1FBQzdDLFFBQVEsQ0FBQyxTQUFTLEdBQUcsSUFBSSxDQUFDLG1CQUFtQixDQUFDO1FBQzlDLFFBQVEsQ0FBQyxnQkFBZ0IsR0FBRyxJQUFJLENBQUMsUUFBUSxDQUFDO1FBRTFDLEtBQUssQ0FBQyxRQUFRLEVBQUUsQ0FBQztJQUNyQixDQUFDO0NBQ0o7QUE3QkQsMEJBNkJDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/Templates/DN_Buff.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"moveSpeedMultiplier","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Movement
+    speed multiplier factor, values between 0 and 1 will reduce the speed while >1
+    will increase the speed\""]}]},{"assembly":"mscorlib","name":"jumpPowerMultiplier","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Jump
+    power multiplier factor, values between 0 and 1 will reduce the power while >1
+    will increase the power\""]}]},{"assembly":"mscorlib","name":"duration","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Action
+    duration(sec), infinite if value is 0 or lower\""]}]},{"assembly":"mscorlib","name":"id","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Basic
+    Configuration\""]},{"name":"Tooltip","args":["\"Main advertisement identifier\""]}]},{"assembly":"mscorlib","name":"amount","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Donation
+    amount for triggering the action\""]}]},{"assembly":"","name":"settings","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Donation/Scripts/Types.DonationActionSettings","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"DN_Buff","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 0eaef8df83a94d55ea4f296f046b5ac4
+  onlyWriteTrigger: 0

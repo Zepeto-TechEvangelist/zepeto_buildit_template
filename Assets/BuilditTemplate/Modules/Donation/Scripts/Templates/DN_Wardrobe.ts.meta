@@ -1,0 +1,37 @@
+fileFormatVersion: 2
+guid: 62c6d3bb4a6e84d9d8821f49b05b0a49
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst DonationActionBase_1 = require(\"../DonationActionBase\");\r\nclass
+    DN_Wardrobe extends DonationActionBase_1.DonationTimedActionBase {\r\n    Start()
+    {\r\n        super.Start();\r\n        // this.ae = this.GetComponentInChildren<AE_Character_Gesture>();\r\n   
+    }\r\n    DoAction(data) {\r\n        // this.ae.duration = this.duration;\r\n       
+    super.DoAction();\r\n    }\r\n}\r\nexports.default = DN_Wardrobe;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRE5fV2FyZHJvYmUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJETl9XYXJkcm9iZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDhEQUErRDtBQUsvRCxNQUFxQixXQUFZLFNBQVEsNENBQXVCO0lBUTVELEtBQUs7UUFDRCxLQUFLLENBQUMsS0FBSyxFQUFFLENBQUM7UUFDZCxpRUFBaUU7SUFDckUsQ0FBQztJQUVELFFBQVEsQ0FBQyxJQUF1QjtRQUU1QixvQ0FBb0M7UUFDcEMsS0FBSyxDQUFDLFFBQVEsRUFBRSxDQUFDO0lBQ3JCLENBQUM7Q0FDSjtBQWxCRCw4QkFrQkMifQ==","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/Templates/DN_Wardrobe.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"items","type":"System.String[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Wardrobe
+    items\""]}]},{"assembly":"mscorlib","name":"duration","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Action
+    duration(sec), infinite if value is 0 or lower\""]}]},{"assembly":"mscorlib","name":"id","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Basic
+    Configuration\""]},{"name":"Tooltip","args":["\"Main advertisement identifier,
+    the same identifier is used for localization\""]}]},{"assembly":"mscorlib","name":"amount","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Donation
+    amount for triggering the action\""]}]},{"assembly":"","name":"settings","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Donation/Scripts/Types.DonationActionSettings","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"DN_Wardrobe","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 239294f3181f72f65bd0efb315589bc8
+  onlyWriteTrigger: 0

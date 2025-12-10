@@ -10,6 +10,7 @@ import type { ZepetoText } from "ZEPETO.World.Gui";
  * Controller used for donation objects,
  */
 export default class DonationDisplay extends ZepetoScriptBehaviour {
+    
     public textGem: ZepetoText;
     public textCoin: ZepetoText;
     
@@ -36,14 +37,21 @@ export default class DonationDisplay extends ZepetoScriptBehaviour {
         if (event.currency_type == "zem")
             this._gems += Number(event.amount);
         else
-            this._coins += Number(event.amount);    // TODO: Concern about big int
+            this._coins += Number(event.amount);    // TODO: Big int
 
         this.UpdateDisplay();
     }
     
     Start() {
-        // TODO: Conditional binding
-        DonationManager.instance.display = this;
+        DonationManager.instance.RegisterDisplay(this);
         this.UpdateDisplay();
+    }
+
+    public Show() {
+        this.gameObject.SetActive(true);
+    }
+    
+    public Hide() {
+        this.gameObject.SetActive(false);
     }
 }

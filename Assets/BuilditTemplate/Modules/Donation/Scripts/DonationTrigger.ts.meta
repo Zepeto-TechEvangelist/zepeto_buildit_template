@@ -23,9 +23,8 @@ ScriptedImporter:
   WrapperFilters: []
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
-    { value: true });\r\nexports.DonationTrigger = void 0;\r\nconst ZEPETO_Script_1
-    = require(\"ZEPETO.Script\");\r\nconst ZepetoEvent_1 = require(\"../../Scripts/Utility/ZepetoEvent\");\r\nconst
-    Trigger_1 = require(\"../../Scripts/InteractionSystem/Trigger\");\r\n/**\r\n
+    { value: true });\r\nexports.DonationTrigger = void 0;\r\nconst ZepetoEvent_1
+    = require(\"../../Scripts/Utility/ZepetoEvent\");\r\nconst Trigger_1 = require(\"../../Scripts/InteractionSystem/Trigger\");\r\n/**\r\n
     * Trigger associated with a donation event\r\n * it also contains donation event
     data\r\n * - sender\r\n * - amount\r\n * - currency\r\n * - item\r\n */\r\nclass
     DonationTrigger {\r\n    constructor() {\r\n        // /**\r\n        //  * Donation
@@ -37,6 +36,6 @@ ScriptedImporter:
     */\r\n    get amount() { return this._data.amount; }\r\n    /**\r\n     * Donation
     currency type\r\n     */\r\n    get currency_type() { return this._data.currency_type;
     }\r\n    Fire() {\r\n        this.callback.Invoke(this, this._data);\r\n    }\r\n}\r\nexports.DonationTrigger
-    = DonationTrigger;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRG9uYXRpb25UcmlnZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiRG9uYXRpb25UcmlnZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLGlEQUFxRDtBQUNyRCxtRUFBaUU7QUFDakUscUVBQWdGO0FBR2hGOzs7Ozs7O0dBT0c7QUFDSCxNQUFhLGVBQWU7SUFBNUI7UUF1QkksTUFBTTtRQUNOLG1CQUFtQjtRQUNuQixNQUFNO1FBQ04sNkRBQTZEO1FBRzdELHFCQUFxQjtRQUNkLGFBQVEsR0FBcUQsSUFBSSwwQkFBWSxFQUFzQyxDQUFDO0lBTS9ILENBQUM7SUFsQ0csSUFBVyxJQUFJLEtBQWtCLE9BQU8scUJBQVcsQ0FBQyxRQUFRLENBQUMsQ0FBQyxDQUFDO0lBSS9ELElBQVcsSUFBSSxDQUFDLEtBQXdCLElBQUksSUFBSSxDQUFDLEtBQUssR0FBRyxLQUFLLENBQUEsQ0FBQyxDQUFDO0lBRWhFOztPQUVHO0lBQ0gsSUFBVyxNQUFNLEtBQWEsT0FBTyxJQUFJLENBQUMsS0FBSyxDQUFDLE1BQU0sQ0FBQSxDQUFDLENBQUM7SUFFeEQ7O09BRUc7SUFDSCxJQUFXLE1BQU0sS0FBYSxPQUFPLElBQUksQ0FBQyxLQUFLLENBQUMsTUFBTSxDQUFBLENBQUMsQ0FBQztJQUV4RDs7T0FFRztJQUNILElBQVcsYUFBYSxLQUFhLE9BQU8sSUFBSSxDQUFDLEtBQUssQ0FBQyxhQUFhLENBQUEsQ0FBQyxDQUFDO0lBV3RFLElBQUk7UUFDQSxJQUFJLENBQUMsUUFBUSxDQUFDLE1BQU0sQ0FBQyxJQUFJLEVBQUUsSUFBSSxDQUFDLEtBQUssQ0FBQyxDQUFDO0lBQzNDLENBQUM7Q0FFSjtBQXBDRCwwQ0FvQ0MifQ==","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/DonationTrigger.ts","manifest":{"properties":[],"name":"DonationTrigger","description":"","hasAnimatorMove":false},"isCompiled":true}'
+    = DonationTrigger;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRG9uYXRpb25UcmlnZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiRG9uYXRpb25UcmlnZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUNBLG1FQUFpRTtBQUNqRSxxRUFBZ0Y7QUFHaEY7Ozs7Ozs7R0FPRztBQUNILE1BQWEsZUFBZTtJQUE1QjtRQXVCSSxNQUFNO1FBQ04sbUJBQW1CO1FBQ25CLE1BQU07UUFDTiw2REFBNkQ7UUFHN0QscUJBQXFCO1FBQ2QsYUFBUSxHQUFxRCxJQUFJLDBCQUFZLEVBQXNDLENBQUM7SUFNL0gsQ0FBQztJQWxDRyxJQUFXLElBQUksS0FBa0IsT0FBTyxxQkFBVyxDQUFDLFFBQVEsQ0FBQyxDQUFDLENBQUM7SUFJL0QsSUFBVyxJQUFJLENBQUMsS0FBd0IsSUFBSSxJQUFJLENBQUMsS0FBSyxHQUFHLEtBQUssQ0FBQSxDQUFDLENBQUM7SUFFaEU7O09BRUc7SUFDSCxJQUFXLE1BQU0sS0FBYSxPQUFPLElBQUksQ0FBQyxLQUFLLENBQUMsTUFBTSxDQUFBLENBQUMsQ0FBQztJQUV4RDs7T0FFRztJQUNILElBQVcsTUFBTSxLQUFhLE9BQU8sSUFBSSxDQUFDLEtBQUssQ0FBQyxNQUFNLENBQUEsQ0FBQyxDQUFDO0lBRXhEOztPQUVHO0lBQ0gsSUFBVyxhQUFhLEtBQWEsT0FBTyxJQUFJLENBQUMsS0FBSyxDQUFDLGFBQWEsQ0FBQSxDQUFDLENBQUM7SUFXdEUsSUFBSTtRQUNBLElBQUksQ0FBQyxRQUFRLENBQUMsTUFBTSxDQUFDLElBQUksRUFBRSxJQUFJLENBQUMsS0FBSyxDQUFDLENBQUM7SUFDM0MsQ0FBQztDQUVKO0FBcENELDBDQW9DQyJ9","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/DonationTrigger.ts","manifest":{"properties":[],"name":"DonationTrigger","description":"","hasAnimatorMove":false},"isCompiled":true}'
   typescriptHash: 62c74f9aeffa35e93c6875f9514b0a32
   onlyWriteTrigger: 0

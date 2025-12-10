@@ -8,12 +8,13 @@ import { DonationEventData, DonationActionSettings } from "./Types";
 export abstract class DonationActionBase extends ZepetoScriptBehaviour implements IDonationActionBase {
 
     @Header("Basic Configuration")
+
     /**
      * Main advertisement identifier
      */
-    @Tooltip("Main advertisement identifier")
+    @Tooltip("Main advertisement identifier, the same identifier is used for localization")
     public id: string;
-    // public get id(): string { return null }
+
     @Tooltip("Donation amount for triggering the action")
     public amount: number;
     
@@ -43,13 +44,11 @@ export abstract class DonationActionBase extends ZepetoScriptBehaviour implement
     Awake() {
         this._action ??= this.GetComponentInChildren<Action>();
         this._controller ??= this.GetComponentInChildren<DonationController>();
-    
-        // Indirect binding
-        this._controller.Initialize(this);
     }
 
     Start() {
-
+        // Indirect binding
+        this._controller.Initialize(this);
     }
     
     DoAction(data?: DonationEventData) {

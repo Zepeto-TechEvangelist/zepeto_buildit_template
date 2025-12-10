@@ -1,0 +1,49 @@
+fileFormatVersion: 2
+guid: ca6ff655b9a79440d90bf017d286c9df
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst DonationActionBase_1 = require(\"../DonationActionBase\");\r\nconst
+    AE_GameObject_SetActive_1 = require(\"../../../Scripts/InteractionSystem/Actions/AE_GameObject_SetActive\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nclass DN_Object_SetActive extends
+    DonationActionBase_1.DonationTimedActionBase {\r\n    Start() {\r\n        super.Start();\r\n       
+    let aes = this.GetComponentsInChildren($typeof(AE_GameObject_SetActive_1.default));\r\n       
+    if (aes.length > 0)\r\n            aes[0].targetObject = this.objectToActivate;\r\n       
+    if (aes.length > 1)\r\n            aes[1].targetObject = this.objectToDeactivate;\r\n       
+    aes.forEach(x => x.Init());\r\n        this.aes = aes;\r\n    }\r\n    DoAction(data)
+    {\r\n        super.DoAction();\r\n        this.StartCoroutine(this.DelayReset(this.duration));\r\n   
+    }\r\n    *DelayReset(timeout = -1) {\r\n        var hasTimeout = timeout > 0
+    ? true : false;\r\n        // Waiting for action loop\r\n        while (true)
+    {\r\n            // Timeout interrupt\r\n            if (hasTimeout) {\r\n               
+    timeout -= UnityEngine_1.Time.deltaTime;\r\n                if (timeout <= 0)\r\n                   
+    break;\r\n            }\r\n            yield;\r\n        }\r\n        const aes
+    = this.aes;\r\n        if (aes.length > 0)\r\n            aes[0].targetObject
+    = this.objectToDeactivate;\r\n        if (aes.length > 1)\r\n            aes[1].targetObject
+    = this.objectToActivate;\r\n        super.DoAction();\r\n    }\r\n}\r\nexports.default
+    = DN_Object_SetActive;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRE5fT2JqZWN0X1NldEFjdGl2ZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIkROX09iamVjdF9TZXRBY3RpdmUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSw4REFBK0Q7QUFFL0QsZ0hBQXlHO0FBRXpHLDZDQUFnRDtBQUdoRCxNQUFxQixtQkFBb0IsU0FBUSw0Q0FBdUI7SUFPcEUsS0FBSztRQUNELEtBQUssQ0FBQyxLQUFLLEVBQUUsQ0FBQztRQUNkLElBQUksR0FBRyxHQUFHLElBQUksQ0FBQyx1QkFBdUIsU0FBQyxpQ0FBdUIsRUFBRyxDQUFDO1FBRWxFLElBQUksR0FBRyxDQUFDLE1BQU0sR0FBRyxDQUFDO1lBQ2QsR0FBRyxDQUFDLENBQUMsQ0FBQyxDQUFDLFlBQVksR0FBRyxJQUFJLENBQUMsZ0JBQWdCLENBQUM7UUFDaEQsSUFBSSxHQUFHLENBQUMsTUFBTSxHQUFHLENBQUM7WUFDZCxHQUFHLENBQUMsQ0FBQyxDQUFDLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQyxrQkFBa0IsQ0FBQztRQUVsRCxHQUFHLENBQUMsT0FBTyxDQUFDLENBQUMsQ0FBQyxFQUFFLENBQUMsQ0FBQyxDQUFDLElBQUksRUFBRSxDQUFDLENBQUM7UUFDM0IsSUFBSSxDQUFDLEdBQUcsR0FBRyxHQUFHLENBQUM7SUFDbkIsQ0FBQztJQUVELFFBQVEsQ0FBQyxJQUF1QjtRQUM1QixLQUFLLENBQUMsUUFBUSxFQUFFLENBQUM7UUFFakIsSUFBSSxDQUFDLGNBQWMsQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLElBQUksQ0FBQyxRQUFRLENBQUMsQ0FBQyxDQUFDO0lBQ3hELENBQUM7SUFFTyxDQUFDLFVBQVUsQ0FBQyxVQUFpQixDQUFDLENBQUM7UUFFbkMsSUFBSSxVQUFVLEdBQVMsT0FBTyxHQUFHLENBQUMsQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLENBQUMsQ0FBQyxLQUFLLENBQUM7UUFFbEQsMEJBQTBCO1FBQzFCLE9BQU8sSUFBSSxFQUFFO1lBRVQsb0JBQW9CO1lBQ3BCLElBQUksVUFBVSxFQUFFO2dCQUNaLE9BQU8sSUFBSSxrQkFBSSxDQUFDLFNBQVMsQ0FBQztnQkFDMUIsSUFBSSxPQUFPLElBQUksQ0FBQztvQkFDWixNQUFNO2FBQ2I7WUFFRCxLQUFLLENBQUM7U0FDVDtRQUVELE1BQU0sR0FBRyxHQUFHLElBQUksQ0FBQyxHQUFHLENBQUM7UUFFckIsSUFBSSxHQUFHLENBQUMsTUFBTSxHQUFHLENBQUM7WUFDZCxHQUFHLENBQUMsQ0FBQyxDQUFDLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQyxrQkFBa0IsQ0FBQztRQUNsRCxJQUFJLEdBQUcsQ0FBQyxNQUFNLEdBQUcsQ0FBQztZQUNkLEdBQUcsQ0FBQyxDQUFDLENBQUMsQ0FBQyxZQUFZLEdBQUcsSUFBSSxDQUFDLGdCQUFnQixDQUFDO1FBQ2hELEtBQUssQ0FBQyxRQUFRLEVBQUUsQ0FBQztJQUNyQixDQUFDO0NBQ0o7QUFuREQsc0NBbURDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/Templates/DN_Object_SetActive.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"objectToActivate","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"objectToDeactivate","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"duration","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Action
+    duration(sec), infinite if value is 0 or lower\""]}]},{"assembly":"mscorlib","name":"id","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Basic
+    Configuration\""]},{"name":"Tooltip","args":["\"Main advertisement identifier,
+    the same identifier is used for localization\""]}]},{"assembly":"mscorlib","name":"amount","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Donation
+    amount for triggering the action\""]}]},{"assembly":"","name":"settings","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Donation/Scripts/Types.DonationActionSettings","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"DN_Object_SetActive","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: a55f978d6fe2237b680d0be1d4a8a7e6
+  onlyWriteTrigger: 0

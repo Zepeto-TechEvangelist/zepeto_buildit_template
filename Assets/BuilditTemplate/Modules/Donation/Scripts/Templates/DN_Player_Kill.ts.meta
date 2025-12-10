@@ -1,0 +1,35 @@
+fileFormatVersion: 2
+guid: 3828cb762400f4881904cdc1f2ddafc1
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst DonationActionBase_1 = require(\"../DonationActionBase\");\r\nconst
+    AE_Player_Kill_1 = require(\"../../../Scripts/InteractionSystem/Actions/AE_Player_Kill\");\r\nclass
+    DN_Player_Kill extends DonationActionBase_1.DonationActionBase {\r\n    Start()
+    {\r\n        super.Start();\r\n        this.ae = this.GetComponentInChildren($typeof(AE_Player_Kill_1.default));\r\n   
+    }\r\n    DoAction(data) {\r\n        super.DoAction();\r\n    }\r\n}\r\nexports.default
+    = DN_Player_Kill;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRE5fUGxheWVyX0tpbGwuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJETl9QbGF5ZXJfS2lsbC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDhEQUEwRDtBQUUxRCw4RkFBdUY7QUFJdkYsTUFBcUIsY0FBZSxTQUFRLHVDQUFrQjtJQUsxRCxLQUFLO1FBQ0QsS0FBSyxDQUFDLEtBQUssRUFBRSxDQUFDO1FBQ2QsSUFBSSxDQUFDLEVBQUUsR0FBRyxJQUFJLENBQUMsc0JBQXNCLFNBQUMsd0JBQWMsRUFBRyxDQUFDO0lBQzVELENBQUM7SUFFRCxRQUFRLENBQUMsSUFBdUI7UUFDNUIsS0FBSyxDQUFDLFFBQVEsRUFBRSxDQUFDO0lBQ3JCLENBQUM7Q0FDSjtBQWJELGlDQWFDIn0=","assetPath":"Assets/BuilditTemplate/Modules/Donation/Scripts/Templates/DN_Player_Kill.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"id","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Basic
+    Configuration\""]},{"name":"Tooltip","args":["\"Main advertisement identifier\""]}]},{"assembly":"mscorlib","name":"amount","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Tooltip","args":["\"Donation
+    amount for triggering the action\""]}]},{"assembly":"","name":"settings","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/BuilditTemplate/Modules/Donation/Scripts/Types.DonationActionSettings","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"HideInInspector","args":[]}]}],"name":"DN_Player_Kill","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: d9c70dd6fb882eae74df7d6edfd68229
+  onlyWriteTrigger: 0

@@ -14,7 +14,7 @@ export default class UIManager extends ZepetoScriptBehaviour {
     public gestureMenu: GameObject;
     public gestureToggle: Button;
     public donationToggle: Button;
-    
+
     /* Singleton */
     private static m_instance: UIManager = null;
 
@@ -41,18 +41,22 @@ export default class UIManager extends ZepetoScriptBehaviour {
         if (UIManager.m_instance == this)
             UIManager.m_instance = null;
     }
-    
+
     private Start() {
-        
+
         let wardrobeController = this.wardrobe.GetComponent<WardrobeController>();
         let wardrobeMenu = this.wardrobe.GetComponent<UIMenuController>();
-        
-        this.wardrobeToggle.onClick.AddListener(() => { wardrobeMenu.ToggleMenu(); });
-        
+
+        this.wardrobeToggle.onClick.AddListener(() => {
+            wardrobeMenu.ToggleMenu();
+        });
+
         if (DonationManager.DonationEnabled) {
+            this.donationToggle.onClick.AddListener(() => {
+                DonationManager.instance.ToggleBoardState();
+            });
+
             this.donationToggle.gameObject.SetActive(true);
-            this.donationToggle.onClick.AddListener(() => { DonationManager.instance.board.Show(); });
-            DonationManager.instance.board?.Hide();
         }
     }
 

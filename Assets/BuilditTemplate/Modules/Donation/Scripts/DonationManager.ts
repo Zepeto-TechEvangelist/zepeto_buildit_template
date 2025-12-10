@@ -6,11 +6,13 @@ import {DonationActionSettings, DonationEventData, DonationSettings} from "./Typ
 import DonationController from "./DonationController";
 import {LiveDonationEventHandler, LiveDonationEventMessage} from "ZEPETO.Module.LiveDonation";
 
+import DonationConfig from "./DonationConfig";
 import DonationDisplay from "./DonationDisplay";
-import DonatioinControlBoard from "./DonationControlBoard";
+import DonationControlBoard, { BoardState } from "./DonationControlBoard";
 import Localization from '../../Localization/ZepetoScript/Localization';
 
 import { DonationLocalization } from './Localization';
+import UIManager from "../../Scripts/UIManager";
 
 /**
  * Donation Manager
@@ -19,13 +21,17 @@ import { DonationLocalization } from './Localization';
  */
 export default class DonationManager extends ZepetoScriptBehaviour {
     
+    public donationEnabled: bool;
+    
     public static get DonationEnabled(): bool { return this._managerInitialized /* config related property */ }
     private static _managerInitialized: bool = false;
 
     /**
-     * 
+     * Main configuration file
      */
-    public configuration: ZepetoScriptableObject<DonationSettings>;
+    public configuration: ZepetoScriptableObject<DonationConfig>;
+    
+    private _config: DonationConfig;
     
     @HideInInspector() 
     public settings: DonationSettings = new DonationSettings();
@@ -34,7 +40,7 @@ export default class DonationManager extends ZepetoScriptBehaviour {
     public display: DonationDisplay;
     
     @HideInInspector() 
-    public board: DonatioinControlBoard;
+    public board: DonationControlBoard;
 
     public donationMap: Map<int, string>;
 
@@ -89,6 +95,16 @@ export default class DonationManager extends ZepetoScriptBehaviour {
     
     private Initialize() {
         
+        // Load settingss from configuration
+        this._config = this.configuration.targetObject;
+        
+        this.donationEnabled = this._config.donationEnabled;
+        
+        if (this.donationEnabled == false) {
+            this.transform.parent.gameObject.SetActive(false);
+            return;
+        }
+        
         LiveDonationEventHandler.OnLiveDonationEvent.AddListener((message) => {
             // Intentionally left blank
         });
@@ -117,9 +133,9 @@ export default class DonationManager extends ZepetoScriptBehaviour {
         // Add the action to the pool
         const id = controller.Action.id;
         const amount = controller.Action.amount;
+        const name = DonationLocalization.ActionDisplayName(id);
         
-        const actionSettings = new DonationActionSettings(id, amount, id);
-        this.settings.actions.push( actionSettings );
+        this.settings.actions.push( new DonationActionSettings(id, amount, name) );
         
         // Notify changes
         this.board?.UpdateState();
@@ -141,6 +157,57 @@ export default class DonationManager extends ZepetoScriptBehaviour {
         
         // Notify changes
         this.board?.UpdateState();
+    }
+
+    
+    public RegisterDisplay(display: DonationDisplay) {
+        this.display = display;
+        // this.donationEnabled ? display.Show() : display.Hide();
+        (this.board.state == BoardState.Hidden) ? this.display?.Hide() : this.display?.Show();
+    }
+    
+    public RegisterBoard(board: DonationControlBoard) {
+        this.board = board;
+        // this.donationEnabled ? board.Show() : board.Hide();
+    
+        this.SetUIState(this.board.state);
+    }
+    
+    /** -------------------------------------------------------------------------------------------------------- */
+    /** General accessors */
+    
+    public ToggleBoardState() {
+        
+        // Toggle states
+        let state = this.board.state;
+        if (state == BoardState.Edit)
+            state = BoardState.Display;
+        else if (state == BoardState.Hidden)
+            state = this._config.editActionsEnabled ? BoardState.Edit : BoardState.Display;
+        else
+            state = BoardState.Hidden;
+        
+        this.SetUIState(state);
+    }
+    
+    public SetUIState(state: BoardState) {
+        this.board?.SetState(state);
+        (state == BoardState.Hidden) ? this.display?.Hide() : this.display?.Show();
+    }
+    
+    public SetUIHidden(hidden: boolean) {
+        this.donationEnabled = hidden;
+        
+        if (hidden) {
+            this.board?.Hide();
+            this.display?.Hide();
+            // UIManager.instance.donationToggle.gameObject.SetActive(false);
+        }
+        else {
+            this.board?.Show();
+            this.display?.Show();
+            // UIManager.instance.donationToggle.gameObject.SetActive(true);
+        }
     }
     
     /** -------------------------------------------------------------------------------------------------------- */
