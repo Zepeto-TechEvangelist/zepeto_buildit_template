@@ -1,4 +1,5 @@
-import { Application, AudioListener, Camera, Coroutine, GameObject, RenderTexture, WaitForEndOfFrame } from 'UnityEngine'
+import { Application, AudioListener, Camera, Coroutine, GameObject, Graphics, Material, Renderer, RenderTexture,
+    RenderTextureFormat, WaitForEndOfFrame } from 'UnityEngine'
 import { UnityEvent, UnityEvent$1 } from 'UnityEngine.Events';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import { VideoPlayer } from 'UnityEngine.Video';
@@ -113,15 +114,49 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         this.StartCoroutine(this.CoTakePhotoScreenshot(screenshotCamera, isVideo));
     }
 
+    public FindAlphaTestMaterials(): Material[]
+    {
+        var alphaTestMaterials: Material[] = [];
+
+        // Find all renderers in the current scene
+        var allRenderers = GameObject.FindObjectsOfType<Renderer>();
+
+        for (const rend of allRenderers)
+        {
+            // Note: Use .sharedMaterials to avoid creating instances in memory
+            for (const mat of rend.sharedMaterials)
+            {
+                if (mat != null)
+                {
+                    // Check if the material is in the AlphaTest queue (index 2450)
+                    if (mat.renderQueue == 2450)
+                    {
+                        if (!alphaTestMaterials.find(x => x === mat))
+                        {
+                            alphaTestMaterials.push(mat);
+                        }
+                    }
+                }
+            }
+        }
+        return alphaTestMaterials;
+    }
+    
     private *CoTakePhotoScreenshot(camera: Camera, isVideo?: boolean) {
         let waitForEndOfFrame = new WaitForEndOfFrame();
+        
+        var atmat = this.FindAlphaTestMaterials();
+        atmat.forEach(x => x.renderQueue = 3000);
+        
         yield waitForEndOfFrame;
         camera.transform.position = this._mainCamera.transform.position;
         camera.transform.rotation = this._mainCamera.transform.rotation;
         camera.Render();
         camera.targetTexture = null;
+        
+        atmat.forEach(x => x.renderQueue = 2450);
         yield waitForEndOfFrame;
-
+        
         if (!this.IsValid(isVideo)) {
             if (this.IsValid(this._onScreenshotDone)) {
                 this._onScreenshotDone.Invoke();
