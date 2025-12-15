@@ -7,12 +7,6 @@ export default class DonationConfig {
     
     @Tooltip("Enabling this option will allow users to adjust donation actions contents")
     public editActionsEnabled: boolean;
-    
-    // public editCost: int;
-    
-    // @Header("Default Donation Actions")
-    // Donation_TOAST: int;
-    // test: GameObject[];
 }
 
 class ActionSettings {
