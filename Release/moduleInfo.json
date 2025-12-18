@@ -2,10 +2,10 @@
   "Items": [
     {
       "Title": "Build It Plugin Core",
-      "Description": "Core module for Build It Plugin\n\n\nWhat's new:\n\nIntroducing an all-new driving experience and brand-new ways to get on the road.\n\n·  Vehicle Driving Module – a completely new system that lets you get in and drive vehicles\n·  AdVehicleSpawner (new) – advertisement object that let's you instantly receive a temporary vehicle as your reward\n·  VehicleVendor (new) – interactable booth to browse and select from available vehicles\n",
+      "Description": "Core module for Build It Plugin\n\n• Screen capture issue with transparent objects fixed\n• Updated to the latest Zepeto framework\n\n• Gesture play issue fixed where playing a gesture could cause additional errors\n• Vehicle warning removed when no vehicles are present in the scene\n• Improved project structure, package cleanup, and tag management\n• Added custom scripts:\n    • WorldCanvas\n    • ZepetoCameraAttacher\n",
       "Description_ko": "",
       "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
-      "LatestVersion": "1.0.10",
+      "LatestVersion": "1.0.11",
       "Dependencies": ["Multiplay Component", "Interaction", "Gesture", "ScreenShot", "Localization", "QuickChat"]
     }
   ],
@@ -46,7 +46,7 @@
       "LatestVersion": "1.0.0",
       "Dependencies": [""]
     },
-      {
+    {
       "Title": "Squid",
       "Name": "asset.squidgame",
       "Description": "Theme inspired by a popular korean movie\n· Internal system updates",
@@ -54,7 +54,7 @@
       "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
       "LatestVersion": "1.0.3",
       "Dependencies": ["Multiplay Component"]
-      },
+    },
     {
       "Title": "JumpMaster",
       "Name": "asset.jumpmaster",
