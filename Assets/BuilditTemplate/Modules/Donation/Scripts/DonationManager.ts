@@ -1,5 +1,6 @@
 import {ZepetoScriptableObject, ZepetoScriptBehaviour} from 'ZEPETO.Script';
 import {GameObject} from 'UnityEngine';
+import {UnityEvent, UnityEvent$1} from 'UnityEngine.Events';
 import {ZepetoToast} from "ZEPETO.World.Gui";
 import {Type} from "ZEPETO.World.Gui.ZepetoToast";
 import {DonationActionSettings, DonationEventData, DonationSettings} from "./Types";
@@ -47,6 +48,8 @@ export default class DonationManager extends ZepetoScriptBehaviour {
     private controllers: DonationController[] = [];
 
     public get Controllers(): DonationController[] { return this.controllers }
+
+    private onValueChangedEvent: UnityEvent$1<boolean>;
 
 
     /** -------------------------------------------------------------------------------------------------------- */
@@ -114,6 +117,22 @@ export default class DonationManager extends ZepetoScriptBehaviour {
         // Initialized status
         DonationManager._managerInitialized = true;
     }
+    
+    private LateInit() {
+
+        this.onValueChangedEvent = new UnityEvent$1<boolean>();
+        // this.onValueChangedEvent.AddListener((isOn) => {
+        //     console.log("[Donation] Toggle Value Change Event")
+        //     this.ToggleBoardState();
+        // });
+        // Here we need to know what the actions are
+        UIManager.instance.CreateToggleGroup("donation", 
+            this.onValueChangedEvent, 
+            (isOn) => {
+                // Toggle state updated
+                this.ToggleBoardState();
+            });
+    }
 
 
     /** -------------------------------------------------------------------------------------------------------- */
@@ -162,8 +181,7 @@ export default class DonationManager extends ZepetoScriptBehaviour {
     
     public RegisterDisplay(display: DonationDisplay) {
         this.display = display;
-        // this.donationEnabled ? display.Show() : display.Hide();
-        (this.board.state == BoardState.Hidden) ? this.display?.Hide() : this.display?.Show();
+        display.Hide();
     }
     
     public RegisterBoard(board: DonationControlBoard) {
@@ -193,6 +211,16 @@ export default class DonationManager extends ZepetoScriptBehaviour {
     public SetUIState(state: BoardState) {
         this.board?.SetState(state);
         (state == BoardState.Hidden) ? this.display?.Hide() : this.display?.Show();
+
+        this.onValueChangedEvent?.Invoke(state != BoardState.Hidden);
+    }
+
+    /**
+     * Show the information display, configured in the donation settings
+     * @constructor
+     */
+    public ShowInfoDisplay() {
+        GameObject.Instantiate(this._config.infoDisplay);
     }
     
     public SetUIHidden(hidden: boolean) {
@@ -236,6 +264,11 @@ export default class DonationManager extends ZepetoScriptBehaviour {
         
         this.Initialize();
     }
+    
+    Start() {
+        this.LateInit();
+    }
+    
     
     Destroy() {
         // Clear events

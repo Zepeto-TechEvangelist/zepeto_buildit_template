@@ -46,8 +46,14 @@ export class UIBase extends ZepetoScriptBehaviour {
     @SerializeField() protected _header: RectTransform;
     public get header(): RectTransform { return this._header }
 
+    @SerializeField() protected _headerSeparator: RectTransform;
+    public get headerSeparator(): RectTransform { return this._headerSeparator }
+
     @SerializeField() protected _footer: RectTransform;
     public get footer(): RectTransform { return this._footer }
+
+    @SerializeField() protected _footerSeparator: RectTransform;
+    public get footerSeparator(): RectTransform { return this._footerSeparator }
 
     @SerializeField() protected _closeButton: Button;
     public get closeButton(): Button { return this._closeButton }

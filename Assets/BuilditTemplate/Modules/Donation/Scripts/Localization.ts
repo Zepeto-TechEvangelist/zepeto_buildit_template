@@ -9,10 +9,11 @@ import Localization from '../../Localization/ZepetoScript/Localization';
         sender = "{sender}",
         currencyType = "{type}",
         action = "{action}",
-        zem = "BP_Desc_Zem",
-        coin = "BP_Desc_Coin",
-        receivedNotification = "BP_DN_ReceiveNoti",
-        wrongAmount = "",
+        zem = "str_zem",
+        coin = "str_coin",
+        receivedNotification = "bp_dn_received",
+        wrongAmount = "bp_dn_duplicate_amount",
+        actionsSaved = "dp_dn_actions_saved",
         actionPrefix = "bp_action_"
         //...
     }
@@ -22,6 +23,10 @@ import Localization from '../../Localization/ZepetoScript/Localization';
         public static get Coin(): string { return Localization.instance.GetLocalizedText(Keys.coin) }
         
         public static get Zem(): string { return Localization.instance.GetLocalizedText(Keys.zem) }
+        
+        public static get ErrorWrongAmount(): string { return Localization.instance.GetLocalizedText(Keys.wrongAmount) }
+
+        public static get SuccessActionsSaved(): string { return Localization.instance.GetLocalizedText(Keys.actionsSaved) }
         
         public static ActionDisplayName(id: string) { return Localization.instance.GetLocalizedText(Keys.actionPrefix + id.toLowerCase()) }
         

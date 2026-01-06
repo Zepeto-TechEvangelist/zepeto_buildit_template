@@ -357,7 +357,8 @@ namespace BuilditTemplate.Editor
 
         private IEnumerator LoadDataAsync()
         {
-            // if (false)
+            
+            // if (true)
             // {
             //     var data = File.ReadAllText("Assets/BuilditTemplate/PackageManager/Version/moduleInfo.json");
             //     contentList = JsonUtility.FromJson<ContentList>(data);

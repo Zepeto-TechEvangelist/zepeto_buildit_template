@@ -43,6 +43,10 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
         this.OnInitUI();
     }
     
+    protected Start() {
+        this.closeButton?.onClick.AddListener(() => this.Hide());
+    }
+    
     protected OnInitUI() {
 
         let rect;
@@ -109,9 +113,11 @@ export default class UIMenuController extends ZepetoScriptBehaviour {
         this.transform.GetChild(0).gameObject.SetActive(true);
         this.GetComponent<Canvas>().enabled = true;
         
-        this.closeButton?.onClick.RemoveAllListeners();
-        this.closeButton?.onClick.AddListener(() => this.Hide());
-
+        // this.closeButton?.onClick.RemoveAllListeners();
+        // this.closeButton?.onClick.AddListener(() => this.Hide());
+        
+        // this.closeButton?.onClick.AddListener(() => this.Hide());
+        
         // if (titleKey) {
         //     this.titleText.text = titleKey; // TODO: Localize
         // } else {

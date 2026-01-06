@@ -2,11 +2,12 @@ import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
 import { ZepetoWorldContent, QuickMessage } from 'ZEPETO.World';
 import {GameObject, Transform} from 'UnityEngine'
 import QuickMessageListItem from './QuickMessageListItem';
-
+import {UnityEvent$1} from "UnityEngine.Events";
+import UIManager from "../../Scripts/UIManager";
+import { Button } from "UnityEngine.UI";
 
 export default class QuickChatLoader extends ZepetoScriptBehaviour {
     
-
     //Messages list is an array of QuickMessages retrieved from Zepeto's DB.
     @HideInInspector() public messagesList:QuickMessage[] = [];
 
@@ -14,25 +15,38 @@ export default class QuickChatLoader extends ZepetoScriptBehaviour {
     @SerializeField() private _contentsParent: Transform;
 
     @SerializeField() private openButton: GameObject;
+    @SerializeField() private closeButton: Button;
     @SerializeField() private panelParent: GameObject;
-
-
-
-
+    
+    
     Start() {
-
         this.ReceiveChatList();
+        this.LateInit();
     }
 
-    Update(){
-        // Hide the QuickChat button when the parent content's parent panel is visible
-        if (this.panelParent.activeSelf === true) { this.openButton.SetActive(false)}
+    private _activeEvent: UnityEvent$1<boolean>;
+    private LateInit() {
 
-        // Unhide the QuickChat button when the parent panel is hidden
-        else{
-            this.openButton.SetActive(true)
-        }
+        this.closeButton.onClick.AddListener(() => {
+            this.panelParent.SetActive(false);
+            this._activeEvent?.Invoke(false);
+        });
+        
+        this._activeEvent = new UnityEvent$1<boolean>();
+        UIManager.instance.CreateToggleGroup("chat", this._activeEvent, (isOn) => {
+            this.panelParent.SetActive(isOn);
+        });
     }
+    
+    // Update(){
+    //     // Hide the QuickChat button when the parent content's parent panel is visible
+    //     if (this.panelParent.activeSelf === true) { this.openButton.SetActive(false)}
+    //
+    //     // Unhide the QuickChat button when the parent panel is hidden
+    //     else{
+    //         this.openButton.SetActive(true)
+    //     }
+    // }
 
     //A method to load all the quickChat messages preset from Zepeto's DB.
     private ReceiveChatList()

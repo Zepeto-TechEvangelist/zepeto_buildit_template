@@ -1,4 +1,6 @@
 import { Text } from "UnityEngine.UI";
+import { WaitForSeconds } from "UnityEngine";
+// import { ZepetoText } from "ZEPETO.World.Gui";
 import { ZepetoScriptBehaviour } from "ZEPETO.Script";
 import Localization from "./Localization";
 
@@ -7,8 +9,10 @@ export default class TextLocalizer extends ZepetoScriptBehaviour {
     public disableRichText: boolean;
 
     private _uiText: Text;
-    private _localizedText: string;
-
+    public _localizedText: string;
+    
+    // private _zepetoText: ZepetoText;
+    
     public get localizedText() {
         if (!this._localizedText) {
             this._localizedText = "Not localized yet";
@@ -23,17 +27,25 @@ export default class TextLocalizer extends ZepetoScriptBehaviour {
         }
 
         //When UI text doesn't exist
-        if (!this.gameObject.GetComponent<Text>()) {
+        if (!this.GetComponent<Text>()) {
             console.error(`[TextLocalizer] Text Localizer is not initialized. There's no UI Text. (${this.gameObject.name})`);
             return;
         }
 
-        this._uiText = this.gameObject.GetComponent<Text>();
+        this._uiText = this.GetComponent<Text>();
         this.UpdateTextContent();
-
+    
+        // this.StartCoroutine(this.LazyInit);
+        
         Localization.instance.languageOptionChanged.AddListener(()=> {
             this.UpdateTextContent();
         });
+    }
+    
+    private *LazyInit() {
+        yield new WaitForSeconds(0.4);
+        
+        this.UpdateTextContent();
     }
 
     private UpdateTextContent() {

@@ -7,6 +7,12 @@ export default class DonationConfig {
     
     @Tooltip("Enabling this option will allow users to adjust donation actions contents")
     public editActionsEnabled: boolean;
+    
+    // @Tooltip("")
+    // public infoEnabled: boolean;
+    
+    @Tooltip("Display shown when Info is selected")
+    public infoDisplay: GameObject;
 }
 
 class ActionSettings {

@@ -3,6 +3,7 @@ import { GameObject, Transform, Object, Vector2, WaitForSeconds } from "UnityEng
 
 import DonationManager from "./DonationManager";
 import DonationBoardContentItem from "./DonationBoardContentItem";
+import { DonationLocalization } from "./Localization";
 import { DonationTrigger } from "./DonationTrigger";
 import { IDonationActionBase } from "./DonationActionBase";
 import { DonationSettings, DonationActionSettings } from "./Types";
@@ -21,6 +22,13 @@ export enum BoardState {
     Edit
 }
 
+
+export interface BoardConfig {
+    cellWidth: int;
+    cellHeight: int;
+    rowCount: int;
+}
+
 /**
  * Controller used for donation objects,
  */
@@ -33,6 +41,9 @@ export default class DonationControlBoard extends ZepetoScriptBehaviour {
     
     private popup: UIPopup;
     private gridLayout: GridLayoutGroup;
+    
+    public infoButton: RoundedRectangleButton;
+    public displayInfoButton: RoundedRectangleButton;
     
     public StartEdit() {}
     
@@ -74,7 +85,8 @@ export default class DonationControlBoard extends ZepetoScriptBehaviour {
         this.gridLayout = this.popup.content.GetComponent<GridLayoutGroup>();
 
         // Hide the row prefab
-        this.itemPrefab.SetActive(false);
+        // TODO: Check if prefab
+        // this.itemPrefab.SetActive(false);
         
         
         // Disable default handlers
@@ -98,7 +110,7 @@ export default class DonationControlBoard extends ZepetoScriptBehaviour {
             });
             for (let i = 0; i < validator.length - 1; i++)
                 if (validator[i].AmountValue == validator[i+1].AmountValue) {
-                    ZepetoToast.Show(Type.Warning, "Donation values must be unique");
+                    ZepetoToast.Show(Type.Warning, DonationLocalization.ErrorWrongAmount);
                     return;
                 }
             
@@ -114,6 +126,8 @@ export default class DonationControlBoard extends ZepetoScriptBehaviour {
                 item.transform.SetSiblingIndex(i);
                 this.settings.actions.push( item.GetContent() );
             }
+
+            ZepetoToast.Show(Type.Success, DonationLocalization.SuccessActionsSaved);
             
             // Update the changes in controller
             DonationManager.instance.settings = this.settings;
@@ -121,6 +135,10 @@ export default class DonationControlBoard extends ZepetoScriptBehaviour {
             this.state = BoardState.Display;
             this.UpdateState();
         });
+
+        this.infoButton.OnClick.AddListener(() => { DonationManager.instance.ShowInfoDisplay(); } );
+        this.displayInfoButton.OnClick.AddListener(() => { DonationManager.instance.ShowInfoDisplay(); } );
+
 
         DonationManager.instance.RegisterBoard(this);
         // this.UpdateState();  Manager responsible
@@ -158,18 +176,23 @@ export default class DonationControlBoard extends ZepetoScriptBehaviour {
 
         if (this.state == BoardState.Display) {
 
+            this.displayInfoButton.gameObject.SetActive(true);
             this.popup.header.gameObject.SetActive(false);
+            this.popup.footerSeparator.gameObject.SetActive(false);
             this.popup.footer.gameObject.SetActive(false);
-            this.gridLayout.constraintCount = 2;
+            this.gridLayout.constraintCount = 1;
             this.gridLayout.cellSize = new Vector2(this.displayContentWidth, 30);
             
             this.items.forEach(x => x.SetEditMode(false));
         } 
         else if (this.state == BoardState.Edit) {
             this.popup.header.gameObject.SetActive(true);
+            this.popup.footerSeparator.gameObject.SetActive(true);
             this.popup.footer.gameObject.SetActive(true);
             this.gridLayout.cellSize = new Vector2(this.editContentWidth, 30);
             this.gridLayout.constraintCount = 1;
+
+            this.displayInfoButton.gameObject.SetActive(false);
 
             this.items.forEach(x => x.SetEditMode(true));
         }

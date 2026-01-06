@@ -3,6 +3,9 @@ import {Canvas, Camera, Vector3, Object, GameObject, Collider, Random, AudioSour
 import { Button, Image } from 'UnityEngine.UI';
 import { RoundedRectangleButton } from 'ZEPETO.World.Gui';
 
+import UIManager from "../Scripts/UIManager";
+import {UnityEvent$1} from "UnityEngine.Events";
+
 export default class BGMManager extends ZepetoScriptBehaviour {
 
     public muted: bool = false;
@@ -10,7 +13,7 @@ export default class BGMManager extends ZepetoScriptBehaviour {
     public playOnStart: bool = true;
 
     @SerializeField()
-    private toggle: RoundedRectangleButton;
+    private toggle: Button;
     
     @SerializeField()
     private tracks: AudioSource[];
@@ -24,12 +27,16 @@ export default class BGMManager extends ZepetoScriptBehaviour {
     private _normalFill: number;
     
     Awake() {
-        
+
+        // UI binding
+        this.toggle ??= GameObject.Find("BGMToggle").GetComponent<Button>();
+
+
         // Get all BGM objects in the scene
         if (this.tracks.length == 0)
             this.tracks = Object.FindObjectsOfType<AudioSource>(false).filter(x => x.gameObject.name == "BGM");
         
-        if (!(this.tracks.length > 0)) {
+        if (this.tracks.length < 1) {
             this.toggle.gameObject.SetActive(false);
             return;
         }
@@ -37,14 +44,13 @@ export default class BGMManager extends ZepetoScriptBehaviour {
         // Mute tracks for manual control
         this.tracks?.forEach(x => { x.playOnAwake = false; });   
     
-        // UI binding
-        this.toggle ??= GameObject.Find("BGMToggle").GetComponent<RoundedRectangleButton>();
-        this.toggle?.OnClick.AddListener( () => { this.ToggleMute();});
-        this._icon = this.toggle.GetComponentInChildren<Image>();
+        // this.toggle?.onClick.AddListener( () => { this.ToggleMute();});
+        // this._icon = this.toggle.GetComponentInChildren<Image>();
         
-        this._normalFill = this.toggle.FillAmount;
-        this._normalColor = this._icon.color;
-        this._disabledColor = this.toggle.IconColor;
+        // this._normalFill = this.toggle.FillAmount;
+        // this._normalColor = this.toggle.colors.normalColor;
+        // this._disabledColor = this.toggle.colors.selectedColor;
+        // this._disabledColor = this._icon //this.toggle.IconColor;
     }
     
     Start() {
@@ -54,6 +60,28 @@ export default class BGMManager extends ZepetoScriptBehaviour {
             this.muted == false && 
             this.playOnStart)
             this.currentTrack?.Play();
+        
+        this.LateInit();
+    }
+
+    private _activeEvent: UnityEvent$1<boolean>;
+    private LateInit() {
+
+        this._activeEvent = new UnityEvent$1<boolean>();
+        UIManager.instance.CreateToggleGroup("music", this._activeEvent, (isOn) => {
+            if (isOn)
+                this.Unmute();
+            else
+                this.Mute();
+        });
+        
+        // Initialize
+        if (this.muted)
+            this.Mute();
+        else
+            this.Unmute();
+
+        this._activeEvent?.Invoke(!this.muted);
     }
     
     public ToggleMute() {
@@ -61,11 +89,14 @@ export default class BGMManager extends ZepetoScriptBehaviour {
             this.Unmute();
         else
             this.Mute();
+        
+        this._activeEvent?.Invoke(!this.muted);
     }
     
     public Mute() {
         this.muted = true;
-        this._icon.color = this._disabledColor;
+        // this.toggle.colors[0] = this._disabledColor;
+        // this._icon.color = this._disabledColor;
         // this.toggle.FillAmount = 0.9;
         
         this.currentTrack?.Pause();
@@ -73,7 +104,7 @@ export default class BGMManager extends ZepetoScriptBehaviour {
     
     public Unmute() {
         this.muted = false;
-        this._icon.color = this._normalColor;
+        // this.toggle.colors[0] = this._normalColor;
         // this.toggle.FillAmount = this._normalFill;
         this.currentTrack?.UnPause();
     }

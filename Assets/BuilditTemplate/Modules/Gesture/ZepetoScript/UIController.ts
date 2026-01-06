@@ -5,9 +5,12 @@ import { OfficialContentType, Content } from 'ZEPETO.World';
 import { Object, GameObject, Transform } from 'UnityEngine';
 import GestureLoader from './GestureLoader';
 import Thumbnail from './Thumbnail';
+import {UnityEvent$1} from "UnityEngine.Events";
+import UIManager from "../../Scripts/UIManager";
 
 export default class UIController extends ZepetoScriptBehaviour {
     
+    @SerializeField() private _pannel: GameObject;
     @SerializeField() private _closeButton : Button;
     @SerializeField() private _typeToggleGroup : Toggle[];
 
@@ -25,6 +28,8 @@ export default class UIController extends ZepetoScriptBehaviour {
             this._closeButton.onClick.AddListener(() => {
                 if (this.stopGestureOnClose)
                     this.StopGesture();
+                
+                this._activeEvent?.Invoke(false);
             });
         });
         
@@ -42,6 +47,14 @@ export default class UIController extends ZepetoScriptBehaviour {
             this.SetCategoryUI(OfficialContentType.GestureDancing);
         });
 
+        this.LateInit();
+    }
+
+    private _activeEvent: UnityEvent$1<boolean>;
+    private LateInit() {
+
+        this._activeEvent = new UnityEvent$1<boolean>();
+        UIManager.instance.CreateToggleGroup("gesture", this._activeEvent, (isOn) => { this._pannel.SetActive(isOn); });
     }
 
     // Category Toggle UI Set

@@ -2,14 +2,41 @@
   "Items": [
     {
       "Title": "Build It Plugin Core",
-      "Description": "Core module for Build It Plugin\n- Camera Recording Bug Fixed",
+      "Description": "Core module for Build It Plugin\n\n• Screen capture issue with transparent objects fixed\n• Updated to the latest Zepeto framework\n\n• Gesture play issue fixed where playing a gesture could cause additional errors\n• Vehicle warning removed when no vehicles are present in the scene\n• Improved project structure, package cleanup, and tag management\n• Added custom scripts:\n    • WorldCanvas\n    • ZepetoCameraAttacher\n",
       "Description_ko": "",
       "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
-      "LatestVersion": "1.0.4",
-      "Dependencies": ["Module Importer", "Multiplay Component", "Interaction", "Gesture", "ScreenShot", "Localization", "QuickChat"]
+      "LatestVersion": "1.0.11",
+      "Dependencies": ["Multiplay Component", "Interaction", "Gesture", "ScreenShot", "Localization", "QuickChat"]
     }
   ],
   "Themes": [
+    {
+      "Title": "Vehicle",
+      "Name": "asset.vehicle",
+      "Description": "Vehicle Theme\n\nWe’ve added a complete set of 24 vehicles designed to work seamlessly with the new driving system. They’re ready to drop straight into your project so you can start creating right away!",
+      "Description_ko": "",
+      "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
+      "LatestVersion": "1.0.0",
+      "Dependencies": ["Build It Plugin Core 1.0.10"]
+    },
+    {
+      "Title": "Hunters",
+      "Name": "asset.hunter",
+      "Description": "A brand-new theme has arrived, created in collaboration with our amazing creator community, bringing a fresh and adventurous style to your world!",
+      "Description_ko": "",
+      "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
+      "LatestVersion": "1.0.0",
+      "Dependencies": ["Build It Plugin Core 1.0.9"]
+    },
+    {
+      "Title": "Summer",
+      "Name": "asset.summer",
+      "Description": "Objects perfect for your summer vacation\n143 New objects added!",
+      "Description_ko": "",
+      "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
+      "LatestVersion": "1.0.2",
+      "Dependencies": ["Window > Package Manager > Asset > Summer"]
+    },
     {
       "Title": "Animal",
       "Name": "asset.animals",
@@ -22,19 +49,19 @@
     {
       "Title": "Squid",
       "Name": "asset.squidgame",
-      "Description": "Theme inspired by a popular korean movie",
+      "Description": "Theme inspired by a popular korean movie\n· Internal system updates",
       "Description_ko": "",
       "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
-      "LatestVersion": "1.0.2",
+      "LatestVersion": "1.0.3",
       "Dependencies": ["Multiplay Component"]
     },
     {
       "Title": "JumpMaster",
       "Name": "asset.jumpmaster",
-      "Description": "Jump Master game objects\n- 4 New Objects",
+      "Description": "Jump Master game objects\n· [New] SpikeTrap \n· Internal system updates",
       "Description_ko": "",
       "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
-      "LatestVersion": "1.0.5",
+      "LatestVersion": "1.0.6",
       "Dependencies": ["Build It Plugin Core v1.0.3"]
     }
   ]

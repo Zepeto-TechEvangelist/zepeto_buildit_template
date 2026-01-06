@@ -1,3 +1,64 @@
 fileFormatVersion: 2
 guid: 76dc95fcc0994eee9962d53aa332be4f
-timeCreated: 1765959105
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nexports.UIButtonToggleGroup = void 0;\r\nconst UnityEngine_UI_1
+    = require(\"UnityEngine.UI\");\r\nconst UnityEngine_Events_1 = require(\"UnityEngine.Events\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst UnityEngine_EventSystems_1
+    = require(\"UnityEngine.EventSystems\");\r\n/**\r\n * Requires button componeent\r\n
+    */\r\nclass UIButtonToggle extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n   
+    constructor() {\r\n        super(...arguments);\r\n        this.useCustomState
+    = true;\r\n    }\r\n    get onValueChanged() {\r\n        if (!this._onValueChanged)\r\n           
+    this._onValueChanged = new ($generic(UnityEngine_Events_1.UnityEvent$1, $typeof(\"System.Boolean\")))();\r\n       
+    return this._onValueChanged;\r\n    }\r\n    Awake() {\r\n        this.button
+    ?? (this.button = this.GetComponent($typeof(UnityEngine_UI_1.Button)));\r\n       
+    if (this.button === null)\r\n            this.button = this.gameObject.AddComponent($typeof(UnityEngine_UI_1.Button));\r\n       
+    this.button.onClick.AddListener(() => {\r\n            if (this.useCustomState
+    == false)\r\n                this.ToggleState();\r\n            this.onValueChanged?.Invoke(this.isOn);\r\n           
+    // this.UpdateState(true);\r\n        });\r\n        this.normalColor = this.button.image.color;\r\n       
+    this.selectedColor = this.button.colors.selectedColor;\r\n        // Reset selection
+    algorithm for button\r\n        // var colors = this.button.colors;\r\n       
+    // colors.selectedColor = this.normalColor;\r\n        // this.button.colors
+    = colors;\r\n    }\r\n    ToggleState() {\r\n        this.isOn = !this.isOn;\r\n       
+    this.UpdateState();\r\n    }\r\n    Select() {\r\n        this.SetSelected(true);\r\n   
+    }\r\n    Deselect() {\r\n        this.SetSelected(false);\r\n    }\r\n    SetSelected(selected)
+    {\r\n        // if (selected == this.isOn) return;\r\n        this.isOn = selected;\r\n       
+    this.UpdateState();\r\n    }\r\n    UpdateState(invokeEvent = false) {\r\n       
+    // UI\r\n        // var colors = this.button.colors;\r\n        // colors.normalColor
+    = this.isOn ? this.selectedColor : this.normalColor;\r\n        // this.button.colors
+    = colors;\r\n        this.button.image.color = this.isOn ? this.selectedColor
+    : this.normalColor;\r\n        UnityEngine_EventSystems_1.EventSystem.current.SetSelectedGameObject(null);\r\n       
+    // this.button.image.color = this.isOn ? this.selectedColor : this.normalColor;\r\n       
+    // this.button.image.enabled = false;\r\n        // this.button.image.enabled
+    = true;\r\n        // this.button.Select();\r\n        // Invoke event\r\n       
+    // if (invokeEvent)\r\n        //     this.onValueChanged?.Invoke(this.isOn);\r\n   
+    }\r\n}\r\nexports.default = UIButtonToggle;\r\nclass UIButtonToggleGroup {\r\n   
+    constructor(key, toggle, onValueChangedEvent, onToggleAction) {\r\n        this.key
+    = key;\r\n        this.toggle = toggle;\r\n        this.event = onValueChangedEvent;\r\n       
+    // Manager > Toggle\r\n        onValueChangedEvent?.AddListener((isOn) => {\r\n           
+    toggle.SetSelected(isOn);\r\n        });\r\n        // Toggle > Manager\r\n       
+    toggle.onValueChanged?.AddListener(onToggleAction);\r\n    }\r\n}\r\nexports.UIButtonToggleGroup
+    = UIButtonToggleGroup;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVUlCdXR0b25Ub2dnbGUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJVSUJ1dHRvblRvZ2dsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFDQSxtREFBc0M7QUFDdEMsMkRBQTRFO0FBQzVFLGlEQUFvRDtBQUVwRCx1RUFBdUQ7QUFFdkQ7O0dBRUc7QUFDSCxNQUFxQixjQUFlLFNBQVEscUNBQXFCO0lBQWpFOztRQUlXLG1CQUFjLEdBQVksSUFBSSxDQUFDO0lBK0UxQyxDQUFDO0lBNUVHLElBQVcsY0FBYztRQUNyQixJQUFJLENBQUMsSUFBSSxDQUFDLGVBQWU7WUFDckIsSUFBSSxDQUFDLGVBQWUsaUJBQU8saUNBQVksK0JBQVcsQ0FBQztRQUN2RCxPQUFPLElBQUksQ0FBQyxlQUFlLENBQUM7SUFDaEMsQ0FBQztJQU9ELEtBQUs7UUFDRCxJQUFJLENBQUMsTUFBTSxLQUFYLElBQUksQ0FBQyxNQUFNLEdBQUssSUFBSSxDQUFDLFlBQVksU0FBQyx1QkFBTSxFQUFHLEVBQUM7UUFFNUMsSUFBSSxJQUFJLENBQUMsTUFBTSxLQUFLLElBQUk7WUFDcEIsSUFBSSxDQUFDLE1BQU0sR0FBRyxJQUFJLENBQUMsVUFBVSxDQUFDLFlBQVksU0FBQyx1QkFBTSxFQUFHLENBQUM7UUFFekQsSUFBSSxDQUFDLE1BQU0sQ0FBQyxPQUFPLENBQUMsV0FBVyxDQUFDLEdBQUcsRUFBRTtZQUVqQyxJQUFJLElBQUksQ0FBQyxjQUFjLElBQUksS0FBSztnQkFDNUIsSUFBSSxDQUFDLFdBQVcsRUFBRSxDQUFDO1lBRXZCLElBQUksQ0FBQyxjQUFjLEVBQUUsTUFBTSxDQUFFLElBQUksQ0FBQyxJQUFJLENBQUUsQ0FBQztZQUN6QywwQkFBMEI7UUFDOUIsQ0FBQyxDQUFDLENBQUM7UUFHSCxJQUFJLENBQUMsV0FBVyxHQUFHLElBQUksQ0FBQyxNQUFNLENBQUMsS0FBSyxDQUFDLEtBQUssQ0FBQztRQUMzQyxJQUFJLENBQUMsYUFBYSxHQUFHLElBQUksQ0FBQyxNQUFNLENBQUMsTUFBTSxDQUFDLGFBQWEsQ0FBQztRQUV0RCx1Q0FBdUM7UUFDdkMsbUNBQW1DO1FBQ25DLDJDQUEyQztRQUMzQywrQkFBK0I7SUFDbkMsQ0FBQztJQUVNLFdBQVc7UUFDZCxJQUFJLENBQUMsSUFBSSxHQUFHLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQztRQUV2QixJQUFJLENBQUMsV0FBVyxFQUFFLENBQUM7SUFDdkIsQ0FBQztJQUVNLE1BQU07UUFDVCxJQUFJLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxDQUFDO0lBQzNCLENBQUM7SUFFTSxRQUFRO1FBQ1gsSUFBSSxDQUFDLFdBQVcsQ0FBQyxLQUFLLENBQUMsQ0FBQztJQUM1QixDQUFDO0lBRU0sV0FBVyxDQUFDLFFBQWM7UUFDN0IscUNBQXFDO1FBRXJDLElBQUksQ0FBQyxJQUFJLEdBQUcsUUFBUSxDQUFDO1FBQ3JCLElBQUksQ0FBQyxXQUFXLEVBQUUsQ0FBQztJQUN2QixDQUFDO0lBR08sV0FBVyxDQUFDLGNBQXVCLEtBQUs7UUFFNUMsS0FBSztRQUNMLG1DQUFtQztRQUNuQywwRUFBMEU7UUFDMUUsK0JBQStCO1FBQy9CLElBQUksQ0FBQyxNQUFNLENBQUMsS0FBSyxDQUFDLEtBQUssR0FBRyxJQUFJLENBQUMsSUFBSSxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUMsYUFBYSxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUMsV0FBVyxDQUFDO1FBQzVFLHNDQUFXLENBQUMsT0FBTyxDQUFDLHFCQUFxQixDQUFDLElBQUksQ0FBQyxDQUFDO1FBQ2hELCtFQUErRTtRQUUvRSxxQ0FBcUM7UUFDckMsb0NBQW9DO1FBQ3BDLHdCQUF3QjtRQUV4QixlQUFlO1FBQ2YsbUJBQW1CO1FBQ25CLDhDQUE4QztJQUNsRCxDQUFDO0NBQ0o7QUFuRkQsaUNBbUZDO0FBR0QsTUFBYSxtQkFBbUI7SUFLNUIsWUFBWSxHQUFXLEVBQUUsTUFBc0IsRUFBRSxtQkFBMEMsRUFBRSxjQUFzQztRQUMvSCxJQUFJLENBQUMsR0FBRyxHQUFHLEdBQUcsQ0FBQztRQUNmLElBQUksQ0FBQyxNQUFNLEdBQUcsTUFBTSxDQUFDO1FBQ3JCLElBQUksQ0FBQyxLQUFLLEdBQUcsbUJBQW1CLENBQUM7UUFFakMsbUJBQW1CO1FBQ25CLG1CQUFtQixFQUFFLFdBQVcsQ0FBQyxDQUFDLElBQUksRUFBRSxFQUFFO1lBQ3RDLE1BQU0sQ0FBQyxXQUFXLENBQUMsSUFBSSxDQUFDLENBQUM7UUFDN0IsQ0FBQyxDQUFDLENBQUM7UUFFSCxtQkFBbUI7UUFDbkIsTUFBTSxDQUFDLGNBQWMsRUFBRSxXQUFXLENBQUMsY0FBYyxDQUFDLENBQUM7SUFDdkQsQ0FBQztDQUNKO0FBbEJELGtEQWtCQyJ9","assetPath":"Assets/BuilditTemplate/Modules/UI/Scripts/UIButtonToggle.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"isOn","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.UI","name":"button","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"useCustomState","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"toggleGroupKey","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"normalColor","type":"UnityEngine.Color","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"selectedColor","type":"UnityEngine.Color","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"UIButtonToggle","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 29e5d0ece12b4e367c36bb07b09eeb36
+  onlyWriteTrigger: 0

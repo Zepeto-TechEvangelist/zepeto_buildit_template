@@ -4,6 +4,8 @@ import { Object, GameObject, Color } from 'UnityEngine';
 import { Button, Text, Image } from 'UnityEngine.UI';
 import { AudioMode, RoomProperty, VoiceChatController, VoiceType } from 'ZEPETO.Voice.Chat';
 import VoiceModeScriptObjectDef from './VoiceModeScriptObjectDef';
+import {UnityEvent$1} from "UnityEngine.Events";
+import UIManager from "../../Scripts/UIManager";
 
 export default class VoiceChatManager extends ZepetoScriptBehaviour {
 
@@ -61,23 +63,36 @@ export default class VoiceChatManager extends ZepetoScriptBehaviour {
         VoiceChatController.OnSpeechDetectedEvent.AddListener(
             (userId, speechDetected) => this.OnSpeechDetected(userId, speechDetected)
         );
+        
+        this.LateInit();
+    }
+
+    
+    private _activeEvent: UnityEvent$1<boolean>;
+    private LateInit() {
+
+        this._activeEvent = new UnityEvent$1<boolean>();
+        UIManager.instance.CreateToggleGroup("voice", this._activeEvent, (isOn) => { this._voicePanel.SetActive(isOn); });
     }
 
     // Set the voice panel UI
     private setupVoicePanel() {
+        if (this._openButton)
         this._openButton.onClick.AddListener(() => {
             this._voicePanel.SetActive(true);
-            var image = this._openButton.GetComponent<Image>();
-            if (image != null) {
-                image.color = new Color(1.0, 1.0, 0.0);
-            }
+            // var image = this._openButton.GetComponent<Image>();
+            // if (image != null) {
+            //     image.color = new Color(1.0, 1.0, 0.0);
+            // }
         });
+        if (this._closeButton)
         this._closeButton.onClick.AddListener(() => {
             this._voicePanel.SetActive(false);
-            var image = this._openButton.GetComponent<Image>();
-            if (image != null) {
-                image.color = new Color(1.0, 1.0, 1.0);
-            }
+            // var image = this._openButton.GetComponent<Image>();
+            // if (image != null) {
+            //     image.color = new Color(1.0, 1.0, 1.0);
+            // }
+            this._activeEvent?.Invoke(false);
         });
     }
 

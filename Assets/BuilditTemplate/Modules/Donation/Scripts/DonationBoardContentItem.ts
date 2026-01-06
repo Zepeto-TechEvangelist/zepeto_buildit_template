@@ -4,18 +4,19 @@ import { ZepetoText, RoundedRectangleButton } from "ZEPETO.World.Gui";
 import DonationManager from "./DonationManager";
 import { DonationActionSettings } from "./Types";
 import { InputField } from "UnityEngine.UI";
+import { TMP_InputField, TMP_Text } from "TMPro";
 
 /**
  * Controller used for donation objects,
  */
 export default class DonationBoardContentItem extends ZepetoScriptBehaviour {
 
-    public amount: ZepetoText;
+    public amount: TMP_Text;
     public itemId: ZepetoText;
-    public text: ZepetoText;
+    public text: TMP_Text;
     
-    public inputAmount: InputField;
-    public inputText: InputField;
+    public inputAmount: TMP_InputField;
+    public inputText: TMP_InputField;
     
     public config: DonationActionSettings;
     
@@ -28,6 +29,8 @@ export default class DonationBoardContentItem extends ZepetoScriptBehaviour {
         this.amount.text = `${config.amount}`;
         this.inputText.text = config.text;
         this.text.text = config.text;
+        
+        this.UpdateUI();
     }
     
     public get AmountValue(): int { return parseInt(this.amount.text); } 
@@ -43,6 +46,8 @@ export default class DonationBoardContentItem extends ZepetoScriptBehaviour {
     
     public UpdateUI() {
         
+        this.inputText.CalculateLayoutInputHorizontal();
+        this.inputAmount.CalculateLayoutInputHorizontal();
     }
     
     public SetEditMode(enabled: boolean) {

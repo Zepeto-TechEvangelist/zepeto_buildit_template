@@ -24,23 +24,25 @@ ScriptedImporter:
   wrapperOutputDirectory: Generated
   compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
     { value: true });\r\nconst UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\n// import { ZepetoText } from \"ZEPETO.World.Gui\";\r\nconst
     ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst Localization_1 = require(\"./Localization\");\r\nclass
-    TextLocalizer extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    get localizedText()
-    {\r\n        if (!this._localizedText) {\r\n            this._localizedText =
-    \"Not localized yet\";\r\n        }\r\n        return this._localizedText;\r\n   
-    }\r\n    Start() {\r\n        if (!this.localizationKey || this.localizationKey
-    == \"\") {\r\n            console.error(`[TextLocalizer] Text Localizer is not
-    initialized. Enter localization key first.(${this.gameObject.name})`);\r\n           
-    return;\r\n        }\r\n        //When UI text doesn''t exist\r\n        if (!this.gameObject.GetComponent($typeof(UnityEngine_UI_1.Text)))
+    TextLocalizer extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    // private
+    _zepetoText: ZepetoText;\r\n    get localizedText() {\r\n        if (!this._localizedText)
+    {\r\n            this._localizedText = \"Not localized yet\";\r\n        }\r\n       
+    return this._localizedText;\r\n    }\r\n    Start() {\r\n        if (!this.localizationKey
+    || this.localizationKey == \"\") {\r\n            console.error(`[TextLocalizer]
+    Text Localizer is not initialized. Enter localization key first.(${this.gameObject.name})`);\r\n           
+    return;\r\n        }\r\n        //When UI text doesn''t exist\r\n        if (!this.GetComponent($typeof(UnityEngine_UI_1.Text)))
     {\r\n            console.error(`[TextLocalizer] Text Localizer is not initialized.
     There''s no UI Text. (${this.gameObject.name})`);\r\n            return;\r\n       
-    }\r\n        this._uiText = this.gameObject.GetComponent($typeof(UnityEngine_UI_1.Text));\r\n       
-    this.UpdateTextContent();\r\n        Localization_1.default.instance.languageOptionChanged.AddListener(()
-    => {\r\n            this.UpdateTextContent();\r\n        });\r\n    }\r\n   
-    UpdateTextContent() {\r\n        Localization_1.default.instance.ApplyLocalization(this._uiText,
+    }\r\n        this._uiText = this.GetComponent($typeof(UnityEngine_UI_1.Text));\r\n       
+    this.UpdateTextContent();\r\n        // this.StartCoroutine(this.LazyInit);\r\n       
+    Localization_1.default.instance.languageOptionChanged.AddListener(() => {\r\n           
+    this.UpdateTextContent();\r\n        });\r\n    }\r\n    *LazyInit() {\r\n       
+    yield new UnityEngine_1.WaitForSeconds(0.4);\r\n        this.UpdateTextContent();\r\n   
+    }\r\n    UpdateTextContent() {\r\n        Localization_1.default.instance.ApplyLocalization(this._uiText,
     this.localizationKey);\r\n        this._localizedText = Localization_1.default.instance.GetLocalizedText(this.localizationKey);\r\n       
     this._uiText.supportRichText = !this.disableRichText;\r\n    }\r\n}\r\nexports.default
-    = TextLocalizer;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVGV4dExvY2FsaXplci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlRleHRMb2NhbGl6ZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxtREFBc0M7QUFDdEMsaURBQXNEO0FBQ3RELGlEQUEwQztBQUUxQyxNQUFxQixhQUFjLFNBQVEscUNBQXFCO0lBTzVELElBQVcsYUFBYTtRQUNwQixJQUFJLENBQUMsSUFBSSxDQUFDLGNBQWMsRUFBRTtZQUN0QixJQUFJLENBQUMsY0FBYyxHQUFHLG1CQUFtQixDQUFDO1NBQzdDO1FBQ0QsT0FBTyxJQUFJLENBQUMsY0FBYyxDQUFDO0lBQy9CLENBQUM7SUFFRCxLQUFLO1FBQ0QsSUFBSSxDQUFDLElBQUksQ0FBQyxlQUFlLElBQUksSUFBSSxDQUFDLGVBQWUsSUFBSSxFQUFFLEVBQUU7WUFDckQsT0FBTyxDQUFDLEtBQUssQ0FBQyxvRkFBb0YsSUFBSSxDQUFDLFVBQVUsQ0FBQyxJQUFJLEdBQUcsQ0FBQyxDQUFDO1lBQzNILE9BQU87U0FDVjtRQUVELDRCQUE0QjtRQUM1QixJQUFJLENBQUMsSUFBSSxDQUFDLFVBQVUsQ0FBQyxZQUFZLFNBQUMscUJBQUksRUFBRyxFQUFFO1lBQ3ZDLE9BQU8sQ0FBQyxLQUFLLENBQUMsMkVBQTJFLElBQUksQ0FBQyxVQUFVLENBQUMsSUFBSSxHQUFHLENBQUMsQ0FBQztZQUNsSCxPQUFPO1NBQ1Y7UUFFRCxJQUFJLENBQUMsT0FBTyxHQUFHLElBQUksQ0FBQyxVQUFVLENBQUMsWUFBWSxTQUFDLHFCQUFJLEVBQUcsQ0FBQztRQUNwRCxJQUFJLENBQUMsaUJBQWlCLEVBQUUsQ0FBQztRQUV6QixzQkFBWSxDQUFDLFFBQVEsQ0FBQyxxQkFBcUIsQ0FBQyxXQUFXLENBQUMsR0FBRSxFQUFFO1lBQ3hELElBQUksQ0FBQyxpQkFBaUIsRUFBRSxDQUFDO1FBQzdCLENBQUMsQ0FBQyxDQUFDO0lBQ1AsQ0FBQztJQUVPLGlCQUFpQjtRQUNyQixzQkFBWSxDQUFDLFFBQVEsQ0FBQyxpQkFBaUIsQ0FBQyxJQUFJLENBQUMsT0FBTyxFQUFFLElBQUksQ0FBQyxlQUFlLENBQUMsQ0FBQztRQUM1RSxJQUFJLENBQUMsY0FBYyxHQUFHLHNCQUFZLENBQUMsUUFBUSxDQUFDLGdCQUFnQixDQUFDLElBQUksQ0FBQyxlQUFlLENBQUMsQ0FBQztRQUNuRixJQUFJLENBQUMsT0FBTyxDQUFDLGVBQWUsR0FBRyxDQUFDLElBQUksQ0FBQyxlQUFlLENBQUM7SUFDekQsQ0FBQztDQUNKO0FBdkNELGdDQXVDQyJ9","assetPath":"Assets/Zepeto
-    Localization Module/ZepetoScript/TextLocalizer.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"localizationKey","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"disableRichText","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"TextLocalizer","description":""},"isCompiled":true}'
-  typescriptHash: afe46162c10cbc0ebc299363f4df70f7
+    = TextLocalizer;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiVGV4dExvY2FsaXplci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlRleHRMb2NhbGl6ZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxtREFBc0M7QUFDdEMsNkNBQTZDO0FBQzdDLGlEQUFpRDtBQUNqRCxpREFBc0Q7QUFDdEQsaURBQTBDO0FBRTFDLE1BQXFCLGFBQWMsU0FBUSxxQ0FBcUI7SUFPNUQsbUNBQW1DO0lBRW5DLElBQVcsYUFBYTtRQUNwQixJQUFJLENBQUMsSUFBSSxDQUFDLGNBQWMsRUFBRTtZQUN0QixJQUFJLENBQUMsY0FBYyxHQUFHLG1CQUFtQixDQUFDO1NBQzdDO1FBQ0QsT0FBTyxJQUFJLENBQUMsY0FBYyxDQUFDO0lBQy9CLENBQUM7SUFFRCxLQUFLO1FBQ0QsSUFBSSxDQUFDLElBQUksQ0FBQyxlQUFlLElBQUksSUFBSSxDQUFDLGVBQWUsSUFBSSxFQUFFLEVBQUU7WUFDckQsT0FBTyxDQUFDLEtBQUssQ0FBQyxvRkFBb0YsSUFBSSxDQUFDLFVBQVUsQ0FBQyxJQUFJLEdBQUcsQ0FBQyxDQUFDO1lBQzNILE9BQU87U0FDVjtRQUVELDRCQUE0QjtRQUM1QixJQUFJLENBQUMsSUFBSSxDQUFDLFlBQVksU0FBQyxxQkFBSSxFQUFHLEVBQUU7WUFDNUIsT0FBTyxDQUFDLEtBQUssQ0FBQywyRUFBMkUsSUFBSSxDQUFDLFVBQVUsQ0FBQyxJQUFJLEdBQUcsQ0FBQyxDQUFDO1lBQ2xILE9BQU87U0FDVjtRQUVELElBQUksQ0FBQyxPQUFPLEdBQUcsSUFBSSxDQUFDLFlBQVksU0FBQyxxQkFBSSxFQUFHLENBQUM7UUFDekMsSUFBSSxDQUFDLGlCQUFpQixFQUFFLENBQUM7UUFFekIsc0NBQXNDO1FBRXRDLHNCQUFZLENBQUMsUUFBUSxDQUFDLHFCQUFxQixDQUFDLFdBQVcsQ0FBQyxHQUFFLEVBQUU7WUFDeEQsSUFBSSxDQUFDLGlCQUFpQixFQUFFLENBQUM7UUFDN0IsQ0FBQyxDQUFDLENBQUM7SUFDUCxDQUFDO0lBRU8sQ0FBQyxRQUFRO1FBQ2IsTUFBTSxJQUFJLDRCQUFjLENBQUMsR0FBRyxDQUFDLENBQUM7UUFFOUIsSUFBSSxDQUFDLGlCQUFpQixFQUFFLENBQUM7SUFDN0IsQ0FBQztJQUVPLGlCQUFpQjtRQUNyQixzQkFBWSxDQUFDLFFBQVEsQ0FBQyxpQkFBaUIsQ0FBQyxJQUFJLENBQUMsT0FBTyxFQUFFLElBQUksQ0FBQyxlQUFlLENBQUMsQ0FBQztRQUM1RSxJQUFJLENBQUMsY0FBYyxHQUFHLHNCQUFZLENBQUMsUUFBUSxDQUFDLGdCQUFnQixDQUFDLElBQUksQ0FBQyxlQUFlLENBQUMsQ0FBQztRQUNuRixJQUFJLENBQUMsT0FBTyxDQUFDLGVBQWUsR0FBRyxDQUFDLElBQUksQ0FBQyxlQUFlLENBQUM7SUFDekQsQ0FBQztDQUNKO0FBakRELGdDQWlEQyJ9","assetPath":"Assets/BuilditTemplate/Modules/Localization/ZepetoScript/TextLocalizer.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"localizationKey","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"disableRichText","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"_localizedText","type":"System.String","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"TextLocalizer","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 0943c74569b7733bba137ee147aa500b
   onlyWriteTrigger: 0

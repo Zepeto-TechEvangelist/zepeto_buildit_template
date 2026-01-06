@@ -16,9 +16,10 @@ import {ZepetoContext, ZepetoPropertyFlag} from 'Zepeto';
 import {ZepetoPlayers, ZepetoCharacter} from 'ZEPETO.Character.Controller';
 import {Item} from 'ZEPETO.Module.Content';
 import UIMenuController from './UIMenuController';
+import UIManager from "../../Scripts/UIManager";
 import WardrobeItemController from './WardrobeItemController';
 import { InventoryRecord, InventoryService } from 'ZEPETO.Inventory';
-import { UnityEvent, UnityAction } from 'UnityEngine.Events';
+import {UnityEvent, UnityAction, UnityEvent$1} from 'UnityEngine.Events';
 
 import {
     ClothesPreviewer,
@@ -101,13 +102,31 @@ export default class WardrobeController extends ZepetoScriptBehaviour {
             this.OnShow();
         });
 
+        this.LateInit();
+        
+        this.menu.closeButton.onClick.AddListener(() => {
+            this._activeEvent?.Invoke(false);
+        });
+        
         this.resetButton.onClick.AddListener(() => {
             this.ResetCharacterItems(() => {
                 this.UpdateCurrentItems();
                 this.UpdateSelection();
             });
         });
+    
+       
     }
+
+    private _activeEvent: UnityEvent$1<boolean>;
+    private LateInit() {
+        
+        this._activeEvent = new UnityEvent$1<boolean>();
+        UIManager.instance.CreateToggleGroup("wardrobe", this._activeEvent, (isOn) => {
+            isOn ? this.menu.ShowMenu() : this.menu.Hide();
+        });
+    }
+    
     
     private selectedCategoryItem: Button = null;
     

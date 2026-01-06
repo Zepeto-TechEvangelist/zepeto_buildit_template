@@ -4,6 +4,8 @@ import { ZepetoPlayers } from 'ZEPETO.Character.Controller';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import ScreenshotController from './ScreenshotController';
 import ScreenshotUIController from './ScreenshotUIController';
+import {UnityEvent$1} from "UnityEngine.Events";
+import UIManager from "../../Scripts/UIManager";
 
 export type CameraChangeHandler = (camera: Camera) => void;
 
@@ -35,6 +37,8 @@ export default class ScreenshotManager extends ZepetoScriptBehaviour {
     }
     
     
+    private screenshotActiveEvent: UnityEvent$1<boolean>;
+    
     Awake() {
         if (ScreenshotManager.m_instance !== null && ScreenshotManager.m_instance !== this) {
             GameObject.Destroy(this.gameObject);
@@ -57,6 +61,8 @@ export default class ScreenshotManager extends ZepetoScriptBehaviour {
         });
 
         this._originalInputFeedMsg = this._screenshotUIController.PreviewInputField.text;
+    
+        this.LateInit();
     }
 
     public RegisterCameraChangeHandler(handler: CameraChangeHandler) {
@@ -65,6 +71,12 @@ export default class ScreenshotManager extends ZepetoScriptBehaviour {
     
     /* Initialze */
 
+    private LateInit() {
+
+        this.screenshotActiveEvent = new UnityEvent$1<boolean>();
+        UIManager.instance.CreateToggleGroup("screenshot", this.screenshotActiveEvent, (isOn) => { this.ToggleScreenshotUI(); });
+    }
+    
     private InitialzeScreenshotManager() {
         // Button
         this._screenshotUIController.TakePhotoScreenshotButton.onClick.AddListener(() => {
@@ -162,6 +174,8 @@ export default class ScreenshotManager extends ZepetoScriptBehaviour {
             return;
         }
         this._screenshotUIController.ToggleUI();
+        
+        this.screenshotActiveEvent?.Invoke( this._screenshotUIController.IsUIActive );
     }
 
     private OnClickUploadButton() {
