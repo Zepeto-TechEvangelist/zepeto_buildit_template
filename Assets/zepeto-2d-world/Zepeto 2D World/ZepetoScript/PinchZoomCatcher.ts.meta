@@ -1,0 +1,248 @@
+fileFormatVersion: 2
+guid: a200d81f562b944ad936d97d87d469a8
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\n// Assets/Scripts/UI/PinchZoomCatcher.ts\\r\\nconst
+    ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst UnityEngine_1 =
+    require(\\\"UnityEngine\\\");\\r\\nconst UnityEngine_EventSystems_1 = require(\\\"UnityEngine.EventSystems\\\");\\r\\nconst
+    UnityEngine_EventSystems_EventTrigger_1 = require(\\\"UnityEngine.EventSystems.EventTrigger\\\");\\r\\nconst
+    TMPro_1 = require(\\\"TMPro\\\");\\r\\nconst CameraFollow2D_1 = require(\\\"./CameraFollow2D\\\");\\r\\nconst
+    Player2DHandle_1 = require(\\\"./Player2DHandle\\\");\\r\\nconst Zepeto2DPlayer_1
+    = require(\\\"./Zepeto2DPlayer\\\");\\r\\nconst Zepeto2DWorldManager_1 = require(\\\"./Zepeto2DWorldManager\\\");\\r\\nconst
+    SocialModule = require('ZEPETO.Module.Social');\\r\\n/**\\r\\n * Captures two-finger
+    pinch gestures on a UI element and forwards zoom deltas to CameraFollow2D.\\r\\n
+    * - Attach this to a full-screen UI panel (with a GraphicRaycaster above).\\r\\n
+    * - It will auto-locate or auto-create an EventTrigger on the same GameObject.\\r\\n
+    */\\r\\nclass PinchZoomCatcher extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\\r\\n    constructor() {\\r\\n        super(...arguments);\\r\\n        /**
+    Target camera follow (auto-found if not assigned). */\\r\\n        this.cameraFollow
+    = null;\\r\\n        /** Optional debug text (T.M.Pro) to visualize pinch data.
+    */\\r\\n        this.debugText = null;\\r\\n        /** Pixels \u2192 orthoSize
+    conversion (lower = more sensitive). */\\r\\n        this.pinchSensitivity =
+    0.035;\\r\\n        /** Max absolute ortho change applied in one frame (higher
+    = smoother at cost of responsiveness). */\\r\\n        this.maxStepPerFrame =
+    1.0;\\r\\n        // Internal pointer tracking (exactly two fingers)\\r\\n       
+    this._p0Id = null;\\r\\n        this._p1Id = null;\\r\\n        this._p0Pos =
+    new UnityEngine_1.Vector2(0, 0);\\r\\n        this._p1Pos = new UnityEngine_1.Vector2(0,
+    0);\\r\\n        this._prevDist = null;\\r\\n        this._tapCandidateId = null;\\r\\n       
+    this._tapStartPos = new UnityEngine_1.Vector2(0, 0);\\r\\n        this._tapStartTime
+    = 0;\\r\\n        this._tapMaxDistance = 30;\\r\\n        this._tapMaxDuration
+    = 0.25;\\r\\n        // Debug throttle\\r\\n        this._nextLogTime = 0;\\r\\n       
+    this._logInterval = 0.04; // ~25 fps\\r\\n        this._canvasGroup = null;\\r\\n       
+    this._inputBlocked = false;\\r\\n        this._profileCardWasOpen = false;\\r\\n   
+    }\\r\\n    static get instance() {\\r\\n        return this._instance;\\r\\n   
+    }\\r\\n    Awake() {\\r\\n        PinchZoomCatcher._instance = this;\\r\\n       
+    // Resolve camera follow if not wired\\r\\n        if (!this.cameraFollow) {\\r\\n           
+    this.cameraFollow = UnityEngine_1.GameObject.FindObjectOfType($typeof(CameraFollow2D_1.default));\\r\\n       
+    }\\r\\n        // Ensure there's an EventTrigger on this object and wire handlers\\r\\n       
+    let trigger = this.gameObject.GetComponent($typeof(UnityEngine_EventSystems_1.EventTrigger));\\r\\n       
+    if (!trigger)\\r\\n            trigger = this.gameObject.AddComponent($typeof(UnityEngine_EventSystems_1.EventTrigger));\\r\\n       
+    const add = (type, cb) => {\\r\\n            const entry = new UnityEngine_EventSystems_EventTrigger_1.Entry();\\r\\n           
+    entry.eventID = type;\\r\\n            entry.callback.AddListener(cb);\\r\\n           
+    trigger.triggers.Add(entry);\\r\\n        };\\r\\n        add(UnityEngine_EventSystems_1.EventTriggerType.PointerDown,
+    (e) => this.OnPointerDown(e));\\r\\n        add(UnityEngine_EventSystems_1.EventTriggerType.Drag,
+    (e) => this.OnDrag(e));\\r\\n        add(UnityEngine_EventSystems_1.EventTriggerType.PointerUp,
+    (e) => this.OnPointerUp(e));\\r\\n        // In case platform fires cancel events:\\r\\n       
+    add(UnityEngine_EventSystems_1.EventTriggerType.Cancel, (e) => this.OnPointerUp(e));\\r\\n       
+    this._canvasGroup = this.GetComponent($typeof(UnityEngine_1.CanvasGroup));\\r\\n       
+    if (!this._canvasGroup) {\\r\\n            this._canvasGroup = this.gameObject.AddComponent($typeof(UnityEngine_1.CanvasGroup));\\r\\n       
+    }\\r\\n        this.ApplyRaycastState(true);\\r\\n    }\\r\\n    OnDisable()
+    {\\r\\n        // Reset state so we don't carry stale pointers across enable/disable\\r\\n       
+    this._p0Id = this._p1Id = null;\\r\\n        this._prevDist = null;\\r\\n       
+    if (PinchZoomCatcher._instance === this) {\\r\\n            PinchZoomCatcher._instance
+    = null;\\r\\n        }\\r\\n    }\\r\\n    // --- Pointer logic --------------------------------------------------------\\r\\n   
+    OnPointerDown(e) {\\r\\n        if (this.CloseProfileCardIfOpen()) {\\r\\n           
+    return;\\r\\n        }\\r\\n        if (this._inputBlocked) {\\r\\n           
+    return;\\r\\n        }\\r\\n        if (this._p0Id === null) {\\r\\n           
+    this._p0Id = e.pointerId;\\r\\n            this._p0Pos = new UnityEngine_1.Vector2(e.position.x,
+    e.position.y);\\r\\n            this._tapCandidateId = e.pointerId;\\r\\n           
+    this._tapStartPos = new UnityEngine_1.Vector2(e.position.x, e.position.y);\\r\\n           
+    this._tapStartTime = UnityEngine_1.Time.time;\\r\\n        }\\r\\n        else
+    if (this._p1Id === null && e.pointerId !== this._p0Id) {\\r\\n            this._p1Id
+    = e.pointerId;\\r\\n            this._p1Pos = new UnityEngine_1.Vector2(e.position.x,
+    e.position.y);\\r\\n            this._prevDist = UnityEngine_1.Vector2.Distance(this._p0Pos,
+    this._p1Pos);\\r\\n            this._tapCandidateId = null;\\r\\n        }\\r\\n       
+    // this.debugLog(\\\"DOWN\\\", e);\\r\\n    }\\r\\n    OnDrag(e) {\\r\\n       
+    if (this.CloseProfileCardIfOpen()) {\\r\\n            return;\\r\\n        }\\r\\n       
+    if (this._inputBlocked)\\r\\n            return;\\r\\n        // Update whichever
+    finger moved\\r\\n        if (this._p0Id !== null && e.pointerId === this._p0Id)
+    {\\r\\n            this._p0Pos = new UnityEngine_1.Vector2(e.position.x, e.position.y);\\r\\n       
+    }\\r\\n        else if (this._p1Id !== null && e.pointerId === this._p1Id) {\\r\\n           
+    this._p1Pos = new UnityEngine_1.Vector2(e.position.x, e.position.y);\\r\\n       
+    }\\r\\n        else {\\r\\n            return;\\r\\n        }\\r\\n        if
+    (this._tapCandidateId !== null && e.pointerId === this._tapCandidateId) {\\r\\n           
+    const delta = UnityEngine_1.Vector2.Distance(this._tapStartPos, new UnityEngine_1.Vector2(e.position.x,
+    e.position.y));\\r\\n            if (delta > this._tapMaxDistance) {\\r\\n               
+    this._tapCandidateId = null;\\r\\n            }\\r\\n        }\\r\\n        //
+    Only pinch when both are tracked\\r\\n        if (this._p0Id !== null && this._p1Id
+    !== null) {\\r\\n            const curDist = UnityEngine_1.Vector2.Distance(this._p0Pos,
+    this._p1Pos);\\r\\n            if (this._prevDist !== null && this.cameraFollow)
+    {\\r\\n                // Positive deltaPixels = fingers moved apart (intuitively
+    zoom out)\\r\\n                // We invert to make \u201Cpinch in (closer)\u201D
+    \u2192 zoom in (smaller ortho)\\r\\n                let deltaOrtho = -(curDist
+    - this._prevDist) * this.pinchSensitivity;\\r\\n                // Clamp per
+    frame to avoid big jumps on low-FPS or large drags\\r\\n                const
+    cap = UnityEngine_1.Mathf.Max(0.0001, this.maxStepPerFrame);\\r\\n               
+    deltaOrtho = UnityEngine_1.Mathf.Clamp(deltaOrtho, -cap, +cap);\\r\\n               
+    this.cameraFollow.ApplyZoomDelta(deltaOrtho);\\r\\n            }\\r\\n           
+    this._prevDist = curDist;\\r\\n        }\\r\\n        // this.debugLog(\\\"DRAG\\\",
+    e);\\r\\n    }\\r\\n    OnPointerUp(e) {\\r\\n        if (this.CloseProfileCardIfOpen())
+    {\\r\\n            return;\\r\\n        }\\r\\n        if (this._inputBlocked)\\r\\n           
+    return;\\r\\n        // Release whichever finger went up; reset pinch state\\r\\n       
+    if (this._p0Id !== null && e.pointerId === this._p0Id) {\\r\\n            this._p0Id
+    = null;\\r\\n            this._prevDist = null;\\r\\n        }\\r\\n        else
+    if (this._p1Id !== null && e.pointerId === this._p1Id) {\\r\\n            this._p1Id
+    = null;\\r\\n            this._prevDist = null;\\r\\n        }\\r\\n        if
+    (this._tapCandidateId !== null && e.pointerId === this._tapCandidateId) {\\r\\n           
+    const duration = UnityEngine_1.Time.time - this._tapStartTime;\\r\\n           
+    const delta = UnityEngine_1.Vector2.Distance(this._tapStartPos, new UnityEngine_1.Vector2(e.position.x,
+    e.position.y));\\r\\n            if (duration <= this._tapMaxDuration && delta
+    <= this._tapMaxDistance && this._p1Id === null) {\\r\\n                console.log(`[PinchZoomCatcher]
+    Tap detected -> pos=(${e.position.x.toFixed(1)}, ${e.position.y.toFixed(1)}),
+    duration=${duration.toFixed(3)}, delta=${delta.toFixed(1)}`);\\r\\n               
+    this.HandleTap(new UnityEngine_1.Vector2(e.position.x, e.position.y));\\r\\n           
+    }\\r\\n            this._tapCandidateId = null;\\r\\n        }\\r\\n        //
+    this.debugLog(\\\"UP\\\", e);\\r\\n    }\\r\\n    // --- Optional debug -------------------------------------------------------\\r\\n   
+    debugLog(tag, e) {\\r\\n        if (!this.debugText)\\r\\n            return;\\r\\n       
+    if (tag === \\\"DRAG\\\" && UnityEngine_1.Time.time < this._nextLogTime)\\r\\n           
+    return;\\r\\n        this._nextLogTime = UnityEngine_1.Time.time + this._logInterval;\\r\\n       
+    const both = (this._p0Id !== null && this._p1Id !== null);\\r\\n        const
+    dist = both ? UnityEngine_1.Vector2.Distance(this._p0Pos, this._p1Pos).toFixed(1)
+    : \\\"-\\\";\\r\\n        const delta = (both && this._prevDist !== null)\\r\\n           
+    ? (UnityEngine_1.Vector2.Distance(this._p0Pos, this._p1Pos) - this._prevDist).toFixed(1)\\r\\n           
+    : \\\"-\\\";\\r\\n        this.debugText.text =\\r\\n            `[#${tag}] pid=${e.pointerId}\\\\n`
+    +\\r\\n                `p0=${this._p0Id ?? \\\"-\\\"}  pos(${this._p0Pos.x.toFixed(0)},
+    ${this._p0Pos.y.toFixed(0)})\\\\n` +\\r\\n                `p1=${this._p1Id ??
+    \\\"-\\\"}  pos(${this._p1Pos.x.toFixed(0)}, ${this._p1Pos.y.toFixed(0)})\\\\n`
+    +\\r\\n                `dist=${dist}  delta=${delta}`;\\r\\n    }\\r\\n    HandleTap(screenPos)
+    {\\r\\n        const cam = this.ResolveCamera();\\r\\n        if (!cam)\\r\\n           
+    return;\\r\\n        const worldPoint = cam.ScreenToWorldPoint(new UnityEngine_1.Vector3(screenPos.x,
+    screenPos.y, cam.nearClipPlane));\\r\\n        console.log(`[PinchZoomCatcher]
+    Screen tap -> world=(${worldPoint.x.toFixed(2)}, ${worldPoint.y.toFixed(2)},
+    ${worldPoint.z.toFixed(2)})`);\\r\\n        const hit2D = UnityEngine_1.Physics2D.OverlapPoint(new
+    UnityEngine_1.Vector2(worldPoint.x, worldPoint.y));\\r\\n        if (hit2D &&
+    this.TryOpenProfileFromCollider2D(hit2D)) {\\r\\n            return;\\r\\n       
+    }\\r\\n        const ray = cam.ScreenPointToRay(new UnityEngine_1.Vector3(screenPos.x,
+    screenPos.y, 0));\\r\\n        const hitRef = $ref(new UnityEngine_1.RaycastHit());\\r\\n       
+    if (UnityEngine_1.Physics.Raycast(ray, hitRef)) {\\r\\n            const hit
+    = $unref(hitRef);\\r\\n            if (hit) {\\r\\n                console.log(`[PinchZoomCatcher]
+    Raycast hit -> ${hit.collider?.name ?? 'none'}`);\\r\\n                if (this.TryOpenProfileFromTransform(hit.collider?.transform))
+    {\\r\\n                    return;\\r\\n                }\\r\\n            }\\r\\n           
+    else {\\r\\n                console.log(`[PinchZoomCatcher] Raycast miss`);\\r\\n           
+    }\\r\\n        }\\r\\n        else {\\r\\n            console.log(`[PinchZoomCatcher]
+    Physics.Raycast returned false.`);\\r\\n        }\\r\\n    }\\r\\n    TryOpenProfileFromCollider2D(col)
+    {\\r\\n        if (!col)\\r\\n            return false;\\r\\n        const handle
+    = col.GetComponent($typeof(Player2DHandle_1.default))\\r\\n            ?? col.GetComponentInParent($typeof(Player2DHandle_1.default));\\r\\n       
+    if (handle && handle.owner) {\\r\\n            const result = handle.owner.OpenProfileCard();\\r\\n           
+    console.log(`[PinchZoomCatcher] 2D collider hit ${col.name} -> owner=${handle.owner?.name
+    ?? 'null'}, open=${result}`);\\r\\n            if (result) {\\r\\n               
+    return;\\r\\n            }\\r\\n        }\\r\\n        return this.TryOpenProfileFromTransform(col.transform);\\r\\n   
+    }\\r\\n    TryOpenProfileFromTransform(target) {\\r\\n        if (!target)\\r\\n           
+    return false;\\r\\n        const manager = Zepeto2DWorldManager_1.default.Instance;\\r\\n       
+    const player = manager?.ResolvePlayerFromTransform(target);\\r\\n        if (!player)
+    {\\r\\n            console.log(`[PinchZoomCatcher] ResolvePlayerFromTransform
+    -> null`);\\r\\n            return false;\\r\\n        }\\r\\n        const controller
+    = player.character?.GetComponent($typeof(Zepeto2DPlayer_1.default));\\r\\n       
+    if (controller) {\\r\\n            return controller.OpenProfileCard();\\r\\n       
+    }\\r\\n        const card = SocialModule?.ProfileCard?.instance;\\r\\n       
+    if (!card) {\\r\\n            console.warn(\\\"[PinchZoomCatcher] ProfileCard
+    instance unavailable.\\\");\\r\\n            return false;\\r\\n        }\\r\\n       
+    const userId = player.userId;\\r\\n        if (!userId || userId.length === 0)
+    {\\r\\n            console.warn(\\\"[PinchZoomCatcher] Target player missing
+    userId.\\\");\\r\\n            return false;\\r\\n        }\\r\\n        const
+    config = this.CreateProfileCardConfig();\\r\\n        console.log(`[PinchZoomCatcher]
+    Opening profile card for userId=${userId} (fallback)`);\\r\\n        try {\\r\\n           
+    if (typeof card.Open === 'function') {\\r\\n                card.Open(userId,
+    config);\\r\\n                return true;\\r\\n            }\\r\\n           
+    if (typeof card.open === 'function') {\\r\\n                card.open(userId,
+    config);\\r\\n                return true;\\r\\n            }\\r\\n        }\\r\\n       
+    catch (error) {\\r\\n            console.error(`[PinchZoomCatcher] Failed to
+    open profile card via fallback: ${error}`);\\r\\n        }\\r\\n        return
+    false;\\r\\n    }\\r\\n    CreateProfileCardConfig() {\\r\\n        const ConfigCtor
+    = SocialModule?.ProfileCardConfig;\\r\\n        if (ConfigCtor) {\\r\\n           
+    try {\\r\\n                const config = new ConfigCtor();\\r\\n               
+    if (typeof config === 'object') {\\r\\n                    if ('closeOnClickOutside'
+    in config) {\\r\\n                        config.closeOnClickOutside = true;\\r\\n                   
+    }\\r\\n                    if ('enableBackgroundDim' in config) {\\r\\n                       
+    config.enableBackgroundDim = true;\\r\\n                    }\\r\\n               
+    }\\r\\n                return config;\\r\\n            }\\r\\n            catch
+    (error) {\\r\\n                console.warn(`[PinchZoomCatcher] ProfileCardConfig
+    \uC0DD\uC131 \uC2E4\uD328: ${error}`);\\r\\n            }\\r\\n        }\\r\\n       
+    return {\\r\\n            closeOnClickOutside: true,\\r\\n            enableBackgroundDim:
+    true,\\r\\n        };\\r\\n    }\\r\\n    ResolveCamera() {\\r\\n        const
+    follow = this.cameraFollow ?? UnityEngine_1.GameObject.FindObjectOfType($typeof(CameraFollow2D_1.default));\\r\\n       
+    if (follow) {\\r\\n            const cam = follow.GetComponent($typeof(UnityEngine_1.Camera));\\r\\n           
+    if (cam)\\r\\n                return cam;\\r\\n        }\\r\\n        return
+    UnityEngine_1.Camera.main;\\r\\n    }\\r\\n    Update() {\\r\\n        const
+    isOpen = this.IsProfileCardOpen();\\r\\n        if (isOpen !== this._profileCardWasOpen)
+    {\\r\\n            this._profileCardWasOpen = isOpen;\\r\\n            this.ApplyRaycastState(!isOpen);\\r\\n       
+    }\\r\\n    }\\r\\n    ApplyRaycastState(enableInteraction) {\\r\\n        this._inputBlocked
+    = !enableInteraction;\\r\\n        if (this._canvasGroup) {\\r\\n           
+    this._canvasGroup.blocksRaycasts = enableInteraction;\\r\\n        }\\r\\n       
+    if (enableInteraction) {\\r\\n            this._tapCandidateId = null;\\r\\n       
+    }\\r\\n        else {\\r\\n            this.ResetPointers();\\r\\n        }\\r\\n   
+    }\\r\\n    ResetPointers() {\\r\\n        this._p0Id = null;\\r\\n        this._p1Id
+    = null;\\r\\n        this._prevDist = null;\\r\\n        this._tapCandidateId
+    = null;\\r\\n    }\\r\\n    IsProfileCardOpen() {\\r\\n        const card = SocialModule?.ProfileCard?.instance;\\r\\n       
+    if (!card)\\r\\n            return false;\\r\\n        try {\\r\\n           
+    if (typeof card.isOpened === 'boolean')\\r\\n                return card.isOpened;\\r\\n           
+    if (typeof card.IsOpened === 'function')\\r\\n                return !!card.IsOpened();\\r\\n           
+    if (typeof card.isOpen === 'boolean')\\r\\n                return card.isOpen;\\r\\n           
+    if (typeof card.IsOpen === 'function')\\r\\n                return !!card.IsOpen();\\r\\n           
+    const root = card.root ?? card.transform ?? card.gameObject;\\r\\n           
+    if (root && typeof root.activeInHierarchy === 'boolean') {\\r\\n               
+    return root.activeInHierarchy;\\r\\n            }\\r\\n        }\\r\\n       
+    catch (error) {\\r\\n            console.warn(`[PinchZoomCatcher] Failed to query
+    ProfileCard state: ${error}`);\\r\\n        }\\r\\n        return false;\\r\\n   
+    }\\r\\n    TryCloseProfileCard() {\\r\\n        const card = SocialModule?.ProfileCard?.instance;\\r\\n       
+    if (!card)\\r\\n            return false;\\r\\n        try {\\r\\n           
+    const candidates = [\\r\\n                card.Close?.bind(card),\\r\\n               
+    card.close?.bind(card),\\r\\n                card.Dismiss?.bind(card),\\r\\n               
+    card.dismiss?.bind(card),\\r\\n                card.Hide?.bind(card),\\r\\n               
+    card.hide?.bind(card),\\r\\n                card.CloseImmediate?.bind(card),\\r\\n               
+    card.closeImmediate?.bind(card),\\r\\n            ];\\r\\n            for (const
+    invoke of candidates) {\\r\\n                if (typeof invoke !== 'function')\\r\\n                   
+    continue;\\r\\n                try {\\r\\n                    invoke();\\r\\n                   
+    this.ApplyRaycastState(true);\\r\\n                    this._profileCardWasOpen
+    = false;\\r\\n                    return true;\\r\\n                }\\r\\n               
+    catch (error) {\\r\\n                    console.warn(`[PinchZoomCatcher] Exception
+    trying to close profile card: ${error}`);\\r\\n                }\\r\\n           
+    }\\r\\n        }\\r\\n        catch (error) {\\r\\n            console.warn(`[PinchZoomCatcher]
+    Exception trying to close profile card: ${error}`);\\r\\n        }\\r\\n       
+    if (this.ForceDeactivateProfileCard(card)) {\\r\\n            this.ApplyRaycastState(true);\\r\\n           
+    this._profileCardWasOpen = false;\\r\\n            return true;\\r\\n       
+    }\\r\\n        return false;\\r\\n    }\\r\\n    ForceDeactivateProfileCard(card)
+    {\\r\\n        try {\\r\\n            const root = card?.root ?? card?.gameObject
+    ?? card?.transform;\\r\\n            const go = root?.gameObject ?? root;\\r\\n           
+    if (go && typeof go.SetActive === 'function') {\\r\\n                go.SetActive(false);\\r\\n               
+    return true;\\r\\n            }\\r\\n        }\\r\\n        catch (error) {\\r\\n           
+    console.warn(`[PinchZoomCatcher] Failed to force deactivate profile card: ${error}`);\\r\\n       
+    }\\r\\n        return false;\\r\\n    }\\r\\n    CloseProfileCardIfOpen() {\\r\\n       
+    if (this.IsProfileCardOpen()) {\\r\\n            this.TryCloseProfileCard();\\r\\n           
+    return true;\\r\\n        }\\r\\n        return false;\\r\\n    }\\r\\n}\\r\\nexports.default
+    = PinchZoomCatcher;\\r\\nPinchZoomCatcher._instance = null;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUGluY2hab29tQ2F0Y2hlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIlBpbmNoWm9vbUNhdGNoZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSx3Q0FBd0M7QUFDeEMsaURBQXNEO0FBQ3RELDZDQUVxQjtBQUNyQix1RUFHa0M7QUFDbEMsaUdBQThEO0FBQzlELGlDQUF3QztBQUN4QyxxREFBOEM7QUFDOUMscURBQThDO0FBQzlDLHFEQUE4QztBQUM5QyxpRUFBMEQ7QUFFMUQsTUFBTSxZQUFZLEdBQVEsT0FBTyxDQUFDLHNCQUFzQixDQUFDLENBQUM7QUFFMUQ7Ozs7R0FJRztBQUNILE1BQXFCLGdCQUFpQixTQUFRLHFDQUFxQjtJQUFuRTs7UUFHSSx5REFBeUQ7UUFDbEQsaUJBQVksR0FBMEIsSUFBSSxDQUFDO1FBRWxELDZEQUE2RDtRQUN0RCxjQUFTLEdBQTJCLElBQUksQ0FBQztRQUVoRCw4REFBOEQ7UUFDdkQscUJBQWdCLEdBQVcsS0FBSyxDQUFDO1FBRXhDLG9HQUFvRztRQUM3RixvQkFBZSxHQUFXLEdBQUcsQ0FBQztRQUVyQyxrREFBa0Q7UUFDMUMsVUFBSyxHQUFrQixJQUFJLENBQUM7UUFDNUIsVUFBSyxHQUFrQixJQUFJLENBQUM7UUFDNUIsV0FBTSxHQUFZLElBQUkscUJBQU8sQ0FBQyxDQUFDLEVBQUUsQ0FBQyxDQUFDLENBQUM7UUFDcEMsV0FBTSxHQUFZLElBQUkscUJBQU8sQ0FBQyxDQUFDLEVBQUUsQ0FBQyxDQUFDLENBQUM7UUFDcEMsY0FBUyxHQUFrQixJQUFJLENBQUM7UUFFaEMsb0JBQWUsR0FBa0IsSUFBSSxDQUFDO1FBQ3RDLGlCQUFZLEdBQVksSUFBSSxxQkFBTyxDQUFDLENBQUMsRUFBRSxDQUFDLENBQUMsQ0FBQztRQUMxQyxrQkFBYSxHQUFXLENBQUMsQ0FBQztRQUNqQixvQkFBZSxHQUFXLEVBQUUsQ0FBQztRQUM3QixvQkFBZSxHQUFXLElBQUksQ0FBQztRQUVoRCxpQkFBaUI7UUFDVCxp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QUM1QixJQUFJLEdBQUcsS0FBSyxNQUFNLElBQUksa0JBQUksQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDLFlBQVk7WUFBRSxPQUFPO1FBQzVELElBQUksQ0FBQyxZQUFZLEdBQUcsa0JBQUksQ0FBQyxJQUFJLEdBQUcsSUFBSSxDQUFDLFlBQVksQ0FBQztRQUVsRCxNQUFNLElBQUksR0FBRyxDQUFDLElBQUksQ0FBQyxLQUFLLEtBQUssSUFBSSxJQUFJLElBQUksQ0FBQyxLQUFLLEtBQUssSUFBSSxDQUFDLENBQUM7UUFDMUQsTUFBTSxJQUFJLEdBQUcsSUFBSSxDQUFDLENBQUMsQ0FBQyxxQkFBTyxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsTUFBTSxFQUFFLElBQUksQ0FBQyxNQUFNLENBQUMsQ0FBQyxPQUFPLENBQUMsQ0FBQyxDQUFDLENBQUMsQ0FBQyxDQUFDLEdBQUcsQ0FBQztRQUNoRixNQUFNLEtBQUssR0FBRyxDQUFDLElBQUksSUFBSSxJQUFJLENBQUMsU0FBUyxLQUFLLElBQUksQ0FBQztZQUMzQyxDQUFDLENBQUMsQ0FBQyxxQkFBTyxDQUFDLFFBQVEsQ0FBQyxJQUFJLENBQUMsTUFBTSxFQUFFLElBQUksQ0FBQyxNQUFNLENBQUMsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDLENBQUMsT0FBTyxDQUFDLENBQUMsQ0FBQztZQUMxRSxDQUFDLENBQUMsR0FBRyxDQUFDO1FBRVYsSUFBSSxDQUFDLFNBQVMsQ0FBQyxJQUFJO1lBQ2YsS0FBSyxHQUFHLFNBQVMsQ0FBQyxDQUFDLFNBQVMsSUFBSTtnQkFDaEMsTUFBTSxJQUFJLENBQUMsS0FBSyxJQUFJLEdBQUcsU0FBUyxJQUFJLENBQUMsTUFBTSxDQUFDLENBQUMsQ0FBQyxPQUFPLENBQUMsQ0FBQyxDQUFDLEtBQUssSUFBSSxDQUFDLE1BQU0sQ0FBQyxDQUFDLENBQUMsT0FBTyxDQUFDLENBQUMsQ0FBQyxLQUFLO2dCQUMxRixNQUFNLElBQUksQ0FBQyxLQUFLLElBQUksR0FBRyxTQUFTLElBQUksQ0FBQyxNQUFNLENBQUMsQ0FBQyxD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\",\"assetPath\":\"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/PinchZoomCatcher.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"\",\"name\":\"cameraFollow\",\"type\":\"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/CameraFollow2D.default\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"Unity.TextMeshPro\",\"name\":\"debugText\",\"type\":\"TMPro.TextMeshProUGUI\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"pinchSensitivity\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"0.035\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"maxStepPerFrame\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"1\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]}],\"name\":\"PinchZoomCatcher\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: 559c6c6ec8694b02d0334cb61503cf8c
+  onlyWriteTrigger: 0

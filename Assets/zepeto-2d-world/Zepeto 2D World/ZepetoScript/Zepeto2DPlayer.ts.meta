@@ -1,0 +1,237 @@
+fileFormatVersion: 2
+guid: e88045785f9eb974abaee4103765be1e
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\nconst ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst
+    UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst Player2DHandle_1 = require(\\\"./Player2DHandle\\\");\\r\\nconst
+    Zepeto2DWorldManager_1 = require(\\\"./Zepeto2DWorldManager\\\"); // <- make
+    sure the path is correct\\r\\nconst SocialModule = require('ZEPETO.Module.Social');\\r\\nclass
+    Zepeto2DPlayer extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    constructor()
+    {\\r\\n        super(...arguments);\\r\\n        // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n       
+    // Movement config\\r\\n        // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n       
+    /** Max run speed (units/sec). */\\r\\n        this.runSpeed = 5.0;\\r\\n       
+    /** Walk speed (units/sec). */\\r\\n        this.walkSpeed = 2.2;\\r\\n       
+    /** Stick magnitude threshold to switch MoveState to RUN (0..1). */\\r\\n       
+    this.runThreshold = 0.6;\\r\\n        this.skinWidth = 0.05;\\r\\n        this.maxSlideIterations
+    = 3;\\r\\n        /** Exposed so other scripts (e.g., Portal) can reference the
+    2D hitbox root. */\\r\\n        this.player2dHandle = null;\\r\\n        // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n       
+    // Animation tuning\\r\\n        // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n       
+    this.motionSpeedWalk = 0.7;\\r\\n        this.motionSpeedRun = 0.8;\\r\\n       
+    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n       
+    // Runtime refs\\r\\n        // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n       
+    this._capsule = null; // 3D visual collider (optional)\\r\\n        this._rb
+    = null; // 3D rigidbody for visual root (kinematic)\\r\\n        this._anim =
+    null; // Animator on the visual rig\\r\\n        // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n       
+    // State\\r\\n        // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n       
+    this._input = UnityEngine_1.Vector2.zero; // raw input (-1..1)\\r\\n        this._desiredVel
+    = UnityEngine_1.Vector2.zero; // computed in Update, applied in FixedUpdate\\r\\n       
+    // 2D physics hitbox (drives movement & collisions)\\r\\n        this._hitbox2D
+    = null;\\r\\n        this._rb2d = null;\\r\\n        this._box2d = null;\\r\\n       
+    // World manager (used to fetch current map Y-range for stable Z-from-Y mapping)\\r\\n       
+    this._wm = null;\\r\\n        this._ownerPlayer = null;\\r\\n        this._cachedUserId
+    = null;\\r\\n        this.profileCardSortOrder = 10;\\r\\n    }\\r\\n    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    // Input API\\r\\n    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    /** Called by your input receiver. */\\r\\n    ApplyInput(dir) {\\r\\n       
+    this._input = dir;\\r\\n    }\\r\\n    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    // Lifecycle\\r\\n    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    Start() {\\r\\n        this._wm = Zepeto2DWorldManager_1.default.Instance ??
+    null;\\r\\n        this.TryBindOwner();\\r\\n        // Ensure a small 3D capsule
+    exists for visual purposes (optional)\\r\\n        this._capsule = this.GetComponentInChildren($typeof(UnityEngine_1.CapsuleCollider));\\r\\n       
+    if (!this._capsule) {\\r\\n            this._capsule = this.gameObject.AddComponent($typeof(UnityEngine_1.CapsuleCollider));\\r\\n           
+    this._capsule.center = new UnityEngine_1.Vector3(0, 0.25, 0);\\r\\n           
+    this._capsule.height = 0.5;\\r\\n            this._capsule.radius = 0.32;\\r\\n           
+    this._capsule.isTrigger = false;\\r\\n        }\\r\\n        // 3D Rigidbody
+    on the visual root (kinematic, no gravity)\\r\\n        this._rb = this.GetComponentInChildren($typeof(UnityEngine_1.Rigidbody));\\r\\n       
+    if (!this._rb)\\r\\n            this._rb = this.gameObject.AddComponent($typeof(UnityEngine_1.Rigidbody));\\r\\n       
+    this._rb.useGravity = false;\\r\\n        this._rb.isKinematic = true;\\r\\n       
+    // Animator on the visual rig\\r\\n        this._anim = this.GetComponentInChildren($typeof(UnityEngine_1.Animator));\\r\\n       
+    if (this._anim)\\r\\n            this._anim.applyRootMotion = false;\\r\\n       
+    // Create the separate 2D hitbox object (drives actual motion & collisions)\\r\\n       
+    if (!this._hitbox2D) {\\r\\n            const go = new UnityEngine_1.GameObject(\\\"Hitbox2D_\\\"
+    + this.name);\\r\\n            this._hitbox2D = go.transform;\\r\\n           
+    this._hitbox2D.position = this.transform.position;\\r\\n            this._hitbox2D.localRotation
+    = UnityEngine_1.Quaternion.identity;\\r\\n            // Mark this hitbox as
+    the player's 2D handle\\r\\n            this.player2dHandle = go.AddComponent($typeof(Player2DHandle_1.default));\\r\\n           
+    this.player2dHandle.owner = this;\\r\\n            if (Zepeto2DWorldManager_1.default.Instance)
+    {\\r\\n                if (Zepeto2DWorldManager_1.default.Instance.LocalHandle
+    === this.player2dHandle) {\\r\\n                    this.player2dHandle.isLocal
+    = true;\\r\\n                }\\r\\n            }\\r\\n            // Rigidbody2D
+    config tuned for top-down 2D movement\\r\\n            this._rb2d = go.AddComponent($typeof(UnityEngine_1.Rigidbody2D));\\r\\n           
+    this._rb2d.bodyType = UnityEngine_1.RigidbodyType2D.Dynamic;\\r\\n           
+    this._rb2d.gravityScale = 0;\\r\\n            this._rb2d.freezeRotation = true;\\r\\n           
+    this._rb2d.collisionDetectionMode = UnityEngine_1.CollisionDetectionMode2D.Continuous;\\r\\n           
+    this._rb2d.interpolation = UnityEngine_1.RigidbodyInterpolation2D.Interpolate;\\r\\n           
+    this._rb2d.drag = 50;\\r\\n            this._rb2d.angularDrag = 0;\\r\\n           
+    // BoxCollider2D roughly matching the 3D capsule\\r\\n            this._box2d
+    = go.AddComponent($typeof(UnityEngine_1.BoxCollider2D));\\r\\n            if
+    (this._box2d) {\\r\\n                const mat = new UnityEngine_1.PhysicsMaterial2D();\\r\\n               
+    mat.bounciness = 0;\\r\\n                mat.friction = 0;\\r\\n               
+    this._box2d.sharedMaterial = mat;\\r\\n            }\\r\\n            const w
+    = (this._capsule ? this._capsule.radius * 2 : 0.6);\\r\\n            const h
+    = (this._capsule ? this._capsule.height : 1.8);\\r\\n            const offY =
+    (this._capsule ? this._capsule.center.y : 0.9);\\r\\n            this._box2d.size
+    = new UnityEngine_1.Vector2(w, h);\\r\\n            this._box2d.offset = new
+    UnityEngine_1.Vector2(0, offY);\\r\\n        }\\r\\n        // Make sure hitbox
+    is aligned initially\\r\\n        if (this._hitbox2D) {\\r\\n            this._hitbox2D.position
+    = new UnityEngine_1.Vector3(this.transform.position.x, this.transform.position.y,
+    0);\\r\\n        }\\r\\n    }\\r\\n    Update() {\\r\\n        // 1) Read input
+    and apply a small deadzone\\r\\n        const dead = 0.15;\\r\\n        const
+    raw = this._input;\\r\\n        const mag = raw.magnitude;\\r\\n        const
+    use = (mag < dead) ? UnityEngine_1.Vector2.zero : raw;\\r\\n        // 2) Quantize
+    direction to 8 ways (optional stylistic choice)\\r\\n        const q8 = this.quantize8WithIndex(use);\\r\\n       
+    const dir8 = q8.dir;\\r\\n        // 3) Speed from magnitude (walk \u2192 run),
+    based on *use* not raw\\r\\n        const t = UnityEngine_1.Mathf.Clamp01(use.magnitude);\\r\\n       
+    const speed = UnityEngine_1.Mathf.Lerp(this.walkSpeed, this.runSpeed, t);\\r\\n       
+    // 4) Record desired velocity (applied in FixedUpdate)\\r\\n        this._desiredVel
+    = new UnityEngine_1.Vector2(dir8.x * speed, dir8.y * speed);\\r\\n        //
+    5) Cut inertia immediately if no input\\r\\n        if (this._rb2d && t === 0)
+    {\\r\\n            this._rb2d.velocity = UnityEngine_1.Vector2.zero;\\r\\n           
+    this._rb2d.angularVelocity = 0;\\r\\n        }\\r\\n        // 6) Animation parameters\\r\\n       
+    if (this._anim) {\\r\\n            if (dir8.sqrMagnitude > 0) {\\r\\n               
+    this._anim.SetInteger(\\\"State\\\", 102); // Move\\r\\n                this._anim.SetInteger(\\\"MoveState\\\",
+    mag >= this.runThreshold ? 1 : 0); // 0 walk, 1 run\\r\\n                this._anim.SetFloat(\\\"MotionSpeed\\\",
+    UnityEngine_1.Mathf.Lerp(this.motionSpeedWalk, this.motionSpeedRun, t));\\r\\n           
+    }\\r\\n            else if (this._anim.GetInteger(\\\"State\\\") === 102) {\\r\\n               
+    // Moving \u2192 Idle once\\r\\n                this._anim.SetInteger(\\\"State\\\",
+    1);\\r\\n                this._anim.SetInteger(\\\"MoveState\\\", 0);\\r\\n               
+    this._anim.SetFloat(\\\"MotionSpeed\\\", this.motionSpeedWalk);\\r\\n           
+    }\\r\\n        }\\r\\n        // 7) Facing (snap instantly; preserve last when
+    no input)\\r\\n        if (q8.idx !== -1) {\\r\\n            // Yaw mapping:
+    0:E,1:SE,2:S,3:SW,4:W,5:NW,6:N,7:NE\\r\\n            const yawByIdx = [90, 45,
+    0, -45, -90, -135, 180, 135];\\r\\n            const yaw = yawByIdx[q8.idx];\\r\\n           
+    this.transform.rotation = UnityEngine_1.Quaternion.Euler(0, yaw, 0);\\r\\n       
+    }\\r\\n    }\\r\\n    LateUpdate() {\\r\\n        // Render-time sync: place
+    the visual root at the 2D hitbox,\\r\\n        // and compute a stable Z from
+    current Y (for layered sorting / depth).\\r\\n        if (!this._rb2d)\\r\\n           
+    return;\\r\\n        const hp = this._rb2d.transform.position;\\r\\n        this.transform.position
+    = new UnityEngine_1.Vector3(hp.x, hp.y, this.computeZFromWorld(hp.y));\\r\\n   
+    }\\r\\n    FixedUpdate() {\\r\\n        if (!this._rb2d)\\r\\n            return;\\r\\n       
+    // If no desired motion \u2192 fully stop\\r\\n        if (this._desiredVel.sqrMagnitude
+    < 1e-6) {\\r\\n            this._rb2d.velocity = UnityEngine_1.Vector2.zero;\\r\\n           
+    this._rb2d.angularVelocity = 0;\\r\\n            return;\\r\\n        }\\r\\n       
+    // Otherwise drive at the desired velocity (no acceleration lag)\\r\\n       
+    this._rb2d.velocity = this._desiredVel;\\r\\n        this._rb2d.angularVelocity
+    = 0;\\r\\n    }\\r\\n    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    // Helpers\\r\\n    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    /**\\r\\n     * Map world Y to visual Z using the current map's Y-range (via
+    WorldManager).\\r\\n     * The Z output is intentionally constrained to [-80
+    .. -95] for a subtle parallax.\\r\\n     * Falls back to a large default range
+    if bounds are not ready.\\r\\n     */\\r\\n    computeZFromWorld(y) {\\r\\n       
+    const wm = this._wm;\\r\\n        const outMin = -80, outMax = -95; // NOTE:
+    outMax < outMin on purpose (deeper into negative)\\r\\n        if (wm && wm.GetWorldYRange)
+    {\\r\\n            const r = wm.GetWorldYRange();\\r\\n            if (r && r.valid
+    && r.maxY > r.minY) {\\r\\n                const t = UnityEngine_1.Mathf.InverseLerp(r.minY,
+    r.maxY, y); // 0..1 within current map\\r\\n                return UnityEngine_1.Mathf.Lerp(outMin,
+    outMax, t);\\r\\n            }\\r\\n        }\\r\\n        // Fallback range
+    when bounds aren't ready yet\\r\\n        const tf = UnityEngine_1.Mathf.InverseLerp(-9999,
+    9999, y);\\r\\n        return UnityEngine_1.Mathf.Lerp(outMin, outMax, tf);\\r\\n   
+    }\\r\\n    /**\\r\\n     * Quantize a vector to the nearest of 8 cardinal/diagonal
+    directions.\\r\\n     * Returns {dir, idx}. idx: 0:E,1:SE,2:S,3:SW,4:W,5:NW,6:N,7:NE;
+    -1 if zero.\\r\\n     */\\r\\n    quantize8WithIndex(v) {\\r\\n        if (v.sqrMagnitude
+    < 1e-6)\\r\\n            return { dir: UnityEngine_1.Vector2.zero, idx: -1 };\\r\\n       
+    const ang = UnityEngine_1.Mathf.Atan2(v.y, v.x); // -\u03C0..\u03C0, 0=+X\\r\\n       
+    const step = (UnityEngine_1.Mathf.PI * 2) / 8; // 45\xB0\\r\\n        const idx
+    = UnityEngine_1.Mathf.Round((ang + UnityEngine_1.Mathf.PI * 2) / step) % 8; //
+    0..7\\r\\n        const q = idx * step;\\r\\n        const x = UnityEngine_1.Mathf.Cos(q),
+    y = UnityEngine_1.Mathf.Sin(q);\\r\\n        const invLen = 1 / UnityEngine_1.Mathf.Sqrt(x
+    * x + y * y);\\r\\n        return { dir: new UnityEngine_1.Vector2(x * invLen,
+    y * invLen), idx };\\r\\n    }\\r\\n    BindZepetoPlayer(player) {\\r\\n       
+    if (!player)\\r\\n            return;\\r\\n        this._ownerPlayer = player;\\r\\n       
+    this._cachedUserId = player.userId ?? this._cachedUserId;\\r\\n    }\\r\\n   
+    OpenProfileCard() {\\r\\n        const player = this.EnsureOwner();\\r\\n       
+    if (!player)\\r\\n            return false;\\r\\n        const card = SocialModule?.ProfileCard?.instance;\\r\\n       
+    if (!card) {\\r\\n            console.warn(\\\"[Zepeto2DPlayer] ProfileCard instance
+    is not ready.\\\");\\r\\n            return false;\\r\\n        }\\r\\n       
+    const targetUserId = player.userId ?? this._cachedUserId;\\r\\n        if (!targetUserId
+    || targetUserId.length === 0) {\\r\\n            console.warn(\\\"[Zepeto2DPlayer]
+    Unable to resolve userId for profile card.\\\");\\r\\n            return false;\\r\\n       
+    }\\r\\n        const needClose = this.IsProfileCardOpen(card);\\r\\n        if
+    (needClose && !this.TryCloseProfileCard(card)) {\\r\\n            console.warn(\\\"[Zepeto2DPlayer]
+    Unable to close existing profile card before opening a new one.\\\");\\r\\n       
+    }\\r\\n        const openSucceeded = this.TryInvokeProfileCardOpen(card, targetUserId);\\r\\n       
+    if (!openSucceeded) {\\r\\n            console.error(`[Zepeto2DPlayer] Failed
+    to open profile card for ${targetUserId}.`);\\r\\n        }\\r\\n        return
+    openSucceeded;\\r\\n    }\\r\\n    EnsureOwner() {\\r\\n        if (this._ownerPlayer)\\r\\n           
+    return this._ownerPlayer;\\r\\n        const manager = Zepeto2DWorldManager_1.default.Instance;\\r\\n       
+    if (manager) {\\r\\n            const resolved = manager.ResolvePlayerFromTransform(this.transform);\\r\\n           
+    if (resolved) {\\r\\n                this.BindZepetoPlayer(resolved);\\r\\n               
+    return resolved;\\r\\n            }\\r\\n        }\\r\\n        return null;\\r\\n   
+    }\\r\\n    TryBindOwner() {\\r\\n        this.EnsureOwner();\\r\\n    }\\r\\n   
+    TryInvokeProfileCardOpen(card, userId) {\\r\\n        if (!card)\\r\\n           
+    return false;\\r\\n        const config = this.CreateProfileCardConfig();\\r\\n       
+    try {\\r\\n            if (typeof card.Open === 'function') {\\r\\n               
+    card.Open(userId, config);\\r\\n                return true;\\r\\n           
+    }\\r\\n            if (typeof card.open === 'function') {\\r\\n               
+    card.open(userId, config);\\r\\n                return true;\\r\\n           
+    }\\r\\n        }\\r\\n        catch (error) {\\r\\n            console.error(`[Zepeto2DPlayer]
+    Exception invoking profile card for ${userId}: ${error}`);\\r\\n        }\\r\\n       
+    return false;\\r\\n    }\\r\\n    CreateProfileCardConfig() {\\r\\n        const
+    ConfigCtor = SocialModule?.ProfileCardConfig;\\r\\n        if (ConfigCtor) {\\r\\n           
+    try {\\r\\n                const config = new ConfigCtor();\\r\\n               
+    if (typeof config === 'object') {\\r\\n                    if ('canvasSortOrder'
+    in config) {\\r\\n                        config.canvasSortOrder = this.profileCardSortOrder;\\r\\n                   
+    }\\r\\n                    if ('closeOnClickOutside' in config) {\\r\\n                       
+    config.closeOnClickOutside = true;\\r\\n                    }\\r\\n                   
+    if ('enableBackgroundDim' in config) {\\r\\n                        config.enableBackgroundDim
+    = true;\\r\\n                    }\\r\\n                }\\r\\n               
+    return config;\\r\\n            }\\r\\n            catch (error) {\\r\\n               
+    console.warn(`[Zepeto2DPlayer] ProfileCardConfig \uC0DD\uC131 \uC2E4\uD328: ${error}`);\\r\\n           
+    }\\r\\n        }\\r\\n        return {\\r\\n            canvasSortOrder: this.profileCardSortOrder,\\r\\n           
+    closeOnClickOutside: true,\\r\\n            enableBackgroundDim: true,\\r\\n       
+    };\\r\\n    }\\r\\n    IsProfileCardOpen(card) {\\r\\n        if (!card)\\r\\n           
+    return false;\\r\\n        try {\\r\\n            if (typeof card.isOpened ===
+    'boolean')\\r\\n                return card.isOpened;\\r\\n            if (typeof
+    card.IsOpened === 'function')\\r\\n                return !!card.IsOpened();\\r\\n           
+    if (typeof card.isOpen === 'boolean')\\r\\n                return card.isOpen;\\r\\n           
+    if (typeof card.IsOpen === 'function')\\r\\n                return !!card.IsOpen();\\r\\n           
+    const root = card.root ?? card.transform ?? card.gameObject;\\r\\n           
+    if (root && typeof root.activeInHierarchy === 'boolean') {\\r\\n               
+    return root.activeInHierarchy;\\r\\n            }\\r\\n        }\\r\\n       
+    catch (error) {\\r\\n            console.warn(`[Zepeto2DPlayer] Failed to determine
+    profile card state: ${error}`);\\r\\n        }\\r\\n        return false;\\r\\n   
+    }\\r\\n    TryCloseProfileCard(card) {\\r\\n        if (!card)\\r\\n           
+    return false;\\r\\n        let closed = false;\\r\\n        const candidates
+    = [\\r\\n            card.Close?.bind(card),\\r\\n            card.close?.bind(card),\\r\\n           
+    card.Dismiss?.bind(card),\\r\\n            card.dismiss?.bind(card),\\r\\n           
+    card.Hide?.bind(card),\\r\\n            card.hide?.bind(card),\\r\\n           
+    card.CloseImmediate?.bind(card),\\r\\n            card.closeImmediate?.bind(card),\\r\\n       
+    ];\\r\\n        for (const invoke of candidates) {\\r\\n            if (typeof
+    invoke !== 'function')\\r\\n                continue;\\r\\n            try {\\r\\n               
+    invoke();\\r\\n                closed = true;\\r\\n                break;\\r\\n           
+    }\\r\\n            catch (error) {\\r\\n                console.warn(`[Zepeto2DPlayer]
+    Exception while closing profile card: ${error}`);\\r\\n            }\\r\\n       
+    }\\r\\n        if (!closed) {\\r\\n            closed = this.ForceDeactivateProfileCard(card);\\r\\n       
+    }\\r\\n        return closed && !this.IsProfileCardOpen(card);\\r\\n    }\\r\\n   
+    ForceDeactivateProfileCard(card) {\\r\\n        try {\\r\\n            const
+    root = card?.root ?? card?.gameObject ?? card?.transform;\\r\\n            const
+    go = root?.gameObject ?? root;\\r\\n            if (go && typeof go.SetActive
+    === 'function') {\\r\\n                go.SetActive(false);\\r\\n               
+    return true;\\r\\n            }\\r\\n        }\\r\\n        catch (error) {\\r\\n           
+    console.warn(`[Zepeto2DPlayer] Failed to force deactivate profile card: ${error}`);\\r\\n       
+    }\\r\\n        return false;\\r\\n    }\\r\\n}\\r\\nexports.default = Zepeto2DPlayer;\\r\\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiWmVwZXRvMkRQbGF5ZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJaZXBldG8yRFBsYXllci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLGlEQUFzRDtBQUN0RCw2Q0FPcUI7QUFDckIscURBQThDO0FBQzlDLGlFQUEwRCxDQUFDLG1DQUFtQztBQUk5RixNQUFNLFlBQVksR0FBUSxPQUFPLENBQUMsc0JBQXNCLENBQUMsQ0FBQztBQUUxRCxNQUFxQixjQUFlLFNBQVEscUNBQXFCO0lBQWpFOztRQUNJLDhFQUE4RTtRQUM5RSxrQkFBa0I7UUFDbEIsOEVBQThFO1FBQzlFLGlDQUFpQztRQUMxQixhQUFRLEdBQVcsR0FBRyxDQUFDO1FBQzlCLDhCQUE4QjtRQUN2QixjQUFTLEdBQVcsR0FBRyxDQUFDO1FBQy9CLG1FQUFtRTtRQUM1RCxpQkFBWSxHQUFXLEdBQUcsQ0FBQztRQUUzQixjQUFTLEdBQVcsSUFBSSxDQUFDO1FBQ3pCLHVCQUFrQixHQUFXLENBQUMsQ0FBQztRQUV0QyxnRkFBZ0Y7UUFDekUsbUJBQWMsR0FBMEIsSUFBSSxDQUFDO1FBRXBELDhFQUE4RTtRQUM5RSxtQkFBbUI7UUFDbkIsOEVBQThFO1FBQ3ZFLG9CQUFlLEdBQVcsR0FBRyxDQUFDO1FBQzlCLG1CQUFjLEdBQVcsR0FBRyxDQUFDO1FBRXBDLDhFQUE4RTtRQUM5RSxlQUFlO1FBQ2YsOEVBQThFO1FBQ3RFLGFBQVEsR0FBMkIsSUFBSSxDQUFDLENBQUUsZ0NBQWdDO1FBQzFFLFFBQUcsR0FBcUIsSUFBSSxDQUFDLENBQWEsMkNBQTJDO1FBQ3JGLFVBQUssR0FBb0IsSUFBSSxDQUFDLENBQVksNkJBQTZCO1FBRS9FLDhFQUE4RTtRQUM5RSxRQUFRO1FBQ1IsOEVBQThFO1FBQ3RFLFdBQU0sR0FBWSxxQkFBTyxDQUFDLElBQUksQ0FBQyxDQUFFLG9CQUFvQjtRQUNyRCxnQkFBVyxHQUFZLHFCQUFPLENBQUMsSUFBSSxDQUFDLENBQUMsNkNBQTZDO1FBRTFGLG1E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\",\"assetPath\":\"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/Zepeto2DPlayer.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"mscorlib\",\"name\":\"runSpeed\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"5\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"walkSpeed\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"2.2\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"runThreshold\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"0.6\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"skinWidth\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"0.05\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"maxSlideIterations\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"3\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"\",\"name\":\"player2dHandle\",\"type\":\"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/Player2DHandle.default\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"motionSpeedWalk\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"0.7\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"motionSpeedRun\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"0.8\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"profileCardSortOrder\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"10\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[{\"name\":\"SerializeField\",\"args\":[]}]}],\"name\":\"Zepeto2DPlayer\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: 8e382f6792e77685dd33858e5cdfa00a
+  onlyWriteTrigger: 0

@@ -1,0 +1,114 @@
+fileFormatVersion: 2
+guid: a52d257b1a72413ba955736d6375e5f9
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst InteractButtonController_1
+    = require(\"./InteractButtonController\");\r\nconst Zepeto2DWorldManager_1 =
+    require(\"./Zepeto2DWorldManager\");\r\nconst MapBoundsProvider_1 = require(\"./MapBoundsProvider\");\r\nconst
+    CameraFollow2D_1 = require(\"./CameraFollow2D\");\r\nconst Portal2D_1 = require(\"./Portal2D\");\r\nconst
+    PlayerTrigger_1 = require(\"../../../BuilditTemplate/Modules/Scripts/PlayerTrigger\");\r\nconst
+    UIManager_1 = require(\"../../../BuilditTemplate/Modules/Scripts/UIManager\");\r\nconst
+    AdvertisementManager_1 = require(\"../../../BuilditTemplate/Modules/Advertisement/AdvertisementManager\");\r\nconst
+    UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nclass AdvertisementController2D
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n       
+    super(...arguments);\r\n        this._interactButtonBaseScale = null;\r\n       
+    this._isLocalPlayerInside = false;\r\n    }\r\n    Start() {\r\n        const
+    trigger = this.GetComponent($typeof(PlayerTrigger_1.default));\r\n        if
+    (trigger) {\r\n            trigger.delegate = this;\r\n        }\r\n        this.AutoFindComponents();\r\n       
+    this._currentMap = this.findMapRootByProvider(this.transform);\r\n    }\r\n   
+    DoAction() {\r\n        const cPortal = this.findMapPortal(this.findMapRootByProvider(this.transform));\r\n       
+    const dPortal = this.findMapPortal(this.findMapRootByProvider(this.destination.transform));\r\n       
+    const dest = this.destination.transform.position;\r\n        const destXY = new
+    UnityEngine_1.Vector2(dest.x, dest.y);\r\n        const destinationRoot = this.findMapRootByProvider(this.destination.transform);\r\n       
+    Zepeto2DWorldManager_1.default.Instance?.TeleportLocal(destXY, destinationRoot);\r\n       
+    InteractButtonController_1.default.instance?.SetTarget(null);\r\n        this._interactButtonObject.SetActive(false);\r\n   
+    }\r\n    /** climb parents and return the GameObject that has MapBoundsProvider
+    (if any) */\r\n    findMapRootByProvider(start) {\r\n        let t = start;\r\n       
+    for (let i = 0; i < 16 && t; i++) {\r\n            const mbp = t.GetComponent($typeof(MapBoundsProvider_1.default));\r\n           
+    if (mbp)\r\n                return t.gameObject;\r\n            t = t.parent;\r\n       
+    }\r\n        return null;\r\n    }\r\n    findMapPortal(start) {\r\n        return
+    start.GetComponentInChildren($typeof(Portal2D_1.default));\r\n    }\r\n    OnPlayerEnter()
+    {\r\n        if (!this._interactButtonObject) {\r\n            this.InstantiateInteractButton();\r\n       
+    }\r\n        if (this._interactButtonObject) {\r\n            this._interactButtonObject.SetActive(true);\r\n       
+    }\r\n        this.UpdateInteractButton();\r\n    }\r\n    OnPlayerExit() {\r\n       
+    if (this._interactButtonObject) {\r\n            this._interactButtonObject.SetActive(false);\r\n       
+    }\r\n    }\r\n    Update() {\r\n        if (this._interactButtonObject && this._interactButtonObject.activeSelf)
+    {\r\n            // Catch OnPlayer exit missed events when teleporting directly\r\n           
+    if (this._currentMap !== Zepeto2DWorldManager_1.default.Instance.activeMapRoot)\r\n               
+    this.OnPlayerExit();\r\n            this.UpdateInteractButton();\r\n        }\r\n   
+    }\r\n    Interact() {\r\n        // this.DoAction();\r\n        // return;\r\n       
+    AdvertisementManager_1.default.Instance.ShowAd(() => {\r\n            this.DoAction();\r\n       
+    });\r\n    }\r\n    AutoFindComponents() {\r\n        // Auto-find UI canvas
+    for interact button from UIManager GameObject (under Managers)\r\n        if
+    (!this.interactButtonRoot) {\r\n            const uiManager = UIManager_1.default.instance;\r\n           
+    if (uiManager) {\r\n                const canvas = uiManager.gameObject.GetComponentInChildren($typeof(UnityEngine_1.Canvas),
+    true);\r\n                if (canvas) {\r\n                    this.interactButtonRoot
+    = canvas.GetComponent($typeof(UnityEngine_1.RectTransform));\r\n               
+    }\r\n            }\r\n        }\r\n    }\r\n    InstantiateInteractButton() {\r\n       
+    if (this._interactButtonObject || !this.iconPrefab || !this.interactButtonRoot)
+    {\r\n            return;\r\n        }\r\n        this._interactButtonObject =
+    UnityEngine_1.Object.Instantiate(this.iconPrefab, this.WorldToScreenPoint(this.iconLocation.position),
+    UnityEngine_1.Quaternion.identity, this.interactButtonRoot);\r\n        this._interactButton
+    = this._interactButtonObject.GetComponentInChildren($typeof(UnityEngine_UI_1.Button));\r\n       
+    if (this._interactButton) {\r\n            this._interactButton.onClick.AddListener(()
+    => {\r\n                this.Interact();\r\n            });\r\n        }\r\n       
+    this._interactButtonObject.SetActive(false);\r\n    }\r\n    WorldToScreenPoint(point,
+    camera = null) {\r\n        if (camera === null) {\r\n            const follow2D
+    = UnityEngine_1.Object.FindObjectOfType($typeof(CameraFollow2D_1.default));\r\n           
+    if (follow2D) {\r\n                camera = follow2D.GetComponent($typeof(UnityEngine_1.Camera));\r\n           
+    }\r\n        }\r\n        else {\r\n            camera ?? (camera = UnityEngine_1.Camera.main);\r\n       
+    }\r\n        var screenPoint = camera.WorldToScreenPoint(point);\r\n        screenPoint.z
+    = 1;\r\n        return screenPoint;\r\n        //\r\n        // // Calculate
+    screen offset based on camera distance (for consistent button spacing)\r\n       
+    // const cameraDistance = Vector3.Distance(gameplayCamera.transform.position,
+    worldPos);\r\n        // const screenOffsetY = this.CalculateScreenOffsetY(cameraDistance,
+    gameplayCamera);\r\n        // const screenOffset = new Vector2(0, screenOffsetY);\r\n       
+    //\r\n        // const localPoint = $ref(new Vector2(0, 0));\r\n        // if
+    (RectTransformUtility.ScreenPointToLocalPointInRectangle(this.interactButtonRoot,
+    new Vector2(screenPoint.x, screenPoint.y), referenceCamera, localPoint)) {\r\n       
+    //     const targetAnchored = Vector2.op_Addition($unref(localPoint), screenOffset);\r\n       
+    //     this._interactButtonRect.anchoredPosition = targetAnchored;\r\n       
+    // }\r\n        //\r\n        // if (this._interactButtonRect) {\r\n        //    
+    let scale = Mathf.Max(0.0001, this.interactButtonScaleMultiplier);\r\n       
+    //     if (gameplayCamera.orthographic) {\r\n        //         const currentOrtho
+    = Math.max(0.001, gameplayCamera.orthographicSize);\r\n        //         const
+    reference = Math.max(0.001, this.interactButtonReferenceOrtho);\r\n        //        
+    scale *= reference / currentOrtho;\r\n        //     }\r\n        //\r\n       
+    //     if (this.interactButtonClampScale) {\r\n        //         scale = Mathf.Clamp(scale,
+    this.interactButtonMinScale, this.interactButtonMaxScale);\r\n        //    
+    }\r\n        //\r\n        //     const baseScale = this._interactButtonBaseScale
+    ?? new Vector3(1, 1, 1);\r\n        //     this._interactButtonRect.localScale
+    = new Vector3(baseScale.x * scale, baseScale.y * scale, baseScale.z);\r\n       
+    // }\r\n    }\r\n    UpdateInteractButton() {\r\n        if (!this._interactButtonRect
+    || !this.interactButtonRoot) {\r\n            return;\r\n        }\r\n       
+    const uiCanvas = this.interactButtonRoot.GetComponentInParent($typeof(UnityEngine_1.Canvas));\r\n       
+    let referenceCamera = null;\r\n        if (uiCanvas && uiCanvas.renderMode !==
+    UnityEngine_1.RenderMode.ScreenSpaceOverlay) {\r\n            referenceCamera
+    = uiCanvas.worldCamera;\r\n        }\r\n        const point = this.WorldToScreenPoint(this.iconLocation.position,
+    referenceCamera);\r\n        this._interactButtonObject.transform.position =
+    point;\r\n    }\r\n}\r\nexports.default = AdvertisementController2D;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWR2ZXJ0aXNlbWVudENvbnRyb2xsZXIyRC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIkFkdmVydGlzZW1lbnRDb250cm9sbGVyMkQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBc0Q7QUFDdEQsNkNBVXFCO0FBQ3JCLHlFQUFxRjtBQUNyRixpRUFBMEQ7QUFDMUQsMkRBQW9EO0FBQ3BELHFEQUE4QztBQUM5Qyx5Q0FBa0M7QUFDbEMsMEZBQXVHO0FBQ3ZHLGtGQUEyRTtBQUMzRSw4R0FBdUc7QUFDdkcsbURBQXdDO0FBRXhDLE1BQXFCLHlCQUEwQixTQUFRLHFDQUFxQjtJQUE1RTs7UUE2RlksNkJBQXdCLEdBQW1CLElBQUksQ0FBQztRQUNoRCx5QkFBb0IsR0FBWSxLQUFLLENBQUM7SUFxR2xELENBQUM7SUEzTEcsS0FBSztRQUNELE1BQU0sT0FBTyxHQUFHLElBQUksQ0FBQyxZQUFZLFNBQUMsdUJBQWEsRUFBRyxDQUFDO1FBQ25ELElBQUksT0FBTyxFQUFFO1lBQ1QsT0FBTyxDQUFDLFFBQVEsR0FBRyxJQUFJLENBQUM7U0FDM0I7UUFFRCxJQUFJLENBQUMsa0JBQWtCLEVBQUUsQ0FBQztRQUMxQixJQUFJLENBQUMsV0FBVyxHQUFHLElBQUksQ0FBQyxxQkFBcUIsQ0FBQyxJQUFJLENBQUMsU0FBUyxDQUFDLENBQUM7SUFDbEUsQ0FBQztJQUVNLFFBQVE7UUFFWCxNQUFNLE9BQU8sR0FBRyxJQUFJLENBQUMsYUFBYSxDQUFFLElBQUksQ0FBQyxxQkFBcUIsQ0FBQyxJQUFJLENBQUMsU0FBUyxDQUFDLENBQUUsQ0FBQztRQUNqRixNQUFNLE9BQU8sR0FBRyxJQUFJLENBQUMsYUFBYSxDQUFFLElBQUksQ0FBQyxxQkFBcUIsQ0FBQyxJQUFJLENBQUMsV0FBVyxDQUFDLFNBQVMsQ0FBQyxDQUFFLENBQUM7UUFFN0YsTUFBTSxJQUFJLEdBQUcsSUFBSSxDQUFDLFdBQVcsQ0FBQyxTQUFTLENBQUMsUUFBUSxDQUFDO1FBQ2pE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","assetPath":"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/AdvertisementController2D.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"destination","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"iconPrefab","type":"UnityEngine.Object","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"UnityEngine.CoreModule","name":"iconLocation","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"AdvertisementController2D","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 8741ec37594a3817127a4107af2163db
+  onlyWriteTrigger: 0

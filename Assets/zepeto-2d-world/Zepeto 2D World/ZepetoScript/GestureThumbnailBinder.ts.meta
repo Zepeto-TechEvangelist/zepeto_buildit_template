@@ -1,0 +1,75 @@
+fileFormatVersion: 2
+guid: 78bf2106deb3a4b469d1a549a4dceb61
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\n// GestureThumbnailBinder.ts\\r\\nconst
+    ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst ZEPETO_Character_Controller_1
+    = require(\\\"ZEPETO.Character.Controller\\\");\\r\\nconst UnityEngine_UI_1 =
+    require(\\\"UnityEngine.UI\\\");\\r\\nconst UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst
+    GestureLoader_1 = require(\\\"../../../BuilditTemplate/Modules/Gesture/ZepetoScript/GestureLoader\\\");\\r\\n//
+    GestureLoader\uB97C \uC218\uC815\uD558\uC9C0 \uC54A\uACE0, \uC678\uBD80\uC5D0\uC11C
+    \uC378\uB124\uC77C \uBC84\uD2BC\uC5D0 onClick\uC744 \uCD94\uAC00\uB85C \uBC14\uC778\uB529\uD55C\uB2E4.\\r\\n//
+    - thumbnails \uBC30\uC5F4\uC740 \uBE44\uB3D9\uAE30\uB85C \uCC44\uC6CC\uC9C0\uBBC0\uB85C,
+    \uC8FC\uAE30\uC801\uC73C\uB85C \uD6D1\uC5B4\uC11C '\uC0C8\uB85C \uC0DD\uAE34'
+    \uC378\uB124\uC77C\uB9CC \uBC14\uC778\uB529\uD55C\uB2E4.\\r\\n// - onClick \uC21C\uC11C\uB294
+    '\uB098\uC911\uC5D0 \uCD94\uAC00\uB41C \uB9AC\uC2A4\uB108\uAC00 \uB098\uC911\uC5D0
+    \uC2E4\uD589'\uB418\uBBC0\uB85C,\\r\\n//   \uAE30\uC874 LoadAnimation(...) \uC774\uD6C4\uC5D0
+    ChangeStateAnimation(Gesture)\uAC00 \uD638\uCD9C\uB41C\uB2E4.\\r\\n// - \uD639\uC2DC
+    \uC21C\uC11C \uACBD\uD569\uC774 \uC6B0\uB824\uB418\uBA74, \uD074\uB9AD \uCF5C\uBC31\uC5D0\uC11C
+    \uD55C \uD504\uB808\uC784 \uB4A4\uC5D0 \uC0C1\uD0DC \uC804\uD658\uC744 \uD638\uCD9C\uD55C\uB2E4(WaitForEndOfFrame).\\r\\nclass
+    GestureThumbnailBinder extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n   
+    constructor() {\\r\\n        super(...arguments);\\r\\n        /** \uC0C8 \uBC84\uD2BC\uC744
+    \uC8FC\uAE30\uC801\uC73C\uB85C \uC2A4\uCE94\uD558\uB294 \uAC04\uACA9(sec) */\\r\\n       
+    this.scanInterval = 0.2;\\r\\n        this._boundSet = new Set();\\r\\n       
+    this._scanRoutine = null;\\r\\n    }\\r\\n    Start() {\\r\\n        this._scanRoutine
+    = this.StartCoroutine(this.ScanAndBindLoop());\\r\\n    }\\r\\n    *ScanAndBindLoop()
+    {\\r\\n        // GestureLoader \uCEF4\uD3EC\uB10C\uD2B8 \uCC3E\uAE30\\r\\n       
+    const loader = this.loaderObj ? this.loaderObj.GetComponent($typeof(GestureLoader_1.default))
+    : null;\\r\\n        if (!loader) {\\r\\n            console.warn(\\\"[GestureThumbnailBinder]
+    loaderObj is missing or has no component.\\\");\\r\\n            return;\\r\\n       
+    }\\r\\n        while (true) {\\r\\n            // 1) loader.thumbnails \uBC30\uC5F4
+    \uAE30\uBC18\uC73C\uB85C \uC0C8 \uD56D\uBAA9\uB9CC \uBC14\uC778\uB529\\r\\n           
+    const arr = (loader.thumbnails ?? []);\\r\\n            for (let i = 0; i < arr.length;
+    i++) {\\r\\n                const go = arr[i];\\r\\n                if (!go ||
+    this._boundSet.has(go))\\r\\n                    continue;\\r\\n               
+    const btn = go.GetComponent($typeof(UnityEngine_UI_1.Button));\\r\\n               
+    if (btn) {\\r\\n                    btn.onClick.AddListener(() => this.OnThumbClicked());\\r\\n                   
+    this._boundSet.add(go);\\r\\n                }\\r\\n            }\\r\\n           
+    yield new UnityEngine_1.WaitForSeconds(Math.max(0.05, this.scanInterval));\\r\\n       
+    }\\r\\n    }\\r\\n    /** \uC378\uB124\uC77C \uD074\uB9AD \uC2DC, \uAE30\uC874
+    LoadAnimation \uC774\uD6C4\uC5D0 \uC81C\uC2A4\uCC98 \uC0C1\uD0DC\uB85C \uC804\uD658\uD55C\uB2E4.
+    */\\r\\n    *ChangeStateNextFrame() {\\r\\n        // Ensure LoadAnimation(...)
+    finished this frame before state change\\r\\n        yield new UnityEngine_1.WaitForEndOfFrame();\\r\\n       
+    const local = ZEPETO_Character_Controller_1.ZepetoPlayers.instance?.LocalPlayer;\\r\\n       
+    const character = local?.zepetoPlayer?.character;\\r\\n        if (!character)\\r\\n           
+    return;\\r\\n        try {\\r\\n            character.ChangeStateAnimation(ZEPETO_Character_Controller_1.CharacterState.Gesture);\\r\\n       
+    }\\r\\n        catch (e) {\\r\\n            console.warn(\\\"[GestureThumbnailBinder]
+    ChangeStateAnimation(Gesture) failed:\\\", e);\\r\\n        }\\r\\n    }\\r\\n   
+    OnThumbClicked() {\\r\\n        // \uD504\uB808\uC784 \uACBD\uD569 \uBC29\uC9C0:
+    \uD55C \uD504\uB808\uC784 \uB4A4\uC5D0 \uC0C1\uD0DC \uC804\uD658\\r\\n       
+    this.StartCoroutine(this.ChangeStateNextFrame());\\r\\n    }\\r\\n}\\r\\nexports.default
+    = GestureThumbnailBinder;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiR2VzdHVyZVRodW1ibmFpbEJpbmRlci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIkdlc3R1cmVUaHVtYm5haWxCaW5kZXIudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSw0QkFBNEI7QUFDNUIsaURBQXNEO0FBQ3RELDZFQUE0RTtBQUM1RSxtREFBd0M7QUFDeEMsNkNBQWtHO0FBQ2xHLHVHQUFnRztBQUVoRywyREFBMkQ7QUFDM0QsNkRBQTZEO0FBQzdELDBDQUEwQztBQUMxQyxtRUFBbUU7QUFDbkUscUVBQXFFO0FBRXJFLE1BQXFCLHNCQUF1QixTQUFRLHFDQUFxQjtJQUF6RTs7UUFLSSwrQkFBK0I7UUFDeEIsaUJBQVksR0FBVyxHQUFHLENBQUM7UUFFMUIsY0FBUyxHQUFHLElBQUksR0FBRyxFQUFjLENBQUM7UUFDbEMsaUJBQVksR0FBcUIsSUFBSSxDQUFDO0lBb0RsRCxDQUFDO0lBbERHLEtBQUs7UUFDRCxJQUFJLENBQUMsWUFBWSxHQUFHLElBQUksQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLGVBQWUsRUFBRSxDQUFDLENBQUM7SUFDcEUsQ0FBQztJQUVPLENBQUMsZUFBZTtRQUNwQix3QkFBd0I7UUFDeEIsTUFBTSxNQUFNLEdBQUcsSUFBSSxDQUFDLFNBQVMsQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxZQUFZLFNBQUMsdUJBQWEsRUFBRyxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQUM7UUFDcEYsSUFBSSxDQUFDLE1BQU0sRUFBRTtZQUNULE9BQU8sQ0FBQyxJQUFJLENBQUMsb0VBQW9FLENBQUMsQ0FBQztZQUNuRixPQUFPO1NBQ1Y7UUFFRCxPQUFPLElBQUksRUFBRTtZQUNULHlDQUF5QztZQUN6QyxNQUFNLEdBQUcsR0FBaUIsQ0FBQyxNQUFNLENBQUMsVUFBVSxJQUFJLEVBQUUsQ0FBaUIsQ0FBQztZQUNwRSxLQUFLLElBQUksQ0FBQyxHQUFHLENBQUMsRUFBRSxDQUFDLEdBQUcsR0FBRyxDQUFDLE1BQU0sRUFBRSxDQUFDLEVBQUUsRUFBRTtnQkFDakMsTUFBTSxFQUFFLEdBQUcsR0FBRyxDQUFDLENBQUMsQ0FBQyxDQUFDO2dCQUNsQixJQUFJLENBQUMsRUFBRSxJQUFJLElBQUksQ0FBQyxTQUFTLENBQUMsR0FBRyxDQUFDLEVBQUUsQ0FBQztvQkFBRSxTQUFTO2dCQUU1QyxNQUFNLEdBQUcsR0FBRyxFQUFFLENBQUMsWUFBWSxTQUFDLHVCQUFNLEVBQWEsQ0FBQztnQkFDaEQsSUFBSSxHQUFHLEVBQUU7b0JBQ0wsR0FBRyxDQUFDLE9BQU8sQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFLENBQUMsSUFBSSxDQUFDLGNBQWMsRUFBRSxDQUFDLENBQUM7b0JBQ3JELElBQUksQ0FBQyxTQUFTLENBQUMsR0FBRyxDQUFDLEVBQUUsQ0FBQyxDQUFDO2lCQUMxQjthQUNKO1lBRUQsTUFBTSxJQUFJLDRCQUFjLENBQUMsSUFBSSxDQUFDLEdBQUcsQ0FBQyxJQUFJLEVBQUUsSUFBSSxDQUFDLFlBQVksQ0FBQyxDQUFDLENBQUM7U0FDL0Q7SUFDTCxDQUFDO0lBRUQsbURBQW1EO0lBQzNDLENBQUMsb0JBQW9CO1FBQ3pCLG9FQUFvRTtRQUNwRSxNQUFNLElBQUksK0JBQWlCLEVBQUUsQ0FBQztRQUU5QixNQUFNLEtBQUssR0FBRywyQ0FBYSxDQUFDLFFBQVEsRUFBRSxXQUFXLENBQUM7UUFDbEQsTUFBTSxTQUFTLEdBQUcsS0FBSyxFQUFFLFlBQVksRUFBRSxTQUFTLENBQUM7UUFDakQsSUFBSSxDQUFDLFNBQVM7WUFBRSxPQUFPO1FBRXZCLElBQUk7WUFDQSxTQUFTLENBQUMsb0JBQW9CLENBQUMsNENBQWMsQ0FBQyxPQUFPLENBQUMsQ0FBQztTQUMxRDtRQUFDLE9BQU8sQ0FBQyxFQUFFO1lBQ1IsT0FBTyxDQUFDLElBQUksQ0FBQyxnRUFBZ0UsRUFBRSxDQUFDLENBQUMsQ0FBQztTQUNyRjtJQUNMLENBQUM7SUFFTyxjQUFjO1FBQ2xCLDRCQUE0QjtRQUM1QixJQUFJLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxvQkFBb0IsRUFBRSxDQUFDLENBQUM7SUFDckQsQ0FBQztDQUNKO0FBN0RELHlDQTZEQyJ9\",\"assetPath\":\"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/GestureThumbnailBinder.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"loaderObj\",\"type\":\"UnityEngine.GameObject\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"scanInterval\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"0.2\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]}],\"name\":\"GestureThumbnailBinder\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: 89ea0e578757bfceb9db2fdeeb00d463
+  onlyWriteTrigger: 0

@@ -1,0 +1,98 @@
+fileFormatVersion: 2
+guid: 36735659aad7047f694d38bf76c9c2ea
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\n// MapTitleToast.ts\\r\\nconst ZEPETO_Script_1
+    = require(\\\"ZEPETO.Script\\\");\\r\\nconst UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst
+    TMPro_1 = require(\\\"TMPro\\\");\\r\\nconst Localization_1 = require(\\\"../../../BuilditTemplate/Modules/Localization/ZepetoScript/Localization\\\");\\r\\nclass
+    MapTitleToast extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    constructor()
+    {\\r\\n        super(...arguments);\\r\\n        // Portrait mode (vertical screen)\\r\\n       
+    this.portraitToastObject = null;\\r\\n        this.portraitTitleText = null;\\r\\n       
+    // Landscape mode (horizontal screen)\\r\\n        this.landscapeToastObject
+    = null;\\r\\n        this.landscapeTitleText = null;\\r\\n        this.fadeInDuration
+    = 0.5;\\r\\n        this.displayDuration = 2.0;\\r\\n        this.fadeOutDuration
+    = 0.5;\\r\\n        this._portraitCanvasGroup = null;\\r\\n        this._landscapeCanvasGroup
+    = null;\\r\\n        this._isAnimating = false;\\r\\n        this._currentMode
+    = 'landscape';\\r\\n    }\\r\\n    Awake() {\\r\\n        // Ensure CanvasGroup
+    for portrait toast\\r\\n        if (this.portraitToastObject) {\\r\\n           
+    this._portraitCanvasGroup = this.portraitToastObject.GetComponent($typeof(UnityEngine_1.CanvasGroup));\\r\\n           
+    if (!this._portraitCanvasGroup) {\\r\\n                this._portraitCanvasGroup
+    = this.portraitToastObject.AddComponent($typeof(UnityEngine_1.CanvasGroup));\\r\\n           
+    }\\r\\n            this._portraitCanvasGroup.alpha = 0;\\r\\n            this.portraitToastObject.SetActive(false);\\r\\n       
+    }\\r\\n        // Ensure CanvasGroup for landscape toast\\r\\n        if (this.landscapeToastObject)
+    {\\r\\n            this._landscapeCanvasGroup = this.landscapeToastObject.GetComponent($typeof(UnityEngine_1.CanvasGroup));\\r\\n           
+    if (!this._landscapeCanvasGroup) {\\r\\n                this._landscapeCanvasGroup
+    = this.landscapeToastObject.AddComponent($typeof(UnityEngine_1.CanvasGroup));\\r\\n           
+    }\\r\\n            this._landscapeCanvasGroup.alpha = 0;\\r\\n            this.landscapeToastObject.SetActive(false);\\r\\n       
+    }\\r\\n    }\\r\\n    /** Show toast with given text, then auto-hide. Automatically
+    selects portrait/landscape mode. */\\r\\n    ShowToast(text) {\\r\\n        if
+    (this._isAnimating) {\\r\\n            // If already animating, stop previous
+    and restart\\r\\n            this.StopAllCoroutines();\\r\\n        }\\r\\n       
+    // Determine current screen orientation based on aspect ratio\\r\\n        const
+    aspectRatio = UnityEngine_1.Screen.width / UnityEngine_1.Screen.height;\\r\\n       
+    const isPortrait = aspectRatio < 1.0;\\r\\n        this._currentMode = isPortrait
+    ? 'portrait' : 'landscape';\\r\\n        console.log(`[MapTitleToast] Screen:
+    ${UnityEngine_1.Screen.width}x${UnityEngine_1.Screen.height}, Aspect: ${aspectRatio.toFixed(2)},
+    Mode: ${this._currentMode}`);\\r\\n        // Set text and activate appropriate
+    toast\\r\\n        if (this._currentMode === 'portrait') {\\r\\n            if
+    (this.portraitTitleText) {\\r\\n                this.portraitTitleText.text =
+    text; //Localization.instance.GetLocalizedText(text);\\r\\n            }\\r\\n           
+    if (this.portraitToastObject) {\\r\\n                this.portraitToastObject.SetActive(true);\\r\\n           
+    }\\r\\n            if (this.landscapeToastObject) {\\r\\n                this.landscapeToastObject.SetActive(false);\\r\\n           
+    }\\r\\n        }\\r\\n        else {\\r\\n            if (this.landscapeTitleText)
+    {\\r\\n                this.landscapeTitleText.text = text; //Localization.instance.GetLocalizedText(text);;\\r\\n           
+    }\\r\\n            if (this.landscapeToastObject) {\\r\\n                this.landscapeToastObject.SetActive(true);\\r\\n           
+    }\\r\\n            if (this.portraitToastObject) {\\r\\n                this.portraitToastObject.SetActive(false);\\r\\n           
+    }\\r\\n        }\\r\\n        this.StartCoroutine(this.AnimateToast());\\r\\n   
+    }\\r\\n    /** Fade in \u2192 hold \u2192 fade out sequence. */\\r\\n    *AnimateToast()
+    {\\r\\n        this._isAnimating = true;\\r\\n        const canvasGroup = this._currentMode
+    === 'portrait' ? this._portraitCanvasGroup : this._landscapeCanvasGroup;\\r\\n       
+    if (!canvasGroup) {\\r\\n            this._isAnimating = false;\\r\\n           
+    return;\\r\\n        }\\r\\n        // 1) Fade In\\r\\n        yield* this.FadeIn(canvasGroup);\\r\\n       
+    // 2) Hold/Display\\r\\n        yield new UnityEngine_1.WaitForSeconds(this.displayDuration);\\r\\n       
+    // 3) Fade Out\\r\\n        yield* this.FadeOut(canvasGroup);\\r\\n        //
+    4) Disable after animation\\r\\n        if (this._currentMode === 'portrait'
+    && this.portraitToastObject) {\\r\\n            this.portraitToastObject.SetActive(false);\\r\\n       
+    }\\r\\n        else if (this._currentMode === 'landscape' && this.landscapeToastObject)
+    {\\r\\n            this.landscapeToastObject.SetActive(false);\\r\\n        }\\r\\n       
+    this._isAnimating = false;\\r\\n    }\\r\\n    *FadeIn(canvasGroup) {\\r\\n       
+    if (!canvasGroup)\\r\\n            return;\\r\\n        let elapsed = 0;\\r\\n       
+    while (elapsed < this.fadeInDuration) {\\r\\n            elapsed += UnityEngine_1.Time.deltaTime;\\r\\n           
+    const t = elapsed / this.fadeInDuration;\\r\\n            canvasGroup.alpha =
+    t;\\r\\n            yield null;\\r\\n        }\\r\\n        canvasGroup.alpha
+    = 1;\\r\\n    }\\r\\n    *FadeOut(canvasGroup) {\\r\\n        if (!canvasGroup)\\r\\n           
+    return;\\r\\n        let elapsed = 0;\\r\\n        while (elapsed < this.fadeOutDuration)
+    {\\r\\n            elapsed += UnityEngine_1.Time.deltaTime;\\r\\n           
+    const t = elapsed / this.fadeOutDuration;\\r\\n            canvasGroup.alpha
+    = 1 - t;\\r\\n            yield null;\\r\\n        }\\r\\n        canvasGroup.alpha
+    = 0;\\r\\n    }\\r\\n    /** Immediately hide the toast (stop animation). */\\r\\n   
+    Hide() {\\r\\n        this.StopAllCoroutines();\\r\\n        if (this._portraitCanvasGroup)\\r\\n           
+    this._portraitCanvasGroup.alpha = 0;\\r\\n        if (this._landscapeCanvasGroup)\\r\\n           
+    this._landscapeCanvasGroup.alpha = 0;\\r\\n        if (this.portraitToastObject)\\r\\n           
+    this.portraitToastObject.SetActive(false);\\r\\n        if (this.landscapeToastObject)\\r\\n           
+    this.landscapeToastObject.SetActive(false);\\r\\n        this._isAnimating =
+    false;\\r\\n    }\\r\\n}\\r\\nexports.default = MapTitleToast;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTWFwVGl0bGVUb2FzdC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIk1hcFRpdGxlVG9hc3QudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxtQkFBbUI7QUFDbkIsaURBQXNEO0FBQ3RELDZDQUFvRjtBQUNwRixpQ0FBd0M7QUFDeEMsMEdBQW1HO0FBRW5HLE1BQXFCLGFBQWMsU0FBUSxxQ0FBcUI7SUFBaEU7O1FBRUksa0NBQWtDO1FBQzNCLHdCQUFtQixHQUFzQixJQUFJLENBQUM7UUFDOUMsc0JBQWlCLEdBQTJCLElBQUksQ0FBQztRQUV4RCxxQ0FBcUM7UUFDOUIseUJBQW9CLEdBQXNCLElBQUksQ0FBQztRQUMvQyx1QkFBa0IsR0FBMkIsSUFBSSxDQUFDO1FBRWxELG1CQUFjLEdBQVcsR0FBRyxDQUFDO1FBQzdCLG9CQUFlLEdBQVcsR0FBRyxDQUFDO1FBQzlCLG9CQUFlLEdBQVcsR0FBRyxDQUFDO1FBRTdCLHlCQUFvQixHQUF1QixJQUFJLENBQUM7UUFDaEQsMEJBQXFCLEdBQXVCLElBQUksQ0FBQztRQUNqRCxpQkFBWSxHQUFZLEtBQUssQ0FBQztRQUM5QixpQkFBWSxHQUE2QixXQUFXLENBQUM7SUFrSWpFLENBQUM7SUFoSUcsS0FBSztRQUNELHdDQUF3QztRQUN4QyxJQUFJLElBQUksQ0FBQyxtQkFBbUIsRUFBRTtZQUMxQixJQUFJLENBQUMsb0JBQW9CLEdBQUcsSUFBSSxDQUFDLG1CQUFtQixDQUFDLFlBQVksU0FBQyx5QkFBVyxFQUFHLENBQUM7WUFDakYsSUFBSSxDQUFDLElBQUksQ0FBQyxvQkFBb0IsRUFBRTtnQkFDNUIsSUFBSSxDQUFDLG9CQUFvQixHQUFHLElBQUksQ0FBQyxtQkFBbUIsQ0FBQyxZQUFZLFNBQUMseUJBQVcsRUFBRyxDQUFDO2FBQ3BGO1lBQ0QsSUFBSSxDQUFDLG9CQUFvQixDQUFDLEtBQUssR0FBRyxDQUFDLENBQUM7WUFDcEMsSUFBSSxDQUFDLG1CQUFtQixDQUFDLFNBQVMsQ0FBQyxLQUFL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\",\"assetPath\":\"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/MapTitleToast.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"portraitToastObject\",\"type\":\"UnityEngine.GameObject\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"Unity.TextMeshPro\",\"name\":\"portraitTitleText\",\"type\":\"TMPro.TextMeshProUGUI\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"landscapeToastObject\",\"type\":\"UnityEngine.GameObject\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"Unity.TextMeshPro\",\"name\":\"landscapeTitleText\",\"type\":\"TMPro.TextMeshProUGUI\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"fadeInDuration\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"0.5\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"displayDuration\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"2\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"fadeOutDuration\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"0.5\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]}],\"name\":\"MapTitleToast\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: 381a9783288b48ebae125d10c2f88fb8
+  onlyWriteTrigger: 0

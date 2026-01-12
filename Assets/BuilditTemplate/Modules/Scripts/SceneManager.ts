@@ -108,18 +108,19 @@ export default class SceneManager extends ZepetoScriptBehaviour {
 
         // Find an object of type ZepetoScreenButton in the scene
         const screenButton = Object.FindObjectOfType<ZepetoScreenButton>();
+        if (screenButton) {
+            // Add a listener for the OnPointDownEvent of the screen button to handle jump actions
+            screenButton.OnPointDownEvent.AddListener(() => {
 
-        // Add a listener for the OnPointDownEvent of the screen button to handle jump actions
-        screenButton.OnPointDownEvent.AddListener(() => {
+                if (!this.enableDoubleJump) {
+                    return;
+                }
 
-            if (!this.enableDoubleJump) {
-                return;
-            }
-            
-            // If the character's current state is Jump, trigger a double jump
-            if (this.zepetoCharacter.CurrentState === CharacterState.Jump) {
-                this.zepetoCharacter.DoubleJump();
-            }
-        });
+                // If the character's current state is Jump, trigger a double jump
+                if (this.zepetoCharacter.CurrentState === CharacterState.Jump) {
+                    this.zepetoCharacter.DoubleJump();
+                }
+            });
+        }
     }
 }

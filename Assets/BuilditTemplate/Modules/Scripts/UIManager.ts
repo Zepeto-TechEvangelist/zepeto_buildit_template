@@ -1,24 +1,16 @@
-import { GameObject, Object, Vector3 } from 'UnityEngine';
-import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
-import { ZepetoWorldHelper, ZepetoScreenOrientation } from 'ZEPETO.World';
-import { UnityEvent, UnityEvent$1, UnityAction$1 } from "UnityEngine.Events";
-import { Button } from 'UnityEngine.UI';
-import WardrobeController from '../Wardrobe/Scripts/WardrobeController';
-import UIMenuController from '../Wardrobe/Scripts/UIMenuController';
-import DonationManager from "../Donation/Scripts/DonationManager";
-
-import UIButtonToggle, { UIButtonToggleGroup } from "../UI/Scripts/UIButtonToggle";
+import {GameObject, Screen, ScreenOrientation} from 'UnityEngine';
+import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
+import {UnityAction$1, UnityEvent, UnityEvent$1} from "UnityEngine.Events";
+import {Button} from 'UnityEngine.UI';
+import UIButtonToggle, {UIButtonToggleGroup} from "../UI/Scripts/UIButtonToggle";
 
 export default class UIManager extends ZepetoScriptBehaviour {
 
     public menu: GameObject;
     
-    public wardrobeToggle: Button;
-    public wardrobe: GameObject;
-    public gestureMenu: GameObject;
-    public gestureToggle: Button;
-    public donationToggle: Button;
-
+    public screenOrientation: ScreenOrientation;
+    public screenshotOrientationChangeEvent: UnityEvent = new UnityEvent();
+    
     /* Singleton */
     private static m_instance: UIManager = null;
 
@@ -39,6 +31,8 @@ export default class UIManager extends ZepetoScriptBehaviour {
             UIManager.m_instance = this;
             GameObject.DontDestroyOnLoad(this.gameObject);
         }
+        
+        this.screenOrientation = Screen.orientation;
     }
 
     private Destroy() {
@@ -48,28 +42,30 @@ export default class UIManager extends ZepetoScriptBehaviour {
 
     private Start() {
 
-        // let wardrobeController = this.wardrobe.GetComponent<WardrobeController>();
-        // let wardrobeMenu = this.wardrobe.GetComponent<UIMenuController>();
-        //
-        // this.wardrobeToggle.onClick.AddListener(() => {
-        //     wardrobeMenu.ToggleMenu();
-        // });
-
-        if (DonationManager.DonationEnabled) {
-            // this.donationToggle.onClick.AddListener(() => {
-            //     DonationManager.instance.ToggleBoardState();
-            // });
-
-            this.donationToggle.gameObject.SetActive(true);
-        }
-        
-        
-        
+        this.CreateToggleGroup("rotation", null,
+            (isOn) => {
+                this.ToggleScreenRotate();
+            }
+        );
     }
 
     public SetVisible(visible: boolean) {
         this.gameObject.SetActive(visible);
     }
+    
+    public ToggleScreenRotate() {
+        
+        if (this.screenOrientation == ScreenOrientation.LandscapeLeft) {
+            this.screenOrientation = ScreenOrientation.Portrait;
+        }
+        else {
+            this.screenOrientation = ScreenOrientation.LandscapeLeft;
+        }
+
+        Screen.orientation = this.screenOrientation;
+        this.screenshotOrientationChangeEvent.Invoke();
+    }
+    
     
     private toggleGroups: Map<string, UIButtonToggleGroup> = new Map<string, UIButtonToggleGroup>();
     
@@ -89,13 +85,16 @@ export default class UIManager extends ZepetoScriptBehaviour {
     public CreateToggleGroup(key: string, onValueChangedEvent: UnityEvent$1<boolean>, onToggleAction: UnityAction$1<boolean>): UIButtonToggleGroup {
 
         // Get menu contents
-        const toggle: UIButtonToggle = this.menu.GetComponentsInChildren<UIButtonToggle>()
+        const toggle: UIButtonToggle = this.menu.GetComponentsInChildren<UIButtonToggle>(true)
                         .find(x => x.toggleGroupKey == key);
         
+        console.log(toggle);
         if (!toggle) {
             return null;
         }
-        console.log("[UIManager] Creating Toggle Group Key = " + key);
+
+        toggle.gameObject.SetActive(true);
+        
         const group = new UIButtonToggleGroup(key, toggle, onValueChangedEvent, onToggleAction);
         this.RegisterToggleGroup(group);
         
@@ -109,6 +108,10 @@ export default class UIManager extends ZepetoScriptBehaviour {
     
     public Hide(key: string) {
         this.toggleGroups.get(key).toggle.Deselect();
+    }
+    
+    public SetEnabled(key: string, enabled: bool) {
+        this.toggleGroups.get(key).toggle.button.enabled = enabled;
     }
     
 }

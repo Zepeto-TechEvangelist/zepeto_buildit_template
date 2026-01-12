@@ -1,0 +1,74 @@
+fileFormatVersion: 2
+guid: de7e141959ec14e64837f6ec4fb10945
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\n// Assets/Scripts/UI/OrientationToggler.ts\\r\\nconst
+    ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst UnityEngine_UI_1
+    = require(\\\"UnityEngine.UI\\\");\\r\\nconst UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nclass
+    OrientationToggler extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    constructor()
+    {\\r\\n        super(...arguments);\\r\\n        this.toggleButton = null;\\r\\n       
+    this.safeAreaRoot = null;\\r\\n        this.canvasScalerObj = null;\\r\\n       
+    this.portraitRefResolution = new UnityEngine_1.Vector2(750, 1334);\\r\\n       
+    this.landscapeRefResolution = new UnityEngine_1.Vector2(1334, 750);\\r\\n       
+    this.simulateInEditor = true;\\r\\n        this.startPortrait = false;\\r\\n       
+    this._isPortrait = false;\\r\\n        this._canvasScaler = null; // CanvasScaler\\r\\n       
+    this._applyCo = null;\\r\\n    }\\r\\n    Awake() {\\r\\n        if (this.toggleButton)\\r\\n           
+    this.toggleButton.onClick.AddListener(() => this.Toggle());\\r\\n        if (this.canvasScalerObj)\\r\\n           
+    this._canvasScaler = this.canvasScalerObj.GetComponent($typeof(UnityEngine_UI_1.CanvasScaler));\\r\\n       
+    if (!this._canvasScaler)\\r\\n            console.warn(\\\"[OrientationToggler]
+    CanvasScaler not found on canvasScalerObj\\\");\\r\\n    }\\r\\n    Start() {\\r\\n       
+    this._isPortrait = this.startPortrait;\\r\\n        this.ApplyFixedOrientation(this._isPortrait);\\r\\n   
+    }\\r\\n    Toggle() {\\r\\n        this._isPortrait = !this._isPortrait;\\r\\n       
+    this.ApplyFixedOrientation(this._isPortrait);\\r\\n    }\\r\\n    ApplyFixedOrientation(portrait)
+    {\\r\\n        // 1) \uADF8\uB0E5 \uBC29\uD5A5\uB9CC \uACE0\uC815\\r\\n       
+    UnityEngine_1.Screen.orientation = (portrait ? 1 : 3);\\r\\n        // 2) Scaler
+    \uAD50\uCCB4\\r\\n        if (this._canvasScaler) {\\r\\n            this._canvasScaler.referenceResolution
+    = portrait\\r\\n                ? this.portraitRefResolution\\r\\n               
+    : this.landscapeRefResolution;\\r\\n        }\\r\\n        // 3) SafeArea \uAC31\uC2E0
+    (\uB808\uC774\uC544\uC6C3 \uAC15\uC81C \uB9AC\uBE4C\uB4DC \uC81C\uAC70)\\r\\n       
+    this.ApplySafeArea(this.safeAreaRoot);\\r\\n    }\\r\\n    *DelayedSafeAreaAndLayout()
+    {\\r\\n        yield new UnityEngine_1.WaitForEndOfFrame();\\r\\n        yield
+    new UnityEngine_1.WaitForEndOfFrame();\\r\\n        yield new UnityEngine_1.WaitForSeconds(0.01);\\r\\n       
+    this.ApplySafeArea(this.safeAreaRoot);\\r\\n        this.ForceLayoutRebuild(this.safeAreaRoot);\\r\\n   
+    }\\r\\n    ApplySafeArea(root) {\\r\\n        if (!root)\\r\\n            return;\\r\\n       
+    const sa = UnityEngine_1.Screen.safeArea;\\r\\n        if (!sa)\\r\\n           
+    return;\\r\\n        const parent = root.parent;\\r\\n        if (!parent)\\r\\n           
+    return;\\r\\n        const parentRect = parent.rect;\\r\\n        if (!parentRect)\\r\\n           
+    return;\\r\\n        const pw = parentRect.width;\\r\\n        const ph = parentRect.height;\\r\\n       
+    const sx = pw > 0 ? sa.x / UnityEngine_1.Screen.width : 0;\\r\\n        const
+    sy = ph > 0 ? sa.y / UnityEngine_1.Screen.height : 0;\\r\\n        const sw =
+    pw > 0 ? (sa.x + sa.width) / UnityEngine_1.Screen.width : 1;\\r\\n        const
+    sh = ph > 0 ? (sa.y + sa.height) / UnityEngine_1.Screen.height : 1;\\r\\n       
+    root.anchorMin = new UnityEngine_1.Vector2(sx, sy);\\r\\n        root.anchorMax
+    = new UnityEngine_1.Vector2(sw, sh);\\r\\n        root.offsetMin = new UnityEngine_1.Vector2(0,
+    0);\\r\\n        root.offsetMax = new UnityEngine_1.Vector2(0, 0);\\r\\n    }\\r\\n   
+    ForceLayoutRebuild(root) {\\r\\n        UnityEngine_1.Canvas.ForceUpdateCanvases();\\r\\n       
+    if (root) {\\r\\n            UnityEngine_UI_1.LayoutRebuilder.ForceRebuildLayoutImmediate(root);\\r\\n           
+    for (let i = 0; i < root.childCount; i++) {\\r\\n                const c = root.GetChild(i);\\r\\n               
+    UnityEngine_UI_1.LayoutRebuilder.ForceRebuildLayoutImmediate(c);\\r\\n           
+    }\\r\\n        }\\r\\n        UnityEngine_1.Canvas.ForceUpdateCanvases();\\r\\n   
+    }\\r\\n}\\r\\nexports.default = OrientationToggler;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiT3JpZW50YXRpb25Ub2dnbGVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiT3JpZW50YXRpb25Ub2dnbGVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsMENBQTBDO0FBQzFDLGlEQUFzRDtBQUN0RCxtREFBdUU7QUFDdkUsNkNBR3FCO0FBRXJCLE1BQXFCLGtCQUFtQixTQUFRLHFDQUFxQjtJQUFyRTs7UUFFVyxpQkFBWSxHQUFrQixJQUFJLENBQUM7UUFDbkMsaUJBQVksR0FBeUIsSUFBSSxDQUFDO1FBQzFDLG9CQUFlLEdBQXNCLElBQUksQ0FBQztRQUUxQywwQkFBcUIsR0FBWSxJQUFJLHFCQUFPLENBQUMsR0FBRyxFQUFFLElBQUksQ0FBQyxDQUFDO1FBQ3hELDJCQUFzQixHQUFZLElBQUkscUJBQU8sQ0FBQyxJQUFJLEVBQUUsR0FBRyxDQUFDLENBQUM7UUFFekQscUJBQWdCLEdBQVksSUFBSSxDQUFDO1FBQ2pDLGtCQUFhLEdBQVksS0FBSyxDQUFDO1FBRTlCLGdCQUFXLEdBQVksS0FBSyxDQUFDO1FBQzdCLGtCQUFhLEdBQVEsSUFBSSxDQUFDLENBQUMsZUFBZTtRQUMxQyxhQUFRLEdBQXFCLElBQUksQ0FBQztJQThFOUMsQ0FBQztJQTVFRyxLQUFLO1FBQ0QsSUFBSSxJQUFJLENBQUMsWUFBWTtZQUFFLElBQUksQ0FBQyxZQUFZLENBQUMsT0FBTyxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUUsQ0FBQyxJQUFJLENBQUMsTUFBTSxFQUFFLENBQUMsQ0FBQztRQUNsRixJQUFJLElBQUksQ0FBQyxlQUFlO1lBQUUsSUFBSSxDQUFDLGFBQWEsR0FBRyxJQUFJLENBQUMsZUFBZSxDQUFDLFlBQVksU0FBQyw2QkFBWSxFQUFHLENBQUM7UUFDakcsSUFBSSxDQUFDLElBQUksQ0FBQyxhQUFhO1lBQUUsT0FBTyxDQUFDLElBQUksQ0FBQyxnRUFBZ0UsQ0FBQyxDQUFDO0lBQzVHLENBQUM7SUFFRCxLQUFLO1FBQ0QsSUFBSSxDQUFD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\",\"assetPath\":\"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/OrientationToggler.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"UnityEngine.UI\",\"name\":\"toggleButton\",\"type\":\"UnityEngine.UI.Button\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"safeAreaRoot\",\"type\":\"UnityEngine.RectTransform\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"canvasScalerObj\",\"type\":\"UnityEngine.GameObject\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"portraitRefResolution\",\"type\":\"UnityEngine.Vector2\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"landscapeRefResolution\",\"type\":\"UnityEngine.Vector2\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"simulateInEditor\",\"type\":\"System.Boolean\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"startPortrait\",\"type\":\"System.Boolean\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]}],\"name\":\"OrientationToggler\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: d978255f8501d05f5b27a46cac0bda05
+  onlyWriteTrigger: 0

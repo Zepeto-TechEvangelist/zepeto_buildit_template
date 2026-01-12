@@ -1,0 +1,112 @@
+fileFormatVersion: 2
+guid: 4931d0ea3d87b4fd6a5016beaa63ebc4
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\nconst ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst
+    UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst UnityEngine_EventSystems_1
+    = require(\\\"UnityEngine.EventSystems\\\");\\r\\nconst UnityEngine_EventSystems_EventTrigger_1
+    = require(\\\"UnityEngine.EventSystems.EventTrigger\\\");\\r\\nclass ZepetoScreenTouchpad
+    extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    constructor() {\\r\\n       
+    super(...arguments);\\r\\n        // --- Config ---\\r\\n        this.movementRange
+    = 100;\\r\\n        this.m_PointerDownPos = new UnityEngine_1.Vector2(0, 0);\\r\\n       
+    // \uC678\uBD80\uC5D0\uC11C \uC77D\uB294 \uCD95 (-1..1)\\r\\n        this._axis
+    = new UnityEngine_1.Vector2(0, 0);\\r\\n        this.m_isTouching = false;\\r\\n       
+    this.isTouched = false;\\r\\n    }\\r\\n    GetAxis() { return this._axis; }\\r\\n   
+    IsTouching() { return this.m_isTouching; }\\r\\n    Awake() {\\r\\n        var
+    trigger = this.gameObject.GetComponent($typeof(UnityEngine_EventSystems_1.EventTrigger));\\r\\n       
+    function Set(type, callback) {\\r\\n            var entry = new UnityEngine_EventSystems_EventTrigger_1.Entry();\\r\\n           
+    entry.eventID = type;\\r\\n            entry.callback.AddListener(callback);\\r\\n           
+    trigger.triggers.Add(entry);\\r\\n        }\\r\\n        Set(UnityEngine_EventSystems_1.EventTriggerType.Drag,
+    (eventData) => this.OnDrag(eventData));\\r\\n        Set(UnityEngine_EventSystems_1.EventTriggerType.PointerDown,
+    (eventData) => this.OnPointerDown(eventData));\\r\\n        Set(UnityEngine_EventSystems_1.EventTriggerType.PointerUp,
+    (eventData) => this.OnPointerUp(eventData));\\r\\n    }\\r\\n    Start() {\\r\\n       
+    this.m_root = this.transform;\\r\\n        this.InitializeTouchPadBackground();\\r\\n   
+    }\\r\\n    OnPointerClick(eventData) {\\r\\n        if (!eventData)\\r\\n           
+    throw new Error(\\\"eventData is null\\\");\\r\\n    }\\r\\n    // Down\\r\\n   
+    OnPointerDown(eventData) {\\r\\n        if (!eventData)\\r\\n            throw
+    new Error(\\\"eventData is null\\\");\\r\\n        if (!this.m_root)\\r\\n           
+    this.m_root = this.transform;\\r\\n        const outPos = $ref(new UnityEngine_1.Vector2(0,
+    0)); // \u2705 $ref \uB85C out \uC778\uC790 \uC804\uB2EC\\r\\n        if (UnityEngine_1.RectTransformUtility.ScreenPointToLocalPointInRectangle(this.m_root,
+    eventData.position, eventData.pressEventCamera, outPos)) {\\r\\n            this.m_PointerDownPos
+    = $unref(outPos);\\r\\n            this.m_isTouching = true;\\r\\n           
+    // FX\\r\\n            this.TouchPadBackground();\\r\\n            this.TouchHandleFirstTouch();\\r\\n           
+    this.TouchHandleEnable(this.m_PointerDownPos);\\r\\n        }\\r\\n    }\\r\\n   
+    // Drag\\r\\n    OnDrag(eventData) {\\r\\n        if (!eventData)\\r\\n           
+    throw new Error(\\\"eventData is null\\\");\\r\\n        if (!this.m_root)\\r\\n           
+    this.m_root = this.transform;\\r\\n        const outPos = $ref(new UnityEngine_1.Vector2(0,
+    0)); // \u2705\\r\\n        if (UnityEngine_1.RectTransformUtility.ScreenPointToLocalPointInRectangle(this.m_root,
+    eventData.position, eventData.pressEventCamera, outPos)) {\\r\\n            const
+    position = $unref(outPos);\\r\\n            // \uB378\uD0C0 + \uD074\uB7A8\uD504\\r\\n           
+    let delta = UnityEngine_1.Vector2.op_Subtraction(position, this.m_PointerDownPos);\\r\\n           
+    delta = UnityEngine_1.Vector2.ClampMagnitude(delta, this.movementRange);\\r\\n           
+    // \uD578\uB4E4 \uC704\uCE58 \uAC31\uC2E0\\r\\n            this.TouchHandleSetPosition(position);\\r\\n           
+    // -1..1 \uCD95 \uC800\uC7A5\\r\\n            this._axis = new UnityEngine_1.Vector2(delta.x
+    / this.movementRange, delta.y / this.movementRange);\\r\\n        }\\r\\n   
+    }\\r\\n    // Up\\r\\n    OnPointerUp(eventData) {\\r\\n        if (!eventData)\\r\\n           
+    throw new Error(\\\"eventData is null\\\");\\r\\n        this.m_isTouching =
+    false;\\r\\n        this._axis = new UnityEngine_1.Vector2(0, 0); // \uCD95 \uB9AC\uC14B\\r\\n       
+    this.TouchHandleDisable();\\r\\n    }\\r\\n    /* ---------- Background FX ----------
+    */\\r\\n    InitializeTouchPadBackground() {\\r\\n        if (this.canvasGroupTouchPadBackground)
+    {\\r\\n            this.canvasGroupTouchPadBackground.alpha = 0;\\r\\n           
+    this.canvasGroupTouchPadBackground.gameObject?.SetActive(false);\\r\\n       
+    }\\r\\n    }\\r\\n    TouchPadBackground() {\\r\\n        if (!this.isTouched)
+    {\\r\\n            this.isTouched = true;\\r\\n            this.StartCoroutine(this.TouchPadBackgroundProcess());\\r\\n       
+    }\\r\\n    }\\r\\n    *TouchPadBackgroundProcess() {\\r\\n        if (!this.canvasGroupTouchPadBackground
+    || !this.touchPadBackgroundCurve)\\r\\n            return;\\r\\n        const
+    cg = this.canvasGroupTouchPadBackground;\\r\\n        cg.gameObject?.SetActive(true);\\r\\n       
+    cg.alpha = 0;\\r\\n        // 0.5s Fade-In\\r\\n        let t = 0;\\r\\n       
+    while (t < 1) {\\r\\n            t += UnityEngine_1.Time.deltaTime * 2;\\r\\n           
+    cg.alpha = this.touchPadBackgroundCurve.Evaluate(t);\\r\\n            yield null;\\r\\n       
+    }\\r\\n        // 1.0s Hold\\r\\n        t = 0;\\r\\n        while (t < 1) {\\r\\n           
+    t += UnityEngine_1.Time.deltaTime;\\r\\n            yield null;\\r\\n       
+    }\\r\\n        // 0.5s Fade-Out\\r\\n        t = 0;\\r\\n        while (t < 1)
+    {\\r\\n            t += UnityEngine_1.Time.deltaTime * 2;\\r\\n            cg.alpha
+    = 1 - this.touchPadBackgroundCurve.Evaluate(t);\\r\\n            yield null;\\r\\n       
+    }\\r\\n        cg.alpha = 0;\\r\\n    }\\r\\n    /* ---------- Handle FX ----------
+    */\\r\\n    TouchHandleEnable(position) {\\r\\n        if (!this.touchHandle
+    || !this.touchHandleOrigin)\\r\\n            return;\\r\\n        this.touchHandle.localPosition
+    = new UnityEngine_1.Vector3(position.x, position.y, 0);\\r\\n        this.touchHandleOrigin.localPosition
+    = new UnityEngine_1.Vector3(position.x, position.y, 0);\\r\\n        if (this.touchHandleAnimator)\\r\\n           
+    this.touchHandleAnimator.SetBool(\\\"isTouch\\\", true);\\r\\n        if (this.touchHandleOriginAnimator)\\r\\n           
+    this.touchHandleOriginAnimator.SetBool(\\\"isTouch\\\", true);\\r\\n    }\\r\\n   
+    TouchHandleDisable() {\\r\\n        if (this.touchHandleAnimator)\\r\\n           
+    this.touchHandleAnimator.SetBool(\\\"isTouch\\\", false);\\r\\n        if (this.touchHandleOriginAnimator)\\r\\n           
+    this.touchHandleOriginAnimator.SetBool(\\\"isTouch\\\", false);\\r\\n    }\\r\\n   
+    TouchHandleSetPosition(position) {\\r\\n        if (!this.touchHandle || !this.touchHandleOrigin)\\r\\n           
+    return;\\r\\n        const origin = this.touchHandleOrigin.localPosition;\\r\\n       
+    const from = new UnityEngine_1.Vector2(origin.x, origin.y);\\r\\n        const
+    diff = UnityEngine_1.Vector2.op_Subtraction(position, from);\\r\\n        //
+    \u2705 \uC9C1\uC811 \uC815\uADDC\uD654\\r\\n        const mag = UnityEngine_1.Mathf.Max(0.00001,
+    UnityEngine_1.Mathf.Sqrt(diff.x * diff.x + diff.y * diff.y));\\r\\n        const
+    dir = new UnityEngine_1.Vector2(diff.x / mag, diff.y / mag);\\r\\n        const
+    dist = UnityEngine_1.Mathf.Min(UnityEngine_1.Vector2.Distance(position, from),
+    this.movementRange * 0.96);\\r\\n        const next = new UnityEngine_1.Vector2(from.x
+    + dir.x * dist, from.y + dir.y * dist);\\r\\n        this.touchHandle.localPosition
+    = new UnityEngine_1.Vector3(next.x, next.y, 0);\\r\\n    }\\r\\n    TouchHandleFirstTouch()
+    {\\r\\n        if (this.touchHandleAnimator)\\r\\n            this.touchHandleAnimator.SetTrigger(\\\"firstTouch\\\");\\r\\n       
+    if (this.touchHandleOriginAnimator)\\r\\n            this.touchHandleOriginAnimator.SetTrigger(\\\"firstTouch\\\");\\r\\n   
+    }\\r\\n}\\r\\nexports.default = ZepetoScreenTouchpad;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiWmVwZXRvU2NyZWVuVG91Y2hwYWQuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJaZXBldG9TY3JlZW5Ub3VjaHBhZC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLGlEQUFzRDtBQUN0RCw2Q0FHcUI7QUFDckIsdUVBR2tDO0FBQ2xDLGlHQUE2RDtBQUU3RCxNQUFxQixvQkFDakIsU0FBUSxxQ0FBcUI7SUFEakM7O1FBSUksaUJBQWlCO1FBQ1Ysa0JBQWEsR0FBVyxHQUFHLENBQUM7UUFJM0IscUJBQWdCLEdBQVksSUFBSSxxQkFBTyxDQUFDLENBQUMsRUFBRSxDQUFDLENBQUMsQ0FBQztRQUV0RCxvQkFBb0I7UUFDWixVQUFLLEdBQVksSUFBSSxxQkFBTyxDQUFDLENBQUMsRUFBRSxDQUFDLENBQUMsQ0FBQztRQUduQyxpQkFBWSxHQUFZLEtBQUssQ0FBQztRQU05QixjQUFTLEdBQVksS0FBSyxDQUFDO0lBaUt2QyxDQUFDO0lBektVLE9BQU8sS0FBYyxPQUFPLElBQUksQ0FBQyxLQUFLLENBQUMsQ0FBQyxDQUFDO0lBR3pDLFVBQVUsS0FBYyxPQUFPLElBQUksQ0FBQyxZQUFZLENBQUMsQ0FBQyxDQUFDO0lBYTFELEtBQUs7UUFDRyxJQUFJLE9BQU8sR0FBRyxJQUFJLENBQUMsVUFBVSxDQUFDLFlBQVksU0FBQyx1Q0FBWSxFQUFHLENBQUM7UUFDL0QsU0FBUyxHQUFHLENBQUMsSUFBc0IsRUFBRSxRQUErQztZQUNoRixJQUFJLEtBQUssR0FBRyxJQUFJLDZDQUFLLEVBQUUsQ0FBQztZQUN4QixLQUFLLENBQUMsT0FBTyxHQUFHLElBQUksQ0FBQztZQUNyQixLQUFLLENBQUMsUUFBUSxDQUFDLFdBQVcsQ0FBQyxRQUFRLENBQUMsQ0FBQztZQUNyQyxPQUFPLENBQUMsUUFBUSxDQUFDLEdBQUcsQ0FBQyxLQUFLLENBQUMsQ0FBQztRQUNoQyxDQUFDO1FBQ0QsR0FBRyxDQUFDLDJDQUFnQixDQUFDLElBQUksRUFBRSxDQUFDLFNBQTJC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\",\"assetPath\":\"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/ZepetoScreenTouchpad.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"mscorlib\",\"name\":\"movementRange\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"100\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.UIModule\",\"name\":\"canvasGroupTouchPadBackground\",\"type\":\"UnityEngine.CanvasGroup\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"touchPadBackgroundCurve\",\"type\":\"UnityEngine.AnimationCurve\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"touchHandle\",\"type\":\"UnityEngine.RectTransform\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.AnimationModule\",\"name\":\"touchHandleAnimator\",\"type\":\"UnityEngine.Animator\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"touchHandleOrigin\",\"type\":\"UnityEngine.RectTransform\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.AnimationModule\",\"name\":\"touchHandleOriginAnimator\",\"type\":\"UnityEngine.Animator\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]}],\"name\":\"ZepetoScreenTouchpad\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: 31a7f74a52c238c6d782b4bec574e7a0
+  onlyWriteTrigger: 0

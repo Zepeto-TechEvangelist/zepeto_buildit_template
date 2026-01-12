@@ -1,0 +1,242 @@
+fileFormatVersion: 2
+guid: d91c1edc201c46349a004f1628c75822
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\n// Assets/Scripts/World/Zepeto2DWorldManager.ts\\r\\nconst
+    ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst ZEPETO_Character_Controller_1
+    = require(\\\"ZEPETO.Character.Controller\\\");\\r\\nconst UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst
+    Zepeto2DPlayer_1 = require(\\\"./Zepeto2DPlayer\\\");\\r\\nconst CameraFollow2D_1
+    = require(\\\"./CameraFollow2D\\\");\\r\\nconst MapBoundsProvider_1 = require(\\\"./MapBoundsProvider\\\");\\r\\nconst
+    Player2DHandle_1 = require(\\\"./Player2DHandle\\\");\\r\\nconst ScreenshotController_1
+    = require(\\\"../../../BuilditTemplate/Modules/Screenshot/Scripts/ScreenshotController\\\");\\r\\nclass
+    Zepeto2DWorldManager extends ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n   
+    constructor() {\\r\\n        super(...arguments);\\r\\n        // \u2500\u2500
+    Centralized configs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n       
+    this.runSpeed = 5.0;\\r\\n        this.walkSpeed = 2.2;\\r\\n        this.runThreshold
+    = 0.6;\\r\\n        // \u2500\u2500 Runtime refs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n       
+    this._camFollow = null;\\r\\n        this._local2D = null;\\r\\n        this._sessionToPlayer
+    = new Map();\\r\\n        this._characterLookup = new Map();\\r\\n        //
+    All map roots (providers) discovered at Awake\\r\\n        this._providers =
+    [];\\r\\n        // Active map root\\r\\n        this._activeMapRoot = null;\\r\\n   
+    }\\r\\n    Awake() {\\r\\n        if (Zepeto2DWorldManager.Instance && Zepeto2DWorldManager.Instance
+    !== this) {\\r\\n            UnityEngine_1.GameObject.Destroy(this.gameObject);\\r\\n           
+    return;\\r\\n        }\\r\\n        Zepeto2DWorldManager.Instance = this;\\r\\n       
+    UnityEngine_1.GameObject.DontDestroyOnLoad(this.gameObject);\\r\\n        //
+    Pre-scan all MapBoundsProviders that are already active in the scene.\\r\\n       
+    this._providers = UnityEngine_1.GameObject.FindObjectsOfType($typeof(MapBoundsProvider_1.default));\\r\\n       
+    // (No register/unregister API anymore\u2014single source of truth lives here.)\\r\\n   
+    }\\r\\n    get activeMapRoot() { return this._activeMapRoot; }\\r\\n    Start()
+    {\\r\\n        // Cache CameraFollow2D on the main camera (if any)\\r\\n       
+    const main = UnityEngine_1.Camera.main;\\r\\n        if (main) {\\r\\n           
+    this._camFollow = main.GetComponent($typeof(CameraFollow2D_1.default));\\r\\n       
+    }\\r\\n        // Player lifecycle: only subscribe here\\r\\n        const zp
+    = ZEPETO_Character_Controller_1.ZepetoPlayers.instance;\\r\\n        if (!zp)\\r\\n           
+    return;\\r\\n        zp.OnAddedPlayer.AddListener((sessionId) => {\\r\\n           
+    const player = zp.GetPlayer(sessionId);\\r\\n            if (!player)\\r\\n               
+    return;\\r\\n            this.RegisterPlayer(sessionId, player);\\r\\n           
+    if (player.isLocalPlayer) {\\r\\n                this.StartCoroutine(this.SetupLocalWhenReady(player));\\r\\n           
+    }\\r\\n            else {\\r\\n                this.StartCoroutine(this.TrackPlayerCharacter(sessionId));\\r\\n           
+    }\\r\\n        });\\r\\n        zp.OnRemovedPlayer.AddListener((sessionId) =>
+    {\\r\\n            this.UnregisterPlayer(sessionId);\\r\\n        });\\r\\n   
+    }\\r\\n    // Setup screenshot camera - called from SetupLocalWhenReady after
+    everything is initialized\\r\\n    *SetupScreenshotCameraForLocal() {\\r\\n       
+    if (!this._camFollow) {\\r\\n            console.error(\\\"[Zepeto2DWorldManager]
+    _camFollow is null!\\\");\\r\\n            return;\\r\\n        }\\r\\n       
+    const screenshotController = UnityEngine_1.GameObject.FindObjectOfType($typeof(ScreenshotController_1.default));\\r\\n       
+    if (!screenshotController) {\\r\\n            console.error(\\\"[Zepeto2DWorldManager]
+    ScreenshotController not found!\\\");\\r\\n            return;\\r\\n        }\\r\\n       
+    const cam = this._camFollow.GetComponent($typeof(UnityEngine_1.Camera));\\r\\n       
+    if (!cam) {\\r\\n            console.error(\\\"[Zepeto2DWorldManager] Camera
+    component not found on CameraFollow2D!\\\");\\r\\n            return;\\r\\n       
+    }\\r\\n        // Create a clean camera GameObject for screenshot (without CameraFollow2D
+    script)\\r\\n        const screenshotCamObj = new UnityEngine_1.GameObject(\\\"ScreenshotCameraProxy\\\");\\r\\n       
+    UnityEngine_1.GameObject.DontDestroyOnLoad(screenshotCamObj);\\r\\n        screenshotCamObj.SetActive(false);
+    // Keep it inactive until screenshot time\\r\\n        const screenshotCam =
+    screenshotCamObj.AddComponent($typeof(UnityEngine_1.Camera));\\r\\n        //
+    Copy all camera settings from the 2D camera\\r\\n        screenshotCam.orthographic
+    = cam.orthographic;\\r\\n        screenshotCam.orthographicSize = cam.orthographicSize;\\r\\n       
+    screenshotCam.nearClipPlane = cam.nearClipPlane;\\r\\n        screenshotCam.farClipPlane
+    = cam.farClipPlane;\\r\\n        screenshotCam.cullingMask = cam.cullingMask;\\r\\n       
+    screenshotCam.backgroundColor = cam.backgroundColor;\\r\\n        screenshotCam.clearFlags
+    = cam.clearFlags;\\r\\n        screenshotCam.depth = cam.depth;\\r\\n       
+    // Sync transform\\r\\n        screenshotCamObj.transform.position = cam.transform.position;\\r\\n       
+    screenshotCamObj.transform.rotation = cam.transform.rotation;\\r\\n        screenshotCamObj.transform.localScale
+    = cam.transform.localScale;\\r\\n        console.log(`[Zepeto2DWorldManager]
+    Created proxy camera - Orthographic: ${screenshotCam.orthographic}, Size: ${screenshotCam.orthographicSize},
+    Position: ${screenshotCam.transform.position}`);\\r\\n        // Set this proxy
+    camera as the screenshot camera\\r\\n        screenshotController.SetScreenshotCamera(screenshotCam);\\r\\n       
+    console.log(\\\"[Zepeto2DWorldManager] \u2705 Screenshot camera set to 2D proxy
+    camera (from SetupLocalWhenReady)\\\");\\r\\n        // Keep syncing the proxy
+    camera with the main camera\\r\\n        this.StartCoroutine(this.SyncScreenshotCameraPosition(cam,
+    screenshotCam));\\r\\n    }\\r\\n    // Keep the proxy camera in sync with the
+    actual 2D camera\\r\\n    *SyncScreenshotCameraPosition(sourceCam, targetCam)
+    {\\r\\n        while (sourceCam && targetCam) {\\r\\n            targetCam.transform.position
+    = sourceCam.transform.position;\\r\\n            targetCam.transform.rotation
+    = sourceCam.transform.rotation;\\r\\n            targetCam.orthographicSize =
+    sourceCam.orthographicSize;\\r\\n            yield null;\\r\\n        }\\r\\n   
+    }\\r\\n    // \u2500\u2500 Exposed getters \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    get LocalHandle() { return this._local2D.player2dHandle; }\\r\\n    get ActiveMapRoot()
+    { return this._activeMapRoot; }\\r\\n    // \u2500\u2500 Local player setup (single
+    place) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    *SetupLocalWhenReady(zp) {\\r\\n        // 1) Wait ZepetoPlayer + character\\r\\n       
+    const start = UnityEngine_1.Time.time, timeout = 6;\\r\\n        while (UnityEngine_1.Time.time
+    - start < timeout) {\\r\\n            if (zp && zp.character)\\r\\n               
+    break;\\r\\n            yield null;\\r\\n        }\\r\\n        if (!zp || !zp.character)\\r\\n           
+    return;\\r\\n        // 2) Stop built-in SM to prevent CharacterController.Move
+    calls after we disable CC\\r\\n        try {\\r\\n            zp.character?.StateMachine?.Stop();\\r\\n       
+    }\\r\\n        catch { }\\r\\n        // 3) Give a frame for Stop() to propagate\\r\\n       
+    yield new UnityEngine_1.WaitForEndOfFrame();\\r\\n        // 4) Disable default
+    Zepeto camera (with a short fallback probe)\\r\\n        let zc = UnityEngine_1.GameObject.FindObjectOfType($typeof(ZEPETO_Character_Controller_1.ZepetoCamera));\\r\\n       
+    if (zc) {\\r\\n            zc.gameObject.SetActive(false);\\r\\n        }\\r\\n       
+    else {\\r\\n            const camWaitStart = UnityEngine_1.Time.time;\\r\\n           
+    while (UnityEngine_1.Time.time - camWaitStart < 3) {\\r\\n                yield
+    new UnityEngine_1.WaitForEndOfFrame();\\r\\n                zc = UnityEngine_1.GameObject.FindObjectOfType($typeof(ZEPETO_Character_Controller_1.ZepetoCamera));\\r\\n               
+    if (zc) {\\r\\n                    zc.gameObject.SetActive(false);\\r\\n                   
+    break;\\r\\n                }\\r\\n            }\\r\\n        }\\r\\n       
+    // 5) Disable CharacterController AFTER SM stopped\\r\\n        const cc = zp.character.GetComponentInChildren($typeof(UnityEngine_1.CharacterController));\\r\\n       
+    if (cc)\\r\\n            cc.enabled = false;\\r\\n        // 6) Attach/config
+    our 2D controller (idempotent)\\r\\n        let ctrl = zp.character.GetComponent($typeof(Zepeto2DPlayer_1.default));\\r\\n       
+    if (!ctrl)\\r\\n            ctrl = zp.character.gameObject.AddComponent($typeof(Zepeto2DPlayer_1.default));\\r\\n       
+    ctrl.runSpeed = this.runSpeed;\\r\\n        ctrl.walkSpeed = this.walkSpeed;\\r\\n       
+    ctrl.runThreshold = this.runThreshold;\\r\\n        ctrl.BindZepetoPlayer(zp);\\r\\n       
+    // Set character scale (similar to NPC scaling)\\r\\n        zp.character.gameObject.transform.localEulerAngles
+    = new UnityEngine_1.Vector3(0, 180, 0);\\r\\n        this._local2D = ctrl;\\r\\n       
+    // 7) Camera target & initial bounds\\r\\n        if (this._camFollow) {\\r\\n           
+    // Use property to avoid dependency on a SetTarget() helper\\r\\n           
+    this._camFollow.target = zp.character.transform;\\r\\n            // Give one
+    frame so (a) our providers exist, (b) transforms are stable\\r\\n           
+    yield new UnityEngine_1.WaitForEndOfFrame();\\r\\n            // Setup screenshot
+    camera after everything is ready\\r\\n            yield* this.SetupScreenshotCameraForLocal();\\r\\n           
+    // Pick initial map by player position among pre-scanned providers\\r\\n           
+    const initial = this.pickInitialMapByPosition(zp.character.transform.position);\\r\\n           
+    // Activate chosen map, disable others, and snap camera immediately\\r\\n           
+    this.SetActiveBoundsRoot(initial, /*snapNow=*/ true, /*disableOthers=*/ true);\\r\\n           
+    // Set initial zoom using startOrthoSize\\r\\n            if (this._camFollow)
+    {\\r\\n                this._camFollow.SetZoom(this._camFollow.startOrthoSize,
+    /*immediate=*/ true);\\r\\n                console.log(`[Zepeto2DWorldManager]
+    Initial zoom set to start: ${this._camFollow.orthographicSize.toFixed(2)}`);\\r\\n           
+    }\\r\\n        }\\r\\n    }\\r\\n    RegisterPlayer(sessionId, player) {\\r\\n       
+    this._sessionToPlayer.set(sessionId, player);\\r\\n        this.StartCoroutine(this.TrackPlayerCharacter(sessionId));\\r\\n   
+    }\\r\\n    UnregisterPlayer(sessionId) {\\r\\n        this._sessionToPlayer.delete(sessionId);\\r\\n       
+    for (const [key, value] of Array.from(this._characterLookup.entries())) {\\r\\n           
+    if (value === sessionId) {\\r\\n                this._characterLookup.delete(key);\\r\\n           
+    }\\r\\n        }\\r\\n    }\\r\\n    *TrackPlayerCharacter(sessionId) {\\r\\n       
+    const start = UnityEngine_1.Time.time;\\r\\n        const timeout = 6;\\r\\n       
+    while (UnityEngine_1.Time.time - start < timeout) {\\r\\n            const player
+    = this._sessionToPlayer.get(sessionId);\\r\\n            if (!player)\\r\\n               
+    return;\\r\\n            const character = player.character;\\r\\n           
+    if (character) {\\r\\n                this._characterLookup.set(character.gameObject.GetInstanceID(),
+    sessionId);\\r\\n                const ctrl = character.GetComponent($typeof(Zepeto2DPlayer_1.default));\\r\\n               
+    if (ctrl) {\\r\\n                    ctrl.BindZepetoPlayer(player);\\r\\n               
+    }\\r\\n                const handle = character.GetComponentInChildren($typeof(Player2DHandle_1.default),
+    true);\\r\\n                if (handle) {\\r\\n                    if (!handle.owner
+    && ctrl) {\\r\\n                        handle.owner = ctrl;\\r\\n                   
+    }\\r\\n                    handle.isLocal = player.isLocalPlayer;\\r\\n               
+    }\\r\\n                return;\\r\\n            }\\r\\n            yield null;\\r\\n       
+    }\\r\\n    }\\r\\n    ResolvePlayerFromTransform(target) {\\r\\n        if (!target)\\r\\n           
+    return null;\\r\\n        const character = target.GetComponentInParent($typeof(ZEPETO_Character_Controller_1.ZepetoCharacter));\\r\\n       
+    return this.ResolvePlayerFromCharacter(character);\\r\\n    }\\r\\n    ResolvePlayerFromCharacter(character)
+    {\\r\\n        if (!character)\\r\\n            return null;\\r\\n        const
+    instanceId = character.gameObject.GetInstanceID();\\r\\n        const sessionId
+    = this._characterLookup.get(instanceId);\\r\\n        if (sessionId) {\\r\\n           
+    const player = this._sessionToPlayer.get(sessionId);\\r\\n            if (player)\\r\\n               
+    return player;\\r\\n        }\\r\\n        for (const [sid, player] of this._sessionToPlayer.entries())
+    {\\r\\n            if (player && player.character === character) {\\r\\n               
+    this._characterLookup.set(instanceId, sid);\\r\\n                return player;\\r\\n           
+    }\\r\\n        }\\r\\n        return null;\\r\\n    }\\r\\n    // \u2500\u2500
+    Choosing an initial map \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    pickInitialMapByPosition(pos) {\\r\\n        if (!this._providers || this._providers.length
+    === 0)\\r\\n            return null;\\r\\n        // 1) Prefer provider whose
+    combined bounds contains the position\\r\\n        for (let i = 0; i < this._providers.length;
+    i++) {\\r\\n            const root = this._providers[i]?.gameObject;\\r\\n           
+    if (!root || !root.activeInHierarchy)\\r\\n                continue;\\r\\n           
+    const rends = root.GetComponentsInChildren($typeof(UnityEngine_1.SpriteRenderer),
+    true);\\r\\n            if (!rends || rends.length === 0)\\r\\n               
+    continue;\\r\\n            let b = rends[0].bounds;\\r\\n            for (let
+    k = 1; k < rends.length; k++)\\r\\n                b.Encapsulate(rends[k].bounds);\\r\\n           
+    if (b.Contains(new UnityEngine_1.Vector3(pos.x, pos.y, b.center.z)))\\r\\n               
+    return root;\\r\\n        }\\r\\n        // 2) Otherwise, the nearest provider
+    root\\r\\n        let best = null;\\r\\n        let bestD = Number.POSITIVE_INFINITY;\\r\\n       
+    for (let i = 0; i < this._providers.length; i++) {\\r\\n            const g =
+    this._providers[i]?.gameObject;\\r\\n            if (!g || !g.activeInHierarchy)\\r\\n               
+    continue;\\r\\n            const d = UnityEngine_1.Vector3.SqrMagnitude(UnityEngine_1.Vector3.op_Subtraction(g.transform.position,
+    pos));\\r\\n            if (d < bestD) {\\r\\n                bestD = d;\\r\\n               
+    best = g;\\r\\n            }\\r\\n        }\\r\\n        return best;\\r\\n   
+    }\\r\\n    // \u2500\u2500 Map activation / camera bounds swap \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    /**\\r\\n     * Make `mapRoot` the active camera-bounds source and (optionally)
+    disable all others.\\r\\n     * Also snaps the camera immediately if requested.\\r\\n    
+    */\\r\\n    SetActiveBoundsRoot(mapRoot, snapNow = true, disableOthers = true)
+    {\\r\\n        this._activeMapRoot = mapRoot;\\r\\n        if (mapRoot && !mapRoot.activeSelf)\\r\\n           
+    mapRoot.SetActive(true);\\r\\n        if (this._camFollow) {\\r\\n           
+    this._camFollow.SetBGFromRoot(mapRoot);\\r\\n            this._camFollow.RefreshBGAndBounds();\\r\\n           
+    if (snapNow)\\r\\n                this._camFollow.SnapToTargetImmediate();\\r\\n       
+    }\\r\\n        if (disableOthers)\\r\\n            this.disableAllProvidersExcept(mapRoot);\\r\\n   
+    }\\r\\n    /** Turn OFF every provider root except the active one. */\\r\\n   
+    disableAllProvidersExcept(active) {\\r\\n        if (!this._providers)\\r\\n           
+    return;\\r\\n        for (let i = 0; i < this._providers.length; i++) {\\r\\n           
+    const root = this._providers[i]?.gameObject;\\r\\n            if (!root)\\r\\n               
+    continue;\\r\\n            if (active && root === active)\\r\\n               
+    continue;\\r\\n            if (root.activeSelf)\\r\\n                root.SetActive(false);\\r\\n       
+    }\\r\\n    }\\r\\n    // \u2500\u2500 Utility: world Y range for Z-from-Y mapping
+    (used by Zepeto2DPlayer) \u2500\u2500\\r\\n    GetWorldYRange() {\\r\\n       
+    const root = this._activeMapRoot;\\r\\n        if (!root)\\r\\n            return
+    { valid: false, minY: 0, maxY: 0 };\\r\\n        const rends = root.GetComponentsInChildren($typeof(UnityEngine_1.SpriteRenderer),
+    true);\\r\\n        if (!rends || rends.length === 0)\\r\\n            return
+    { valid: false, minY: 0, maxY: 0 };\\r\\n        let b = rends[0].bounds;\\r\\n       
+    for (let i = 1; i < rends.length; i++)\\r\\n            b.Encapsulate(rends[i].bounds);\\r\\n       
+    return { valid: true, minY: b.min.y, maxY: b.max.y };\\r\\n    }\\r\\n    //
+    \u2500\u2500 Centralized teleport  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    /** Teleport the local player and switch maps in the correct order. */\\r\\n   
+    TeleportLocal(destXY, targetRoot) {\\r\\n        if (!this._local2D)\\r\\n           
+    return;\\r\\n        const x = destXY.x, y = destXY.y;\\r\\n        // 1) Hard-snap
+    RB2D this frame (authoritative source) \u2014 no interpolation, no inertia.\\r\\n       
+    let rb2d = this.LocalHandle.GetComponent($typeof(UnityEngine_1.Rigidbody2D));\\r\\n       
+    if (!rb2d)\\r\\n            rb2d = this._local2D.GetComponentInChildren($typeof(UnityEngine_1.Rigidbody2D),
+    true);\\r\\n        if (rb2d) {\\r\\n            const wasSim = rb2d.simulated;\\r\\n           
+    const wasInterp = rb2d.interpolation;\\r\\n            rb2d.simulated = false;
+    // freeze for manual teleport\\r\\n            rb2d.velocity = UnityEngine_1.Vector2.zero;\\r\\n           
+    rb2d.angularVelocity = 0;\\r\\n            rb2d.position = new UnityEngine_1.Vector2(x,
+    y); // \u2B05\uFE0F true teleport (physics space)\\r\\n            rb2d.simulated
+    = wasSim; // restore\\r\\n            rb2d.interpolation = wasInterp;\\r\\n       
+    }\\r\\n        // 2) Align visual roots in the same frame (visual Z is temporary;
+    will be refined in LateUpdate).\\r\\n        this.LocalHandle.transform.position
+    = new UnityEngine_1.Vector3(x, y, 0);\\r\\n        this._local2D.transform.position
+    = new UnityEngine_1.Vector3(x, y, y); // simple Y\u2192Z; your LateUpdate refines
+    it\\r\\n        // 3) Ensure physics/render sync this frame so camera sees the
+    new pose immediately.\\r\\n        UnityEngine_1.Physics2D.SyncTransforms();\\r\\n       
+    // 4) Turn ON target map \u2192 swap camera bounds \u2192 snap camera NOW (but
+    don't kill others yet).\\r\\n        if (targetRoot && !targetRoot.activeSelf)\\r\\n           
+    targetRoot.SetActive(true);\\r\\n        // Snap immediately; defer disabling
+    other maps by one frame to avoid skybox flashes.\\r\\n        this.SetActiveBoundsRoot(targetRoot,
+    /*snapNow=*/ true, /*disableOthers=*/ false);\\r\\n        // 5) After one frame
+    (when the new map has definitely rendered once), turn other maps off.\\r\\n       
+    this.StartCoroutine(this._DisableOthersNextFrame(targetRoot));\\r\\n    }\\r\\n   
+    // Defer turning off all other providers by one frame to eliminate flicker.\\r\\n   
+    *_DisableOthersNextFrame(keep) {\\r\\n        yield new UnityEngine_1.WaitForEndOfFrame();\\r\\n       
+    this.disableAllProvidersExcept(keep);\\r\\n    }\\r\\n}\\r\\nexports.default
+    = Zepeto2DWorldManager;\\r\\n// \u2500\u2500 Singleton \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\nZepeto2DWorldManager.Instance
+    = null;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiWmVwZXRvMkRXb3JsZE1hbmFnZXIuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJaZXBldG8yRFdvcmxkTWFuYWdlci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLCtDQUErQztBQUMvQyxpREFBc0Q7QUFDdEQsNkVBQXlHO0FBQ3pHLDZDQU9xQjtBQUNyQixxREFBOEM7QUFDOUMscURBQThDO0FBQzlDLDJEQUFvRDtBQUNwRCxxREFBOEM7QUFDOUMsbUhBQTRHO0FBSTVHLE1BQXFCLG9CQUFxQixTQUFRLHFDQUFxQjtJQUF2RTs7UUFpQkksOEVBQThFO1FBQ3ZFLGFBQVEsR0FBVyxHQUFHLENBQUM7UUFDdkIsY0FBUyxHQUFXLEdBQUcsQ0FBQztRQUN4QixpQkFBWSxHQUFXLEdBQUcsQ0FBQztRQUVsQyw4RUFBOEU7UUFDdEUsZUFBVSxHQUEwQixJQUFJLENBQUM7UUFDekMsYUFBUSxHQUEwQixJQUFJLENBQUM7UUFDdkMscUJBQWdCLEdBQThCLElBQUksR0FBRyxFQUFFLENBQUM7UUFDeEQscUJBQWdCLEdBQXdCLElBQUksR0FBRyxFQUFFLENBQUM7UUFFMUQsZ0RBQWdEO1FBQ3hDLGVBQVUsR0FBd0IsRUFBRSxDQUFDO1FBRTdDLGtCQUFrQjtRQUNWLG1CQUFjLEdBQXNCLElBQUksQ0FBQztJQXFXckQsQ0FBQztJQWpZRyxLQUFLO1FBQ0QsSUFBSSxvQkFBb0IsQ0FBQyxRQUFRLElBQUksb0JBQW9CLENBQUMsUUFBUSxLQUFLLElBQUksRUFBRTtZQUN6RSx3QkFBVSxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsVUFBVSxDQUFDLENBQUM7WUFDcEMsT0FBTztTQUNWO1FBQ0Qsb0JBQW9CLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQztRQUNyQyx3QkFBVSxDQUFDLGlCQUFpQixDQUFDLElBQUksQ0FBQyxVQUFVLENBQUMsQ0FBQztRQUU5Qyx3RUFBd0U7UUFDeEUsSUFBSSxDQUFDLFVBQVUsR0FBRyx3QkFBVSxDQUFDLGlCQUFpQixT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\",\"assetPath\":\"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/Zepeto2DWorldManager.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"mscorlib\",\"name\":\"runSpeed\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"5\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"walkSpeed\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"2.2\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"runThreshold\",\"type\":\"System.Single\",\"isArray\":false,\"initValue\":[\"0.6\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]}],\"name\":\"Zepeto2DWorldManager\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: 545d4a3dedbea85b2d7cf0e88b34f4d6
+  onlyWriteTrigger: 0

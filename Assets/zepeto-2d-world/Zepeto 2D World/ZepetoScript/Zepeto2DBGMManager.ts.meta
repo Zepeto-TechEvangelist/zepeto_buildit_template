@@ -1,0 +1,117 @@
+fileFormatVersion: 2
+guid: b720bcc17752441048072110faa01109
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\nconst ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst
+    UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst MapBoundsProvider_1
+    = require(\\\"./MapBoundsProvider\\\");\\r\\nconst Zepeto2DWorldManager_1 = require(\\\"./Zepeto2DWorldManager\\\");\\r\\nconst
+    UnityEngine_Events_1 = require(\\\"UnityEngine.Events\\\");\\r\\nconst UIManager_1
+    = require(\\\"../../../BuilditTemplate/Modules/Scripts/UIManager\\\");\\r\\n/**\\r\\n
+    * BGM manager that:\\r\\n *  - Finds \\\"BGM\\\" AudioSource objects under each
+    Map root (MapBoundsProvider).\\r\\n *  - Keeps everything paused by default.\\r\\n
+    *  - Only plays tracks that belong to the *active* map root.\\r\\n *  - Provides
+    a UI toggle for master mute (pause/resume current map\u2019s tracks).\\r\\n *\\r\\n
+    * Assumptions:\\r\\n *  - Each map root (the GameObject that has MapBoundsProvider)
+    contains a child\\r\\n *    GameObject named exactly \\\"BGM\\\" with one or
+    more AudioSource components.\\r\\n */\\r\\nclass Zepeto2DBGMManager extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\\r\\n    constructor() {\\r\\n        super(...arguments);\\r\\n        /**
+    Master mute state (true = paused). */\\r\\n        this.muted = false;\\r\\n       
+    /** If true, play current map\u2019s BGM on start (unless muted). */\\r\\n       
+    this.playOnStart = true;\\r\\n        // Map root -> AudioSources[] (collected
+    once, includes inactive maps)\\r\\n        this._tracksByRoot = new Map();\\r\\n       
+    // Currently active map root we\u2019re playing\\r\\n        this._activeRoot
+    = null;\\r\\n        // Cache world manager\\r\\n        this._wm = null;\\r\\n   
+    }\\r\\n    Awake() {\\r\\n        // Try get world manager\\r\\n        this._wm
+    = Zepeto2DWorldManager_1.default.Instance ?? UnityEngine_1.Object.FindObjectOfType($typeof(Zepeto2DWorldManager_1.default));\\r\\n       
+    // Collect BGM sources under every MapBoundsProvider (include inactive)\\r\\n       
+    this.collectAllMapBGMs();\\r\\n        // Ensure all are paused at boot; we'll
+    selectively play current later\\r\\n        this.pauseAll();\\r\\n    }\\r\\n   
+    Start() {\\r\\n        // Set the first active root from world manager and play
+    if required\\r\\n        const root = this.getActiveMapRoot();\\r\\n        this.switchActiveRoot(root,
+    /*autoplay*/ this.playOnStart && !this.muted);\\r\\n        this.LateInit();\\r\\n   
+    }\\r\\n    LateInit() {\\r\\n        this._activeEvent = new ($generic(UnityEngine_Events_1.UnityEvent$1,
+    $typeof(\\\"System.Boolean\\\")))();\\r\\n        UIManager_1.default.instance.CreateToggleGroup(\\\"music\\\",
+    this._activeEvent, (isOn) => {\\r\\n            this.muted = !isOn;\\r\\n           
+    // Pause/resume only the *current* map\u2019s tracks\\r\\n            if (this._activeRoot)
+    {\\r\\n                const list = this._tracksByRoot.get(this._activeRoot)
+    ?? [];\\r\\n                if (this.muted)\\r\\n                    list.forEach(a
+    => a?.Pause());\\r\\n                else\\r\\n                    list.forEach(a
+    => { if (a && !a.isPlaying)\\r\\n                        a.Play(); });\\r\\n           
+    }\\r\\n        });\\r\\n        this._activeEvent?.Invoke(!this.muted); // Initial
+    configuration\\r\\n    }\\r\\n    Update() {\\r\\n        // Poll for active
+    map change; switch tracks instantly when it changes\\r\\n        const root =
+    this.getActiveMapRoot();\\r\\n        if (root !== this._activeRoot) {\\r\\n           
+    this.switchActiveRoot(root, /*autoplay*/ !this.muted);\\r\\n        }\\r\\n   
+    }\\r\\n    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+    UI \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    ToggleMute() {\\r\\n        this.muted = !this.muted;\\r\\n        // Pause/resume
+    only the *current* map\u2019s tracks\\r\\n        if (this._activeRoot) {\\r\\n           
+    const list = this._tracksByRoot.get(this._activeRoot) ?? [];\\r\\n           
+    if (this.muted)\\r\\n                list.forEach(a => a?.Pause());\\r\\n           
+    else\\r\\n                list.forEach(a => { if (a && !a.isPlaying)\\r\\n                   
+    a.Play(); });\\r\\n        }\\r\\n        this._activeEvent?.Invoke(!this.muted);\\r\\n   
+    }\\r\\n    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+    Discovery/setup \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    collectAllMapBGMs() {\\r\\n        this._tracksByRoot.clear();\\r\\n        const
+    providers = UnityEngine_1.Object.FindObjectsOfType($typeof(MapBoundsProvider_1.default),
+    /*includeInactive*/ true);\\r\\n        if (!providers || providers.length ===
+    0)\\r\\n            return;\\r\\n        for (let i = 0; i < providers.length;
+    i++) {\\r\\n            const root = providers[i]?.gameObject;\\r\\n           
+    if (!root)\\r\\n                continue;\\r\\n            // find children GameObjects
+    named \\\"BGM\\\" (include inactive)\\r\\n            const allAudios = root.GetComponentsInChildren($typeof(UnityEngine_1.AudioSource),
+    true);\\r\\n            const bgms = allAudios.filter(a => a && a.gameObject
+    && a.gameObject.name === \\\"BGM\\\");\\r\\n            // normalize sources
+    (manual control)\\r\\n            bgms.forEach(a => {\\r\\n                a.playOnAwake
+    = false;\\r\\n                // do not rely on mute flag\u2014use Pause/Play
+    so time position is preserved\\r\\n                try {\\r\\n                   
+    a.Stop();\\r\\n                }\\r\\n                catch { }\\r\\n           
+    });\\r\\n            this._tracksByRoot.set(root, bgms);\\r\\n        }\\r\\n   
+    }\\r\\n    pauseAll() {\\r\\n        this._tracksByRoot.forEach(list => list.forEach(a
+    => a?.Pause()));\\r\\n    }\\r\\n    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+    Active map switch \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    switchActiveRoot(nextRoot, autoplay) {\\r\\n        // Pause & reset previous\\r\\n       
+    if (this._activeRoot) {\\r\\n            const prevList = this._tracksByRoot.get(this._activeRoot)
+    ?? [];\\r\\n            prevList.forEach(a => a?.Pause());\\r\\n        }\\r\\n       
+    this._activeRoot = nextRoot;\\r\\n        // Play (or remain paused) on the new
+    root\\r\\n        if (!this._activeRoot)\\r\\n            return;\\r\\n       
+    // If we discovered providers before this root existed (e.g., spawned later),\\r\\n       
+    // try to (re)collect once.\\r\\n        if (!this._tracksByRoot.has(this._activeRoot))
+    {\\r\\n            this.collectAllMapBGMs();\\r\\n        }\\r\\n        const
+    list = this._tracksByRoot.get(this._activeRoot) ?? [];\\r\\n        if (autoplay
+    && !this.muted) {\\r\\n            list.forEach(a => {\\r\\n                if
+    (a && !a.isPlaying)\\r\\n                    a.Play();\\r\\n            });\\r\\n       
+    }\\r\\n        else {\\r\\n            list.forEach(a => a?.Pause());\\r\\n       
+    }\\r\\n    }\\r\\n    // \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+    Helpers \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\\r\\n   
+    getActiveMapRoot() {\\r\\n        // Prefer WorldManager if present; otherwise
+    try camera-follow\u2019s active root\\r\\n        if (this._wm && this._wm.ActiveMapRoot)\\r\\n           
+    return this._wm.ActiveMapRoot;\\r\\n        // Fallback: pick an enabled provider\u2019s
+    root, if any\\r\\n        const providers = UnityEngine_1.Object.FindObjectsOfType($typeof(MapBoundsProvider_1.default),
+    true);\\r\\n        for (let i = 0; i < providers.length; i++) {\\r\\n           
+    const root = providers[i]?.gameObject;\\r\\n            if (root && root.activeInHierarchy)\\r\\n               
+    return root;\\r\\n        }\\r\\n        return null;\\r\\n    }\\r\\n}\\r\\nexports.default
+    = Zepeto2DBGMManager;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiWmVwZXRvMkRCR01NYW5hZ2VyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiWmVwZXRvMkRCR01NYW5hZ2VyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXNEO0FBQ3RELDZDQUE2RTtBQUc3RSwyREFBb0Q7QUFDcEQsaUVBQTBEO0FBQzFELDJEQUFnRDtBQUNoRCxrRkFBMkU7QUFFM0U7Ozs7Ozs7Ozs7R0FVRztBQUNILE1BQXFCLGtCQUFtQixTQUFRLHFDQUFxQjtJQUFyRTs7UUFFSSx5Q0FBeUM7UUFDbEMsVUFBSyxHQUFTLEtBQUssQ0FBQztRQUUzQiwrREFBK0Q7UUFDeEQsZ0JBQVcsR0FBUyxJQUFJLENBQUM7UUFFaEMsc0VBQXNFO1FBQzlELGtCQUFhLEdBQW1DLElBQUksR0FBRyxFQUFFLENBQUM7UUFFbEUsMENBQTBDO1FBQ2xDLGdCQUFXLEdBQXNCLElBQUksQ0FBQztRQUU5QyxzQkFBc0I7UUFDZCxRQUFHLEdBQWdDLElBQUksQ0FBQztJQXlJcEQsQ0FBQztJQXZJRyxLQUFLO1FBQ0Qsd0JBQXdCO1FBQ3hCLElBQUksQ0FBQyxHQUFHLEdBQUcsOEJBQW9CLENBQUMsUUFBUSxJQUFLLG9CQUFNLENBQUMsZ0JBQWdCLFNBQUMsOEJBQW9CLEVBQTRCLENBQUM7UUFFdEgsdUVBQXVFO1FBQ3ZFLElBQUksQ0FBQyxpQkFBaUIsRUFBRSxDQUFDO1FBQ3pCLHNFQUFzRTtRQUN0RSxJQUFJLENBQUMsUUFBUSxFQUFFLENBQUM7SUFDcEIsQ0FBQztJQUVELEtBQUs7UUFDRCxvRUFBb0U7UUFDcEUsTUFBTSxJQUFJLEdBQUcsSUFBSSxDQUFDLGdCQUFnQixFQUFFLENBQUM7UUFDckMsSUFBSSxDQUFDLGdCQUFnQixDQUFDLElBQUksRUFBRSxZQUFZLENBQUMsSUFBSSxDQUFDLFdBQVcsSUFBSSxDQUFDLElBQUksQ0FBQyxLQUFLLENBQUMsQ0FBQztRQUUxRSxJQUFJLENBQUMsUUFBUSxFQUFFLENBQUM7SUFDcEIsQ0FBQztJ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\",\"assetPath\":\"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/Zepeto2DBGMManager.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"mscorlib\",\"name\":\"muted\",\"type\":\"System.Boolean\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"playOnStart\",\"type\":\"System.Boolean\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]}],\"name\":\"Zepeto2DBGMManager\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: ecc18363c3055b2703acc3d21c31bf03
+  onlyWriteTrigger: 0

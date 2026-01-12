@@ -1,0 +1,66 @@
+fileFormatVersion: 2
+guid: 87693228cf8934975be1fb2ac9e233a5
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\n// Assets/Scripts/UI/InteractButtonController.ts\\r\\nconst
+    ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst UnityEngine_UI_1
+    = require(\\\"UnityEngine.UI\\\");\\r\\nconst UnityEngine_1 = require(\\\"UnityEngine\\\");\\r\\nconst
+    TMPro_1 = require(\\\"TMPro\\\");\\r\\nconst Localization_1 = require(\\\"../../../BuilditTemplate/Modules/Localization/ZepetoScript/Localization\\\");\\r\\n/**\\r\\n
+    * Handles the global \u201CInteract\u201D UI button in the scene.\\r\\n * - Shows/hides
+    itself depending on nearby interactable targets.\\r\\n * - Displays optional
+    prompt text.\\r\\n * - Invokes the Interact() method on the current target when
+    clicked.\\r\\n */\\r\\nclass InteractButtonController extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\\r\\n    constructor() {\\r\\n        super(...arguments);\\r\\n        /**
+    Reference to the UI Button component. */\\r\\n        this.button = null;\\r\\n       
+    /** Highlight or background visual element. */\\r\\n        this.highlightImage
+    = null;\\r\\n        /** Label displaying the prompt text (e.g., \u201CTalk\u201D,
+    \u201CEnter\u201D). */\\r\\n        this.label = null;\\r\\n        /** Current
+    target that implements IInteractable. */\\r\\n        this._target = null;\\r\\n   
+    }\\r\\n    static get instance() { return this._instance; }\\r\\n    Awake()
+    {\\r\\n        InteractButtonController._instance = this;\\r\\n        if (this.button)
+    {\\r\\n            this.button.onClick.RemoveAllListeners();\\r\\n           
+    this.button.onClick.AddListener(() => this.onClick());\\r\\n        }\\r\\n       
+    this.setVisible(false);\\r\\n    }\\r\\n    /**\\r\\n     * Assigns a new interactable
+    target and updates UI visibility.\\r\\n     * @param target Interactable object
+    to assign.\\r\\n     * @param labelText Optional text to display (e.g., \u201CEnter\u201D,
+    \u201CTalk\u201D).\\r\\n     */\\r\\n    SetTarget(target, labelText) {\\r\\n       
+    if (this._target === target)\\r\\n            return;\\r\\n        this._target
+    = target;\\r\\n        this.setVisible(target !== null);\\r\\n        if (this.label)
+    {\\r\\n            if (labelText) {\\r\\n                console.log(\\\"[InteractButtonController]
+    Setting label text to: \\\" + labelText);\\r\\n                this.label.text
+    = labelText; //Localization.instance.GetLocalizedText(labelText);\\r\\n           
+    }\\r\\n            else {\\r\\n                this.label.text = \\\"\\\";\\r\\n           
+    }\\r\\n        }\\r\\n    }\\r\\n    /**\\r\\n     * Controls visibility of the
+    interact button UI.\\r\\n     * @param on Whether to show or hide the UI.\\r\\n    
+    */\\r\\n    setVisible(on) {\\r\\n        if (this.highlightImage)\\r\\n           
+    this.highlightImage.SetActive(on);\\r\\n        if (!on && this.label)\\r\\n           
+    this.label.text = \\\"\\\";\\r\\n    }\\r\\n    /** Called when the UI button
+    is clicked. */\\r\\n    onClick() {\\r\\n        console.log(\\\"[InteractButtonController]
+    Button clicked!\\\");\\r\\n        if (!this._target) {\\r\\n            console.warn(\\\"[InteractButtonController]
+    No target set!\\\");\\r\\n            return;\\r\\n        }\\r\\n        console.log(\\\"[InteractButtonController]
+    Calling target.Interact()\\\");\\r\\n        this._target.Interact();\\r\\n   
+    }\\r\\n}\\r\\nexports.default = InteractButtonController;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiSW50ZXJhY3RCdXR0b25Db250cm9sbGVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiSW50ZXJhY3RCdXR0b25Db250cm9sbGVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsZ0RBQWdEO0FBQ2hELGlEQUFzRDtBQUN0RCxtREFBK0M7QUFDL0MsNkNBQXlDO0FBQ3pDLGlDQUF3QztBQUN4QywwR0FBbUc7QUFVbkc7Ozs7O0dBS0c7QUFDSCxNQUFxQix3QkFBeUIsU0FBUSxxQ0FBcUI7SUFBM0U7O1FBRUksNENBQTRDO1FBQ3JDLFdBQU0sR0FBa0IsSUFBSSxDQUFDO1FBRXBDLDhDQUE4QztRQUN2QyxtQkFBYyxHQUFzQixJQUFJLENBQUM7UUFFaEQsZ0VBQWdFO1FBQ3pELFVBQUssR0FBMkIsSUFBSSxDQUFDO1FBTTVDLG9EQUFvRDtRQUM1QyxZQUFPLEdBQXlCLElBQUksQ0FBQztJQXFEakQsQ0FBQztJQXhEVSxNQUFNLEtBQUssUUFBUSxLQUErQixPQUFPLElBQUksQ0FBQyxTQUFTLENBQUMsQ0FBQyxDQUFDO0lBS2pGLEtBQUs7UUFDRCx3QkFBd0IsQ0FBQyxTQUFTLEdBQUcsSUFBSSxDQUFDO1FBRTFDLElBQUksSUFBSSxDQUFDLE1BQU0sRUFBRTtZQUNiLElBQUksQ0FBQyxNQUFNLENBQUMsT0FBTyxDQUFDLGtCQUFrQixFQUFFLENBQUM7WUFDekMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxPQUFPLENBQUMsV0FBVyxDQUFDLEdBQUcsRUFBRSxDQUFDLElBQUksQ0FBQyxPQUFPLEVBQUUsQ0FBQyxDQUFDO1NBQ3pEO1FBRUQsSUFBSSxDQUFDLFVBQVUsQ0FBQyxLQUFLLENBQUMsQ0FBQztJQUMzQixDQUFDO0lBRUQ7Ozs7T0FJRztJQUNJLFNBQVMsQ0FBQyxNQUE0QixFQUFFLFNBQWtCO1FBQzdELElBQUksSUFBSSxDQUFDLE9BQU8sS0FBSyxNQUFNO1lBQUUsT0FBTztRQUVwQyxJQUFJLENBQUMsT0FBTyxHQUFHLE1BQU0sQ0FBQztRQUN0QixJQUFJLENBQUMsVUFBVSxDQUFDLE1BQU0sS0FBSyxJQUFJLENBQUMsQ0FBQztRQUVqQyxJQUFJLElBQUksQ0FBQyxLQUFLLEVBQUU7WUFDWixJQUFJLFNBQVMsRUFBRTtnQkFDWCxPQUFPLENBQUMsR0FBRyxDQUFDLG9EQUFvRCxHQUFHLFNBQVMsQ0FBQyxDQUFDO2dCQUM5RSxJQUFJLENBQUMsS0FBSyxDQUFDLElBQUksR0FBRyxTQUFTLENBQUMsQ0FBQyxvREFBb0Q7YUFDcEY7aUJBQU07Z0JBQ0gsSUFBSSxDQUFDLEtBQUssQ0FBQyxJQUFJLEdBQUcsRUFBRSxDQUFDO2FBQ3hCO1NBQ0o7SUFDTCxDQUFDO0lBRUQ7OztPQUdHO0lBQ0ssVUFBVSxDQUFDLEVBQVc7UUFDMUIsSUFBSSxJQUFJLENBQUMsY0FBYztZQUFFLElBQUksQ0FBQyxjQUFjLENBQUMsU0FBUyxDQUFDLEVBQUUsQ0FBQyxDQUFDO1FBQzNELElBQUksQ0FBQyxFQUFFLElBQUksSUFBSSxDQUFDLEtBQUs7WUFBRSxJQUFJLENBQUMsS0FBSyxDQUFDLElBQUksR0FBRyxFQUFFLENBQUM7SUFDaEQsQ0FBQztJQUVELDRDQUE0QztJQUNwQyxPQUFPO1FBQ1gsT0FBTyxDQUFDLEdBQUcsQ0FBQyw0Q0FBNEMsQ0FBQyxDQUFDO1FBQzFELElBQUksQ0FBQyxJQUFJLENBQUMsT0FBTyxFQUFFO1lBQ2YsT0FBTyxDQUFDLElBQUksQ0FBQywyQ0FBMkMsQ0FBQyxDQUFDO1lBQzFELE9BQU87U0FDVjtRQUNELE9BQU8sQ0FBQyxHQUFHLENBQUMsc0RBQXNELENBQUMsQ0FBQztRQUNwRSxJQUFJLENBQUMsT0FBTyxDQUFDLFFBQVEsRUFBRSxDQUFDO0lBQzVCLENBQUM7Q0FDSjtBQXJFRCwyQ0FxRUMifQ==\",\"assetPath\":\"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/InteractButtonController.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"UnityEngine.UI\",\"name\":\"button\",\"type\":\"UnityEngine.UI.Button\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"highlightImage\",\"type\":\"UnityEngine.GameObject\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"Unity.TextMeshPro\",\"name\":\"label\",\"type\":\"TMPro.TextMeshProUGUI\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]}],\"name\":\"InteractButtonController\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: 030575e22e440310f33ea1ea1e252464
+  onlyWriteTrigger: 0

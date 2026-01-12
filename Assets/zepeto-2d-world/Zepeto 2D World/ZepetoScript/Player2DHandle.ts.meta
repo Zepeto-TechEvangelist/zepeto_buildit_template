@@ -1,0 +1,36 @@
+fileFormatVersion: 2
+guid: 543dfa742b0eb4bb18856502093f7868
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    Zepeto2DPlayer_1 = require(\"./Zepeto2DPlayer\");\r\nclass Player2DHandle extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor() {\r\n        super(...arguments);\r\n       
+    /** Owner Zepeto2DPlayer (set by Zepeto2DPlayer when creating Hitbox2D) */\r\n       
+    this.owner = null;\r\n        /** Is this the local player''s collider? (set
+    by Zepeto2DPlayer) */\r\n        this.isLocal = false;\r\n    }\r\n}\r\nexports.default
+    = Player2DHandle;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUGxheWVyMkRIYW5kbGUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJQbGF5ZXIyREhhbmRsZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLGlEQUFxRDtBQUNyRCxxREFBOEM7QUFFOUMsTUFBcUIsY0FBZSxTQUFRLHFDQUFxQjtJQUFqRTs7UUFDSSwwRUFBMEU7UUFDbkUsVUFBSyxHQUEwQixJQUFJLENBQUM7UUFFM0MsbUVBQW1FO1FBQzVELFlBQU8sR0FBWSxLQUFLLENBQUM7SUFDcEMsQ0FBQztDQUFBO0FBTkQsaUNBTUMifQ==","assetPath":"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/Player2DHandle.ts","manifest":{"properties":[{"assembly":"","name":"owner","type":"/Users/Mario/Development/NaverZ/zepeto_buildit_template/Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/Zepeto2DPlayer.default","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"isLocal","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"Player2DHandle","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: 89fc568ad0b018b5fc7f201bbb3f6004
+  onlyWriteTrigger: 0

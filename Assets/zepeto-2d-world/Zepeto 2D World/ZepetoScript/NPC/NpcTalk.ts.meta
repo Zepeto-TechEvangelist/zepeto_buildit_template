@@ -1,0 +1,132 @@
+fileFormatVersion: 2
+guid: 04c35c7ea781245dd9668ba4cd304bcd
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    TMPro_1 = require(\"TMPro\");\r\nconst NpcBase_1 = require(\"./NpcBase\");\r\nclass
+    NpcTalk extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        // Dialogue data - set by NpcBase\r\n       
+    this.npcName = '''';\r\n        this.dialogueText = '''';\r\n        this.askTexts
+    = [];\r\n        this.ansTexts = [];\r\n        // Dynamically created button
+    references\r\n        this.buttonArray = [];\r\n        this.buttonTextArray
+    = [];\r\n        this.buttonGameObjects = []; // Track created GameObjects for
+    cleanup\r\n        this.isWaitingForAnswer = false;\r\n        this.closeDialogueCoroutine
+    = null;\r\n        this._npcManager = null;\r\n    }\r\n    ClearExistingButtons()
+    {\r\n        // Destroy all existing dynamically created buttons\r\n        for
+    (let i = 0; i < this.buttonGameObjects.length; i++) {\r\n            if (this.buttonGameObjects[i])
+    {\r\n                UnityEngine_1.GameObject.Destroy(this.buttonGameObjects[i]);\r\n           
+    }\r\n        }\r\n        this.buttonArray = [];\r\n        this.buttonTextArray
+    = [];\r\n        this.buttonGameObjects = [];\r\n    }\r\n    CreateButtons()
+    {\r\n        // Clear existing buttons first\r\n        this.ClearExistingButtons();\r\n       
+    if (!this.answerButtonPrefab || !this.answerButtonParent) {\r\n            console.error(''[NpcTalk]
+    answerButtonPrefab or answerButtonParent is not assigned!'');\r\n           
+    return;\r\n        }\r\n        // Create buttons based on dialogue options count\r\n       
+    for (let i = 0; i < this.askTexts.length; i++) {\r\n            // Instantiate
+    button from prefab\r\n            const buttonObj = UnityEngine_1.GameObject.Instantiate(this.answerButtonPrefab,
+    this.answerButtonParent.transform);\r\n            buttonObj.SetActive(true);\r\n           
+    // Get Button component\r\n            const button = buttonObj.GetComponent($typeof(UnityEngine_UI_1.Button));\r\n           
+    if (!button) {\r\n                console.warn(`[NpcTalk] Button component not
+    found in prefab at index ${i}`);\r\n                UnityEngine_1.GameObject.Destroy(buttonObj);\r\n               
+    continue;\r\n            }\r\n            // Find TextMeshProUGUI component (could
+    be direct child or in children)\r\n            const buttonText = buttonObj.GetComponentInChildren($typeof(TMPro_1.TextMeshProUGUI),
+    true);\r\n            if (!buttonText) {\r\n                console.warn(`[NpcTalk]
+    TextMeshProUGUI not found in button prefab at index ${i}`);\r\n               
+    UnityEngine_1.GameObject.Destroy(buttonObj);\r\n                continue;\r\n           
+    }\r\n            // Store references\r\n            this.buttonArray.push(button);\r\n           
+    this.buttonTextArray.push(buttonText);\r\n            this.buttonGameObjects.push(buttonObj);\r\n           
+    // Set button text\r\n            buttonText.text = this.askTexts[i] || '''';\r\n           
+    // Setup click listener\r\n            const index = i + 1; // 1-based index
+    for OnAnswerSelected\r\n            button.onClick.RemoveAllListeners();\r\n           
+    button.onClick.AddListener(() => this.OnAnswerSelected(index));\r\n        }\r\n   
+    }\r\n    SetupButtons() {\r\n        // Buttons are already created and set up
+    in CreateButtons()\r\n        // Just setup exit button here\r\n        if (this.exitButton)
+    {\r\n            this.exitButton.onClick.RemoveAllListeners();\r\n           
+    this.exitButton.onClick.AddListener(() => this.OnExitButtonClicked());\r\n       
+    }\r\n    }\r\n    DisableAllButtons() {\r\n        for (let i = 0; i < this.buttonArray.length;
+    i++) {\r\n            if (this.buttonArray[i]) {\r\n                this.buttonArray[i].gameObject.SetActive(false);\r\n           
+    }\r\n        }\r\n    }\r\n    EnableAllButtons() {\r\n        for (let i = 0;
+    i < this.buttonArray.length; i++) {\r\n            if (this.buttonArray[i]) {\r\n               
+    this.buttonArray[i].gameObject.SetActive(true);\r\n            }\r\n        }\r\n   
+    }\r\n    OnAnswerSelected(answerIndex) {\r\n        if (!this.isWaitingForAnswer)\r\n           
+    return;\r\n        console.log(`[NpcTalk] Answer ${answerIndex} selected`);\r\n       
+    // Disable all buttons\r\n        this.DisableAllButtons();\r\n        // Show
+    NPC response\r\n        if (this.npcText && this.ansTexts.length >= answerIndex)
+    {\r\n            this.npcText.text = this.ansTexts[answerIndex - 1] || '''';\r\n       
+    }\r\n        this.isWaitingForAnswer = false;\r\n        // Close dialogue panel
+    after showing response using coroutine\r\n        if (this.closeDialogueCoroutine)
+    {\r\n            this.StopCoroutine(this.closeDialogueCoroutine);\r\n       
+    }\r\n        this.closeDialogueCoroutine = this.StartCoroutine(this.CloseDialogueAfterDelay());\r\n   
+    }\r\n    OnExitButtonClicked() {\r\n        console.log(\"[NpcTalk] Exit button
+    clicked!\");\r\n        // Stop any ongoing coroutine\r\n        if (this.closeDialogueCoroutine)
+    {\r\n            this.StopCoroutine(this.closeDialogueCoroutine);\r\n           
+    this.closeDialogueCoroutine = null;\r\n        }\r\n        // Close dialogue
+    immediately\r\n        this.CloseDialoguePanel();\r\n    }\r\n    *CloseDialogueAfterDelay()
+    {\r\n        console.log(\"[NpcTalk] Starting 2 second delay before closing dialogue\");\r\n       
+    yield new UnityEngine_1.WaitForSeconds(3.0);\r\n        this.CloseDialoguePanel();\r\n   
+    }\r\n    CloseDialoguePanel() {\r\n        if (this.dialoguePanel) {\r\n           
+    this.dialoguePanel.SetActive(false);\r\n            this.uiToolObj.SetActive(true);\r\n           
+    console.log(\"[NpcTalk] Dialogue panel closed\");\r\n            // Call CloseDialogue
+    to restore cameras\r\n            if (this._npcManager) {\r\n               
+    console.log(\"[NpcTalk] Calling NpcBase.CloseDialogue()\");\r\n               
+    this._npcManager.CloseDialogue();\r\n            }\r\n            else {\r\n               
+    console.warn(\"[NpcTalk] _npcManager is null, trying FindObjectOfType...\");\r\n               
+    const npcManager = UnityEngine_1.GameObject.FindObjectOfType($typeof(NpcBase_1.default));\r\n               
+    if (npcManager) {\r\n                    npcManager.CloseDialogue();\r\n               
+    }\r\n                else {\r\n                    console.error(\"[NpcTalk]
+    Could not find NpcBase!\");\r\n                }\r\n            }\r\n       
+    }\r\n        this.closeDialogueCoroutine = null;\r\n    }\r\n    // Public method
+    to set dialogue data\r\n    SetDialogueData(npcName, dialogueText, askTexts,
+    ansTexts) {\r\n        this.npcName = npcName;\r\n        this.dialogueText =
+    dialogueText;\r\n        this.askTexts = askTexts || [];\r\n        this.ansTexts
+    = ansTexts || [];\r\n        // Ensure askTexts and ansTexts have the same length\r\n       
+    const maxLength = Math.max(this.askTexts.length, this.ansTexts.length);\r\n       
+    if (this.askTexts.length !== this.ansTexts.length) {\r\n            console.warn(`[NpcTalk]
+    askTexts and ansTexts length mismatch. askTexts: ${this.askTexts.length}, ansTexts:
+    ${this.ansTexts.length}`);\r\n            // Pad with empty strings if needed\r\n           
+    while (this.askTexts.length < maxLength) {\r\n                this.askTexts.push('''');\r\n           
+    }\r\n            while (this.ansTexts.length < maxLength) {\r\n               
+    this.ansTexts.push('''');\r\n            }\r\n        }\r\n        console.log(`[NpcTalk]
+    Dialogue data set - NPC: ${npcName}, Options: ${this.askTexts.length}`);\r\n   
+    }\r\n    // Public method to initialize dialogue\r\n    InitializeDialogue(npcManager)
+    {\r\n        console.log(`[NpcTalk] Initializing dialogue...`);\r\n        //
+    Store NpcManager reference\r\n        if (npcManager) {\r\n            this._npcManager
+    = npcManager;\r\n        }\r\n        if (this.dialogueText && this.askTexts.length
+    > 0 && this.ansTexts.length > 0 && this.npcName) {\r\n            // Create buttons
+    dynamically based on dialogue options\r\n            this.CreateButtons();\r\n           
+    this.LoadDialogueText();\r\n            this.EnableAllButtons();\r\n           
+    this.SetupButtons();\r\n            console.log(`[NpcTalk] Dialogue initialized
+    successfully with ${this.askTexts.length} options.`);\r\n        }\r\n       
+    else {\r\n            console.warn(`[NpcTalk] Cannot initialize - missing data`);\r\n       
+    }\r\n    }\r\n    // Private method to load dialogue text\r\n    LoadDialogueText()
+    {\r\n        // Set NPC name\r\n        if (this.npcNameText) {\r\n           
+    this.npcNameText.text = this.npcName;\r\n        }\r\n        // Set dialogue
+    text\r\n        if (this.npcText) {\r\n            this.npcText.text = this.dialogueText;\r\n       
+    }\r\n        // Button texts are already set in CreateButtons()\r\n        this.isWaitingForAnswer
+    = true;\r\n        console.log(`[NpcTalk] Loaded dialogue text`);\r\n    }\r\n}\r\nexports.default
+    = NpcTalk;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTnBjVGFsay5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIk5wY1RhbGsudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBc0Q7QUFDdEQsbURBQXdDO0FBQ3hDLDZDQUFvRTtBQUNwRSxpQ0FBd0M7QUFDeEMsdUNBQWdDO0FBR2hDLE1BQXFCLE9BQVEsU0FBUSxxQ0FBcUI7SUFBMUQ7O1FBdUJJLGlDQUFpQztRQUN6QixZQUFPLEdBQVcsRUFBRSxDQUFDO1FBQ3JCLGlCQUFZLEdBQVcsRUFBRSxDQUFDO1FBQzFCLGFBQVEsR0FBYSxFQUFFLENBQUM7UUFDeEIsYUFBUSxHQUFhLEVBQUUsQ0FBQztRQUVoQyx3Q0FBd0M7UUFDaEMsZ0JBQVcsR0FBYSxFQUFFLENBQUM7UUFDM0Isb0JBQWUsR0FBc0IsRUFBRSxDQUFDO1FBQ3hDLHNCQUFpQixHQUFpQixFQUFFLENBQUMsQ0FBQyx3Q0FBd0M7UUFFOUUsdUJBQWtCLEdBQVksS0FBSyxDQUFDO1FBQ3BDLDJCQUFzQixHQUFxQixJQUFJLENBQUM7UUFDaEQsZ0JBQVcsR0FBbUIsSUFBSSxDQUFDO0lBeU4vQyxDQUFDO0lBdk5XLG9CQUFvQjtRQUN4QixtREFBbUQ7UUFDbkQsS0FBSyxJQUFJLENBQUMsR0FBRyxDQUFDLEVBQUUsQ0FBQyxHQUFHLElBQUksQ0FBQyxpQkFBaUIsQ0FBQyxNQUFNLEVBQUUsQ0FBQyxFQUFFLEVBQUU7WUFDcEQsSUFBSSxJQUFJLENBQUMsaUJBQWlCLENBQUMsQ0FBQyxDQUFDLEVBQUU7Z0JBQzNCLHdCQUFVLENBQUMsT0FBTyxDQUFDLElBQUksQ0FBQyxpQkFBaUIsQ0FBQyxDQUFDLENBQUMsQ0FBQyxDQUFDO2FBQ2pEO1NBQ0o7UUFDRCxJQUFJLENBQUMsV0FBVyxHQUFHLEVBQUUsQ0FBQztRQUN0QixJQUFJLENBQUMsZUFBZSxHQUFHLEVBQUUsQ0FBQztRQUMxQixJQUFJLENBQUMsaUJBQWlCLEdBQUcsRUFBRSxDQUFDO0lBQ2hDLENBQUM7SUFFTyxhQUFh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","assetPath":"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/NPC/NpcTalk.ts","manifest":{"properties":[{"assembly":"Unity.TextMeshPro","name":"npcText","type":"TMPro.TextMeshProUGUI","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"UI
+    References\""]},{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"answerButtonPrefab","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"answerButtonParent","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"exitButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"dialoguePanel","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"uiToolObj","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"Unity.TextMeshPro","name":"npcNameText","type":"TMPro.TextMeshProUGUI","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"NpcTalk","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: ea8628dab3507e89fe7917b9e159f1e4
+  onlyWriteTrigger: 0

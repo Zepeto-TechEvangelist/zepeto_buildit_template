@@ -1,0 +1,107 @@
+fileFormatVersion: 2
+guid: 6332c2e44b42e411384709610db045b2
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: "{\"source\":\"\\\"use strict\\\";\\r\\nObject.defineProperty(exports,
+    \\\"__esModule\\\", { value: true });\\r\\n// Portal2D_Interact.ts\\r\\nconst
+    ZEPETO_Script_1 = require(\\\"ZEPETO.Script\\\");\\r\\nconst UnityEngine_1 =
+    require(\\\"UnityEngine\\\");\\r\\nconst InteractButtonController_1 = require(\\\"./InteractButtonController\\\");\\r\\nconst
+    Player2DHandle_1 = require(\\\"./Player2DHandle\\\");\\r\\nconst Zepeto2DWorldManager_1
+    = require(\\\"./Zepeto2DWorldManager\\\");\\r\\nconst MapBoundsProvider_1 = require(\\\"./MapBoundsProvider\\\");\\r\\nconst
+    MapTitleToast_1 = require(\\\"./MapTitleToast\\\");\\r\\nclass Portal2D extends
+    ZEPETO_Script_1.ZepetoScriptBehaviour {\\r\\n    constructor() {\\r\\n       
+    super(...arguments);\\r\\n        this.linkedPortalObj = null; // must also be
+    Portal2D\\r\\n        this.interactButtonText = \\\"Portal\\\";\\r\\n       
+    // Map title toast settings\\r\\n        this.showMapTitleToast = false;\\r\\n       
+    this.mapTitle = \\\"\\\";\\r\\n        // Callback list for teleport event (TypeScript-friendly)\\r\\n       
+    this._onTeleportedCallbacks = [];\\r\\n        this.currentMapRoot = null; //
+    source map root\\r\\n        this.arrivalPoint = null; // optional anchor under
+    linked portal\\r\\n        this.arrivalOffset = new UnityEngine_1.Vector3(0,
+    0, 0);\\r\\n        this.cooldown = 0.25;\\r\\n        this.linkedPortal = null;\\r\\n       
+    this._coolUntil = 0;\\r\\n    }\\r\\n    Awake() {\\r\\n        // initialize
+    callback array\\r\\n        this._onTeleportedCallbacks = [];\\r\\n        console.log(`[Portal2D]
+    Awake() - ${this.gameObject.name} initialized`);\\r\\n        // ensure trigger\\r\\n       
+    let col = this.GetComponent($typeof(UnityEngine_1.BoxCollider2D));\\r\\n       
+    if (!col)\\r\\n            col = this.gameObject.AddComponent($typeof(UnityEngine_1.BoxCollider2D));\\r\\n       
+    col.isTrigger = true;\\r\\n        // default current map root\\r\\n        if
+    (!this.currentMapRoot) {\\r\\n            this.currentMapRoot =\\r\\n               
+    this.findMapRootByProvider(this.transform)\\r\\n                    ?? (this.transform.root
+    ? this.transform.root.gameObject : null);\\r\\n        }\\r\\n        // resolve
+    linked portal\\r\\n        if (this.linkedPortalObj) {\\r\\n            const
+    p = this.linkedPortalObj.GetComponent($typeof(Portal2D));\\r\\n            if
+    (p)\\r\\n                this.linkedPortal = p;\\r\\n            else\\r\\n               
+    console.warn(`[Portal2D] linkedPortalObj has no Portal2D: ${this.linkedPortalObj.name}`);\\r\\n       
+    }\\r\\n    }\\r\\n    /** Interact button pressed. Route everything through WorldManager.
+    */\\r\\n    Interact() {\\r\\n        if (!this.linkedPortal)\\r\\n           
+    return;\\r\\n        if (UnityEngine_1.Time.time < this._coolUntil)\\r\\n           
+    return;\\r\\n        // 1) fire callbacks on departure portal (before teleport,
+    for banners/effects)\\r\\n        if (this._onTeleportedCallbacks && this._onTeleportedCallbacks.length
+    > 0) {\\r\\n            this._onTeleportedCallbacks.forEach(callback => callback());\\r\\n       
+    }\\r\\n        // 1-1) Show map title toast if enabled\\r\\n        if (this.showMapTitleToast
+    && this.mapTitle && this.mapTitle.length > 0) {\\r\\n            const toast
+    = UnityEngine_1.Object.FindObjectOfType($typeof(MapTitleToast_1.default), true);\\r\\n           
+    if (toast) {\\r\\n                toast.ShowToast(this.mapTitle);\\r\\n               
+    console.log(`[Portal2D] Showing map title toast: \\\"${this.mapTitle}\\\"`);\\r\\n           
+    }\\r\\n            else {\\r\\n                console.warn(\\\"[Portal2D] MapTitleToast
+    not found in scene!\\\");\\r\\n            }\\r\\n        }\\r\\n        // 2)
+    compute destination\\r\\n        const anchor = this.linkedPortal.arrivalPoint
+    ?? this.linkedPortal.transform;\\r\\n        const dest = anchor.position;\\r\\n       
+    const destXY = new UnityEngine_1.Vector2(dest.x + this.arrivalOffset.x, dest.y
+    + this.arrivalOffset.y);\\r\\n        // 3) resolve target map root by provider\\r\\n       
+    const targetRoot = this.linkedPortal.currentMapRoot\\r\\n            ?? this.findMapRootByProvider(this.linkedPortal.transform)\\r\\n           
+    ?? (this.linkedPortal.transform.root ? this.linkedPortal.transform.root.gameObject
+    : null);\\r\\n        // 4) hand off to WorldManager (teleport + bounds + camera
+    + disable others)\\r\\n        Zepeto2DWorldManager_1.default.Instance?.TeleportLocal(destXY,
+    targetRoot);\\r\\n        // cooldown & clear UI\\r\\n        this._coolUntil
+    = UnityEngine_1.Time.time + this.cooldown;\\r\\n        this.linkedPortal._coolUntil
+    = this._coolUntil;\\r\\n        InteractButtonController_1.default.instance?.SetTarget(null);\\r\\n   
+    }\\r\\n    OnTriggerEnter2D(other) {\\r\\n        const lm = Zepeto2DWorldManager_1.default.Instance;\\r\\n       
+    if (!lm || !InteractButtonController_1.default.instance)\\r\\n            return;\\r\\n       
+    // linkedPortalObj\uAC00 \uC5F0\uACB0\uB418\uC5B4 \uC788\uC9C0 \uC54A\uC73C\uBA74
+    \uBC84\uD2BC\uC744 \uD45C\uC2DC\uD558\uC9C0 \uC54A\uC74C\\r\\n        if (!this.linkedPortalObj
+    || !this.linkedPortal)\\r\\n            return;\\r\\n        if (this.isLocalPlayerCollider(other,
+    lm)) {\\r\\n            InteractButtonController_1.default.instance.SetTarget(this,
+    this.mapTitle);\\r\\n        }\\r\\n    }\\r\\n    OnTriggerExit2D(other) {\\r\\n       
+    if (!InteractButtonController_1.default.instance)\\r\\n            return;\\r\\n       
+    const btn = InteractButtonController_1.default.instance;\\r\\n        if (!btn.GetTarget
+    || btn.GetTarget() === this) {\\r\\n            InteractButtonController_1.default.instance.SetTarget(null);\\r\\n       
+    }\\r\\n    }\\r\\n    // --- helpers ---\\r\\n    /** True if this collider belongs
+    to the WorldManager's local Player2DHandle. */\\r\\n    isLocalPlayerCollider(col,
+    wm) {\\r\\n        const h = col.GetComponent($typeof(Player2DHandle_1.default))\\r\\n           
+    ?? col.GetComponentInParent($typeof(Player2DHandle_1.default));\\r\\n       
+    return h && h.isLocal;\\r\\n    }\\r\\n    /** climb parents and return the GameObject
+    that has MapBoundsProvider (if any) */\\r\\n    findMapRootByProvider(start)
+    {\\r\\n        let t = start;\\r\\n        for (let i = 0; i < 16 && t; i++)
+    {\\r\\n            const mbp = t.GetComponent($typeof(MapBoundsProvider_1.default));\\r\\n           
+    if (mbp)\\r\\n                return t.gameObject;\\r\\n            t = t.parent;\\r\\n       
+    }\\r\\n        return null;\\r\\n    }\\r\\n    // --- Public API for teleport
+    event callbacks ---\\r\\n    /** Subscribe to teleport event (called when player
+    arrives at this portal). */\\r\\n    AddTeleportCallback(callback) {\\r\\n       
+    if (!this._onTeleportedCallbacks.includes(callback)) {\\r\\n            this._onTeleportedCallbacks.push(callback);\\r\\n       
+    }\\r\\n    }\\r\\n    /** Unsubscribe from teleport event. */\\r\\n    RemoveTeleportCallback(callback)
+    {\\r\\n        const idx = this._onTeleportedCallbacks.indexOf(callback);\\r\\n       
+    if (idx >= 0) {\\r\\n            this._onTeleportedCallbacks.splice(idx, 1);\\r\\n       
+    }\\r\\n    }\\r\\n}\\r\\nexports.default = Portal2D;\\r\\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUG9ydGFsMkQuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJQb3J0YWwyRC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLHVCQUF1QjtBQUN2QixpREFBc0Q7QUFDdEQsNkNBQStHO0FBQy9HLHlFQUFxRjtBQUNyRixxREFBOEM7QUFDOUMsaUVBQTBEO0FBQzFELDJEQUFvRDtBQUNwRCxtREFBNEM7QUFFNUMsTUFBcUIsUUFBUyxTQUFRLHFDQUFxQjtJQUEzRDs7UUFDVyxvQkFBZSxHQUFzQixJQUFJLENBQUMsQ0FBRyx3QkFBd0I7UUFDckUsdUJBQWtCLEdBQVcsUUFBUSxDQUFDO1FBRTdDLDJCQUEyQjtRQUNwQixzQkFBaUIsR0FBWSxLQUFLLENBQUM7UUFDbkMsYUFBUSxHQUFXLEVBQUUsQ0FBQztRQUU3Qix5REFBeUQ7UUFDakQsMkJBQXNCLEdBQXNCLEVBQUUsQ0FBQztRQUUvQyxtQkFBYyxHQUFzQixJQUFJLENBQUMsQ0FBSSxrQkFBa0I7UUFDL0QsaUJBQVksR0FBcUIsSUFBSSxDQUFDLENBQU8sc0NBQXNDO1FBQ25GLGtCQUFhLEdBQVksSUFBSSxxQkFBTyxDQUFDLENBQUMsRUFBRSxDQUFDLEVBQUUsQ0FBQyxDQUFDLENBQUM7UUFDOUMsYUFBUSxHQUFXLElBQUksQ0FBQztRQUV4QixpQkFBWSxHQUFvQixJQUFJLENBQUM7UUFDckMsZUFBVSxHQUFXLENBQUMsQ0FBQztJQTZIbkMsQ0FBQztJQTNIRyxLQUFLO1FBQ0QsNEJBQTRCO1FBQzVCLElBQUksQ0FBQyxzQkFBc0IsR0FBRyxFQUFFLENBQUM7UUFDakMsT0FBTyxDQUFDLEdBQUcsQ0FBQyx3QkFBd0IsSUFBSSxDQUFDLFVBQVUsQ0FBQyxJQUFJLGNBQWMsQ0FBQyxDQUFDO1FBRXhFLGlCQUFpQjtRQUNqQixJQUFJLEdBQUcsR0FBRyxJQUFJLENBQUMsWUFBWSxTQUFDLDJCQUFhLEVBQW9CLENBQUM7UUFDOUQsSUFBSSxDQUFDLEdBQUc7WUFBRSxHQUFHLEdBQUcsSUFB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\",\"assetPath\":\"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/Portal2D.ts\",\"manifest\":{\"properties\":[{\"assembly\":\"UnityEngine.CoreModule\",\"name\":\"linkedPortalObj\",\"type\":\"UnityEngine.GameObject\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"interactButtonText\",\"type\":\"System.String\",\"isArray\":false,\"initValue\":[\"Portal\"],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"showMapTitleToast\",\"type\":\"System.Boolean\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]},{\"assembly\":\"mscorlib\",\"name\":\"mapTitle\",\"type\":\"System.String\",\"isArray\":false,\"initValue\":[],\"enumKeys\":[],\"enumValues\":[],\"attributes\":[]}],\"name\":\"Portal2D\",\"description\":\"\",\"hasAnimatorMove\":false},\"isCompiled\":true}"
+  typescriptHash: 39f356a98730feb75386c09a0972fe0b
+  onlyWriteTrigger: 0

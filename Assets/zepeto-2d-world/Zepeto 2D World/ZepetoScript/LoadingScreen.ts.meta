@@ -1,0 +1,54 @@
+fileFormatVersion: 2
+guid: 7a3e4f5c6b8d9e1a2b3c4d5e6f7a8b9c
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: 89072204048b7087d871d10c191cb608
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\n// LoadingScreen.ts\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst ZEPETO_Character_Controller_1
+    = require(\"ZEPETO.Character.Controller\");\r\nclass LoadingScreen extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.loadingScreenRoot
+    = null;\r\n        this.delayAfterReady = 0.1;\r\n        this._isHiding = false;\r\n   
+    }\r\n    Start() {\r\n        // Default to self if not assigned\r\n        if
+    (!this.loadingScreenRoot) {\r\n            this.loadingScreenRoot = this.gameObject;\r\n       
+    }\r\n        // Wait for local player to be ready\r\n        const zp = ZEPETO_Character_Controller_1.ZepetoPlayers.instance;\r\n       
+    if (zp) {\r\n            zp.OnAddedPlayer.AddListener((sessionId) => {\r\n               
+    const player = zp.GetPlayer(sessionId);\r\n                if (player && player.isLocalPlayer)
+    {\r\n                    this.StartCoroutine(this.WaitAndHide(player));\r\n               
+    }\r\n            });\r\n        }\r\n    }\r\n    /** Wait until character is
+    fully ready, then hide the loading screen. */\r\n    *WaitAndHide(player) {\r\n       
+    if (this._isHiding)\r\n            return;\r\n        this._isHiding = true;\r\n       
+    // Wait for character to be fully loaded (max 10s timeout)\r\n        const startTime
+    = UnityEngine_1.Time.time;\r\n        const timeout = 10;\r\n        while (UnityEngine_1.Time.time
+    - startTime < timeout) {\r\n            if (player && player.character && player.character.gameObject.activeSelf)
+    {\r\n                break;\r\n            }\r\n            yield null;\r\n       
+    }\r\n        // Extra delay after character is ready\r\n        yield new UnityEngine_1.WaitForSeconds(this.delayAfterReady);\r\n       
+    // Disable loading screen\r\n        if (this.loadingScreenRoot) {\r\n           
+    this.loadingScreenRoot.SetActive(false);\r\n        }\r\n    }\r\n    /** Manual
+    hide (can be called externally if needed). */\r\n    Hide() {\r\n        if (this._isHiding
+    || !this.loadingScreenRoot)\r\n            return;\r\n        this._isHiding
+    = true;\r\n        this.loadingScreenRoot.SetActive(false);\r\n    }\r\n}\r\nexports.default
+    = LoadingScreen;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTG9hZGluZ1NjcmVlbi5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIkxvYWRpbmdTY3JlZW4udHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxtQkFBbUI7QUFDbkIsaURBQXNEO0FBQ3RELDZDQUErRDtBQUMvRCw2RUFBMEU7QUFFMUUsTUFBcUIsYUFBYyxTQUFRLHFDQUFxQjtJQUFoRTs7UUFFVyxzQkFBaUIsR0FBc0IsSUFBSSxDQUFDO1FBQzVDLG9CQUFlLEdBQVcsR0FBRyxDQUFDO1FBRTdCLGNBQVMsR0FBWSxLQUFLLENBQUM7SUFtRHZDLENBQUM7SUFqREcsS0FBSztRQUNELGtDQUFrQztRQUNsQyxJQUFJLENBQUMsSUFBSSxDQUFDLGlCQUFpQixFQUFFO1lBQ3pCLElBQUksQ0FBQyxpQkFBaUIsR0FBRyxJQUFJLENBQUMsVUFBVSxDQUFDO1NBQzVDO1FBRUQsb0NBQW9DO1FBQ3BDLE1BQU0sRUFBRSxHQUFHLDJDQUFhLENBQUMsUUFBUSxDQUFDO1FBQ2xDLElBQUksRUFBRSxFQUFFO1lBQ0osRUFBRSxDQUFDLGFBQWEsQ0FBQyxXQUFXLENBQUMsQ0FBQyxTQUFpQixFQUFFLEVBQUU7Z0JBQy9DLE1BQU0sTUFBTSxHQUFHLEVBQUUsQ0FBQyxTQUFTLENBQUMsU0FBUyxDQUFDLENBQUM7Z0JBQ3ZDLElBQUksTUFBTSxJQUFJLE1BQU0sQ0FBQyxhQUFhLEVBQUU7b0JBQ2hDLElBQUksQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLFdBQVcsQ0FBQyxNQUFNLENBQUMsQ0FBQyxDQUFDO2lCQUNqRDtZQUNMLENBQUMsQ0FBQyxDQUFDO1NBQ047SUFDTCxDQUFDO0lBRUQseUVBQXlFO0lBQ2pFLENBQUMsV0FBVyxDQUFDLE1BQW9CO1FBQ3JDLElBQUksSUFBSSxDQUFDLFNBQVM7WUFBRSxPQUFPO1FBQzNCLElBQUksQ0FBQyxTQUFTLEdBQUcsSUFBSSxDQUFDO1FBRXRCLDBEQUEwRDtRQUMxRCxNQUFNLFNBQVMsR0FBRyxrQkFBSSxDQUFDLElBQUksQ0FBQztRQUM1QixNQUFNLE9BQU8sR0FBRyxFQUFFLENBQUM7UUFFbkIsT0FBTyxrQkFBSSxDQUFDLElBQUksR0FBRyxTQUFTLEdBQUcsT0FBTyxFQUFFO1lBQ3BDLElBQUksTUFBTSxJQUFJLE1BQU0sQ0FBQyxTQUFTLElBQUksTUFBTSxDQUFDLFNBQVMsQ0FBQyxVQUFVLENBQUMsVUFBVSxFQUFFO2dCQUN0RSxNQUFNO2FBQ1Q7WUFDRCxNQUFNLElBQUksQ0FBQztTQUNkO1FBRUQsdUNBQXVDO1FBQ3ZDLE1BQU0sSUFBSSw0QkFBYyxDQUFDLElBQUksQ0FBQyxlQUFlLENBQUMsQ0FBQztRQUUvQyx5QkFBeUI7UUFDekIsSUFBSSxJQUFJLENBQUMsaUJBQWlCLEVBQUU7WUFDeEIsSUFBSSxDQUFDLGlCQUFpQixDQUFDLFNBQVMsQ0FBQyxLQUFLLENBQUMsQ0FBQztTQUMzQztJQUNMLENBQUM7SUFFRCx3REFBd0Q7SUFDakQsSUFBSTtRQUNQLElBQUksSUFBSSxDQUFDLFNBQVMsSUFBSSxDQUFDLElBQUksQ0FBQyxpQkFBaUI7WUFBRSxPQUFPO1FBQ3RELElBQUksQ0FBQyxTQUFTLEdBQUcsSUFBSSxDQUFDO1FBQ3RCLElBQUksQ0FBQyxpQkFBaUIsQ0FBQyxTQUFTLENBQUMsS0FBSyxDQUFDLENBQUM7SUFDNUMsQ0FBQztDQUNKO0FBeERELGdDQXdEQyJ9","assetPath":"Assets/zepeto-2d-world/Zepeto
+    2D World/ZepetoScript/LoadingScreen.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"loadingScreenRoot","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"delayAfterReady","type":"System.Single","isArray":false,"initValue":["0.1"],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"LoadingScreen","description":"","hasAnimatorMove":false},"isCompiled":true}'
+  typescriptHash: b510b5782c15d1c3ce556494c0aaca74
+  onlyWriteTrigger: 0
+

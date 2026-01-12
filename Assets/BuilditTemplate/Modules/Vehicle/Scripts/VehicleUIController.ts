@@ -92,7 +92,7 @@ export default class VehicleUIController extends ZepetoScriptBehaviour {
     public HideAllMenus() {
         
         // Gesture
-        UIManager.instance.gestureMenu?.SetActive(false);
+        UIManager.instance.Hide("gesture");
     }
     
 }
