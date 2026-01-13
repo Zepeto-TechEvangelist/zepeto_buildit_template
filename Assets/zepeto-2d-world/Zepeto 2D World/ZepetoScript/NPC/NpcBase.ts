@@ -55,11 +55,8 @@ export class DialogueOption {
 }
 
 export default abstract class NPCBase extends ZepetoScriptBehaviour implements IPlayerTrigger {
-
-    @Header("Required Settings")
-    @SerializeField()
-    @Tooltip("Panel for dialogue screen")
-    protected dialoguePanel: GameObject;
+    // Dialogue panel - auto-found from children at runtime (not exposed in inspector)
+    private dialoguePanel: GameObject;
 
     @Header("Dialogue Settings")
     @SerializeField()
@@ -137,6 +134,30 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
     }
 
     private AutoFindComponents() {
+        // Auto-find dialogue panel from children first
+        if (!this.dialoguePanel) {
+            // Try to find by name in children
+            const dialoguePanelObj = this.gameObject.transform.Find('DialoguePanel');
+            if (dialoguePanelObj) {
+                this.dialoguePanel = dialoguePanelObj.gameObject;
+                console.log('[NPCBase] Auto-found DialoguePanel from children');
+            } else {
+                // Try to find NPCTalk component in children
+                const npcTalk = this.gameObject.GetComponentInChildren<NpcTalk>(true);
+                if (npcTalk) {
+                    this.dialoguePanel = npcTalk.gameObject;
+                    console.log('[NPCBase] Auto-found DialoguePanel via NpcTalk component');
+                } else {
+                    // Fallback: try to find by name in scene (for backward compatibility)
+                    const found = GameObject.Find('NPCTalk');
+                    if (found) {
+                        this.dialoguePanel = found;
+                        console.log('[NPCBase] Auto-found DialoguePanel from scene (fallback)');
+                    }
+                }
+            }
+        }
+
         // Auto-find interact button prefab from Resources
         if (!this.interactButtonPrefab) {
             const resourceNames = ['Prefabs/InteractButton(NPC)', 'Prefabs/InteractButton'];
@@ -241,15 +262,31 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
     }
 
     CloseDialogue(): void {
+        console.log('[NPCBase] CloseDialogue() called');
         this._speechBubbleActive = false;
 
+        // Close dialogue camera
         if (this.dialogueCamera) {
+            console.log('[NPCBase] Closing dialogue camera');
             this.dialogueCamera.gameObject.SetActive(false);
         }
 
+        // Restore gameplay camera
         if (this._cachedGameplayCamera && this._cachedGameplayCamera !== this.dialogueCamera) {
+            console.log('[NPCBase] Restoring cached gameplay camera');
             this._cachedGameplayCamera.gameObject.SetActive(true);
             this._gameplayCamera = this._cachedGameplayCamera;
+        } else {
+            // If cached camera is null, try to find and restore gameplay camera
+            console.log('[NPCBase] Cached camera is null, trying to resolve gameplay camera');
+            const gameplayCamera = this.ResolveGameplayCamera(true);
+            if (gameplayCamera && gameplayCamera !== this.dialogueCamera) {
+                console.log('[NPCBase] Found and activating gameplay camera');
+                gameplayCamera.gameObject.SetActive(true);
+                this._gameplayCamera = gameplayCamera;
+            } else {
+                console.warn('[NPCBase] Could not find gameplay camera to restore');
+            }
         }
         this._cachedGameplayCamera = null;
 
@@ -505,24 +542,39 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
             }
         }
 
-        // Calculate Y position based on NPC type
-        let cameraY = 1.0; // Default for SpriteNPC
-        if (isZepetoNPC && bounds) {
-            // Adjust camera Y position based on character scale
-            if (this._characterScale < 1.0) {
-                // Small character: lower camera (target: 1.9 from current ~2.864)
-                cameraY = 1.9;
+        // Calculate camera position based on NPC bounds (in local space relative to NPC root)
+        let cameraX = 0;
+        let cameraY = 0;
+        
+        if (bounds) {
+            if (isZepetoNPC) {
+                // ZepetoNPC: calculate based on bounds size
+                // X: left offset based on width
+                cameraX = -bounds.size.x * 0.1;  // ~-0.15 for typical NPC
+                // Y: upper body position based on height (increased ratio to reach ~0.9)
+                cameraY = bounds.size.y * 0.74;  // adjusted to match target 0.9
             } else {
-                // Normal character (scale >= 1.0): raise camera (target: 4.3 from current ~2.5)
-                cameraY = 4.3;
+                // SpriteNPC: calculate based on bounds size
+                // X: left offset based on width  
+                cameraX = -bounds.size.x * 0.1;  // ~-0.15 for typical sprite
+                // Y: lower position based on height
+                cameraY = bounds.size.y * 0.05;  // ~0.09 for typical sprite
+            }
+        } else {
+            // Fallback if bounds not found
+            if (isZepetoNPC) {
+                cameraX = -0.15;
+                cameraY = 0.9;
+            } else {
+                cameraX = -0.15;
+                cameraY = 0.09;
             }
         }
 
         // Camera position in local space relative to NPC root
-        // Target: x = -1.5, y = calculated, z = 10
         const cameraTransform = this.dialogueCamera.transform;
         const originalRotation = cameraTransform.localRotation; // Preserve rotation
-        cameraTransform.localPosition = new Vector3(-1.5, cameraY, 10.0);
+        cameraTransform.localPosition = new Vector3(cameraX, cameraY, 10.0);
         cameraTransform.localRotation = originalRotation; // Restore rotation
 
         // Calculate orthographic size based on NPC type

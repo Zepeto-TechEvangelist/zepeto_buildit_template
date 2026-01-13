@@ -1,7 +1,6 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
-import { Button } from 'UnityEngine.UI';
+import { Button, Text } from 'UnityEngine.UI';
 import { GameObject, Coroutine, WaitForSeconds } from 'UnityEngine';
-import { TextMeshProUGUI } from 'TMPro';
 import NpcBase from './NpcBase';
 
 
@@ -9,7 +8,7 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
 
     @Header("UI References")
     @SerializeField()
-    private npcText: TextMeshProUGUI;
+    private npcText: Text;
 
     @SerializeField()
     private answerButtonPrefab: GameObject; // Prefab for answer buttons
@@ -26,7 +25,7 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
     @SerializeField()
     private uiToolObj: GameObject;
     @SerializeField()
-    private npcNameText: TextMeshProUGUI;
+    private npcNameText: Text;
 
     // Dialogue data - set by NpcBase
     private npcName: string = '';
@@ -36,7 +35,7 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
 
     // Dynamically created button references
     private buttonArray: Button[] = [];
-    private buttonTextArray: TextMeshProUGUI[] = [];
+    private buttonTextArray: Text[] = [];
     private buttonGameObjects: GameObject[] = []; // Track created GameObjects for cleanup
 
     private isWaitingForAnswer: boolean = false;
@@ -64,8 +63,11 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
             return;
         }
 
-        // Create buttons based on dialogue options count
-        for (let i = 0; i < this.askTexts.length; i++) {
+        // Limit to maximum 3 buttons
+        const maxButtons = Math.min(this.askTexts.length, 3);
+
+        // Create buttons based on dialogue options count (max 3)
+        for (let i = 0; i < maxButtons; i++) {
             // Instantiate button from prefab
             const buttonObj = GameObject.Instantiate(this.answerButtonPrefab, this.answerButtonParent.transform) as GameObject;
             buttonObj.SetActive(true);
@@ -78,10 +80,10 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
                 continue;
             }
 
-            // Find TextMeshProUGUI component (could be direct child or in children)
-            const buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>(true);
+            // Find Text component (could be direct child or in children)
+            const buttonText = buttonObj.GetComponentInChildren<Text>(true);
             if (!buttonText) {
-                console.warn(`[NpcTalk] TextMeshProUGUI not found in button prefab at index ${i}`);
+                console.warn(`[NpcTalk] Text component not found in button prefab at index ${i}`);
                 GameObject.Destroy(buttonObj);
                 continue;
             }
@@ -169,28 +171,56 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
     }
 
     private CloseDialoguePanel() {
-        if (this.dialoguePanel) {
-            this.dialoguePanel.SetActive(false);
-            this.uiToolObj.SetActive(true);
-            console.log("[NpcTalk] Dialogue panel closed");
+        console.log("[NpcTalk] CloseDialoguePanel called");
+        
+        // Call CloseDialogue FIRST to restore cameras before closing panel
+        if (this._npcManager) {
+            console.log("[NpcTalk] Calling NpcBase.CloseDialogue()");
+            this._npcManager.CloseDialogue();
+        } else {
+            console.warn("[NpcTalk] _npcManager is null, trying to find parent NpcBase...");
+            // Try to find NpcBase in parent hierarchy
+            let current = this.transform.parent;
+            let npcManager: NpcBase | null = null;
             
-            // Call CloseDialogue to restore cameras
-            if (this._npcManager) {
-                console.log("[NpcTalk] Calling NpcBase.CloseDialogue()");
-                this._npcManager.CloseDialogue();
-            } else {
-                console.warn("[NpcTalk] _npcManager is null, trying FindObjectOfType...");
-                const npcManager = GameObject.FindObjectOfType<NpcBase>();
-                if (npcManager) {
-                    npcManager.CloseDialogue();
-                } else {
-                    console.error("[NpcTalk] Could not find NpcBase!");
+            while (current && !npcManager) {
+                npcManager = current.GetComponent<NpcBase>();
+                if (!npcManager) {
+                    current = current.parent;
                 }
             }
+            
+            if (npcManager) {
+                console.log("[NpcTalk] Found NpcBase in parent, calling CloseDialogue()");
+                npcManager.CloseDialogue();
+            } else {
+                console.error("[NpcTalk] Could not find NpcBase in parent hierarchy!");
+            }
         }
+        
+        // Then close the dialogue panel
+        if (this.dialoguePanel) {
+            this.dialoguePanel.SetActive(false);
+            console.log("[NpcTalk] Dialogue panel closed");
+        }
+        
+        if (this.uiToolObj) {
+            this.uiToolObj.SetActive(true);
+        }
+        
         this.closeDialogueCoroutine = null;
     }
 
+
+    // Helper method to shuffle array randomly (Fisher-Yates algorithm)
+    private ShuffleArray<T>(array: T[]): T[] {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
 
     // Public method to set dialogue data
     public SetDialogueData(
@@ -201,20 +231,38 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
     ) {
         this.npcName = npcName;
         this.dialogueText = dialogueText;
-        this.askTexts = askTexts || [];
-        this.ansTexts = ansTexts || [];
+        let tempAskTexts = askTexts || [];
+        let tempAnsTexts = ansTexts || [];
         
         // Ensure askTexts and ansTexts have the same length
-        const maxLength = Math.max(this.askTexts.length, this.ansTexts.length);
-        if (this.askTexts.length !== this.ansTexts.length) {
-            console.warn(`[NpcTalk] askTexts and ansTexts length mismatch. askTexts: ${this.askTexts.length}, ansTexts: ${this.ansTexts.length}`);
+        const maxLength = Math.max(tempAskTexts.length, tempAnsTexts.length);
+        if (tempAskTexts.length !== tempAnsTexts.length) {
+            console.warn(`[NpcTalk] askTexts and ansTexts length mismatch. askTexts: ${tempAskTexts.length}, ansTexts: ${tempAnsTexts.length}`);
             // Pad with empty strings if needed
-            while (this.askTexts.length < maxLength) {
-                this.askTexts.push('');
+            while (tempAskTexts.length < maxLength) {
+                tempAskTexts.push('');
             }
-            while (this.ansTexts.length < maxLength) {
-                this.ansTexts.push('');
+            while (tempAnsTexts.length < maxLength) {
+                tempAnsTexts.push('');
             }
+        }
+        
+        // If more than 3 options, randomly select 3
+        if (tempAskTexts.length > 3) {
+            // Create pairs of ask and ans texts
+            const pairs: { ask: string, ans: string }[] = [];
+            for (let i = 0; i < tempAskTexts.length; i++) {
+                pairs.push({ ask: tempAskTexts[i], ans: tempAnsTexts[i] });
+            }
+            
+            // Shuffle and take first 3
+            const shuffledPairs = this.ShuffleArray(pairs).slice(0, 3);
+            
+            this.askTexts = shuffledPairs.map(pair => pair.ask);
+            this.ansTexts = shuffledPairs.map(pair => pair.ans);
+        } else {
+            this.askTexts = tempAskTexts;
+            this.ansTexts = tempAnsTexts;
         }
         
         console.log(`[NpcTalk] Dialogue data set - NPC: ${npcName}, Options: ${this.askTexts.length}`);

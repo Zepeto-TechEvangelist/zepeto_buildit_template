@@ -64,9 +64,64 @@ public static class Zepeto2D_CreateNPC
 
         var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
         Undo.RegisterCreatedObjectUndo(instance, $"Create {defaultName}");
+        
+        // Create dialogue panel as child and link it
+        SetupDialoguePanel(instance);
+        
         Selection.activeGameObject = instance;
 
-        Debug.Log($"[ZEPETO 2D] {defaultName} created from template prefab.");
+        Debug.Log($"[ZEPETO 2D] {defaultName} created from template prefab with dialogue panel.");
+    }
+    
+    private static void SetupDialoguePanel(GameObject npcInstance)
+    {
+        // Find NPCTallk prefab
+        var dialoguePrefabPath = GetPrefabPath("NPCTallk");
+        GameObject dialoguePrefab = null;
+        
+        // Try to load from calculated path
+        if (!string.IsNullOrEmpty(dialoguePrefabPath))
+        {
+            dialoguePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(dialoguePrefabPath);
+        }
+        
+        // Fallback: search by name
+        if (dialoguePrefab == null)
+        {
+            var guids = AssetDatabase.FindAssets("t:Prefab NPCTallk");
+            foreach (var guid in guids)
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                var go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                if (go != null && (go.name == "NPCTallk" || go.name.Contains("NPCTalk")))
+                {
+                    dialoguePrefab = go;
+                    break;
+                }
+            }
+        }
+        
+        if (dialoguePrefab == null)
+        {
+            Debug.LogWarning(
+                $"[ZEPETO 2D] NPCTallk prefab not found. Please manually assign dialoguePanel in the inspector.\n" +
+                "Expected path: " + dialoguePrefabPath
+            );
+            return;
+        }
+        
+        // Instantiate dialogue panel as child of NPC
+        var dialoguePanel = (GameObject)PrefabUtility.InstantiatePrefab(dialoguePrefab, npcInstance.transform);
+        dialoguePanel.name = "DialoguePanel";
+        
+        // Deactivate dialogue panel by default (it will be activated when dialogue starts)
+        dialoguePanel.SetActive(false);
+        
+        Undo.RegisterCreatedObjectUndo(dialoguePanel, "Create Dialogue Panel");
+        
+        // Note: dialoguePanel will be auto-found by NpcBase.AutoFindComponents() at runtime
+        // No need to manually link it via SerializedObject
+        Debug.Log($"[ZEPETO 2D] Dialogue panel created as child of {npcInstance.name} (will be auto-linked at runtime)");
     }
 
     private static GameObject FindTemplatePrefab(string defaultPath, string prefabName)

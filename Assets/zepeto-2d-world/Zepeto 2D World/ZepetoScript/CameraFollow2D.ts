@@ -128,6 +128,10 @@ export default class CameraFollow2D extends ZepetoScriptBehaviour {
         }
     }
     public SnapToTargetImmediate() { this.LateUpdate(); }
+    
+    public GetCachedBounds(): Bounds | null {
+        return this._cachedBounds;
+    }
 
     public ClampSize(size: number): number {
         if (!this._cam) return size;

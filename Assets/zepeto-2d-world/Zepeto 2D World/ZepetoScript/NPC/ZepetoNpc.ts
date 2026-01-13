@@ -6,7 +6,7 @@ import {
     ZepetoCharacterCreator
 } from 'ZEPETO.Character.Controller';
 import { ZepetoContext } from 'Zepeto';
-import { AnimationClip, CharacterController, Quaternion, Rigidbody, Vector3, SkinnedMeshRenderer } from 'UnityEngine';
+import { AnimationClip, CharacterController, Quaternion, Rigidbody, Vector3, SkinnedMeshRenderer, WaitForEndOfFrame } from 'UnityEngine';
 import NpcBase from './NpcBase';
 
 export default class ZepetoNPC extends NpcBase {
@@ -136,15 +136,18 @@ export default class ZepetoNPC extends NpcBase {
         if (stateMachine) {
             try {
                 stateMachine.Stop();
+                console.log('[ZepetoNPC] StateMachine stopped');
             } catch (error) {
                 console.warn('[ZepetoNPC] Failed to stop state machine:', error);
             }
 
             stateMachine.constraintStateAnimation = true;
+            console.log('[ZepetoNPC] constraintStateAnimation set to true in ApplyCharacterPhysicsSettings');
         }
 
         try {
             this._npc.ChangeStateAnimation(CharacterState.Idle);
+            console.log('[ZepetoNPC] ChangeStateAnimation(Idle) called in ApplyCharacterPhysicsSettings');
         } catch (error) {
             console.warn('[ZepetoNPC] Unable to force idle animation:', error);
         }
@@ -158,11 +161,71 @@ export default class ZepetoNPC extends NpcBase {
     }
 
     protected playIdleAnimation(): void {
-        if (!this._npc) return;
+        console.log('[ZepetoNPC] playIdleAnimation() called');
+        
+        if (!this._npc) {
+            console.warn('[ZepetoNPC] playIdleAnimation: _npc is null');
+            return;
+        }
+        
+        console.log('[ZepetoNPC] idleAnimation:', this.idleAnimation ? this.idleAnimation.name : 'null');
+        
         if (this.idleAnimation) {
-            this._npc.SetGesture(this.idleAnimation);
+            // SetGesture를 사용하려면 constraintStateAnimation을 해제하고 Gesture 상태로 전환해야 함
+            const stateMachine = this._npc.StateMachine;
+            const wasConstrained = stateMachine ? stateMachine.constraintStateAnimation : false;
+            
+            console.log('[ZepetoNPC] StateMachine exists:', !!stateMachine);
+            console.log('[ZepetoNPC] constraintStateAnimation (before):', wasConstrained);
+            
+            if (stateMachine) {
+                stateMachine.constraintStateAnimation = false;
+                console.log('[ZepetoNPC] constraintStateAnimation set to false');
+            }
+            
+            try {
+                // Gesture 상태로 먼저 전환
+                console.log('[ZepetoNPC] Changing to Gesture state before SetGesture');
+                this._npc.ChangeStateAnimation(CharacterState.Gesture);
+                
+                // 약간의 지연 후 SetGesture 호출 (상태 전환이 완료될 시간을 줌)
+                this.StartCoroutine(this.SetGestureAfterStateChange(this.idleAnimation));
+            } catch (error) {
+                console.error('[ZepetoNPC] Failed to change to Gesture state:', error);
+                // 실패 시 바로 SetGesture 시도
+                try {
+                    this._npc.SetGesture(this.idleAnimation);
+                    console.log('[ZepetoNPC] SetGesture called directly (fallback)');
+                } catch (gestureError) {
+                    console.error('[ZepetoNPC] Failed to set idle animation:', gestureError);
+                }
+            }
+            
+            // 제약을 복원하지 않음 - Gesture가 계속 재생되도록 false로 유지
+            console.log('[ZepetoNPC] constraintStateAnimation will remain false to allow gesture animation');
+        } else {
+            console.log('[ZepetoNPC] No idleAnimation assigned, using default Idle state');
+            // idleAnimation이 없으면 기본 Idle 상태로 전환
+            try {
+                this._npc.ChangeStateAnimation(CharacterState.Idle);
+                console.log('[ZepetoNPC] ChangeStateAnimation(Idle) called successfully');
+            } catch (error) {
+                console.error('[ZepetoNPC] Failed to set idle state:', error);
+            }
         }
     }
+
+    private *SetGestureAfterStateChange(animation: AnimationClip) {
+        yield new WaitForEndOfFrame();
+        try {
+            console.log('[ZepetoNPC] Calling SetGesture with:', animation.name);
+            this._npc.SetGesture(animation);
+            console.log('[ZepetoNPC] SetGesture called successfully after state change');
+        } catch (error) {
+            console.error('[ZepetoNPC] Failed to set gesture after state change:', error);
+        }
+    }
+
 
     protected stopDialogueAnimation(): void {
         if (!this._npc) return;

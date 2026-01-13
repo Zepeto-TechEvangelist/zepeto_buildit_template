@@ -50,7 +50,17 @@ DialogueDataMap.set('npc_1', {
         ]
     });
 
-// Helper function to get dialogue data by ID
+    DialogueDataMap.set('sprite_npc_2', {
+        npcName: "SpriteNPC",
+        dialogueText: "Hello! I'm Sprite NPC!",
+        dialogueOptions: [
+            { question: "aa", answer: "bbb" },
+            { question: "acsa", answer: "dsa" },
+            { question: "111", answer: "111" },
+        ]
+    });
+
+    // Helper function to get dialogue data by ID
 export function GetDialogueData(id: string): DialogueData | null {
     return DialogueDataMap.get(id) || null;
 }
