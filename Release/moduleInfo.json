@@ -2,14 +2,23 @@
   "Items": [
     {
       "Title": "Build It Plugin Core",
-      "Description": "Core module for Build It Plugin\n\n• Screen capture issue with transparent objects fixed\n• Updated to the latest Zepeto framework\n\n• Gesture play issue fixed where playing a gesture could cause additional errors\n• Vehicle warning removed when no vehicles are present in the scene\n• Improved project structure, package cleanup, and tag management\n• Added custom scripts:\n    • WorldCanvas\n    • ZepetoCameraAttacher\n",
+      "Description": "Core module for Build It Plugin\n\n• Adaptive UI\n• Native portrait mode support\n• Core system and performance enhancements\n",
       "Description_ko": "",
       "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
-      "LatestVersion": "1.0.11",
+      "LatestVersion": "1.0.12",
       "Dependencies": ["Multiplay Component", "Interaction", "Gesture", "ScreenShot", "Localization", "QuickChat"]
     }
   ],
   "Themes": [
+    {
+      "Title": "2D World",
+      "Name": "asset.2dworld",
+      "Description": "2D World module for Build It Plugin\n\n• Prepared for quick creation of 2D worlds\n• Custom Loading Screen: Easy UI setup for transitions.\n• Instant Map Creation: Transform any image into a 2D world space.\n• BGM Control: Background music management.\n• Map Portals: Instant teleportation between maps.\n• Map Expander: Effortless addition of new map areas.\n• Dialogue NPCs: Interactive NPCs with talk functions. (Zepeto NPC/Sprite NPC)",
+      "Description_ko": "",
+      "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
+      "LatestVersion": "1.0.0",
+      "Dependencies": ["Build It Plugin Core v1.0.12"]
+    },
     {
       "Title": "Vehicle",
       "Name": "asset.vehicle",
