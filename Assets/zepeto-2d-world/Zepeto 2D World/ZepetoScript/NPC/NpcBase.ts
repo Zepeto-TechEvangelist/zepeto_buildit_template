@@ -125,7 +125,6 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
         const trigger = this.GetComponent<PlayerTrigger>();
         if (trigger) {
             trigger.delegate = this;
-            console.log('[NPCBase] PlayerTrigger delegate assigned.');
         } else {
             console.warn('[NPCBase] PlayerTrigger component not found.');
         }
@@ -140,19 +139,19 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
             const dialoguePanelObj = this.gameObject.transform.Find('DialoguePanel');
             if (dialoguePanelObj) {
                 this.dialoguePanel = dialoguePanelObj.gameObject;
-                console.log('[NPCBase] Auto-found DialoguePanel from children');
+
             } else {
                 // Try to find NPCTalk component in children
                 const npcTalk = this.gameObject.GetComponentInChildren<NpcTalk>(true);
                 if (npcTalk) {
                     this.dialoguePanel = npcTalk.gameObject;
-                    console.log('[NPCBase] Auto-found DialoguePanel via NpcTalk component');
+
                 } else {
                     // Fallback: try to find by name in scene (for backward compatibility)
                     const found = GameObject.Find('NPCTalk');
                     if (found) {
                         this.dialoguePanel = found;
-                        console.log('[NPCBase] Auto-found DialoguePanel from scene (fallback)');
+
                     }
                 }
             }
@@ -221,7 +220,7 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
         }
 
         if (!this._interactButtonObject) {
-            console.log('[NPCBase] OnPlayerEnter -> InstantiateInteractButton()');
+
             this.InstantiateInteractButton();
         }
 
@@ -234,7 +233,6 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
 
         if (this._interactButtonObject) {
             this._interactButtonObject.SetActive(true);
-            console.log('[NPCBase] Interact button activated.');
         }
 
         this.playDialogueAnimation();
@@ -262,26 +260,24 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
     }
 
     CloseDialogue(): void {
-        console.log('[NPCBase] CloseDialogue() called');
+
         this._speechBubbleActive = false;
 
         // Close dialogue camera
         if (this.dialogueCamera) {
-            console.log('[NPCBase] Closing dialogue camera');
             this.dialogueCamera.gameObject.SetActive(false);
         }
 
         // Restore gameplay camera
         if (this._cachedGameplayCamera && this._cachedGameplayCamera !== this.dialogueCamera) {
-            console.log('[NPCBase] Restoring cached gameplay camera');
             this._cachedGameplayCamera.gameObject.SetActive(true);
             this._gameplayCamera = this._cachedGameplayCamera;
         } else {
             // If cached camera is null, try to find and restore gameplay camera
-            console.log('[NPCBase] Cached camera is null, trying to resolve gameplay camera');
+
             const gameplayCamera = this.ResolveGameplayCamera(true);
             if (gameplayCamera && gameplayCamera !== this.dialogueCamera) {
-                console.log('[NPCBase] Found and activating gameplay camera');
+
                 gameplayCamera.gameObject.SetActive(true);
                 this._gameplayCamera = gameplayCamera;
             } else {
@@ -318,12 +314,22 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
 
         // Auto-calculate headOffset for SpriteNPC if headLocator is not provided
         // (SpriteNPC doesn't have headLocator, so we can auto-calculate based on SpriteRenderer)
+        // Only auto-calculate if headOffset is (0,0,0) - meaning not explicitly set
         if (!this._headLocator) {
-            const autoHeadOffset = this.CalculateHeadOffset();
-            // Only use auto-calculated offset if it's reasonable (not default fallback)
-            // or if the provided offset is zero/default
-            if (autoHeadOffset.y > 0.1 || this._headOffset.y === 0) {
-                this._headOffset = autoHeadOffset;
+            // Simple check: if headOffset is (0,0,0), it means not set, so auto-calculate
+            const isZero = this._headOffset.x === 0 && this._headOffset.y === 0 && this._headOffset.z === 0;
+            
+            if (isZero) {
+                // Auto-calculate headOffset from SpriteRenderer bounds
+                const autoHeadOffset = this.CalculateHeadOffset();
+                if (autoHeadOffset.y > 0.1) {
+                    this._headOffset = autoHeadOffset;
+                } else {
+                    console.warn(`[NPCBase] Auto-calculated headOffset is too small, using default (0, 1.5, 0)`);
+                    this._headOffset = new Vector3(0, 1.5, 0);
+                }
+            } else {
+                // Use explicitly set headOffset
             }
         }
 
@@ -331,7 +337,6 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
         this.InstantiateInteractButton();
 
         if (this._isLocalPlayerInside) {
-            console.log('[NPCBase] Local player already inside trigger. Forcing OnPlayerEnter.');
             this.OnPlayerEnter();
         }
     }
@@ -430,10 +435,17 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
                 }
             }
             
-            // Use actual bounds height, but normalize by character scale for accurate comparison
-            // bounds.size.y already includes scale, so we divide by scale to get base height
+            // Use actual bounds height
+            // bounds.size.y already includes all scales (characterScale + npcSize.y)
+            // We need to get the localScale.y (npcSize) from the root transform
             const boundsHeight = bounds.size.y;
-            const normalizedHeight = boundsHeight / this._characterScale;
+            const rootLocalScaleY = root.localScale.y;
+            
+            // Normalize by both characterScale and npcSize.y to get base height
+            // bounds.size.y = baseHeight * characterScale * npcSize.y
+            // So: baseHeight = bounds.size.y / (characterScale * npcSize.y)
+            const totalScale = this._characterScale * rootLocalScaleY;
+            const normalizedHeight = totalScale > 0 ? boundsHeight / totalScale : boundsHeight;
             
             return normalizedHeight;
         }
@@ -555,8 +567,8 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
                 cameraY = bounds.size.y * 0.74;  // adjusted to match target 0.9
             } else {
                 // SpriteNPC: calculate based on bounds size
-                // X: left offset based on width  
-                cameraX = -bounds.size.x * 0.1;  // ~-0.15 for typical sprite
+                // X: left offset based on width - increased for better positioning
+                cameraX = -bounds.size.x * 0.25;  // Increased from 0.1 to 0.25 for more left offset
                 // Y: lower position based on height
                 cameraY = bounds.size.y * 0.05;  // ~0.09 for typical sprite
             }
@@ -566,7 +578,7 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
                 cameraX = -0.15;
                 cameraY = 0.9;
             } else {
-                cameraX = -0.15;
+                cameraX = -0.3;  // Increased from -0.15 to -0.3 for SpriteNPC
                 cameraY = 0.09;
             }
         }
@@ -715,7 +727,6 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
             this._interactButton.onClick.AddListener(() => {
                 this.Interact();
             });
-            console.log('[NPCBase] ScreenSpace interact button instantiated.');
         } else {
             console.warn('[NPCBase] Button component not found in interactButtonPrefab!');
         }

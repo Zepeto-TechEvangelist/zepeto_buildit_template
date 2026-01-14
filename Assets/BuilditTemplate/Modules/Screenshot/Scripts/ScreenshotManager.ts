@@ -75,6 +75,17 @@ export default class ScreenshotManager extends ZepetoScriptBehaviour {
 
         this.screenshotActiveEvent = new UnityEvent$1<boolean>();
         UIManager.instance.CreateToggleGroup("screenshot", this.screenshotActiveEvent, (isOn) => { this.ToggleScreenshotUI(); });
+
+        UIManager.instance.screenshotOrientationChangeEvent.AddListener(() => {
+            this.OnScreenRotation();
+        });
+    }
+
+    private OnScreenRotation() {
+
+        if (!this._canEnterOrExit)
+            return;
+        
     }
     
     private InitialzeScreenshotManager() {

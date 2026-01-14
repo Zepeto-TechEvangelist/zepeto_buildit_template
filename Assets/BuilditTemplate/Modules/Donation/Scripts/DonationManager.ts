@@ -62,6 +62,7 @@ export default class DonationManager extends ZepetoScriptBehaviour {
     public Donate(event: DonationEventData) {
         this.display?.OnDonationEvent(event);
         
+        let action_text: string = null;
         if (event.currency_type == "zem") {
             
             // TODO: Detailed Logic
@@ -74,15 +75,18 @@ export default class DonationManager extends ZepetoScriptBehaviour {
                 controller.Trigger.Fire();
             }
 
-            const notificationText = DonationLocalization.ReceiveNotification
-            (
-                event.sender_nickname,
-                event.amount,
-                action.text ?? ""
-            );
-
-            ZepetoToast.Show(Type.None, notificationText);
+            action_text = action.text;
         }
+
+        const notificationText = DonationLocalization.ReceiveNotification
+        (
+            event.sender_nickname,
+            event.amount,
+            action_text ?? "",
+            event.currency_type
+        );
+
+        ZepetoToast.Show(Type.None, notificationText);
     }
     
     private OnMyLiveDonationEvent(message: LiveDonationEventMessage) {

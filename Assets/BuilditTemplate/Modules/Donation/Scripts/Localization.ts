@@ -30,11 +30,11 @@ import Localization from '../../Localization/ZepetoScript/Localization';
         
         public static ActionDisplayName(id: string) { return Localization.instance.GetLocalizedText(Keys.actionPrefix + id.toLowerCase()) }
         
-        public static ReceiveNotification(sender: string, amount: bigint, action: string): string { 
+        public static ReceiveNotification(sender: string, amount: bigint, action: string, currencyType: string = this.Zem): string { 
             return Localization.instance.GetLocalizedText(Keys.receivedNotification)
                 .replace(Keys.sender, sender)
                 .replace(Keys.amount, amount.toString())
-                .replace(Keys.currencyType, this.Zem)
+                .replace(Keys.currencyType, currencyType)
                 .replace(Keys.action, action)
         }
     }

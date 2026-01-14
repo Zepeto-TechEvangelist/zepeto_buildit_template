@@ -99,8 +99,8 @@ export default class AdvertisementController2D extends ZepetoScriptBehaviour imp
     }
 
     Interact(): void {
+        // Debug
         // this.DoAction();
-        // return;
         
         AdvertisementManager.Instance.ShowAd(() => {
             this.DoAction();
@@ -172,33 +172,7 @@ export default class AdvertisementController2D extends ZepetoScriptBehaviour imp
         var screenPoint = camera.WorldToScreenPoint(point);
         screenPoint.z = 1;
         return screenPoint;
-        //
-        // // Calculate screen offset based on camera distance (for consistent button spacing)
-        // const cameraDistance = Vector3.Distance(gameplayCamera.transform.position, worldPos);
-        // const screenOffsetY = this.CalculateScreenOffsetY(cameraDistance, gameplayCamera);
-        // const screenOffset = new Vector2(0, screenOffsetY);
-        //
-        // const localPoint = $ref(new Vector2(0, 0));
-        // if (RectTransformUtility.ScreenPointToLocalPointInRectangle(this.interactButtonRoot, new Vector2(screenPoint.x, screenPoint.y), referenceCamera, localPoint)) {
-        //     const targetAnchored = Vector2.op_Addition($unref(localPoint), screenOffset);
-        //     this._interactButtonRect.anchoredPosition = targetAnchored;
-        // }
-        //
-        // if (this._interactButtonRect) {
-        //     let scale = Mathf.Max(0.0001, this.interactButtonScaleMultiplier);
-        //     if (gameplayCamera.orthographic) {
-        //         const currentOrtho = Math.max(0.001, gameplayCamera.orthographicSize);
-        //         const reference = Math.max(0.001, this.interactButtonReferenceOrtho);
-        //         scale *= reference / currentOrtho;
-        //     }
-        //
-        //     if (this.interactButtonClampScale) {
-        //         scale = Mathf.Clamp(scale, this.interactButtonMinScale, this.interactButtonMaxScale);
-        //     }
-        //
-        //     const baseScale = this._interactButtonBaseScale ?? new Vector3(1, 1, 1);
-        //     this._interactButtonRect.localScale = new Vector3(baseScale.x * scale, baseScale.y * scale, baseScale.z);
-        // }
+        
     }
     
     private UpdateInteractButton() {

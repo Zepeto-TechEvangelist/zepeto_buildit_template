@@ -14,6 +14,9 @@ import CameraFollow2D from './CameraFollow2D';
 import MapBoundsProvider from './MapBoundsProvider';
 import Player2DHandle from './Player2DHandle';
 import ScreenshotController from '../../../BuilditTemplate/Modules/Screenshot/Scripts/ScreenshotController';
+import UIManager from '../../../BuilditTemplate/Modules/Scripts/UIManager';
+import InteractButtonController from './InteractButtonController';
+import { Button } from 'UnityEngine.UI';
 
 type YRange = { valid: boolean; minY: number; maxY: number };
 
@@ -399,6 +402,14 @@ export default class Zepeto2DWorldManager extends ZepetoScriptBehaviour {
 
         // 5) After one frame (when the new map has definitely rendered once), turn other maps off.
         this.StartCoroutine(this._DisableOthersNextFrame(targetRoot));
+        
+        // Disable button in direct children
+        const node = UIManager.instance.menu.transform;
+        for (var i = 0; i < node.childCount; i++) {
+            const child = node.GetChild(i);
+            if (child.GetComponent<Button>())
+                child.gameObject.SetActive(false);
+        }
     }
 
     // Defer turning off all other providers by one frame to eliminate flicker.

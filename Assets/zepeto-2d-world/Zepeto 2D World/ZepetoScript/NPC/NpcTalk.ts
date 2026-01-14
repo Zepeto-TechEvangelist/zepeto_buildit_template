@@ -131,8 +131,6 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
 
     private OnAnswerSelected(answerIndex: number) {
         if (!this.isWaitingForAnswer) return;
-
-        console.log(`[NpcTalk] Answer ${answerIndex} selected`);
         
         // Disable all buttons
         this.DisableAllButtons();
@@ -152,7 +150,6 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
     }
 
     private OnExitButtonClicked() {
-        console.log("[NpcTalk] Exit button clicked!");
         
         // Stop any ongoing coroutine
         if (this.closeDialogueCoroutine) {
@@ -165,17 +162,14 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
     }
 
     private *CloseDialogueAfterDelay() {
-        console.log("[NpcTalk] Starting 2 second delay before closing dialogue");
         yield new WaitForSeconds(3.0);
         this.CloseDialoguePanel();
     }
 
     private CloseDialoguePanel() {
-        console.log("[NpcTalk] CloseDialoguePanel called");
         
         // Call CloseDialogue FIRST to restore cameras before closing panel
         if (this._npcManager) {
-            console.log("[NpcTalk] Calling NpcBase.CloseDialogue()");
             this._npcManager.CloseDialogue();
         } else {
             console.warn("[NpcTalk] _npcManager is null, trying to find parent NpcBase...");
@@ -191,7 +185,6 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
             }
             
             if (npcManager) {
-                console.log("[NpcTalk] Found NpcBase in parent, calling CloseDialogue()");
                 npcManager.CloseDialogue();
             } else {
                 console.error("[NpcTalk] Could not find NpcBase in parent hierarchy!");
@@ -201,7 +194,6 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
         // Then close the dialogue panel
         if (this.dialoguePanel) {
             this.dialoguePanel.SetActive(false);
-            console.log("[NpcTalk] Dialogue panel closed");
         }
         
         if (this.uiToolObj) {
@@ -264,13 +256,10 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
             this.askTexts = tempAskTexts;
             this.ansTexts = tempAnsTexts;
         }
-        
-        console.log(`[NpcTalk] Dialogue data set - NPC: ${npcName}, Options: ${this.askTexts.length}`);
     }
 
     // Public method to initialize dialogue
     public InitializeDialogue(npcManager?: NpcBase) {
-        console.log(`[NpcTalk] Initializing dialogue...`);
         
         // Store NpcManager reference
         if (npcManager) {
@@ -283,7 +272,6 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
             this.LoadDialogueText();
             this.EnableAllButtons();
             this.SetupButtons();
-            console.log(`[NpcTalk] Dialogue initialized successfully with ${this.askTexts.length} options.`);
         } else {
             console.warn(`[NpcTalk] Cannot initialize - missing data`);
         }
@@ -304,6 +292,5 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
         // Button texts are already set in CreateButtons()
         
         this.isWaitingForAnswer = true;
-        console.log(`[NpcTalk] Loaded dialogue text`);
     }
 }
