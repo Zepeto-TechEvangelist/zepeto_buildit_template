@@ -66,7 +66,7 @@ public static class Zepeto2D_CreateNPC
         Undo.RegisterCreatedObjectUndo(instance, $"Create {defaultName}");
         
         // Create dialogue panel as child and link it
-        SetupDialoguePanel(instance);
+        // SetupDialoguePanel(instance);
         
         Selection.activeGameObject = instance;
 

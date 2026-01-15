@@ -58,12 +58,19 @@ export default class MapTitleToast extends ZepetoScriptBehaviour {
         this._currentMode = isPortrait ? 'portrait' : 'landscape';
         
         console.log(`[MapTitleToast] Screen: ${Screen.width}x${Screen.height}, Aspect: ${aspectRatio.toFixed(2)}, Mode: ${this._currentMode}`);
+
+        
+        if (this.portraitTitleText) {
+            this.portraitTitleText.text = text; //Localization.instance.GetLocalizedText(text);
+        }
+        if (this.landscapeTitleText) {
+            this.landscapeTitleText.text = text; //Localization.instance.GetLocalizedText(text);;
+        }
+        
         
         // Set text and activate appropriate toast
         if (this._currentMode === 'portrait') {
-            if (this.portraitTitleText) {
-                this.portraitTitleText.text = text; //Localization.instance.GetLocalizedText(text);
-            }
+            
             if (this.portraitToastObject) {
                 this.portraitToastObject.SetActive(true);
             }
@@ -71,9 +78,7 @@ export default class MapTitleToast extends ZepetoScriptBehaviour {
                 this.landscapeToastObject.SetActive(false);
             }
         } else {
-            if (this.landscapeTitleText) {
-                this.landscapeTitleText.text = text; //Localization.instance.GetLocalizedText(text);;
-            }
+            
             if (this.landscapeToastObject) {
                 this.landscapeToastObject.SetActive(true);
             }

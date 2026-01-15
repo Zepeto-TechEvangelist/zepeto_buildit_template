@@ -100,7 +100,7 @@ export default class Portal2D extends ZepetoScriptBehaviour implements IInteract
         if (!this.linkedPortalObj || !this.linkedPortal) return;
         
         if (this.isLocalPlayerCollider(other, lm)) {
-            InteractButtonController.instance.SetTarget(this, this.mapTitle);
+            InteractButtonController.instance.SetTarget(this, this.interactButtonText);
         }
     }
 
