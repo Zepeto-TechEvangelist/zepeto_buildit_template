@@ -17,7 +17,7 @@ export default class ZepetoNPC extends NpcBase {
     @SerializeField()
     private npcSize: Vector3 = new Vector3(1, 1, 1);
 
-    @SerializeField()
+    // @SerializeField()
     private disableCharacterController: boolean = true;
 
     @Header("Animations")
