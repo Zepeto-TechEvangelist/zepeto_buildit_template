@@ -1,6 +1,6 @@
 // LoadingScreen.ts
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
-import { GameObject, Time, WaitForSeconds } from 'UnityEngine';
+import { GameObject, Time, WaitForSeconds, Canvas } from 'UnityEngine';
 import { ZepetoPlayers, ZepetoPlayer } from 'ZEPETO.Character.Controller';
 
 export default class LoadingScreen extends ZepetoScriptBehaviour {
@@ -26,6 +26,9 @@ export default class LoadingScreen extends ZepetoScriptBehaviour {
                 }
             });
         }
+        
+        // Enable at start
+        this.loadingScreenRoot.GetComponent<Canvas>().enabled = true;
     }
 
     /** Wait until character is fully ready, then hide the loading screen. */

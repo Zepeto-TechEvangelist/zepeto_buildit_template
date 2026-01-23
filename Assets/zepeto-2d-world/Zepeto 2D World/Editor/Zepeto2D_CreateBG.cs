@@ -60,6 +60,9 @@ public static class Zepeto2D_CreateBG
         Undo.RegisterCreatedObjectUndo(instance, "Create BG");
         Selection.activeGameObject = instance;
 
+        PrefabUtility.UnpackPrefabInstance(instance, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
+
+        
         // Delay border rebuild to the next editor frame (safer timing),
         // then assign Wall layer to all 2D colliders created by the frame.
         EditorApplication.delayCall += () =>

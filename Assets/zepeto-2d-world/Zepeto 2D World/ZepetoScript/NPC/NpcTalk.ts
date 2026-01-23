@@ -2,7 +2,8 @@ import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
 import { Button, Text } from 'UnityEngine.UI';
 import { GameObject, Coroutine, WaitForSeconds } from 'UnityEngine';
 import NpcBase from './NpcBase';
-
+import Localization from '../../../../BuilditTemplate/Modules/Localization/ZepetoScript/Localization';
+import { DialogueData } from "./NpcDialogueData";
 
 export default class NpcTalk extends ZepetoScriptBehaviour {
 
@@ -26,7 +27,9 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
     private uiToolObj: GameObject;
     @SerializeField()
     private npcNameText: Text;
-
+    
+    private useLocalization: boolean = false;
+    
     // Dialogue data - set by NpcBase
     private npcName: string = '';
     private dialogueText: string = '';
@@ -94,8 +97,11 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
             this.buttonGameObjects.push(buttonObj);
 
             // Set button text
-            buttonText.text = this.askTexts[i] || '';
-
+            // buttonText.text = this.askTexts[i] || '';
+            buttonText.text = '';
+            if (this.askTexts[i])
+                this.SetLocalizedText(buttonText, this.askTexts[i]);
+            
             // Setup click listener
             const index = i + 1; // 1-based index for OnAnswerSelected
             button.onClick.RemoveAllListeners();
@@ -137,7 +143,10 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
         
         // Show NPC response
         if (this.npcText && this.ansTexts.length >= answerIndex) {
-            this.npcText.text = this.ansTexts[answerIndex - 1] || '';
+            // this.npcText.text = this.ansTexts[answerIndex - 1] || '';
+            this.npcText.text = '';
+            if (this.ansTexts[answerIndex - 1])
+                this.SetLocalizedText(this.npcText, this.ansTexts[answerIndex - 1]);
         }
 
         this.isWaitingForAnswer = false;
@@ -214,6 +223,10 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
         return shuffled;
     }
 
+    public SetDialogueWithData(data: DialogueData) {
+        
+    }
+    
     // Public method to set dialogue data
     public SetDialogueData(
         npcName: string,
@@ -281,16 +294,25 @@ export default class NpcTalk extends ZepetoScriptBehaviour {
     private LoadDialogueText() {
         // Set NPC name
         if (this.npcNameText) {
-            this.npcNameText.text = this.npcName;
+            // this.npcNameText.text = this.npcName;
+            this.SetLocalizedText(this.npcNameText, this.npcName);
         }
         
         // Set dialogue text
         if (this.npcText) {
-            this.npcText.text = this.dialogueText;
+            this.SetLocalizedText(this.npcText, this.dialogueText);
+            // this.npcText.text = this.dialogueText;
         }
         
         // Button texts are already set in CreateButtons()
         
         this.isWaitingForAnswer = true;
+    }
+    
+    private SetLocalizedText(text: Text, key: string) {
+        if (this.useLocalization == false)
+            text.text = key;
+        else
+            Localization.instance.ApplyLocalization(text, key);
     }
 }

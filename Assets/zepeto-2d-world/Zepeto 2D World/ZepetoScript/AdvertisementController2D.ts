@@ -22,7 +22,10 @@ import { Button } from 'UnityEngine.UI';
 
 export default class AdvertisementController2D extends ZepetoScriptBehaviour implements IPlayerTrigger {
     
-    public destination: Transform;
+    @Tooltip("This is the destination object, usually a Portal")
+    public linkedObject: GameObject;
+    
+    private destination: Transform;
     private _currentMap: GameObject;
     
     public iconPrefab: Object;
@@ -39,14 +42,16 @@ export default class AdvertisementController2D extends ZepetoScriptBehaviour imp
     }
     
     public DoAction() {
-
-        const cPortal = this.findMapPortal( this.findMapRootByProvider(this.transform) );
-        const dPortal = this.findMapPortal( this.findMapRootByProvider(this.destination.transform) );
         
-        const dest = this.destination.transform.position;
+        this.destination = this.linkedObject.transform;
+        
+        const cPortal = this.findMapPortal( this.findMapRootByProvider(this.transform) );
+        const dPortal = this.findMapPortal( this.findMapRootByProvider(this.destination) );
+        
+        const dest = this.destination.position;
         const destXY = new Vector2(dest.x, dest.y);
         
-        const destinationRoot = this.findMapRootByProvider(this.destination.transform);
+        const destinationRoot = this.findMapRootByProvider(this.destination);
         
         Zepeto2DWorldManager.Instance?.TeleportLocal(destXY, destinationRoot);
         

@@ -29,6 +29,8 @@ import CameraFollow2D from '../CameraFollow2D';
 import { GetDialogueData } from './NpcDialogueData';
 import Zepeto2DWorldManager from '../Zepeto2DWorldManager';
 import UIManager from '../../../../BuilditTemplate/Modules/Scripts/UIManager';
+import Localization from '../../../../BuilditTemplate/Modules/Localization/ZepetoScript/Localization';
+
 
 type HeadLocator = () => Vector3;
 
@@ -63,8 +65,8 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
     @Tooltip("NPC dialogue ID (used to lookup dialogue data from NpcDialogueData.ts). Use the editor window (ZEPETO 2D > Edit NPC Dialogue) to edit dialogue.")
     @Header("💡 Use ZEPETO 2D > Edit NPC Dialogue menu to edit dialogue")
     protected dialogueId: string = 'npc_1';
-
-
+    
+    // Internal settings - not exposed in inspector
     // Internal settings - not exposed in inspector
     private _speechBubbleActive: boolean = false;
     private interactButtonPrefab: GameObject;
@@ -145,7 +147,6 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
                 const npcTalk = this.gameObject.GetComponentInChildren<NpcTalk>(true);
                 if (npcTalk) {
                     this.dialoguePanel = npcTalk.gameObject;
-
                 } else {
                     // Fallback: try to find by name in scene (for backward compatibility)
                     const found = GameObject.Find('NPCTalk');
@@ -622,14 +623,26 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
         try {
             const dialogueData = GetDialogueData(this.dialogueId);
             if (dialogueData) {
-                const questions = dialogueData.dialogueOptions.map((opt: DialogueOption) => opt.question);
-                const answers = dialogueData.dialogueOptions.map((opt: DialogueOption) => opt.answer);
-                return {
-                    npcName: dialogueData.npcName,
-                    dialogueText: dialogueData.dialogueText,
-                    questions: questions,
-                    answers: answers
-                };
+                if (false /*dialogueData.isLocalized*/) {
+                    const questions = dialogueData.dialogueOptions.map((opt: DialogueOption) => Localization.instance.GetLocalizedText(opt.question));
+                    const answers = dialogueData.dialogueOptions.map((opt: DialogueOption) => Localization.instance.GetLocalizedText(opt.answer));
+                    return {
+                        npcName: Localization.instance.GetLocalizedText(dialogueData.npcName),
+                        dialogueText: Localization.instance.GetLocalizedText(dialogueData.dialogueText),
+                        questions: questions,
+                        answers: answers
+                    };
+                }
+                else {
+                    const questions = dialogueData.dialogueOptions.map((opt: DialogueOption) => opt.question);
+                    const answers = dialogueData.dialogueOptions.map((opt: DialogueOption) => opt.answer);
+                    return {
+                        npcName: dialogueData.npcName,
+                        dialogueText: dialogueData.dialogueText,
+                        questions: questions,
+                        answers: answers
+                    };
+                }
             } else {
                 console.error(`[NPCBase] Dialogue data not found for ID '${this.dialogueId}'. Please use the editor window (ZEPETO 2D > Edit NPC Dialogue) to create dialogue data.`);
                 return null;
@@ -675,6 +688,7 @@ export default abstract class NPCBase extends ZepetoScriptBehaviour implements I
                     console.warn('[NPCBase] No dialogue data available!');
                     return;
                 }
+
                 npcTalk.SetDialogueData(
                     dialogueData.npcName,
                     dialogueData.dialogueText,

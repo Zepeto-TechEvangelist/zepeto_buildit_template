@@ -1,9 +1,8 @@
 // Assets/Scripts/UI/InteractButtonController.ts
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
-import { Button, Image } from 'UnityEngine.UI';
+import { Button, Image, Text } from 'UnityEngine.UI';
 import { GameObject } from 'UnityEngine';
 import { TextMeshProUGUI } from 'TMPro';
-import Localization from '../../../BuilditTemplate/Modules/Localization/ZepetoScript/Localization';
 
 /**
  * Common interaction interface for all interactable objects
@@ -25,11 +24,11 @@ export default class InteractButtonController extends ZepetoScriptBehaviour {
     public button: Button | null = null;
 
     /** Highlight or background visual element. */
-    public highlightImage: GameObject | null = null;
+    public highlightImage: GameObject = null;
 
     /** Label displaying the prompt text (e.g., “Talk”, “Enter”). */
-    public label: TextMeshProUGUI | null = null;
-
+    public label: TextMeshProUGUI | Text = null;
+    
     /** Singleton instance (for quick global access). */
     private static _instance: InteractButtonController;
     public static get instance(): InteractButtonController { return this._instance; }
@@ -45,6 +44,8 @@ export default class InteractButtonController extends ZepetoScriptBehaviour {
             this.button.onClick.AddListener(() => this.onClick());
         }
 
+        this.label ??= this.GetComponentInChildren<TextMeshProUGUI>() ?? this.GetComponentInChildren<Text>();
+        
         this.setVisible(false);
     }
 
@@ -62,7 +63,7 @@ export default class InteractButtonController extends ZepetoScriptBehaviour {
         if (this.label) {
             if (labelText) {
                 console.log("[InteractButtonController] Setting label text to: " + labelText);
-                this.label.text = labelText; //Localization.instance.GetLocalizedText(labelText);
+                this.label.text = labelText;
             } else {
                 this.label.text = "";
             }

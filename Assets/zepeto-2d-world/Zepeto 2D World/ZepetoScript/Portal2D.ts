@@ -6,14 +6,19 @@ import Player2DHandle from './Player2DHandle';
 import Zepeto2DWorldManager from './Zepeto2DWorldManager';
 import MapBoundsProvider from './MapBoundsProvider';
 import MapTitleToast from './MapTitleToast';
+import Localization from '../../../BuilditTemplate/Modules/Localization/ZepetoScript/Localization';
 
 export default class Portal2D extends ZepetoScriptBehaviour implements IInteractable {
     public linkedPortalObj: GameObject | null = null;   // must also be Portal2D
+    
     public interactButtonText: string = "Portal";
     
     // Map title toast settings
     public showMapTitleToast: boolean = false;
     public mapTitle: string = "";
+    
+    @Tooltip("Enable it to use Portal and MapTitle text as localization keys")
+    private useLocalization: boolean = false;
     
     // Callback list for teleport event (TypeScript-friendly)
     private _onTeleportedCallbacks: Array<() => void> = [];
@@ -65,8 +70,7 @@ export default class Portal2D extends ZepetoScriptBehaviour implements IInteract
         if (this.showMapTitleToast && this.mapTitle && this.mapTitle.length > 0) {
             const toast = Object.FindObjectOfType<MapTitleToast>(true) as MapTitleToast;
             if (toast) {
-                toast.ShowToast(this.mapTitle);
-                console.log(`[Portal2D] Showing map title toast: "${this.mapTitle}"`);
+                toast.ShowToast(this.useLocalization ? Localization.instance.GetLocalizedText(this.mapTitle) : this.mapTitle );
             } else {
                 console.warn("[Portal2D] MapTitleToast not found in scene!");
             }
@@ -100,7 +104,8 @@ export default class Portal2D extends ZepetoScriptBehaviour implements IInteract
         if (!this.linkedPortalObj || !this.linkedPortal) return;
         
         if (this.isLocalPlayerCollider(other, lm)) {
-            InteractButtonController.instance.SetTarget(this, this.interactButtonText);
+            InteractButtonController.instance.SetTarget(this,
+                this.useLocalization ? Localization.instance.GetLocalizedText(this.interactButtonText) : this.interactButtonText);
         }
     }
 

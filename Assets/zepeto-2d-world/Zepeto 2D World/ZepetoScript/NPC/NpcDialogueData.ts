@@ -11,15 +11,15 @@ export interface DialogueData {
 export const DialogueDataMap: Map<string, DialogueData> = new Map<string, DialogueData>();
 
 // Initialize default dialogue data
-DialogueDataMap.set('npc_1', {
-    npcName: 'NPC',
-    dialogueText: 'Hello!',
-    dialogueOptions: [
-        { question: 'What brings you here?', answer: 'Enjoy exploring!' },
-        { question: 'How can I help you?', answer: 'Feel free to ask anything!' },
-        { question: 'Do you have any questions?', answer: 'Have a great time!' }
-    ]
-});
+    DialogueDataMap.set('npc_1', {
+        npcName: "NPC",
+        dialogueText: "Hello!",
+        dialogueOptions: [
+            { question: "What brings you here?", answer: "Enjoy exploring!" },
+            { question: "How can I help you?", answer: "Feel free to ask anything!" },
+            { question: "Do you have any questions?", answer: "Have a great time!" },
+        ]
+    });
 
     DialogueDataMap.set('npc_1_1', {
         npcName: 'NPC1',

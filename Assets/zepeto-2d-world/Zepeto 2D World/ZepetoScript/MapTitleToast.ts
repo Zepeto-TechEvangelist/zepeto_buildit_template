@@ -2,21 +2,23 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script';
 import { GameObject, Time, CanvasGroup, WaitForSeconds, Screen } from 'UnityEngine';
 import { TextMeshProUGUI } from 'TMPro';
-import Localization from '../../../BuilditTemplate/Modules/Localization/ZepetoScript/Localization';
+import { Text } from "UnityEngine.UI";
+
 
 export default class MapTitleToast extends ZepetoScriptBehaviour {
     
     // Portrait mode (vertical screen)
     public portraitToastObject: GameObject | null = null;
-    public portraitTitleText: TextMeshProUGUI | null = null;
+    public portraitTitleText: TextMeshProUGUI | Text = null;
     
     // Landscape mode (horizontal screen)
     public landscapeToastObject: GameObject | null = null;
-    public landscapeTitleText: TextMeshProUGUI | null = null;
+    public landscapeTitleText: TextMeshProUGUI | Text = null;
     
     public fadeInDuration: number = 0.5;
     public displayDuration: number = 2.0;
     public fadeOutDuration: number = 0.5;
+    
     
     private _portraitCanvasGroup: CanvasGroup | null = null;
     private _landscapeCanvasGroup: CanvasGroup | null = null;
@@ -32,6 +34,9 @@ export default class MapTitleToast extends ZepetoScriptBehaviour {
             }
             this._portraitCanvasGroup.alpha = 0;
             this.portraitToastObject.SetActive(false);
+
+            this.portraitTitleText ??= this.portraitToastObject.GetComponentInChildren<TextMeshProUGUI>() ?? this.portraitToastObject.GetComponentInChildren<Text>();
+
         }
         
         // Ensure CanvasGroup for landscape toast
@@ -42,6 +47,8 @@ export default class MapTitleToast extends ZepetoScriptBehaviour {
             }
             this._landscapeCanvasGroup.alpha = 0;
             this.landscapeToastObject.SetActive(false);
+            
+            this.landscapeTitleText ??= this.landscapeToastObject.GetComponentInChildren<TextMeshProUGUI>() ?? this.landscapeToastObject.GetComponentInChildren<Text>();
         }
     }
 
@@ -58,13 +65,12 @@ export default class MapTitleToast extends ZepetoScriptBehaviour {
         this._currentMode = isPortrait ? 'portrait' : 'landscape';
         
         console.log(`[MapTitleToast] Screen: ${Screen.width}x${Screen.height}, Aspect: ${aspectRatio.toFixed(2)}, Mode: ${this._currentMode}`);
-
         
         if (this.portraitTitleText) {
-            this.portraitTitleText.text = text; //Localization.instance.GetLocalizedText(text);
+            this.portraitTitleText.text = text;
         }
         if (this.landscapeTitleText) {
-            this.landscapeTitleText.text = text; //Localization.instance.GetLocalizedText(text);;
+            this.landscapeTitleText.text = text;
         }
         
         
