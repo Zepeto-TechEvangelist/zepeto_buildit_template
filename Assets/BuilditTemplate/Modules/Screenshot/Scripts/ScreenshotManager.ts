@@ -1,5 +1,5 @@
-import { Color, Coroutine, GameObject, Time, WaitForSeconds, Mathf, Camera } from 'UnityEngine';
-import { Button, Image, Text, RawImage } from 'UnityEngine.UI';
+import {Color, Coroutine, GameObject, Time, WaitForSeconds, Mathf, Camera, ScreenOrientation} from 'UnityEngine';
+import { Button, Image, Text, RawImage, AspectRatioFitter } from 'UnityEngine.UI';
 import { ZepetoPlayers } from 'ZEPETO.Character.Controller';
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
 import ScreenshotController from './ScreenshotController';
@@ -77,15 +77,24 @@ export default class ScreenshotManager extends ZepetoScriptBehaviour {
         UIManager.instance.CreateToggleGroup("screenshot", this.screenshotActiveEvent, (isOn) => { this.ToggleScreenshotUI(); });
 
         UIManager.instance.screenshotOrientationChangeEvent.AddListener(() => {
-            this.OnScreenRotation();
+            this.OnScreenRotation(UIManager.instance.screenOrientation);
         });
+        
+        // Fire on Init
+        this._screenshotController.SetScreenOrientation( UIManager.instance.screenOrientation != ScreenOrientation.Portrait );
+        this._screenshotUIController.SetAspectRatio( this._screenshotController.screenshotAspectRatio );
     }
 
-    private OnScreenRotation() {
+    private OnScreenRotation(orientation: ScreenOrientation) {
 
         if (!this._canEnterOrExit)
             return;
+
+        console.log("Camera rotation change");
         
+        this._screenshotController.SetScreenOrientation( orientation != ScreenOrientation.Portrait );
+
+        this._screenshotUIController.SetAspectRatio( this._screenshotController.screenshotAspectRatio );
     }
     
     private InitialzeScreenshotManager() {
@@ -197,13 +206,14 @@ export default class ScreenshotManager extends ZepetoScriptBehaviour {
             this._screenshotController.VideoPostToFeed(this._screenshotUIController.PreviewInputField.text);
         }
     }
-
+    
     private OnClickEditButton() {
         this._screenshotUIController.PreviewWindow.SetActive(true);
 
         if (this._isPhoto) {
             this._screenshotUIController.TogglePreviewRawImage(true);
-            this._screenshotUIController.PreviewRawImage.GetComponent<RawImage>().texture = this._screenshotController.ScreenshotRenderTexture;
+            const image = this._screenshotUIController.PreviewRawImage.GetComponent<RawImage>();
+            image.texture = this._screenshotController.ScreenshotRenderTexture;
         } else {
             this._screenshotUIController.TogglePreviewVideoRawImage(true);
             this._screenshotController.PlayPreviewVideo(this._screenshotUIController.PreviewVideoRawImage, 1280, 720);

@@ -67,6 +67,7 @@ export default class UIManager extends ZepetoScriptBehaviour {
     }
     
     
+    private toggles: UIButtonToggle[] = null;
     private toggleGroups: Map<string, UIButtonToggleGroup> = new Map<string, UIButtonToggleGroup>();
     
     public RegisterToggleGroup(group: UIButtonToggleGroup) {
@@ -84,11 +85,18 @@ export default class UIManager extends ZepetoScriptBehaviour {
      */
     public CreateToggleGroup(key: string, onValueChangedEvent: UnityEvent$1<boolean>, onToggleAction: UnityAction$1<boolean>): UIButtonToggleGroup {
 
-        // Get menu contents
-        const toggle: UIButtonToggle = this.menu.GetComponentsInChildren<UIButtonToggle>(true)
-                        .find(x => x.toggleGroupKey == key);
+        if (!this.toggles) {
+            this.toggles = [];
+            for (var i = 0; i < this.menu.transform.childCount; i++) {
+                const toggle: UIButtonToggle = this.menu.transform.GetChild(i).GetComponent<UIButtonToggle>();
+                if (toggle)
+                    this.toggles.push( toggle );
+            }
+        }
         
-        console.log(toggle);
+        // Get menu contents
+        const toggle: UIButtonToggle = this.toggles.find(x => x.toggleGroupKey == key);
+
         if (!toggle) {
             return null;
         }

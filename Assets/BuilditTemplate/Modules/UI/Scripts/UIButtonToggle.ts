@@ -14,7 +14,7 @@ export default class UIButtonToggle extends ZepetoScriptBehaviour {
     public button: Button;
     public useCustomState: boolean = true;
 
-    public toggleGroupKey: string;
+    @SerializeField() public toggleGroupKey: string;
 
     public normalColor: Color;
     public selectedColor: Color;
@@ -26,8 +26,6 @@ export default class UIButtonToggle extends ZepetoScriptBehaviour {
             this._onValueChanged = new UnityEvent$1<boolean>();
         return this._onValueChanged; 
     }
-    
-    
     
     Awake() {
         this.button ??= this.GetComponent<Button>();

@@ -1,16 +1,33 @@
-import { Application, AudioListener, Camera, Coroutine, GameObject, Graphics, Material, Renderer, RenderTexture,
-    RenderTextureFormat, WaitForEndOfFrame } from 'UnityEngine'
-import { UnityEvent, UnityEvent$1 } from 'UnityEngine.Events';
-import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
-import { VideoPlayer } from 'UnityEngine.Video';
-import { VideoResolutions, WorldVideoRecorder, ZepetoWorldContent } from 'ZEPETO.World';
+import {
+    Application,
+    AudioListener,
+    Camera,
+    Coroutine,
+    GameObject,
+    Material,
+    Renderer,
+    RenderTexture,
+    WaitForEndOfFrame
+} from 'UnityEngine'
+import {UnityEvent, UnityEvent$1} from 'UnityEngine.Events';
+import {ZepetoScriptBehaviour} from 'ZEPETO.Script'
+import {VideoPlayer} from 'UnityEngine.Video';
+import {VideoResolutions, WorldVideoRecorder, ZepetoWorldContent} from 'ZEPETO.World';
 
+const ALPHA_TEST_RENDER_QUEUE = 2450;
+const TRANSPARENCY_RENDER_QUEUE = 3000;
+
+/**
+ * Class that takes a screenshot or a video from the current screen
+ * It contains automation for separating renerable layers such as ignoring UI layer 
+ */
 export default class ScreenshotController extends ZepetoScriptBehaviour {
 
     @SerializeField() private _screenshotRenderTexture: RenderTexture;
     @SerializeField() private _videoMaxDuration: number = 60;
     @SerializeField() private _videoResolutionType: VideoResolutions = VideoResolutions.W720xH1280;
-
+    @SerializeField() private _previewResolution: VideoResolutions = VideoResolutions.W720xH1280;
+    
     private _mainCamera: Camera;
     private _replicaCamera: Camera;
 
@@ -30,6 +47,8 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         if (!this.IsValid(this._replicaCamera)) {
             return;
         }
+        
+        // Follow main camera
         this._replicaCamera.transform.position = this._mainCamera.transform.position;
         this._replicaCamera.transform.rotation = this._mainCamera.transform.rotation;
     }
@@ -103,9 +122,64 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         return this._screenshotRenderTexture;
     }
 
-    /* PhotoFunction */
+    /**
+     * Get the aspect ratio for screenshot output
+     * @returns float The aspect ratio
+     */
+    public get screenshotAspectRatio() {
+        
+        let width = 0;
+        let height = 0;
+        if (this._videoResolutionType == VideoResolutions.W720xH1280) {
+            width = 720;
+            height = 1280;
+        }
+        else if (this._videoResolutionType == VideoResolutions.W1280xH720) {
+            width = 1280;
+            height = 720;
+        }
+        else if (this._videoResolutionType == VideoResolutions.W1920xH1080) {
+            width = 1920;
+            height = 1080;
+        }
+        else if (this._videoResolutionType == VideoResolutions.W1080xH1920) {
+            width = 1080;
+            height = 1920;
+        }
+
+        return width / height;
+    }
+    
+    /**
+     * Sets the rendering parameters for either Vertical (Portrait) or Horizontal (Landscape)
+     * to respond to device changes in screen orientation.
+     * 
+     * @param isHorizontal
+     */
+    public SetScreenOrientation(isHorizontal: bool) {
+        if (isHorizontal) {
+            this._videoResolutionType = VideoResolutions.W1920xH1080;
+            this._previewResolution = VideoResolutions.W1280xH720;
+            this.ResizeRenderTexture(this._screenshotRenderTexture, 1920, 1080);
+        }
+        else {
+            this._videoResolutionType = VideoResolutions.W1080xH1920;
+            this._previewResolution = VideoResolutions.W720xH1280;
+            this.ResizeRenderTexture(this._screenshotRenderTexture, 1080, 1920);
+        }
+    }
+    
+    
+    /** -------------------------------------------------------------------------------------------------------- */
+    /** Photo */
+    
+    /**
+     * 
+     * @param isVideo
+
+     */
     public StartTakePhotoScreenshot(isVideo?: boolean) {
-        // Use as a screenshot camera after replicating the main camera.
+
         let screenshotCamera = (GameObject.Instantiate(this._mainCamera) as GameObject).GetComponent<Camera>();
         GameObject.Destroy(screenshotCamera.GetComponent<AudioListener>());
         screenshotCamera.gameObject.name = "ScreenshotCamera";
@@ -113,40 +187,12 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         screenshotCamera.targetTexture = this._screenshotRenderTexture;
         this.StartCoroutine(this.CoTakePhotoScreenshot(screenshotCamera, isVideo));
     }
-
-    public FindAlphaTestMaterials(): Material[]
-    {
-        var alphaTestMaterials: Material[] = [];
-
-        // Find all renderers in the current scene
-        var allRenderers = GameObject.FindObjectsOfType<Renderer>();
-
-        for (const rend of allRenderers)
-        {
-            // Note: Use .sharedMaterials to avoid creating instances in memory
-            for (const mat of rend.sharedMaterials)
-            {
-                if (mat != null)
-                {
-                    // Check if the material is in the AlphaTest queue (index 2450)
-                    if (mat.renderQueue == 2450)
-                    {
-                        if (!alphaTestMaterials.find(x => x === mat))
-                        {
-                            alphaTestMaterials.push(mat);
-                        }
-                    }
-                }
-            }
-        }
-        return alphaTestMaterials;
-    }
     
     private *CoTakePhotoScreenshot(camera: Camera, isVideo?: boolean) {
         let waitForEndOfFrame = new WaitForEndOfFrame();
         
         var atmat = this.FindAlphaTestMaterials();
-        atmat.forEach(x => x.renderQueue = 3000);
+        atmat.forEach(x => x.renderQueue = TRANSPARENCY_RENDER_QUEUE);
         
         yield waitForEndOfFrame;
         camera.transform.position = this._mainCamera.transform.position;
@@ -154,7 +200,7 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         camera.Render();
         camera.targetTexture = null;
         
-        atmat.forEach(x => x.renderQueue = 2450);
+        atmat.forEach(x => x.renderQueue = ALPHA_TEST_RENDER_QUEUE);
         yield waitForEndOfFrame;
         
         if (!this.IsValid(isVideo)) {
@@ -216,7 +262,9 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         });
     }
 
-    /* VideoFunction */
+    /** -------------------------------------------------------------------------------------------------------- */
+    /** Video */
+    
     public ResetVideoRecordingEvent() {
         if (!this.IsValid(this._onVideoRecordingStartEvent)) {
             this._onVideoRecordingStartEvent = new UnityEvent();
@@ -353,6 +401,16 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
     }
 
     public PlayPreviewVideo(playerObject: GameObject, width: number, height: number) {
+        
+        if (this._previewResolution == VideoResolutions.W720xH1280) {
+            width = 720;
+            height = 1280;
+        }
+        else if (this._previewResolution == VideoResolutions.W1280xH720) {
+            width = 1280;
+            height = 720;
+        }
+        
        let videoPlayer = WorldVideoRecorder.AddVideoPlayerComponent(playerObject, width, height);
         if (videoPlayer == null) {
            return;
@@ -360,5 +418,51 @@ export default class ScreenshotController extends ZepetoScriptBehaviour {
         videoPlayer.isLooping = true;
         videoPlayer.Play();
     }
+    
+    /** -------------------------------------------------------------------------------------------------------- */
+    /** Utilities */
 
+    /**
+     * Find all materials that belong to a specific render queue
+     * @param queue The render queue
+     * @returns Material[] Array containing the matching materials
+     */
+    private FindMaterialsFromQueue(queue: number): Material[] 
+    {
+        var materials: Material[] = [];
+        
+        var allRenderers = GameObject.FindObjectsOfType<Renderer>();
+
+        for (const rend of allRenderers)
+        {
+            for (const mat of rend.sharedMaterials)
+            {
+                if (mat != null &&                      // null test
+                    mat.renderQueue == queue &&         // queue testing
+                    !materials.find(x => x === mat))    // unique materials
+                            materials.push(mat);
+            }
+        }
+        return materials;
+    }
+
+    /**
+     * Find all materials from AlphaTestRenderQueue
+     * 
+     * @returns Material[] Array containing the matching materials
+     */
+    private FindAlphaTestMaterials(): Material[]
+    {
+        return this.FindMaterialsFromQueue(ALPHA_TEST_RENDER_QUEUE);
+    }
+    
+    private ResizeRenderTexture(rt: RenderTexture, width: int, height: int) {
+        if (rt) rt.Release();
+        rt.width = width;
+        rt.height = height;
+    }
+    
+    private RotateRenderTexture(rt: RenderTexture) {
+        this.ResizeRenderTexture(rt, rt.height, rt.width);
+    }
 }

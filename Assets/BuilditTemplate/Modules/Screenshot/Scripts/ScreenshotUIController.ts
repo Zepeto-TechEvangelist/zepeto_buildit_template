@@ -1,6 +1,7 @@
 import { ZepetoScriptBehaviour } from 'ZEPETO.Script'
-import { Button, InputField } from 'UnityEngine.UI';
+import { Button, InputField, AspectRatioFitter } from 'UnityEngine.UI';
 import { GameObject } from 'UnityEngine';
+import {VideoResolutions} from "ZEPETO.World";
 
 export default class ScreenshotUIController extends ZepetoScriptBehaviour {
 
@@ -29,6 +30,11 @@ export default class ScreenshotUIController extends ZepetoScriptBehaviour {
     @SerializeField() private _failToast: GameObject;
     @SerializeField() private _progressToast: GameObject;
 
+    
+    @Header("Aspect Ratio Fitters")
+    @SerializeField() private _aspectRatioFitters: AspectRatioFitter[];
+    
+    
     private IsValid(value: any) {
         if (value == undefined || value == null) {
             return false;
@@ -194,5 +200,9 @@ export default class ScreenshotUIController extends ZepetoScriptBehaviour {
     public TogglePreviewVideoRawImage(value: bool) {
         this._previewVideoRawImage.SetActive(value);
     }
-
+    
+    public SetAspectRatio(ratio: float) {
+        this._aspectRatioFitters.forEach(x => x.aspectRatio = ratio);
+    }
+    
 }
