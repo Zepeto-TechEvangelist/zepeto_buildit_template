@@ -2,22 +2,31 @@
   "Items": [
     {
       "Title": "Build It Plugin Core",
-      "Description": "Core module for Build It Plugin\n\n• Adaptive UI\n• Native portrait mode support\n• Core system and performance enhancements\n",
+      "Description": "<b>Core module for Build It Plugin</b>\n\n\nWhat’s New:\n• Dialogue Editor v1.0.1: added gesture property, improved UI & UX\n• (New) object Utility > NPC_v2: NPC object with dialogue integration\n• Dialogue module optimised for 2D & 3D Worlds\n• Screenshot module: dynamic quality and performance optimization\n• System & Performance updates\n\n",
       "Description_ko": "",
       "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
-      "LatestVersion": "1.0.12",
+      "LatestVersion": "1.0.13",
       "Dependencies": ["Multiplay Component", "Interaction", "Gesture", "ScreenShot", "Localization", "QuickChat"]
     }
   ],
   "Themes": [
     {
-      "Title": "2D World",
-      "Name": "asset.2dworld",
-      "Description": "2D World module for Build It Plugin\n\n• Prepared for quick creation of 2D worlds\n• Custom Loading Screen: Easy UI setup for transitions.\n• Instant Map Creation: Transform any image into a 2D world space.\n• BGM Control: Background music management.\n• Map Portals: Instant teleportation between maps.\n• Map Expander: Effortless addition of new map areas.\n• Dialogue NPCs: Interactive NPCs with talk functions. (Zepeto NPC/Sprite NPC)\n\n\n\nWhat’s New:\n\n• NPC Dialogue Editor:\ncreate and manage NPC dialogues with a new visual editor.\n• Multi-language support:\nConfigure dialogues for multiple languages.\n• Dialogue customization:\nUse global settings and ready-to-use templates to customize dialogues.\n• Optional loading screen:\nHide the loading screen during world creation.",
+      "Title": "Tutorials",
+      "Name": "buildit.tutorials",
+      "Description": "<b>In-editor tutorials for Build It Plugin</b>\n\n• Master the essentials of Unity quickly\n• Explore the various Build It assets we provide\n• Learn how to test and refine your world\n• Step-by-step guide to publishing your first world\n• Guided interactive walkthroughs\n• Multi-language support: English, Korean, Japanese, Chinese, French, Indonesian, Thai, Turkish\n\n",
       "Description_ko": "",
       "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
-      "LatestVersion": "1.0.2",
-      "Dependencies": ["Build It Plugin Core v1.0.12"]
+      "LatestVersion": "1.0.0",
+      "Dependencies": ["Build It Plugin Core v1.0.13"]
+    },
+    {
+      "Title": "2D World",
+      "Name": "asset.2dworld",
+      "Description": "<b>2D World module for Build It Plugin</b>\n\n• Prepared for quick creation of 2D worlds\n• Custom Loading Screen: Easy UI setup for transitions.\n• Instant Map Creation: Transform any image into a 2D world space.\n• BGM Control: Background music management.\n• Map Portals: Instant teleportation between maps.\n• Map Expander: Effortless addition of new map areas.\n• Dialogue NPCs: Interactive NPCs with talk functions. (Zepeto NPC/Sprite NPC)\n\n\nWhat’s New:\n• ZepetoNPC optimized for gesture animation\n• Updated to take advantage of dialogue's gestures\n\n<b>Important:</b> When updating your 2D World, you need to re-export the existing dialogues\n\n",
+      "Description_ko": "",
+      "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
+      "LatestVersion": "1.0.3",
+      "Dependencies": ["Build It Plugin Core v1.0.13"]
     },
     {
       "Title": "Vehicle",
