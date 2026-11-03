@@ -2,10 +2,10 @@
   "Items": [
     {
       "Title": "Build It Plugin Core",
-      "Description": "<b>Core module for Build It Plugin</b>\n\n\nWhat’s New:\n• Drawing Module: brand new DrawingCanvas object that provides a user drawing experience\n• Dialogue Editor v1.0.2: added custom gestures support\n• improved UI & UX\n• (New) object Utility > NPC_v2: NPC object with dialogue integration\n• Dialogue module optimised for 2D & 3D Worlds\n• Screenshot module: dynamic quality and performance optimization\n• System & Performance updates\n\n",
+      "Description": "<b>Core module for Build It Plugin</b>\n\n\nWhat’s New:\n• UI system rework\n• Toolbar and UI Theme selection\n• Integrated orientation support and menu positioning\n• Performance updates\n\nBugfixes:\n• Vehicle get out UI lock\n• Jump button incorrect position on rotation\n• SafeArea extension issue\n\n",
       "Description_ko": "",
       "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
-      "LatestVersion": "1.0.16",
+      "LatestVersion": "1.0.17",
       "Dependencies": ["Multiplay Component", "Interaction", "Gesture", "ScreenShot", "Localization", "QuickChat"]
     }
   ],
@@ -25,8 +25,8 @@
       "Description": "<b>2D World module for Build It Plugin</b>\n\n• Prepared for quick creation of 2D worlds\n• Custom Loading Screen: Easy UI setup for transitions.\n• Instant Map Creation: Transform any image into a 2D world space.\n• BGM Control: Background music management.\n• Map Portals: Instant teleportation between maps.\n• Map Expander: Effortless addition of new map areas.\n• Dialogue NPCs: Interactive NPCs with talk functions. (Zepeto NPC/Sprite NPC)\n\n\nWhat’s New:\n• ZepetoNPC optimized for gesture animation\n• Updated to take advantage of dialogue's gestures\n\n<b>Important:</b> When updating your 2D World, you need to re-export the existing dialogues\n\n",
       "Description_ko": "",
       "DocsUrl": "https://docs.zepeto.me/world-sdk-guide/zepeto-build-it-template-guide",
-      "LatestVersion": "1.0.3",
-      "Dependencies": ["Build It Plugin Core v1.0.13"]
+      "LatestVersion": "1.0.4",
+      "Dependencies": ["Build It Plugin Core v1.0.17"]
     },
     {
       "Title": "Vehicle",
